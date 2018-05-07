@@ -1,0 +1,15 @@
+{
+    "/js/vendor.js": "/js/vendor.js",
+    "/js/profile.js": "/js/profile.js",
+    "/js/apply.js": "/js/apply.js",
+    "/js/dashboard.js": "/js/dashboard.js",
+    "/js/manageRoles.js": "/js/manageRoles.js",
+    "/js/app.js": "/js/app.js",
+    "/css/app.css": "/css/app.css",
+    "/js/requestPasswordReset.js": "/js/requestPasswordReset.js",
+    "/js/register.js": "/js/register.js",
+    "/js/login.js": "/js/login.js",
+    "/js/manageUserRoles.js": "/js/manageUserRoles.js",
+    "/js/user.js": "/js/user.js",
+    "/js/manifest.js": "/js/manifest.js"
+}

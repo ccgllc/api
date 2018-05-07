@@ -1,8 +1,42 @@
 
-// Body
-$body-bg: #f5f8fa;
+//CCG Layout Variables
+$page-background: hsl(0, 0, 95%); //#F1F1F1
+$light-gray: hsl(0, 0, 98%); // #FAFAFA
+$gray: #E3E3E3;
 
-// Typography
-$font-family-sans-serif: "Raleway", sans-serif;
-$font-size-base: 0.9rem;
-$line-height-base: 1.6;
+//Navbar Variables
+$navbar-height: 4rem;
+$navbar-background-color: hsl(0,0, 89%); // #E3E3E3
+
+// bulma overrides
+$primary: hsl(204%, 51%, 45%);  //#3980AE
+$primary-bright: hsl(203, 61%, 54%); //#439BD1;
+$secondary: hsl(163%, 56%, 43%); //#30A987;
+$dark:  hsl(223%, 19%, 25%);  //#343b4d;
+$darker: darken($dark, 5%);
+$dark-border: lighten($dark, 10%);
+$less-dark: lighten($dark, 30%);
+$gray-text: hsl(0, 0%, 56%); // #908F8F;
+$text: $dark;
+$link: $primary-bright;
+
+$navbar-background-color: $dark;
+
+// title
+$title-color: $dark;
+
+// steps
+$steps-active-color: $primary;
+
+//Form
+$input-background-color: $light-gray;
+
+//Card
+$card-background-color: hsl(0, 11%, 97%);
+$card-shadow: 0 2px 3px hsl(0, 0, 84%);
+
+
+//Tag 
+$tag-background-color: $secondary;
+$tag-color: $light-gray;
+
