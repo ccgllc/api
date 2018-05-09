@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Requests;
+namespace CCG\Http\Requests;
 
-use App\WorkHistory;
+use CCG\WorkHistory;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;

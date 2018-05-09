@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Requests;
+namespace CCG\Http\Requests;
 
-use App\AdjusterLicense;
-use App\Profile;
+use CCG\AdjusterLicense;
+use CCG\Profile;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 

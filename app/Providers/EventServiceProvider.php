@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers;
+namespace CCG\Providers;
 
 use Illuminate\Support\Facades\Event;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -13,12 +13,21 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        // 'App\Events\Event' => [
-        //     'App\Listeners\EventListener',
+        // 'CCG\Events\Event' => [
+        //     'CCG\Listeners\EventListener',
         // ],
         'Illuminate\Auth\Events\Registered' => [
-            'App\Listeners\SendAccountVerificationEmail', 
-        ]
+            'CCG\Listeners\SendAccountVerificationEmail', 
+        ],
+         'CCG\Events\ClaimImported' => [
+            'CCG\Listeners\CreateDefaultClaimStatus'
+        ],
+        'CCG\Events\ClaimWasReceived' => [
+            'CCG\Listeners\CreateClaimInvoice'
+        ],
+        'CCG\Events\ClaimStatusUpdated' => [
+            'CCG\Listeners\UpdateClaimStatus'
+        ],
     ];
 
     /**

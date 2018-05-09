@@ -13,7 +13,7 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(App\User::class, function (Faker $faker) {
+$factory->define(CCG\User::class, function (Faker $faker) {
     static $password;
 
     $statuses = collect([ 'applicant', 'candidate', 'new-hire', 'active', 'inactive', 'no-hire']);

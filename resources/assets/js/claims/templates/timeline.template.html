@@ -1,0 +1,48 @@
+<div class="row">
+	<div class="col-sm-2 col-sm-offset-5">
+		<div class="dropup" style="margin: 30px 0 15px 0;">
+		  <a class="btn btn-success dropdown-toggle" role="button" id="update-status" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <!-- v-bind:class="{'disabled': claim.transaction_id == null}" -->
+		    Update Claim Status
+		    &nbsp; <span class="caret"></span>
+		  </a>
+		  <ul class="dropdown-menu" aria-labelledby="update-status">
+		    <li v-for="statusType in statusTypes">
+		    	<a 
+		    		@click="setStatus(statusType)" 
+		    		class="btn btn-befault" 
+		    		:class="{ disabled: statusType.disabled }" 
+		    		data-toggle="modal" 
+		    		data-target="#status"
+	    		>
+	    			{{ statusType.name }}
+    			</a>
+	    	</li>
+		  </ul>
+		</div>
+	</div>
+	<section class="timeline">
+		<div class="timeline-block" v-for="status in claim.statuses">
+			<div class="timeline-img">
+				<img src="/images/timeline.jpg" alt="time point">
+			</div> <!-- timeline-img -->
+ 
+			<div class="timeline-content">
+				<button type="button" class="close delete-status" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h2>{{ status.name }}</h2>
+				<hr>
+				<dl>
+					<dt>{{ status.type | capitalize }}:</dt>
+					<dd>{{ status.value || status.date }}</dd>
+					<!-- <dt>Transaction ID:</dt>
+					<dd>{{ status.transaction_id }}</dd> -->
+					<dt>Time Of Completion</dt>
+					<dd>{{ status.time }}</dd>
+				</dl>
+				<!-- <a href="#0" class="read-more">Read more</a> -->
+				<span class="date">{{ status.date }}</span>
+			</div> <!-- timeline-content -->
+		</div> <!-- timeline-block -->
+
+	</section>
+	<status-form :selected-status.sync='selectedStatus'></status-form>
+</div>

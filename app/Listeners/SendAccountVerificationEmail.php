@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Listeners;
+namespace CCG\Listeners;
 
-use App\Mail\AccountVerification;
+use CCG\Mail\AccountVerification;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;

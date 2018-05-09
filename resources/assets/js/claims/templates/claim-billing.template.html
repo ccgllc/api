@@ -1,0 +1,45 @@
+<div>
+<table class="table table-striped" style="margin-top:15px;" v-if="claim.invoices.length > 0">
+	<thead>
+		<tr>
+			<th>Invoice #</th>
+			<th>Total</th>
+			<th>CCG Payout</th>
+			<th>Adjuster Payout</th>
+			<th>Paid In Full</th>
+			<th>Balance</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr v-for="invoice in claim.invoices">
+			<td> <a 
+					@click="setInvoice(invoice)"
+					data-toggle="modal" data-target="#invoice"
+					v-text="invoice.invoice_number"
+				>
+				</a>
+			</td>
+			<td v-text="invoice.invoice_total | currency"></td>
+			<td v-text="invoice.ccg_payout | currency "></td>
+			<td v-text="invoice.adjuster_payout | currency"></td>
+			<td v-text="invoicePaid(invoice)"></td>
+			<td v-text="invoice.balance | currency"></td>
+			<td>
+				<div class="btn-group">
+					<button @click="selectPayments(invoice)" class="btn btn-xs btn-success" v-bind:disabled ="invoice.payments.length == 0" data-toggle="modal" data-target="#payments"><span class="glyphicon glyphicon-usd"></span></button>
+					<!-- <button class="btn btn-sm btn-default" data-toggle="modal" data-target="#payments"><span class="glyphicon glyphicon-edit"></span></button> -->
+				</div>
+				<!-- <button class="btn btn-xs btn-default" data-toggle="modal" data-target="#invoice"><span class="glyphicon glyphicon-edit"></span></button> -->
+			</td>
+		</tr>
+	</tbody>
+</table>
+<br>
+<button class="btn btn-sm btn-default" data-toggle="modal" data-target="#createInvoice">
+	<span class="glyphicon glyphicon-plus" style="color:#72d0f4;"></span> New Invoice
+</button>
+<invoice :claim='claim' :invoice="invoice"></invoice>
+<payments :payments='selectedPayments'></payments>
+<create-invoice :claim='claim' :assignments="assignments"></create-invoice>
+</div>

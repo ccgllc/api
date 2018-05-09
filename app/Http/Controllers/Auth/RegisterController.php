@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace CCG\Http\Controllers\Auth;
 
-use App\User;
-use App\Http\Controllers\Controller;
+use CCG\User;
+use CCG\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
-use App\Auth\RegistersUsers;
+use CCG\Auth\RegistersUsers;
 
 class RegisterController extends Controller
 {
@@ -59,7 +59,7 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return \App\User
+     * @return \CCG\User
      */
     protected function create(array $data)
     {

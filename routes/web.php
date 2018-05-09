@@ -34,6 +34,10 @@ route::get('apply', function(Illuminate\Http\Request $request){
 	return view('apply', compact('user'));//->withCookie($cookie);
 })->middleware('auth');
 
+Route::post('claims/import', 'ClaimsImportController@import');
+Route::resource('claims', 'ClaimsController');
+Route::resource('claims/status', 'ClaimStatusController');
+
 Route::get('/dashboard', 'DashboardController@show');
 
 Route::resource('users', 'UsersController');

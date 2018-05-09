@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Api\Acl;
+namespace CCG\Http\Controllers\Api\Acl;
 
-use App\Http\Controllers\Controller;
-use App\Role;
+use CCG\Http\Controllers\Controller;
+use CCG\Role;
 use Illuminate\Http\Request;
 
 class RolesController extends Controller

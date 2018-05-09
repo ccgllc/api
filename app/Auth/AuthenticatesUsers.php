@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Auth;
+namespace CCG\Auth;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
-use App\Auth\ConfirmsEmails;
+use CCG\Auth\ConfirmsEmails;
 
 trait AuthenticatesUsers
 {

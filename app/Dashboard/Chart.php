@@ -1,8 +1,8 @@
 <?php 
 
-namespace App\Dashboard;
+namespace CCG\Dashboard;
 
-use App\Dashboard\Dataset;
+use CCG\Dashboard\Dataset;
 
 class Chart
 {

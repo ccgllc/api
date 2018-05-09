@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace CCG;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,6 +13,6 @@ class WorkHistory extends Model
      */ 
     public function user()
     {
-    	return $this->belongsTo(App\User::class);
+    	return $this->belongsTo(CCG\User::class);
     }
 }

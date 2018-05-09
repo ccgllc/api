@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace CCG\Http\Controllers;
 
-use App\Dashboard\Dashboard;
-use App\Role;
-use App\User;
+use CCG\Dashboard\Dashboard;
+use CCG\Role;
+use CCG\User;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller

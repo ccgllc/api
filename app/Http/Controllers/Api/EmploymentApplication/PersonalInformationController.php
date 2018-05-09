@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Api\EmploymentApplication;
+namespace CCG\Http\Controllers\Api\EmploymentApplication;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\ValidatePersonalInfo as Validate;
+use CCG\Http\Controllers\Controller;
+use CCG\Http\Requests\ValidatePersonalInfo as Validate;
 use Illuminate\Http\Request;
 
 class PersonalInformationController extends Controller

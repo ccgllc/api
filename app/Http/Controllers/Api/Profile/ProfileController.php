@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Api\Profile;
+namespace CCG\Http\Controllers\Api\Profile;
 
-use App\Avatar;
-use App\Http\Controllers\Controller;
+use CCG\Avatar;
+use CCG\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -91,7 +91,7 @@ class ProfileController extends Controller {
 
 	public function destroyLicense(Request $request, $id, $licenseId)
 	{
-		return \App\AdjusterLicense::destroy($licenseId);
+		return \CCG\AdjusterLicense::destroy($licenseId);
 	}
 
 	public function createAvatar(Request $request, $id)
@@ -119,6 +119,6 @@ class ProfileController extends Controller {
 
 	public function getUser($id)
 	{
-		return \App\User::findOrFail($id);
+		return \CCG\User::findOrFail($id);
 	}
 }

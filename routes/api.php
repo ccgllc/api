@@ -58,5 +58,5 @@ Route::namespace('Api\Acl')
 
 Route::post('/user/search', function(Request $request){
 	$query = $request->get('query');
-	return App\User::with('roles')->where('name', 'like', "%$query%")->exclude('api_token')->get();
+	return CCG\User::with('roles')->where('name', 'like', "%$query%")->exclude('api_token')->get();
 });

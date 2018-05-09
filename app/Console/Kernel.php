@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console;
+namespace CCG\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -13,7 +13,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        Commands\RegistrantReminderEmails::class
+        Commands\RegistrantReminderEmails::class,
+        Commands\BatchClaimImporter::class
     ];
 
     /**

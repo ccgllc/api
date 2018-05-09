@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace CCG\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -39,7 +39,7 @@ class ValidateDocument extends FormRequest
         $name = $this->filename;
         $filename = $name.'.'.$ext;
         $path = $this->file('file')->storeAs('resumes', $filename, 'hr');
-        $doc = new \App\Document;
+        $doc = new \CCG\Document;
         $doc->name = $name;
         $doc->extension = $ext;
         $doc->type = $this->type;

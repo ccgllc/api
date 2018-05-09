@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Api\Profile;
+namespace CCG\Http\Controllers\Api\Profile;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\ValidateUserCertification as Validate;
-use App\User;
+use CCG\Http\Controllers\Controller;
+use CCG\Http\Requests\ValidateUserCertification as Validate;
+use CCG\User;
 use Illuminate\Http\Request;
 
 class UserCertificationsController extends Controller {
@@ -23,7 +23,7 @@ class UserCertificationsController extends Controller {
 
 	public function destroy(Request $request, $id)
 	{
-		return \App\Certification::destroy($id);
+		return \CCG\Certification::destroy($id);
 	}
 
 }

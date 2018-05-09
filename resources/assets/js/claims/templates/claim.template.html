@@ -1,0 +1,90 @@
+<div style="position: { relative; }">
+<div v-if="$loadingRouteData" style="position: absolute; top:250px; left:400px;">Loading claim data...</div>
+<div v-if="!$loadingRouteData">
+	<h4 style="margin-top: -10px;" class="text-muted">
+		<span class="badge" v-bind:style="{background: activeColor}">   <!-- #42caa4 -->
+			<span class="glyphicon" v-bind:class="activeIcon"></span>
+		</span>
+		{{ statusText }}
+	</h4>
+	<div class="pull-right">
+	<a 
+		href="/claims/#!/{{claim.id}}/edit"
+		class="btn btn-sm btn-primary" 
+		style="margin-top: 15px;"
+	>
+		<span class="glyphicon glyphicon-edit"></span>	
+		Edit This Claim
+	</a>
+</div>
+
+	<div class="row panel panel-default" style="border-radius:0;">
+		
+		<div class="panel-body">
+			<div class="row">
+				<div class="col-sm-12">
+					<dl class="dl-horizontal" style="font-size: 1.25em;">
+
+						<dt>Insured:</dt>
+						<dd v-text="claim.insured"></dd>
+
+						<dt>Claim #:</dt>
+						<dd v-text="claim.claim_number"></dd>
+
+						<dt>Claim Type:</dt>
+						<dd v-text="claim.claim_type"></dd>
+
+						<dt>Carrier:</dt>
+						<dd v-text="claim.carrier_name"></dd>
+
+						<dt>Adjuster:</dt>
+						<dd>{{ getAssignee(claim.adjuster) }}</dd>
+						
+						<dt>Reviewer:</dt>
+						<dd>{{ getAssignee(claim.reviewer) }}</dd>
+
+						<dt>Gross Loss:</dt>
+						<dd v-text="claim.gross_loss | currency"></dd>
+
+						<dt><span class="label label-success">Current Status:</span></dt>
+						<dd v-text="claim.current_status"></dd>
+
+					</dl>
+				</div>
+			</div>
+
+			<div class="row">
+				<ul class="nav nav-tabs">
+					<li role="presentation" v-link-active>
+						<a v-link="{ name: 'details', exact: true }">
+							<span class="glyphicon glyphicon-th-list"></span> 
+								Details
+						</a>
+					</li>
+					<li role="presentation" v-link-active>
+						<a v-link="{ name: 'policy', exact: true }">
+							<span class="glyphicon glyphicon-user"></span> 
+								Client/Policy
+						</a>
+					</li>
+			  		<li role="presentation" v-link-active>
+			  			<a v-link="{ name: 'billing', exact: true }">
+			  				<span class="glyphicon glyphicon-credit-card"></span> 
+			  					Billing
+	  					</a>
+  					</li>
+  					<li role="presentation" v-link-active>
+			  			<a v-link="{ name: 'timeline', exact: true }">
+			  				<span class="glyphicon glyphicon-time"></span> 
+			  					Timeline
+	  					</a>
+  					</li>
+				</ul>
+			</div>
+
+			<router-view :claim="claim"></router-view>
+
+		</div>
+	</div>
+</div>
+</div>

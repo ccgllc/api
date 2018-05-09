@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace CCG\Http\Controllers;
 
-use App\User;
+use CCG\User;
 use Illuminate\Http\Request;
-use App\Auth\ConfirmsEmails;
+use CCG\Auth\ConfirmsEmails;
 
 class UsersController extends Controller
 {
@@ -35,7 +35,7 @@ class UsersController extends Controller
 
     public function location($location)
     {
-        $profiles = \App\Profile::state($location)->get();
+        $profiles = \CCG\Profile::state($location)->get();
         $users = $profiles->map(function ($profile, $key){
             return $profile->user;
         });

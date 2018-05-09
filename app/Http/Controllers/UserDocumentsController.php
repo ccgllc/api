@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace CCG\Http\Controllers;
 
-use App\Document;
-use App\User;
+use CCG\Document;
+use CCG\User;
 use Illuminate\Http\Request;
 
 class UserDocumentsController extends Controller

@@ -1,8 +1,8 @@
 <?php
 
-namespace App;
+namespace CCG;
 
-use App\Permission;
+use CCG\Permission;
 use Illuminate\Database\Eloquent\Model;
 
 class Role extends Model
@@ -12,7 +12,7 @@ class Role extends Model
 
 	/** 
 	 * Assign a permission to a role.
-	 * @param App\Permission
+	 * @param CCG\Permission
 	 */ 
 	public function givePermissionTo(Permission $permission)
 	{

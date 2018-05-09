@@ -1,8 +1,8 @@
 <?php 
 
-namespace App\Auth;
+namespace CCG\Auth;
 
-use App\User;
+use CCG\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;

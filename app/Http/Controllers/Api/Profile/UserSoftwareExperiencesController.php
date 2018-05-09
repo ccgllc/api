@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Api\Profile;
+namespace CCG\Http\Controllers\Api\Profile;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\ValidateUserSoftwareExperience as Validate;
-use App\User;
+use CCG\Http\Controllers\Controller;
+use CCG\Http\Requests\ValidateUserSoftwareExperience as Validate;
+use CCG\User;
 use Illuminate\Http\Request;
 
 class UserSoftwareExperiencesController extends Controller {
@@ -23,7 +23,7 @@ class UserSoftwareExperiencesController extends Controller {
 
 	public function destroy(Request $request, $id)
 	{
-		return \App\SoftwareExperience::destroy($id);
+		return \CCG\SoftwareExperience::destroy($id);
 	}
 
 }

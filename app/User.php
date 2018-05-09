@@ -1,9 +1,9 @@
 <?php
 
-namespace App;
+namespace CCG;
 
-use App\Role;
-use App\Traits\Excludable;
+use CCG\Role;
+use CCG\Traits\Excludable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -41,7 +41,7 @@ class User extends Authenticatable
      */ 
     public function roles()
     {
-        return $this->belongsToMany(\App\Role::class);
+        return $this->belongsToMany(\CCG\Role::class);
     }
 
     public function assignRole($role)
@@ -92,32 +92,32 @@ class User extends Authenticatable
 
     public function workHistory()
     {
-        return $this->hasOne(\App\WorkHistory::class);
+        return $this->hasOne(\CCG\WorkHistory::class);
     }
 
     public function adjusterLicenses()
     {
-        return $this->hasMany(\App\AdjusterLicense::class);
+        return $this->hasMany(\CCG\AdjusterLicense::class);
     }
 
     public function certifications()
     {
-        return $this->hasMany(\App\Certification::class);
+        return $this->hasMany(\CCG\Certification::class);
     }
 
     public function softwareExperiences()
     {
-        return $this->hasMany(\App\SoftwareExperience::class);
+        return $this->hasMany(\CCG\SoftwareExperience::class);
     }
 
     public function documents()
     {
-        return $this->hasMany(\App\Document::class);
+        return $this->hasMany(\CCG\Document::class);
     }
 
     public function avatar()
     {
-        return $this->hasOne(\App\Avatar::class);
+        return $this->hasOne(\CCG\Avatar::class);
     }
 
     /**

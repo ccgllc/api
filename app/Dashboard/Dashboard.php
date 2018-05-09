@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Dashboard;
+namespace CCG\Dashboard;
 
-use App\Dashboard\Chart;
-use App\Role;
-use App\User;
+use CCG\Dashboard\Chart;
+use CCG\Role;
+use CCG\User;
 
 class Dashboard 
 {

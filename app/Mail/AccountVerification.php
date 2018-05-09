@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Mail;
+namespace CCG\Mail;
 
-use App\User;
+use CCG\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;

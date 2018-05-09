@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Api\EmploymentApplication;
+namespace CCG\Http\Controllers\Api\EmploymentApplication;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\ValidateWorkHistory as Validate;
+use CCG\Http\Controllers\Controller;
+use CCG\Http\Requests\ValidateWorkHistory as Validate;
 use Illuminate\Http\Request;
 
 class WorkHistoryController extends Controller

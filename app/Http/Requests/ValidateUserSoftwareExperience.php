@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace CCG\Http\Requests;
 
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -46,6 +46,6 @@ class ValidateUserSoftwareExperience extends FormRequest
 
     public function createSoftwareExperience($user)
     {
-        return \App\SoftwareExperience::create($this->all());
+        return \CCG\SoftwareExperience::create($this->all());
     }
 }

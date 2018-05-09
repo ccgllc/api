@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Console\Commands;
+namespace CCG\Console\Commands;
 
-use \App\Mail\RegistrantReminder;
-use \App\User;
+use CCG\Mail\RegistrantReminder;
+use CCG\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
 

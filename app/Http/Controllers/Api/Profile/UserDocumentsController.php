@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Api\Profile;
+namespace CCG\Http\Controllers\Api\Profile;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\ValidateDocument as Validate;
-use App\User;
+use CCG\Http\Controllers\Controller;
+use CCG\Http\Requests\ValidateDocument as Validate;
+use CCG\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -18,7 +18,7 @@ class UserDocumentsController extends Controller {
 
 	public function destroy(Request $request, $id)
 	{
-		$doc = \App\Document::findOrFail($id);
+		$doc = \CCG\Document::findOrFail($id);
 		return $doc ? $this->deleteFile($doc) : response('Record Not Found', 404)->header('Content-Type', 'text/plain');
 	}
 

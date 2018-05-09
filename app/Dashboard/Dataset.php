@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Dashboard;
+namespace CCG\Dashboard;
 
 class Dataset 
 {

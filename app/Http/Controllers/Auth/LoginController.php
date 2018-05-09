@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace CCG\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Auth\AuthenticatesUsers;
+use CCG\Http\Controllers\Controller;
+use CCG\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
 {

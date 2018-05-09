@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace CCG\Http\Requests;
 
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -46,6 +46,6 @@ class ValidateUserCertification extends FormRequest
 
     public function createCertification($user)
     {
-        return \App\Certification::create($this->all());
+        return \CCG\Certification::create($this->all());
     }
 }

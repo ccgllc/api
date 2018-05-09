@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Auth;
+namespace CCG\Auth;
 
 trait RedirectsUsers
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace CCG\Http\Requests;
 
-use App\Certification;
-use App\Document;
-use App\SoftwareExperience;
+use CCG\Certification;
+use CCG\Document;
+use CCG\SoftwareExperience;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
@@ -51,7 +51,7 @@ class ValidateCertification extends FormRequest
 
     /** 
      * create our certifications
-     * @ return App\Certification
+     * @ return CCG\Certification
      */ 
     public function createCertifications()
     {
@@ -65,7 +65,7 @@ class ValidateCertification extends FormRequest
     }
     /** 
      * create software experiences
-      @return App\SoftwareExperience 
+      @return CCG\SoftwareExperience 
      */ 
     public function createSoftwareExperiences()
     {

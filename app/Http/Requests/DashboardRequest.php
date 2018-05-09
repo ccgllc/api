@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace CCG\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
