@@ -30,10 +30,8 @@ class ClaimsController extends Controller {
 		if (!$request->ajax()){
 			// auth()->loginUsingId(5);
 			$superAdmin = auth()->user();
-
-
-		   $claim = Claim::find(1516);
-		   dd(json_decode($claim->claim_data));
+		   // $claim = Claim::find(1516);
+		   // dd(json_decode($claim->claim_data));
 			// dd($superAdmin);
 			return view('claims.dashboard', compact('superAdmin'));
 		}
@@ -41,6 +39,7 @@ class ClaimsController extends Controller {
 		return Claim::with('adjuster')->get();
 
 	}
+
 
 	public function payable()
 	{
@@ -80,12 +79,13 @@ class ClaimsController extends Controller {
 	 */
 	public function show($id)
 	{
-		return Claim::whereId($id)->with([
-			'statuses' => function($query){
-		 		$query->orderBy('created_at', 'desc');
-		 	},
-            'statuses.user', 'invoices.payments.check.deposit','invoices.supplements', 'reviewer', 'adjuster', 'carrier'
-		])->first();
+		// return Claim::whereId($id)->with([
+		// 	'statuses' => function($query){
+		//  		$query->orderBy('created_at', 'desc');
+		//  	},
+  //           'statuses.user', 'invoices.payments.check.deposit','invoices.supplements', 'reviewer', 'adjuster', 'carrier'
+		// ])->first();
+		return Claim::find($id);
 	}
 
 	/**

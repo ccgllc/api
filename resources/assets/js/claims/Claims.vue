@@ -1,5 +1,6 @@
+<template>
 <div>
-	<a v-link="{ name: 'createClaim'}" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-plus"></span> &nbsp;Create New Claim</a><br><br>
+	<router-link to="/claims/create" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-plus"></span> &nbsp;Create New Claim</router-link><br><br>
 
 	<div class="form-group" style="padding: 10px 0 10px 0">
 	    <label class="sr-only">Search</label>
@@ -19,12 +20,34 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr v-for="claim in claims | filterBy search | orderBy carrier_name">
+			<tr v-for="claim in claims">
 				<td>{{ claim.carrier_name }}</td>
-				<td><a v-link="{name: 'showClaim', params: { claimId: claim.id }}">{{ claim.claim_number }}</a></td>
+				<td><router-link :to="{ name: 'show', params: { claimId: claim.id }}">{{ claim.claim_number }}</router-link></td>
 				<td>{{ claim.insured }}</td>
 				<!-- <td>{{ claim.adjuster.fname }} {{ claim.adjuster.lname }}</td> -->
 			</tr>
 		</tbody>
 	</table>
 </div>
+</template>
+
+<script>
+	export default {
+		name: 'ClaimList',
+		data () {
+			return {
+				claims: [],
+				search: ''
+			}
+		},
+		mounted() {
+			window.axios.get('/claims').then(function(response){
+				console.log(this.claims);
+				return this.claims = response.data;
+			}.bind(this));
+		},
+		methods: {
+
+		},
+	}
+</script>

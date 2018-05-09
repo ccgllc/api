@@ -110,7 +110,7 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 
-/***/ 16:
+/***/ 17:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -290,7 +290,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__NewRole_vue__ = __webpack_require__(286);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__NewRole_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__NewRole_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__data_roles_js__ = __webpack_require__(289);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__structur_src_services_Resource_js__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__structur_src_services_Resource_js__ = __webpack_require__(17);
 //
 //
 //

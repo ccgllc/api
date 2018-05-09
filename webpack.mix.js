@@ -25,6 +25,7 @@ mix.js([
    .js('resources/assets/js/manageUserRoles.js', 'js')
    .js('resources/assets/js/profile/profile.js', 'js')
    .js('resources/assets/js/dashboard/dashboard.js', 'js/dashboard.js')
+   .js('resources/assets/js/claims/Claims.js', 'js/claims.js')
    .sass('resources/assets/sass/app.scss', 'css');
 
 // mix.js([
