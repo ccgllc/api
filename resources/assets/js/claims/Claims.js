@@ -3,7 +3,7 @@ import VueRouter from 'vue-router';
 // import Croppa from 'vue-croppa';
 
 import Claims from './Claims.vue';
-import Claim from './Claim.vue';
+// import Claim from './Claim.vue';
 // import Documents from './Documents';
 // import Certifications from './Certifications';
 // import WorkHistory from './WorkHistory';
@@ -14,7 +14,7 @@ Vue.use(VueRouter);
 
 const routes = [
 	{ path: '/', name: "claims", component: Claims },
-	{ path: '/:claimId', name: "show", component: Claim },
+	// { path: '/:claimId', name: "show", component: Claim },
 	// { path: '/documents', name: 'documents', component: Documents },
 	// { path: '/work-history', name: "workHistory", component: WorkHistory },
 	// { path: '/certifications', name: 'certifications', component: Certifications },

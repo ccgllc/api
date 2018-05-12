@@ -6,6 +6,7 @@
     "/js/manageRoles.js": "/js/manageRoles.js",
     "/js/app.js": "/js/app.js",
     "/css/app.css": "/css/app.css",
+    "/js/claim.js": "/js/claim.js",
     "/js/requestPasswordReset.js": "/js/requestPasswordReset.js",
     "/js/register.js": "/js/register.js",
     "/js/login.js": "/js/login.js",

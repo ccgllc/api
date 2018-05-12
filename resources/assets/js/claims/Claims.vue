@@ -22,7 +22,7 @@
 		<tbody>
 			<tr v-for="claim in claims">
 				<td>{{ claim.carrier_name }}</td>
-				<td><router-link :to="{ name: 'show', params: { claimId: claim.id }}">{{ claim.claim_number }}</router-link></td>
+				<td><a :href="'/claims/' + claim.id">{{ claim.claim_number }}</a></td>
 				<td>{{ claim.insured }}</td>
 				<!-- <td>{{ claim.adjuster.fname }} {{ claim.adjuster.lname }}</td> -->
 			</tr>

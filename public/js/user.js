@@ -1,4 +1,4 @@
-webpackJsonp([11],{
+webpackJsonp([12],{
 
 /***/ 16:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -108,20 +108,20 @@ var Resource = function () {
 
 /***/ }),
 
-/***/ 280:
+/***/ 281:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(281);
+module.exports = __webpack_require__(282);
 
 
 /***/ }),
 
-/***/ 281:
+/***/ 282:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__structur_src_services_Resource_js__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__data_userData_js__ = __webpack_require__(23);
@@ -271,4 +271,4 @@ var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
 
 /***/ })
 
-},[280]);
+},[281]);

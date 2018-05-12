@@ -1,4 +1,4 @@
-webpackJsonp([10],{
+webpackJsonp([11],{
 
 /***/ 1:
 /***/ (function(module, exports) {
@@ -110,32 +110,30 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 
-/***/ 360:
+/***/ 361:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(361);
+module.exports = __webpack_require__(362);
 
 
 /***/ }),
 
-/***/ 361:
+/***/ 362:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_router__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Claims_vue__ = __webpack_require__(362);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Claims_vue__ = __webpack_require__(363);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Claims_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__Claims_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Claim_vue__ = __webpack_require__(370);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Claim_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__Claim_vue__);
 
 
 // import Croppa from 'vue-croppa';
 
 
-
+// import Claim from './Claim.vue';
 // import Documents from './Documents';
 // import Certifications from './Certifications';
 // import WorkHistory from './WorkHistory';
@@ -144,7 +142,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_router__["default"]);
 // Vue.use(Croppa, { componentName: 'avatar-cropper' });
 
-var routes = [{ path: '/', name: "claims", component: __WEBPACK_IMPORTED_MODULE_2__Claims_vue___default.a }, { path: '/:claimId', name: "show", component: __WEBPACK_IMPORTED_MODULE_3__Claim_vue___default.a }];
+var routes = [{ path: '/', name: "claims", component: __WEBPACK_IMPORTED_MODULE_2__Claims_vue___default.a }];
 
 var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["default"]({
 	routes: routes,
@@ -175,15 +173,15 @@ var ClaimsVue = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
 
 /***/ }),
 
-/***/ 362:
+/***/ 363:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(363)
+var __vue_script__ = __webpack_require__(364)
 /* template */
-var __vue_template__ = __webpack_require__(364)
+var __vue_template__ = __webpack_require__(365)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -223,7 +221,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 363:
+/***/ 364:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -282,7 +280,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 364:
+/***/ 365:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -355,21 +353,11 @@ var render = function() {
             return _c("tr", [
               _c("td", [_vm._v(_vm._s(claim.carrier_name))]),
               _vm._v(" "),
-              _c(
-                "td",
-                [
-                  _c(
-                    "router-link",
-                    {
-                      attrs: {
-                        to: { name: "show", params: { claimId: claim.id } }
-                      }
-                    },
-                    [_vm._v(_vm._s(claim.claim_number))]
-                  )
-                ],
-                1
-              ),
+              _c("td", [
+                _c("a", { attrs: { href: "/claims/" + claim.id } }, [
+                  _vm._v(_vm._s(claim.claim_number))
+                ])
+              ]),
               _vm._v(" "),
               _c("td", [_vm._v(_vm._s(claim.insured))])
             ])
@@ -413,107 +401,6 @@ if (false) {
   }
 }
 
-/***/ }),
-
-/***/ 370:
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(1)
-/* script */
-var __vue_script__ = __webpack_require__(371)
-/* template */
-var __vue_template__ = __webpack_require__(372)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/claims/Claim.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-7fa4d6f6", Component.options)
-  } else {
-    hotAPI.reload("data-v-7fa4d6f6", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
-/***/ 371:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-	name: 'Claim',
-	mounted: function mounted() {
-		var _this = this;
-
-		// this.claimId = this.$route.params.claimId;
-		console.log(this.$route.params.claimId);
-		window.axios.get('claims/' + this.$route.params.claimId).then(function (response) {
-			return _this.claim = response.data;
-		});
-	},
-	data: function data() {
-		return {
-			claimId: '',
-			claim: {}
-		};
-	}
-});
-
-/***/ }),
-
-/***/ 372:
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("h1", [_vm._v("Claim " + _vm._s(_vm.claim.claim_number))])
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-7fa4d6f6", module.exports)
-  }
-}
-
 /***/ })
 
-},[360]);
+},[361]);

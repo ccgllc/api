@@ -32,7 +32,7 @@
             </div> --}}
             <div class="column">
                 <div class="section">
-                @yield('content')
+                 @yield('content')
                 </div>
             </div> 
         </div>

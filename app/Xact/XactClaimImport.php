@@ -94,6 +94,7 @@ class XactClaimImport extends XmlImporter {
         // dd($json->CONTACTS->CONTACT);
         // dd($contacts);
         $access = $json->CLAIM_INFO->ADMIN_INFO;
+        $contacts['accessContact'] =  $access;
 
         // $this->setContacts($contacts);
 

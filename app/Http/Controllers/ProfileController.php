@@ -36,7 +36,7 @@ class ProfileController extends Controller
 		// });
 		\Cache::put('app.stats.test', 32);
 		$request->session()->put('roles', $request->user()->roles->pluck('name')->toArray());
-		dd($request->session()->all());
+		// dd($request->session()->all());
 		// dd($request->session()->all());
 		$user->load(['roles', 'profile', 'adjusterLicenses', 'documents', 'workHistory', 'certifications', 'softwareExperiences', 'avatar']);
 		$user->role = $this->prepareRolesForDisplay($user->roles);

@@ -11,12 +11,13 @@ $navbar-background-color: hsl(0,0, 89%); // #E3E3E3
 // bulma overrides
 $primary: hsl(204%, 51%, 45%);  //#3980AE
 $primary-bright: hsl(203, 61%, 54%); //#439BD1;
-$secondary: hsl(163%, 56%, 43%); //#30A987;
+$secondary: hsl(164%, 61%, 49%); //#30A987;
 $dark:  hsl(223%, 19%, 25%);  //#343b4d;
 $darker: darken($dark, 5%);
 $dark-border: lighten($dark, 10%);
 $less-dark: lighten($dark, 30%);
 $gray-text: hsl(0, 0%, 56%); // #908F8F;
+$lightish-gray: hsl(0, 0%, 80%);
 $text: $dark;
 $link: $primary-bright;
 

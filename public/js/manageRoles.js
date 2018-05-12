@@ -200,22 +200,22 @@ var Resource = function () {
 
 /***/ }),
 
-/***/ 282:
+/***/ 283:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(283);
+module.exports = __webpack_require__(284);
 
 
 /***/ }),
 
-/***/ 283:
+/***/ 284:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_Roles_vue__ = __webpack_require__(284);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_Roles_vue__ = __webpack_require__(285);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_Roles_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_Roles_vue__);
 
 // import Resource from './structur/src/services/Resource.js';
@@ -234,15 +234,15 @@ var manageRoles = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
 
 /***/ }),
 
-/***/ 284:
+/***/ 285:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(285)
+var __vue_script__ = __webpack_require__(286)
 /* template */
-var __vue_template__ = __webpack_require__(290)
+var __vue_template__ = __webpack_require__(291)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -282,14 +282,14 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 285:
+/***/ 286:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__NewRole_vue__ = __webpack_require__(286);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__NewRole_vue__ = __webpack_require__(287);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__NewRole_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__NewRole_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__data_roles_js__ = __webpack_require__(289);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__data_roles_js__ = __webpack_require__(290);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__structur_src_services_Resource_js__ = __webpack_require__(17);
 //
 //
@@ -367,15 +367,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 286:
+/***/ 287:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(287)
+var __vue_script__ = __webpack_require__(288)
 /* template */
-var __vue_template__ = __webpack_require__(288)
+var __vue_template__ = __webpack_require__(289)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -415,7 +415,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 287:
+/***/ 288:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -493,7 +493,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 288:
+/***/ 289:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -652,7 +652,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 289:
+/***/ 290:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -660,7 +660,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 290:
+/***/ 291:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -746,7 +746,7 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Errors_js__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Errors_js__ = __webpack_require__(6);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -904,7 +904,7 @@ var Form = function () {
 
 /***/ }),
 
-/***/ 5:
+/***/ 6:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -997,4 +997,4 @@ var Errors = function () {
 
 /***/ })
 
-},[282]);
+},[283]);

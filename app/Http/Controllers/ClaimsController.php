@@ -6,10 +6,11 @@ namespace CCG\Http\Controllers;
 use CCG\Claims\Claim;
 use CCG\Events\ClaimWasReceived;
 use CCG\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use CCG\Http\Requests\PersistClaimForm;
+use CCG\User;
 use CCG\Xact\XactClaimImport;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Log;
 use \Event;
 
@@ -77,7 +78,7 @@ class ClaimsController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($id)
+	public function show(Request $request, $id)
 	{
 		// return Claim::whereId($id)->with([
 		// 	'statuses' => function($query){
@@ -85,7 +86,14 @@ class ClaimsController extends Controller {
 		//  	},
   //           'statuses.user', 'invoices.payments.check.deposit','invoices.supplements', 'reviewer', 'adjuster', 'carrier'
 		// ])->first();
-		return Claim::find($id);
+		// return Claim::find($id);
+		$claim = Claim::findOrFail($id)->load('carrier');
+		// dd(json_encode($claim->claim_data));
+		$user = User::find(87);
+		$user->load('avatar');
+		$reviewer = User::find(13);
+		$reviewer->load('avatar');
+		return view('claims.show', compact('claim', 'user', 'reviewer'));
 	}
 
 	/**
