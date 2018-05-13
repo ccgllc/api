@@ -1236,48 +1236,44 @@ var render = function() {
             ])
           ]),
           _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "column", staticStyle: { margin: "1.1em" } },
-            [
-              _c(
-                "h3",
-                {
-                  staticClass: "subtitle",
-                  staticStyle: { color: "#908F8F", "font-size": ".8em" }
-                },
-                [_vm._v("Gross Loss Amount")]
-              ),
-              _vm._v(" "),
-              _c(
-                "h1",
-                {
-                  staticClass: "title",
-                  staticStyle: {
-                    "font-size": "2em",
-                    "font-weight": "700",
-                    color: "#343b4d"
-                  }
-                },
-                [_vm._v("$" + _vm._s(_vm.claim.gross_loss))]
-              ),
-              _vm._v(" "),
-              _vm._m(3),
-              _c("br"),
-              _vm._v(" "),
-              _vm._m(4),
-              _c("br"),
-              _vm._v(" "),
-              _vm._m(5),
-              _c("br"),
-              _vm._v(" "),
-              _vm._m(6),
-              _c("br"),
-              _vm._v(" "),
-              _vm._m(7),
-              _c("br")
-            ]
-          )
+          _c("div", { staticClass: "column" }, [
+            _c(
+              "h3",
+              {
+                staticClass: "subtitle",
+                staticStyle: { color: "#908F8F", "font-size": ".8em" }
+              },
+              [_vm._v("Gross Loss Amount")]
+            ),
+            _vm._v(" "),
+            _c(
+              "h1",
+              {
+                staticClass: "title",
+                staticStyle: {
+                  "font-size": "1.75em",
+                  "font-weight": "700",
+                  color: "#343b4d"
+                }
+              },
+              [_vm._v("$" + _vm._s(_vm.claim.gross_loss))]
+            ),
+            _vm._v(" "),
+            _vm._m(3),
+            _c("br"),
+            _vm._v(" "),
+            _vm._m(4),
+            _c("br"),
+            _vm._v(" "),
+            _vm._m(5),
+            _c("br"),
+            _vm._v(" "),
+            _vm._m(6),
+            _c("br"),
+            _vm._v(" "),
+            _vm._m(7),
+            _c("br")
+          ])
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "columns" }, [
@@ -1879,7 +1875,7 @@ var staticRenderFns = [
     return _c("div", { staticClass: "columns" }, [
       _c("div", { staticClass: "column" }, [
         _c("div", {
-          staticStyle: { width: "100%", height: "500px" },
+          staticStyle: { width: "100%", height: "400px" },
           attrs: { id: "map" }
         })
       ])

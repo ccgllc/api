@@ -8,8 +8,8 @@
         
     
 <div class="columns">
-    <div class="column is-1"></div>
-    <div class="column is-10">
+    {{-- <div class="column is-1"></div> --}}
+    <div class="column">
         <div id="claim">
             <claim></claim>
         </div> 

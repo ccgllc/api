@@ -16,26 +16,18 @@
 
 </head>
 <body>
-    
     <div id="app">
-        {{-- <div class="columns is-gapless" style="margin-bottom: 0"> --}}
-            {{-- <div class="column is-2">
-                @include('partials.app-switcher')
-            </div> --}}
-            {{-- <div class="column"> --}}
-                @include('partials.top-bar')
-            {{-- </div> --}}
-        {{-- </div> --}}
+        
+        @include('partials.top-bar')
+
         <div class="columns is-gapless app-content">
-          {{--  <div class="column is-2">
-                @include('partials.nav')
-            </div> --}}
             <div class="column">
-                <div class="section">
+                <div class="section is-main">
                  @yield('content')
                 </div>
             </div> 
         </div>
+
         <div class="columns is-app-footer">
             <div class="column has-text-centered">
                 <span class="has-text-centered"><small><strong>CCG CMS Version {{ env('APP_VERSION') }}</strong></small></span><br>

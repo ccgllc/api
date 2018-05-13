@@ -41,7 +41,7 @@
     			<div class="columns">
 					<div class="column">
 						
-						<div id="map" style="width: 100%; height: 500px;"></div>
+						<div id="map" style="width: 100%; height: 400px;"></div>
 							
 						<!-- <label for="claim-location" class="label">Claim Location</label>
 						<input type="text" id="claim-location" class="input" @focus="geolocate"> -->
@@ -88,9 +88,9 @@
 							</div>
 						</div>
 		    		</div><!-- end column -->
-		    		<div class="column" style="margin: 1.1em; ">
-    					<h3 class="subtitle" style="color: #908F8F; font-size: .8em;">Gross Loss Amount</h3>
-    					<h1 class="title" style="font-size: 2em; font-weight: 700; color:#343b4d;">${{ claim.gross_loss }}</h1>
+		    		<div class="column">
+						<h3 class="subtitle" style="color: #908F8F; font-size: .8em;">Gross Loss Amount</h3>
+    					<h1 class="title" style="font-size: 1.75em; font-weight: 700; color:#343b4d;">${{ claim.gross_loss }}</h1>
     					<!-- <h3 class="subtitle" style="color: #bbb; font-size: .8em;">Service Fee</h3>
     					<h1 class="title" style="font-size: 2em; font-weight: 700; color:#30A987">${{ '700' }}</h1> -->
     					<a href="#" class="is-menu-button"><span class="icon has-text-info is-small"><i class="fa fa-plus-circle"></i></span> Add Invoice</a><br>

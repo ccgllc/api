@@ -14920,6 +14920,16 @@ label.panel-block:hover {
   min-height: 80vh;
 }
 
+.section.is-main {
+  padding: 3rem;
+}
+
+@media screen and (max-width: 500px) {
+  .section.is-main {
+    padding: 1.5rem;
+  }
+}
+
 input[type=text].is-search {
   background: #292f3d;
   color: #7683a2;
@@ -15407,6 +15417,15 @@ p.card-header-title > span.tag.is-dark {
 .card .card-content span.type {
   color: #8f8f8f;
   text-transform: uppercase;
+}
+
+.timeline .timeline-item {
+  margin-left: .75em;
+}
+
+.timeline .timeline-header {
+  position: relative;
+  left: -1em;
 }
 
 .timeline .timeline-item::before {
