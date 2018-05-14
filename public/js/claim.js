@@ -986,6 +986,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	name: 'Claim',
@@ -1064,8 +1067,8 @@ var render = function() {
             {
               staticStyle: {
                 "font-weight": "300",
-                "font-size": "1.25em",
-                "letter-spacing": "-.05em"
+                "font-size": "1.1em",
+                "letter-spacing": "-.03em"
               }
             },
             [_vm._v(_vm._s(_vm.claim.claim_number))]
@@ -1079,7 +1082,7 @@ var render = function() {
                 "padding-left": ".2em",
                 "padding-right": ".2em",
                 position: "relative",
-                top: "-7px",
+                top: "-5px",
                 "font-size": "1em",
                 color: "#439BD1"
               }
@@ -1094,14 +1097,12 @@ var render = function() {
                 "font-weight": "300",
                 "font-size": ".5em",
                 position: "relative",
-                top: "-9px"
+                top: "-7px"
               }
             },
             [_vm._v(" " + _vm._s(_vm.claim.carrier.label))]
           )
-        ]),
-        _vm._v(" "),
-        _vm._m(1)
+        ])
       ])
     ]),
     _vm._v(" "),
@@ -1109,6 +1110,8 @@ var render = function() {
     _vm._v(" "),
     _c("div", { staticClass: "columns" }, [
       _c("div", { staticClass: "column is-9", attrs: { id: "left-side" } }, [
+        _vm._m(1),
+        _vm._v(" "),
         _vm._m(2),
         _vm._v(" "),
         _c("div", { staticClass: "columns" }, [
@@ -1847,26 +1850,14 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "tags", staticStyle: { "margin-top": "1em" } },
-      [
-        _c("span", { staticClass: "tag is-secondary" }, [
-          _vm._v("Harvey "),
-          _c("button", { staticClass: "delete is-small" })
-        ]),
-        _vm._v(" "),
-        _c("span", { staticClass: "tag is-secondary" }, [
-          _vm._v("CAT  "),
-          _c("button", { staticClass: "delete is-small" })
-        ]),
-        _vm._v(" "),
-        _c("span", { staticClass: "tag is-secondary" }, [
-          _vm._v("Hail "),
-          _c("button", { staticClass: "delete is-small" })
-        ])
-      ]
-    )
+    return _c("div", { staticClass: "columns" }, [
+      _c("div", { staticClass: "column" }, [
+        _c("div", {
+          staticStyle: { width: "100%", height: "400px" },
+          attrs: { id: "map" }
+        })
+      ])
+    ])
   },
   function() {
     var _vm = this
@@ -1874,10 +1865,26 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "columns" }, [
       _c("div", { staticClass: "column" }, [
-        _c("div", {
-          staticStyle: { width: "100%", height: "400px" },
-          attrs: { id: "map" }
-        })
+        _c(
+          "div",
+          { staticClass: "tags", staticStyle: { "margin-top": "1em" } },
+          [
+            _c("span", { staticClass: "tag is-secondary" }, [
+              _vm._v("Harvey "),
+              _c("button", { staticClass: "delete is-small" })
+            ]),
+            _vm._v(" "),
+            _c("span", { staticClass: "tag is-secondary" }, [
+              _vm._v("CAT  "),
+              _c("button", { staticClass: "delete is-small" })
+            ]),
+            _vm._v(" "),
+            _c("span", { staticClass: "tag is-secondary" }, [
+              _vm._v("Hail "),
+              _c("button", { staticClass: "delete is-small" })
+            ])
+          ]
+        )
       ])
     ])
   },

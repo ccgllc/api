@@ -19,16 +19,10 @@
 				
 				<h3 class="subtitle"><span style="color: #bbb;">Claim#</span></h3>
 				<h1 class="title" >
-					<span style="font-weight: 300; font-size: 1.25em; letter-spacing: -.05em">{{ claim.claim_number }}</span> 
-					<span style="font-weight: 700; padding-left: .2em; padding-right: .2em; position: relative; top: -7px; font-size: 1em; color: #439BD1">|</span> 
-					<span style="font-weight: 300; font-size: .5em; position: relative; top: -9px;"> {{ claim.carrier.label }}</span>
+					<span style="font-weight: 300; font-size: 1.1em; letter-spacing: -.03em">{{ claim.claim_number }}</span> 
+					<span style="font-weight: 700; padding-left: .2em; padding-right: .2em; position: relative; top: -5px; font-size: 1em; color: #439BD1">|</span> 
+					<span style="font-weight: 300; font-size: .5em; position: relative; top: -7px;"> {{ claim.carrier.label }}</span>
 				</h1>
-				
-				<div class="tags" style="margin-top: 1em">
-					<span class="tag is-secondary">Harvey <button class="delete is-small"></button></span>
-					<span class="tag is-secondary">CAT  <button class="delete is-small"></button></span> 
-					<span class="tag is-secondary">Hail <button class="delete is-small"></button></span>
-				</div>
 				
 			</div>
 		</div>
@@ -49,6 +43,15 @@
 					</div>
 				</div>
 				
+				<div class="columns">
+					<div class="column">
+						<div class="tags" style="margin-top: 1em">
+					<span class="tag is-secondary">Harvey <button class="delete is-small"></button></span>
+					<span class="tag is-secondary">CAT  <button class="delete is-small"></button></span> 
+					<span class="tag is-secondary">Hail <button class="delete is-small"></button></span>
+				</div>
+					</div>
+				</div>
 
     			<div class="columns">
 					<div class="column is-three-quarters">

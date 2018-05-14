@@ -14920,11 +14920,15 @@ label.panel-block:hover {
   min-height: 80vh;
 }
 
+hr {
+  margin: 1.2rem 0;
+}
+
 .section.is-main {
   padding: 3rem;
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 700px) {
   .section.is-main {
     padding: 1.5rem;
   }
