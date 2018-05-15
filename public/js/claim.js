@@ -1959,12 +1959,12 @@ var staticRenderFns = [
         ]),
         _vm._v(" "),
         _c("span", { staticClass: "tag is-info" }, [
-          _vm._v("Harvey "),
+          _vm._v("Hurricane "),
           _c("button", { staticClass: "delete is-small" })
         ]),
         _vm._v(" "),
         _c("span", { staticClass: "tag is-info" }, [
-          _vm._v("Hurricane "),
+          _vm._v("Harvey "),
           _c("button", { staticClass: "delete is-small" })
         ]),
         _vm._v(" "),

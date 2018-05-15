@@ -41,9 +41,9 @@
 						
 
 						<div class="tags" style="margin-top: .5em">
-							<span class="tag is-danger">CAT  <button class="delete is-small"></button></span> 
-							<span class="tag is-info">Harvey <button class="delete is-small"></button></span>
+							<span class="tag is-danger">CAT  <button class="delete is-small"></button></span>
 							<span class="tag is-info">Hurricane <button class="delete is-small"></button></span>
+							<span class="tag is-info">Harvey <button class="delete is-small"></button></span>
 							<span class="icon"><i class="fa fa-plus" style="color: #ccc; position:relative; top: -3px;"></i></span>
 						</div>
 						
