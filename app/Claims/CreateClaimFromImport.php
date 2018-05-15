@@ -33,9 +33,22 @@ trait CreateClaimFromImport {
         $claim['date_of_loss']    = $data->dateOfLoss;
         $claim['date_received']   = $data->dateReceived;
         $claim['claim_data']      = json_encode($data);
-        $newClaim = Claim::create($claim);
-        Event::fire(new ClaimImported($newClaim));
-       return $newClaim;
+        
+        // $claims = Claim::whereClaimNumber($data->claimNumber);
+
+        // if($claims->count() > 0)
+        // {
+        //     $newclaim = $claims->first();
+        //     var_dump($newclaim);
+        //     $newclaim->update($claim);
+        //     return Claim::find($claims->first()->id);
+        // }else {
+            $newClaim = Claim::create($claim);
+            Event::fire(new ClaimImported($newClaim));
+            return $newClaim;
+        // }
+       
+       
     }
 
     /**

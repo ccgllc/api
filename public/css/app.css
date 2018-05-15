@@ -14925,12 +14925,18 @@ hr {
 }
 
 .section.is-main {
-  padding: 3rem;
+  padding: 1.5rem;
 }
 
 @media screen and (max-width: 700px) {
   .section.is-main {
-    padding: 1.5rem;
+    padding: 1rem;
+  }
+}
+
+@media screen and (min-width: 1920px) {
+  .section.is-main {
+    padding: 4rem;
   }
 }
 
@@ -15421,6 +15427,65 @@ p.card-header-title > span.tag.is-dark {
 .card .card-content span.type {
   color: #8f8f8f;
   text-transform: uppercase;
+}
+
+.map {
+  width: 100%;
+  height: 400px;
+}
+
+@media all and (max-width: 700) {
+  .map {
+    height: 150px;
+  }
+}
+
+.title {
+  font-weight: 300;
+}
+
+.title.is-hidden-desktop {
+  margin-bottom: 0;
+}
+
+.title .claim-number {
+  font-weight: 700;
+  font-size: 1.25em;
+}
+
+@media screen and (max-width: 1440px) {
+  .title .claim-number {
+    font-size: 1em;
+    font-weight: 700;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .title .claim-number {
+    font-size: 1em;
+    font-weight: 700;
+  }
+}
+
+.title .carrier {
+  font-size: .75em;
+  position: relative;
+}
+
+@media screen and (max-width: 700) {
+  .title .carrier {
+    font-size: .35em;
+    font-weight: 100;
+  }
+}
+
+.title .divider {
+  font-weight: 700;
+  padding-left: .2em;
+  padding-right: .2em;
+  position: relative;
+  font-size: 1em;
+  color: #31c9a1;
 }
 
 .timeline .timeline-item {

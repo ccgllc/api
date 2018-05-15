@@ -37,7 +37,7 @@ class ClaimsController extends Controller {
 			return view('claims.dashboard', compact('superAdmin'));
 		}
 
-		return Claim::with('adjuster')->get();
+		return Claim::with('adjuster')->orderBy('date_received', 'desc')->get();
 
 	}
 
@@ -89,9 +89,9 @@ class ClaimsController extends Controller {
 		// return Claim::find($id);
 		$claim = Claim::findOrFail($id)->load('carrier');
 		// dd(json_encode($claim->claim_data));
-		$user = User::find(87);
+		$user = User::find(87); //15
 		$user->load('avatar');
-		$reviewer = User::find(13);
+		$reviewer = User::find(13); //17
 		$reviewer->load('avatar');
 		return view('claims.show', compact('claim', 'user', 'reviewer'));
 	}

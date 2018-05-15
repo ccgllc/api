@@ -36,8 +36,14 @@ mix.js([
 //       'resources/assets/js/resetPassword.js'
 //    ], 'public/js/auth.js')
 
-   mix.browserSync('hr.ccgops.test');
+
 
    if (mix.inProduction()) {
       mix.version();
+   } else {
+      //  mix.browserSync({
+      //    proxy: 'testing.ccgops',
+      //    host: 'testing.ccgops',
+      //    files: ['resources/views/**/*.php', 'app/**/*.php', 'routes/**/*.php']
+      // });
    }

@@ -2,13 +2,13 @@
 	<div id="search">
 		<form @submit.prevent> <!-- @keydown="search.errors.clear($event.target.name) -->
 			<div class="field">
-			    <input v-model="search.query" class="input is-search" type="text" @keydown="dynamicSearch($event)" placeholder="Search users" style="position: relative;">
+			    <input v-model="search.query" class="input is-search" type="text" @keydown="dynamicSearch($event)" placeholder="Search claims, users" style="position: relative;">
 			</div>
 		</form>
 		<div class="menu" v-if="results.length > 0">
 			<ul class="menu-list">
 				<li v-for="result in results" style="list-style: none;" v-bind:class="{selected: isSelected == result.id }">
-					<a :href="'/profile/' + result.id" v-text="result.name"></a>
+					<a :href="'/' + search.scope + '/' + result.id">{{ result.claim_number || result.name  }}</a>
 				</li>
 			</ul>
 		</div>
@@ -24,9 +24,10 @@
 		data() {
 			return {
 				userData,
+				url: '/api/search',
 				search: new Form({
 					query: '',
-					api_token: ''
+					scope: 'claims',
 				}),
 				results: [],
 				complete: true,
@@ -46,9 +47,9 @@
 				if (!action && vm.search.query != '')  vm.submit();
 				if (vm.search.query == '') vm.results = [];
 				// if (vm.search.query == '') vm.userData.users = window.users;
-			}, 100),
+			}, 200),
 			detectKeyboardAction(event) {
-				console.log(event.code)
+				console.log(event.key);
 				switch (event.key) {
 					case 'Escape':
 					this.search.query = '';
@@ -56,8 +57,15 @@
 					return true;
 					break;
 
+					// case
+
+					case '@': 
+					this.search.scope = 'profile';
+					return true;
+					break;
+
 					case 'Enter':
-					window.location = '/profile/' + this.isSelected;
+					window.location = '/' + this.search.scope + '/' + this.isSelected;
 					return true;
 					break;
 
@@ -72,15 +80,17 @@
 					break;
 
 					default:
+					// this.search.scope = 'claims';
 					return false;
 				}
 			},
 			submit() {
-				this.search.post('/api/user/search', false)
+				this.search.post(this.url, false)
 					.then(response => {
 						console.log(response);
 						// this.userData.users = response;
 						this.results = response;
+						this.search.scope = 'claims';
 					}).catch(error => {
 						console.log('has an error');
 				});

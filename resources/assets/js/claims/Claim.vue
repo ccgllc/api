@@ -14,28 +14,117 @@
 				</article>
 			</div>
 		</div> -->
-		<div class="columns">
-			<div class="column">
-				
-				<h3 class="subtitle"><span style="color: #bbb;">Claim#</span></h3>
-				<h1 class="title" >
-					<span style="font-weight: 300; font-size: 1.1em; letter-spacing: -.03em">{{ claim.claim_number }}</span> 
-					<span style="font-weight: 700; padding-left: .2em; padding-right: .2em; position: relative; top: -5px; font-size: 1em; color: #439BD1">|</span> 
-					<span style="font-weight: 300; font-size: .5em; position: relative; top: -7px;"> {{ claim.carrier.label }}</span>
-				</h1>
-				
-			</div>
-		</div>
+		
 
-		<hr style="background: #ccc;">
+		<!-- <hr style="background: #ccc;"> -->
+		
 
     	<div class="columns">
     		<div id="left-side" class="column is-9">
 
     			<div class="columns">
+					<div class="column is-three-fifths">
+						<h3 class="subtitle is-hidden-mobile is-hidden-tablet-only"><span style="color: #bbb;">Claim#</span></h3>
+						<h1 class="title is-hidden-mobile is-hidden-tablet-only">
+							<span class="claim-number">{{ claim.claim_number }}</span> 
+							<span class="divider" style="color: #439BD1">|</span>
+							<span class="carrier"> {{ claim.carrier.label }}</span>
+							<!-- <span class="divider">|</span>
+							<span class="carrier">Estimate Submitted - $7893.12</span> -->
+						</h1>
+						<h3 class="is-hidden-desktop"><span style="color: #bbb;">Claim#</span></h3>
+						<h1 class="title is-hidden-desktop">
+							<span class="claim-number">{{ claim.claim_number }}</span>
+						</h1>
+						<h3 class="is-hidden-desktop">{{ claim.carrier.label }} </h3>
+						<h3 class="is-hidden-desktop">Estimate Submitted - $7893.12</h3>
+						
+
+						<div class="tags" style="margin-top: .5em">
+							<span class="tag is-danger">CAT  <button class="delete is-small"></button></span> 
+							<span class="tag is-info">Harvey <button class="delete is-small"></button></span>
+							<span class="tag is-info">Hurricane <button class="delete is-small"></button></span>
+							<span class="icon"><i class="fa fa-plus" style="color: #ccc; position:relative; top: -3px;"></i></span>
+						</div>
+						
+					</div>
+					<div class="column">
+					<div class="columns is-hidden-mobile" style="margin-top: 1.75em;">
+						<div class="column has-text-right">
+								<h4 style="color: #bbb; font-size: .75em; margin-top: .5em;">Adjuster</h4>
+			        			<h3 v-text="user.name" style="color: #439BD1; overflow:hidden; font-weight: 700;"></h3>
+    						</div>
+	    				<div class="column is-2">
+							<a :href="'/profile/' + user.id + '#'">
+								<img 
+					    			v-if="user.avatar"
+					    			:src="user.avatar.path"
+					    			:alt="user.name"
+					    			@click="addingAvatar = true"
+					    			style="border-radius: 356px; border: 5px solid #439BD1; cursor: pointer;"
+					    			width="100%"
+					    			height="auto"
+				    			>
+				    			<span class="icon is-medium" v-else>
+				    				<i class="fa fa-11x fa-user-circle-o"></i>
+				    			</span>
+				    		</a>
+		        		</div><!--  end column -->
+
+		        		 <div class="column is-2">
+	    					
+	    								<a :href="'/profile/' + reviewer.id + '#'">
+				        					<img 
+								    			v-if="reviewer.avatar"
+								    			:src="reviewer.avatar.path"
+								    			:alt="reviewer.name"
+								    			style="border-radius: 256px; border: 5px solid #64C6A3; cursor: pointer;"
+								    			width="100%"
+								    			height="auto"
+							    			>
+							    			<span class="icon is-medium" v-else>
+							    				<i class="fa fa-11x fa-user-circle-o"></i>
+							    			</span>
+							    		</a>
+	    							
+	    					
+			    		</div><!--  end column -->
+			    		
+			    		<div class="column">
+			    			<div style="color: #bbb; font-size: .75em; margin-top: .5em;">Reviewer</div>
+			    			<h3 v-text="reviewer.name" style="color: #64C6A3; overflow:hidden; font-weight: 700;"></h3> 
+			    		</div>
+
+
+	    			</div>
+				</div>
+				</div>
+
+    			<div class="columns">
+					<div class="column">
+						<div class="tabs is-left">
+						  <ul>
+						    <li class="is-active">
+						      <a>
+						        <span class="icon is-small"><i class="fa fa-home" aria-hidden="true"></i></span>
+						        <span>Claim Information</span>
+						      </a>
+						    </li>
+						    <li>
+						      <a>
+						        <span class="icon is-small"><i class="fa fa-list" aria-hidden="true"></i></span>
+						        <span>Billing</span>
+						      </a>
+						    </li>
+						  </ul>
+						</div>
+					</div>
+				</div>
+
+    			<div class="columns">
 					<div class="column">
 						
-						<div id="map" style="width: 100%; height: 400px;"></div>
+						<div class="map" id="map"></div>
 							
 						<!-- <label for="claim-location" class="label">Claim Location</label>
 						<input type="text" id="claim-location" class="input" @focus="geolocate"> -->
@@ -43,15 +132,6 @@
 					</div>
 				</div>
 				
-				<div class="columns">
-					<div class="column">
-						<div class="tags" style="margin-top: 1em">
-					<span class="tag is-secondary">Harvey <button class="delete is-small"></button></span>
-					<span class="tag is-secondary">CAT  <button class="delete is-small"></button></span> 
-					<span class="tag is-secondary">Hail <button class="delete is-small"></button></span>
-				</div>
-					</div>
-				</div>
 
     			<div class="columns">
 					<div class="column is-three-quarters">
@@ -91,9 +171,9 @@
 							</div>
 						</div>
 		    		</div><!-- end column -->
-		    		<div class="column">
-						<h3 class="subtitle" style="color: #908F8F; font-size: .8em;">Gross Loss Amount</h3>
-    					<h1 class="title" style="font-size: 1.75em; font-weight: 700; color:#343b4d;">${{ claim.gross_loss }}</h1>
+		    		<div class="column" style="margin: 1.1em; ">
+    					<h3 class="subtitle" style="color: #908F8F; font-size: .8em;">Gross Loss Amount</h3>
+    					<h1 class="title" style="font-size: 2em; font-weight: 700; color:#343b4d;">${{ claim.gross_loss }}</h1>
     					<!-- <h3 class="subtitle" style="color: #bbb; font-size: .8em;">Service Fee</h3>
     					<h1 class="title" style="font-size: 2em; font-weight: 700; color:#30A987">${{ '700' }}</h1> -->
     					<a href="#" class="is-menu-button"><span class="icon has-text-info is-small"><i class="fa fa-plus-circle"></i></span> Add Invoice</a><br>
@@ -252,47 +332,6 @@
     		</div>
 
     		<div class="column is-3" id="right-side">
-    			<div class="columns is-mobile">
-    				<div class="column is-half-mobile">
-						<a :href="'/profile/' + user.id + '#'">
-							<img 
-				    			v-if="user.avatar"
-				    			:src="user.avatar.path"
-				    			:alt="user.name"
-				    			@click="addingAvatar = true"
-				    			style="border-radius: 256px; border: 10px solid #ccc; cursor: pointer;"
-				    			width="100%"
-				    			height="auto"
-			    			>
-			    			<span class="icon is-medium" v-else>
-			    				<i class="fa fa-11x fa-user-circle-o"></i>
-			    			</span>
-			    		</a>
-
-		    			<h3 v-text="user.name" style="text-align: center; color: #497da9;"></h3>
-		    			<div class="tag is-rounded is-secondary" style="display: flex; justify-content: center; text-align: center; margin-bottom:5%;">Adjuster</div>
-	        		</div><!--  end column -->
-
-		    		<div class="column is-half-mobile">
-    					
-    					<a :href="'/profile/' + reviewer.id + '#'"">
-        					<img 
-				    			v-if="reviewer.avatar"
-				    			:src="reviewer.avatar.path"
-				    			:alt="reviewer.name"
-				    			style="border-radius: 256px; border: 10px solid #ccc; cursor: pointer;"
-				    			width="100%"
-				    			height="auto"
-			    			>
-			    			<span class="icon is-medium" v-else>
-			    				<i class="fa fa-11x fa-user-circle-o"></i>
-			    			</span>
-			    		</a>
-						
-			    		<h3 v-text="reviewer.name" style="text-align: center; color: #497da9"></h3>      		
-			    		<div class="tag is-rounded is-info" style="display: flex; justify-content: center; text-align: center; margin-bottom:5%;">Reviewer</div>		
-		    		</div><!--  end column -->
-    			</div>
 
     			<div class="card">
     				<div class="card-content">
@@ -325,18 +364,20 @@
 									  </header> -->
 
 									  <div class="timeline-item">
-									  	<div class="timeline-marker is-image is-secondary is-32x32">
+									  	<div class="timeline-marker is-image is-32x32" v-if="user.avatar">
 									      <a :href="'/profile/' + user.id"><img :src="user.avatar.path" :alt="user.name"></a>
 									    </div>
+									    <div class="timeline-marker is-secondary" v-else></div>
 									  	<div class="timeline-content">
 									      <p class="heading">February 05, 2018</p>
 									      <p>Estimate Submitted - $7893.12</p>
 									    </div>
 										</div>
 									 	<div class="timeline-item">
-										  	<div class="timeline-marker is-image is-32x32" style="border-color: #439BD1;">
+										  	<div class="timeline-marker is-image is-32x32" style="border-color: #439BD1;" v-if="reviewer.avatar">
 										      <a :href="'/profile/' + reviewer.id"><img :src="reviewer.avatar.path" :alt="reviewer.name"></a>
 										    </div>
+										    <div class="timeline-marker is-secondary" v-else></div>
 										  	<div class="timeline-content">
 										      <p class="heading">February 05, 2018</p>
 										      <p>Estimate Requested</p>
@@ -360,21 +401,23 @@
 									  </div>
 										
 									  <div class="timeline-item">
-									    <div class="timeline-marker is-image is-32x32">
+									    	<div class="timeline-marker is-image is-32x32" v-if="user.avatar">
 									      <a :href="'/profile/' + user.id"><img :src="user.avatar.path" :alt="user.name"></a>
 									    </div>
+									    <div class="timeline-marker is-secondary" v-else></div>
 									    <div class="timeline-content">
 									      <p class="heading">February 01, 2018</p>
-									      <p><a :href="'/profile/' + user.id">Aaron York</a> assigned as adjuster</p>
+							      <p><a :href="'/profile/' + user.id">{{user.name}}</a> assigned as adjuster</p>
 									    </div>
 									  </div>
 									   <div class="timeline-item">
-									    <div class="timeline-marker is-image is-32x32">
-									       <a :href="'/profile/' + reviewer.id"><img :src="reviewer.avatar.path" :alt="reviewer.name"></a>
-									    </div>
+									   	<div class="timeline-marker is-image is-32x32" style="border-color: #439BD1;" v-if="reviewer.avatar">
+										      <a :href="'/profile/' + reviewer.id"><img :src="reviewer.avatar.path" :alt="reviewer.name"></a>
+										    </div>
+										    <div class="timeline-marker is-secondary" v-else></div>
 									    <div class="timeline-content">
 									      <p class="heading">February 01, 2018</p>
-									      <p><a :href="'/profile/' + reviewer.id">Aaron Crain</a> assigned as reviewer</p>
+									      <p><a :href="'/profile/' + reviewer.id">{{reviewer.name}}</a> assigned as reviewer</p>
 									    </div>
 									  </div>
 
@@ -404,7 +447,7 @@
 		name: 'Claim',
 		created() {
 			this.claim = claim;
-			this.claim.gross_loss = '27,893.12';
+			this.claim.gross_loss = '7,893.12';
 			this.claim.claim_data = JSON.parse(this.claim.claim_data);
 			this.user = user;
 			this.reviewer = reviewer;

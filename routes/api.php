@@ -56,7 +56,14 @@ Route::namespace('Api\Acl')
 		Route::delete('role/{id}', 'RolesController@destroy');
 });
 
-Route::post('/user/search', function(Request $request){
+Route::post('search', function(Request $request){
 	$query = $request->get('query');
-	return CCG\User::with('roles')->where('name', 'like', "%$query%")->exclude('api_token')->get();
+	$query = str_replace("@", '', $query);
+
+	if ($request->scope == 'profile') {
+		return CCG\User::with('roles')->where('name', 'like', "%$query%")->exclude('api_token')->take(10)->get();
+	}
+	
+	return CCG\Claims\Claim::where('claim_number', 'like', "%$query%")->take(10)->get();
+	
 });

@@ -17451,9 +17451,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	data: function data() {
 		return {
 			userData: __WEBPACK_IMPORTED_MODULE_1__data_userData_js__["a" /* default */],
+			url: '/api/search',
 			search: new __WEBPACK_IMPORTED_MODULE_0__structur_src_form_Form_js__["a" /* default */]({
 				query: '',
-				api_token: ''
+				scope: 'claims'
 			}),
 			results: [],
 			complete: true,
@@ -17474,9 +17475,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			if (!action && vm.search.query != '') vm.submit();
 			if (vm.search.query == '') vm.results = [];
 			// if (vm.search.query == '') vm.userData.users = window.users;
-		}, 100),
+		}, 200),
 		detectKeyboardAction: function detectKeyboardAction(event) {
-			console.log(event.code);
+			console.log(event.key);
 			switch (event.key) {
 				case 'Escape':
 					this.search.query = '';
@@ -17484,8 +17485,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					return true;
 					break;
 
+				// case
+
+				case '@':
+					this.search.scope = 'profile';
+					return true;
+					break;
+
 				case 'Enter':
-					window.location = '/profile/' + this.isSelected;
+					window.location = '/' + this.search.scope + '/' + this.isSelected;
 					return true;
 					break;
 
@@ -17500,16 +17508,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					break;
 
 				default:
+					// this.search.scope = 'claims';
 					return false;
 			}
 		},
 		submit: function submit() {
 			var _this = this;
 
-			this.search.post('/api/user/search', false).then(function (response) {
+			this.search.post(this.url, false).then(function (response) {
 				console.log(response);
 				// this.userData.users = response;
 				_this.results = response;
+				_this.search.scope = 'claims';
 			}).catch(function (error) {
 				console.log('has an error');
 			});
@@ -17695,7 +17705,7 @@ var render = function() {
             ],
             staticClass: "input is-search",
             staticStyle: { position: "relative" },
-            attrs: { type: "text", placeholder: "Search users" },
+            attrs: { type: "text", placeholder: "Search claims, users" },
             domProps: { value: _vm.search.query },
             on: {
               keydown: function($event) {
@@ -17726,10 +17736,13 @@ var render = function() {
                   staticStyle: { "list-style": "none" }
                 },
                 [
-                  _c("a", {
-                    attrs: { href: "/profile/" + result.id },
-                    domProps: { textContent: _vm._s(result.name) }
-                  })
+                  _c(
+                    "a",
+                    {
+                      attrs: { href: "/" + _vm.search.scope + "/" + result.id }
+                    },
+                    [_vm._v(_vm._s(result.claim_number || result.name))]
+                  )
                 ]
               )
             })

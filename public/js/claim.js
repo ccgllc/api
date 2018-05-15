@@ -989,12 +989,55 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	name: 'Claim',
 	created: function created() {
 		this.claim = claim;
-		this.claim.gross_loss = '27,893.12';
+		this.claim.gross_loss = '7,893.12';
 		this.claim.claim_data = JSON.parse(this.claim.claim_data);
 		this.user = user;
 		this.reviewer = reviewer;
@@ -1058,61 +1101,172 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", [
     _c("div", { staticClass: "columns" }, [
-      _c("div", { staticClass: "column" }, [
-        _vm._m(0),
-        _vm._v(" "),
-        _c("h1", { staticClass: "title" }, [
-          _c(
-            "span",
-            {
-              staticStyle: {
-                "font-weight": "300",
-                "font-size": "1.1em",
-                "letter-spacing": "-.03em"
-              }
-            },
-            [_vm._v(_vm._s(_vm.claim.claim_number))]
-          ),
-          _vm._v(" "),
-          _c(
-            "span",
-            {
-              staticStyle: {
-                "font-weight": "700",
-                "padding-left": ".2em",
-                "padding-right": ".2em",
-                position: "relative",
-                top: "-5px",
-                "font-size": "1em",
-                color: "#439BD1"
-              }
-            },
-            [_vm._v("|")]
-          ),
-          _vm._v(" "),
-          _c(
-            "span",
-            {
-              staticStyle: {
-                "font-weight": "300",
-                "font-size": ".5em",
-                position: "relative",
-                top: "-7px"
-              }
-            },
-            [_vm._v(" " + _vm._s(_vm.claim.carrier.label))]
-          )
-        ])
-      ])
-    ]),
-    _vm._v(" "),
-    _c("hr", { staticStyle: { background: "#ccc" } }),
-    _vm._v(" "),
-    _c("div", { staticClass: "columns" }, [
       _c("div", { staticClass: "column is-9", attrs: { id: "left-side" } }, [
-        _vm._m(1),
+        _c("div", { staticClass: "columns" }, [
+          _c("div", { staticClass: "column is-three-fifths" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c(
+              "h1",
+              { staticClass: "title is-hidden-mobile is-hidden-tablet-only" },
+              [
+                _c("span", { staticClass: "claim-number" }, [
+                  _vm._v(_vm._s(_vm.claim.claim_number))
+                ]),
+                _vm._v(" "),
+                _c(
+                  "span",
+                  { staticClass: "divider", staticStyle: { color: "#439BD1" } },
+                  [_vm._v("|")]
+                ),
+                _vm._v(" "),
+                _c("span", { staticClass: "carrier" }, [
+                  _vm._v(" " + _vm._s(_vm.claim.carrier.label))
+                ])
+              ]
+            ),
+            _vm._v(" "),
+            _vm._m(1),
+            _vm._v(" "),
+            _c("h1", { staticClass: "title is-hidden-desktop" }, [
+              _c("span", { staticClass: "claim-number" }, [
+                _vm._v(_vm._s(_vm.claim.claim_number))
+              ])
+            ]),
+            _vm._v(" "),
+            _c("h3", { staticClass: "is-hidden-desktop" }, [
+              _vm._v(_vm._s(_vm.claim.carrier.label) + " ")
+            ]),
+            _vm._v(" "),
+            _c("h3", { staticClass: "is-hidden-desktop" }, [
+              _vm._v("Estimate Submitted - $7893.12")
+            ]),
+            _vm._v(" "),
+            _vm._m(2)
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "column" }, [
+            _c(
+              "div",
+              {
+                staticClass: "columns is-hidden-mobile",
+                staticStyle: { "margin-top": "1.75em" }
+              },
+              [
+                _c("div", { staticClass: "column has-text-right" }, [
+                  _c(
+                    "h4",
+                    {
+                      staticStyle: {
+                        color: "#bbb",
+                        "font-size": ".75em",
+                        "margin-top": ".5em"
+                      }
+                    },
+                    [_vm._v("Adjuster")]
+                  ),
+                  _vm._v(" "),
+                  _c("h3", {
+                    staticStyle: {
+                      color: "#439BD1",
+                      overflow: "hidden",
+                      "font-weight": "700"
+                    },
+                    domProps: { textContent: _vm._s(_vm.user.name) }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "column is-2" }, [
+                  _c(
+                    "a",
+                    { attrs: { href: "/profile/" + _vm.user.id + "#" } },
+                    [
+                      _vm.user.avatar
+                        ? _c("img", {
+                            staticStyle: {
+                              "border-radius": "356px",
+                              border: "5px solid #439BD1",
+                              cursor: "pointer"
+                            },
+                            attrs: {
+                              src: _vm.user.avatar.path,
+                              alt: _vm.user.name,
+                              width: "100%",
+                              height: "auto"
+                            },
+                            on: {
+                              click: function($event) {
+                                _vm.addingAvatar = true
+                              }
+                            }
+                          })
+                        : _c("span", { staticClass: "icon is-medium" }, [
+                            _c("i", {
+                              staticClass: "fa fa-11x fa-user-circle-o"
+                            })
+                          ])
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "column is-2" }, [
+                  _c(
+                    "a",
+                    { attrs: { href: "/profile/" + _vm.reviewer.id + "#" } },
+                    [
+                      _vm.reviewer.avatar
+                        ? _c("img", {
+                            staticStyle: {
+                              "border-radius": "256px",
+                              border: "5px solid #64C6A3",
+                              cursor: "pointer"
+                            },
+                            attrs: {
+                              src: _vm.reviewer.avatar.path,
+                              alt: _vm.reviewer.name,
+                              width: "100%",
+                              height: "auto"
+                            }
+                          })
+                        : _c("span", { staticClass: "icon is-medium" }, [
+                            _c("i", {
+                              staticClass: "fa fa-11x fa-user-circle-o"
+                            })
+                          ])
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "column" }, [
+                  _c(
+                    "div",
+                    {
+                      staticStyle: {
+                        color: "#bbb",
+                        "font-size": ".75em",
+                        "margin-top": ".5em"
+                      }
+                    },
+                    [_vm._v("Reviewer")]
+                  ),
+                  _vm._v(" "),
+                  _c("h3", {
+                    staticStyle: {
+                      color: "#64C6A3",
+                      overflow: "hidden",
+                      "font-weight": "700"
+                    },
+                    domProps: { textContent: _vm._s(_vm.reviewer.name) }
+                  })
+                ])
+              ]
+            )
+          ])
+        ]),
         _vm._v(" "),
-        _vm._m(2),
+        _vm._m(3),
+        _vm._v(" "),
+        _vm._m(4),
         _vm._v(" "),
         _c("div", { staticClass: "columns" }, [
           _c("div", { staticClass: "column is-three-quarters" }, [
@@ -1239,44 +1393,48 @@ var render = function() {
             ])
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "column" }, [
-            _c(
-              "h3",
-              {
-                staticClass: "subtitle",
-                staticStyle: { color: "#908F8F", "font-size": ".8em" }
-              },
-              [_vm._v("Gross Loss Amount")]
-            ),
-            _vm._v(" "),
-            _c(
-              "h1",
-              {
-                staticClass: "title",
-                staticStyle: {
-                  "font-size": "1.75em",
-                  "font-weight": "700",
-                  color: "#343b4d"
-                }
-              },
-              [_vm._v("$" + _vm._s(_vm.claim.gross_loss))]
-            ),
-            _vm._v(" "),
-            _vm._m(3),
-            _c("br"),
-            _vm._v(" "),
-            _vm._m(4),
-            _c("br"),
-            _vm._v(" "),
-            _vm._m(5),
-            _c("br"),
-            _vm._v(" "),
-            _vm._m(6),
-            _c("br"),
-            _vm._v(" "),
-            _vm._m(7),
-            _c("br")
-          ])
+          _c(
+            "div",
+            { staticClass: "column", staticStyle: { margin: "1.1em" } },
+            [
+              _c(
+                "h3",
+                {
+                  staticClass: "subtitle",
+                  staticStyle: { color: "#908F8F", "font-size": ".8em" }
+                },
+                [_vm._v("Gross Loss Amount")]
+              ),
+              _vm._v(" "),
+              _c(
+                "h1",
+                {
+                  staticClass: "title",
+                  staticStyle: {
+                    "font-size": "2em",
+                    "font-weight": "700",
+                    color: "#343b4d"
+                  }
+                },
+                [_vm._v("$" + _vm._s(_vm.claim.gross_loss))]
+              ),
+              _vm._v(" "),
+              _vm._m(5),
+              _c("br"),
+              _vm._v(" "),
+              _vm._m(6),
+              _c("br"),
+              _vm._v(" "),
+              _vm._m(7),
+              _c("br"),
+              _vm._v(" "),
+              _vm._m(8),
+              _c("br"),
+              _vm._v(" "),
+              _vm._m(9),
+              _c("br")
+            ]
+          )
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "columns" }, [
@@ -1296,7 +1454,7 @@ var render = function() {
         _c("div", { staticClass: "columns" }, [
           _c("div", { staticClass: "column" }, [
             _c("div", { staticClass: "card" }, [
-              _vm._m(8),
+              _vm._m(10),
               _vm._v(" "),
               _c("div", { staticClass: "card-content" }, [
                 _c("div", { staticClass: "content" }, [
@@ -1367,7 +1525,7 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "column" }, [
             _c("div", { staticClass: "card" }, [
-              _vm._m(9),
+              _vm._m(11),
               _vm._v(" "),
               _c("div", { staticClass: "card-content" }, [
                 _c("div", { staticClass: "content" }, [
@@ -1444,7 +1602,7 @@ var render = function() {
           _vm.claim.claim_data.policy.coverages.length
             ? _c("div", { staticClass: "column" }, [
                 _c("div", { staticClass: "card is-warning" }, [
-                  _vm._m(10),
+                  _vm._m(12),
                   _vm._v(" "),
                   _c("div", { staticClass: "card-content" }, [
                     _c("div", { staticClass: "content" }, [
@@ -1508,7 +1666,7 @@ var render = function() {
           _vm.claim.claim_data.accessContact
             ? _c("div", { staticClass: "column" }, [
                 _c("div", { staticClass: "card" }, [
-                  _vm._m(11),
+                  _vm._m(13),
                   _vm._v(" "),
                   _c("div", { staticClass: "card-content" }, [
                     _c("div", { staticClass: "content" }, [
@@ -1547,7 +1705,7 @@ var render = function() {
                 _vm._v(" "),
                 _vm.claim.claim_data.claimant
                   ? _c("div", { staticClass: "card" }, [
-                      _vm._m(12),
+                      _vm._m(14),
                       _vm._v(" "),
                       _c("div", { staticClass: "card-content" }, [
                         _c("div", { staticClass: "content" }, [
@@ -1589,95 +1747,6 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "column is-3", attrs: { id: "right-side" } }, [
-        _c("div", { staticClass: "columns is-mobile" }, [
-          _c("div", { staticClass: "column is-half-mobile" }, [
-            _c("a", { attrs: { href: "/profile/" + _vm.user.id + "#" } }, [
-              _vm.user.avatar
-                ? _c("img", {
-                    staticStyle: {
-                      "border-radius": "256px",
-                      border: "10px solid #ccc",
-                      cursor: "pointer"
-                    },
-                    attrs: {
-                      src: _vm.user.avatar.path,
-                      alt: _vm.user.name,
-                      width: "100%",
-                      height: "auto"
-                    },
-                    on: {
-                      click: function($event) {
-                        _vm.addingAvatar = true
-                      }
-                    }
-                  })
-                : _c("span", { staticClass: "icon is-medium" }, [
-                    _c("i", { staticClass: "fa fa-11x fa-user-circle-o" })
-                  ])
-            ]),
-            _vm._v(" "),
-            _c("h3", {
-              staticStyle: { "text-align": "center", color: "#497da9" },
-              domProps: { textContent: _vm._s(_vm.user.name) }
-            }),
-            _vm._v(" "),
-            _c(
-              "div",
-              {
-                staticClass: "tag is-rounded is-secondary",
-                staticStyle: {
-                  display: "flex",
-                  "justify-content": "center",
-                  "text-align": "center",
-                  "margin-bottom": "5%"
-                }
-              },
-              [_vm._v("Adjuster")]
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "column is-half-mobile" }, [
-            _c("a", { attrs: { href: "/profile/" + _vm.reviewer.id + "#" } }, [
-              _vm.reviewer.avatar
-                ? _c("img", {
-                    staticStyle: {
-                      "border-radius": "256px",
-                      border: "10px solid #ccc",
-                      cursor: "pointer"
-                    },
-                    attrs: {
-                      src: _vm.reviewer.avatar.path,
-                      alt: _vm.reviewer.name,
-                      width: "100%",
-                      height: "auto"
-                    }
-                  })
-                : _c("span", { staticClass: "icon is-medium" }, [
-                    _c("i", { staticClass: "fa fa-11x fa-user-circle-o" })
-                  ])
-            ]),
-            _vm._v(" "),
-            _c("h3", {
-              staticStyle: { "text-align": "center", color: "#497da9" },
-              domProps: { textContent: _vm._s(_vm.reviewer.name) }
-            }),
-            _vm._v(" "),
-            _c(
-              "div",
-              {
-                staticClass: "tag is-rounded is-info",
-                staticStyle: {
-                  display: "flex",
-                  "justify-content": "center",
-                  "text-align": "center",
-                  "margin-bottom": "5%"
-                }
-              },
-              [_vm._v("Reviewer")]
-            )
-          ])
-        ]),
-        _vm._v(" "),
         _c("div", { staticClass: "card" }, [
           _c("div", { staticClass: "card-content" }, [
             _c("div", { staticClass: "content" }, [
@@ -1691,87 +1760,98 @@ var render = function() {
                 ]
               ),
               _vm._v(" "),
-              _vm._m(13),
+              _vm._m(15),
               _vm._v(" "),
               _c(
                 "div",
                 { staticClass: "timeline", staticStyle: { padding: "5%" } },
                 [
                   _c("div", { staticClass: "timeline-item" }, [
-                    _c(
-                      "div",
-                      {
-                        staticClass:
-                          "timeline-marker is-image is-secondary is-32x32"
-                      },
-                      [
-                        _c(
-                          "a",
-                          { attrs: { href: "/profile/" + _vm.user.id } },
+                    _vm.user.avatar
+                      ? _c(
+                          "div",
+                          { staticClass: "timeline-marker is-image is-32x32" },
                           [
-                            _c("img", {
-                              attrs: {
-                                src: _vm.user.avatar.path,
-                                alt: _vm.user.name
-                              }
-                            })
+                            _c(
+                              "a",
+                              { attrs: { href: "/profile/" + _vm.user.id } },
+                              [
+                                _c("img", {
+                                  attrs: {
+                                    src: _vm.user.avatar.path,
+                                    alt: _vm.user.name
+                                  }
+                                })
+                              ]
+                            )
                           ]
                         )
-                      ]
-                    ),
+                      : _c("div", {
+                          staticClass: "timeline-marker is-secondary"
+                        }),
                     _vm._v(" "),
-                    _vm._m(14)
+                    _vm._m(16)
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "timeline-item" }, [
-                    _c(
-                      "div",
-                      {
-                        staticClass: "timeline-marker is-image is-32x32",
-                        staticStyle: { "border-color": "#439BD1" }
-                      },
-                      [
-                        _c(
-                          "a",
-                          { attrs: { href: "/profile/" + _vm.reviewer.id } },
+                    _vm.reviewer.avatar
+                      ? _c(
+                          "div",
+                          {
+                            staticClass: "timeline-marker is-image is-32x32",
+                            staticStyle: { "border-color": "#439BD1" }
+                          },
                           [
-                            _c("img", {
-                              attrs: {
-                                src: _vm.reviewer.avatar.path,
-                                alt: _vm.reviewer.name
-                              }
-                            })
+                            _c(
+                              "a",
+                              {
+                                attrs: { href: "/profile/" + _vm.reviewer.id }
+                              },
+                              [
+                                _c("img", {
+                                  attrs: {
+                                    src: _vm.reviewer.avatar.path,
+                                    alt: _vm.reviewer.name
+                                  }
+                                })
+                              ]
+                            )
                           ]
                         )
-                      ]
-                    ),
+                      : _c("div", {
+                          staticClass: "timeline-marker is-secondary"
+                        }),
                     _vm._v(" "),
-                    _vm._m(15)
+                    _vm._m(17)
                   ]),
                   _vm._v(" "),
-                  _vm._m(16),
+                  _vm._m(18),
                   _vm._v(" "),
-                  _vm._m(17),
+                  _vm._m(19),
                   _vm._v(" "),
                   _c("div", { staticClass: "timeline-item" }, [
-                    _c(
-                      "div",
-                      { staticClass: "timeline-marker is-image is-32x32" },
-                      [
-                        _c(
-                          "a",
-                          { attrs: { href: "/profile/" + _vm.user.id } },
+                    _vm.user.avatar
+                      ? _c(
+                          "div",
+                          { staticClass: "timeline-marker is-image is-32x32" },
                           [
-                            _c("img", {
-                              attrs: {
-                                src: _vm.user.avatar.path,
-                                alt: _vm.user.name
-                              }
-                            })
+                            _c(
+                              "a",
+                              { attrs: { href: "/profile/" + _vm.user.id } },
+                              [
+                                _c("img", {
+                                  attrs: {
+                                    src: _vm.user.avatar.path,
+                                    alt: _vm.user.name
+                                  }
+                                })
+                              ]
+                            )
                           ]
                         )
-                      ]
-                    ),
+                      : _c("div", {
+                          staticClass: "timeline-marker is-secondary"
+                        }),
                     _vm._v(" "),
                     _c("div", { staticClass: "timeline-content" }, [
                       _c("p", { staticClass: "heading" }, [
@@ -1782,7 +1862,7 @@ var render = function() {
                         _c(
                           "a",
                           { attrs: { href: "/profile/" + _vm.user.id } },
-                          [_vm._v("Aaron York")]
+                          [_vm._v(_vm._s(_vm.user.name))]
                         ),
                         _vm._v(" assigned as adjuster")
                       ])
@@ -1790,24 +1870,33 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "timeline-item" }, [
-                    _c(
-                      "div",
-                      { staticClass: "timeline-marker is-image is-32x32" },
-                      [
-                        _c(
-                          "a",
-                          { attrs: { href: "/profile/" + _vm.reviewer.id } },
+                    _vm.reviewer.avatar
+                      ? _c(
+                          "div",
+                          {
+                            staticClass: "timeline-marker is-image is-32x32",
+                            staticStyle: { "border-color": "#439BD1" }
+                          },
                           [
-                            _c("img", {
-                              attrs: {
-                                src: _vm.reviewer.avatar.path,
-                                alt: _vm.reviewer.name
-                              }
-                            })
+                            _c(
+                              "a",
+                              {
+                                attrs: { href: "/profile/" + _vm.reviewer.id }
+                              },
+                              [
+                                _c("img", {
+                                  attrs: {
+                                    src: _vm.reviewer.avatar.path,
+                                    alt: _vm.reviewer.name
+                                  }
+                                })
+                              ]
+                            )
                           ]
                         )
-                      ]
-                    ),
+                      : _c("div", {
+                          staticClass: "timeline-marker is-secondary"
+                        }),
                     _vm._v(" "),
                     _c("div", { staticClass: "timeline-content" }, [
                       _c("p", { staticClass: "heading" }, [
@@ -1818,16 +1907,16 @@ var render = function() {
                         _c(
                           "a",
                           { attrs: { href: "/profile/" + _vm.reviewer.id } },
-                          [_vm._v("Aaron Crain")]
+                          [_vm._v(_vm._s(_vm.reviewer.name))]
                         ),
                         _vm._v(" assigned as reviewer")
                       ])
                     ])
                   ]),
                   _vm._v(" "),
-                  _vm._m(18),
+                  _vm._m(20),
                   _vm._v(" "),
-                  _vm._m(19)
+                  _vm._m(21)
                 ]
               )
             ])
@@ -1842,7 +1931,17 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("h3", { staticClass: "subtitle" }, [
+    return _c(
+      "h3",
+      { staticClass: "subtitle is-hidden-mobile is-hidden-tablet-only" },
+      [_c("span", { staticStyle: { color: "#bbb" } }, [_vm._v("Claim#")])]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h3", { staticClass: "is-hidden-desktop" }, [
       _c("span", { staticStyle: { color: "#bbb" } }, [_vm._v("Claim#")])
     ])
   },
@@ -1850,12 +1949,69 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "tags", staticStyle: { "margin-top": ".5em" } },
+      [
+        _c("span", { staticClass: "tag is-danger" }, [
+          _vm._v("CAT  "),
+          _c("button", { staticClass: "delete is-small" })
+        ]),
+        _vm._v(" "),
+        _c("span", { staticClass: "tag is-info" }, [
+          _vm._v("Harvey "),
+          _c("button", { staticClass: "delete is-small" })
+        ]),
+        _vm._v(" "),
+        _c("span", { staticClass: "tag is-info" }, [
+          _vm._v("Hurricane "),
+          _c("button", { staticClass: "delete is-small" })
+        ]),
+        _vm._v(" "),
+        _c("span", { staticClass: "icon" }, [
+          _c("i", {
+            staticClass: "fa fa-plus",
+            staticStyle: { color: "#ccc", position: "relative", top: "-3px" }
+          })
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "columns" }, [
       _c("div", { staticClass: "column" }, [
-        _c("div", {
-          staticStyle: { width: "100%", height: "400px" },
-          attrs: { id: "map" }
-        })
+        _c("div", { staticClass: "tabs is-left" }, [
+          _c("ul", [
+            _c("li", { staticClass: "is-active" }, [
+              _c("a", [
+                _c("span", { staticClass: "icon is-small" }, [
+                  _c("i", {
+                    staticClass: "fa fa-home",
+                    attrs: { "aria-hidden": "true" }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("span", [_vm._v("Claim Information")])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("li", [
+              _c("a", [
+                _c("span", { staticClass: "icon is-small" }, [
+                  _c("i", {
+                    staticClass: "fa fa-list",
+                    attrs: { "aria-hidden": "true" }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("span", [_vm._v("Billing")])
+              ])
+            ])
+          ])
+        ])
       ])
     ])
   },
@@ -1865,26 +2021,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "columns" }, [
       _c("div", { staticClass: "column" }, [
-        _c(
-          "div",
-          { staticClass: "tags", staticStyle: { "margin-top": "1em" } },
-          [
-            _c("span", { staticClass: "tag is-secondary" }, [
-              _vm._v("Harvey "),
-              _c("button", { staticClass: "delete is-small" })
-            ]),
-            _vm._v(" "),
-            _c("span", { staticClass: "tag is-secondary" }, [
-              _vm._v("CAT  "),
-              _c("button", { staticClass: "delete is-small" })
-            ]),
-            _vm._v(" "),
-            _c("span", { staticClass: "tag is-secondary" }, [
-              _vm._v("Hail "),
-              _c("button", { staticClass: "delete is-small" })
-            ])
-          ]
-        )
+        _c("div", { staticClass: "map", attrs: { id: "map" } })
       ])
     ])
   },

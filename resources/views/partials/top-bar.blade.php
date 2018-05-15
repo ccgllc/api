@@ -34,6 +34,11 @@
           @else
             <div class="navbar-item has-dropdown is-hoverable">
               <a class="navbar-link is-active">
+                <img 
+                  src="{{ Auth::user()->avatar->path }}" 
+                  alt="{{ Auth::user()->name}}" 
+                  width="30px" height="30px" 
+                  style="border-radius: 1000px; border: 1px solid #ccc; cursor: pointer; margin-right: .5em;">
                 {{ Auth::user()->name }}
               </a>
               <div class="navbar-dropdown is-right">

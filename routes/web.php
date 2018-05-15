@@ -25,6 +25,18 @@ Route::get('oauth', function(){
 	dd($user);
 });
 
+route::get('tinker', function() {
+	$claims = CCG\Claims\Claim::all();
+	 $matches = $claims->mapToGroups(function($claim, $key) {
+	 	// if($claim['claim_number'] < 0)
+	 	return [$claim['claim_number'] => $claim['id']];
+	 });
+	 $filtered = $matches->filter(function ($value, $key) {
+	 	if(count($value) > 1) return $key;
+	});
+	 return $filtered;
+});
+
 route::get('apply', function(Illuminate\Http\Request $request){
 	$user = $request->user();
 	$user->token = $user->api_token;
