@@ -14683,6 +14683,176 @@ label.panel-block:hover {
   text-align: right;
 }
 
+.has-ribbon {
+  position: relative;
+}
+
+.has-ribbon-left {
+  position: relative;
+}
+
+.has-ribbon-left .ribbon {
+  right: auto;
+  left: 0;
+  border-left: none;
+  border-right: 0.1rem solid #dbdbdb;
+}
+
+.has-ribbon-bottom {
+  position: relative;
+}
+
+.has-ribbon-bottom .ribbon {
+  top: auto;
+  bottom: .5em;
+}
+
+.ribbon {
+  background-color: white;
+  border: 0.1rem solid #dbdbdb;
+  border-right: none;
+  color: #363636;
+  font-size: 1rem;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  padding-left: 0.75em;
+  padding-right: 0.75em;
+  text-align: center;
+  white-space: nowrap;
+  position: absolute;
+  top: .5em;
+  right: 0;
+  font-weight: 400;
+  z-index: 2;
+}
+
+.ribbon.is-white:not(.is-outlined) {
+  background-color: white;
+  border-color: transparent;
+  color: #0a0a0a !important;
+}
+
+.ribbon.is-white.is-outlined {
+  background-color: transparent;
+  border-color: white;
+}
+
+.ribbon.is-black:not(.is-outlined) {
+  background-color: #0a0a0a;
+  border-color: transparent;
+  color: white !important;
+}
+
+.ribbon.is-black.is-outlined {
+  background-color: transparent;
+  border-color: #0a0a0a;
+}
+
+.ribbon.is-light:not(.is-outlined) {
+  background-color: whitesmoke;
+  border-color: transparent;
+  color: #343b4c !important;
+}
+
+.ribbon.is-light.is-outlined {
+  background-color: transparent;
+  border-color: whitesmoke;
+}
+
+.ribbon.is-dark:not(.is-outlined) {
+  background-color: #343b4c;
+  border-color: transparent;
+  color: whitesmoke !important;
+}
+
+.ribbon.is-dark.is-outlined {
+  background-color: transparent;
+  border-color: #343b4c;
+}
+
+.ribbon.is-primary:not(.is-outlined) {
+  background-color: #387ead;
+  border-color: transparent;
+  color: #fff !important;
+}
+
+.ribbon.is-primary.is-outlined {
+  background-color: transparent;
+  border-color: #387ead;
+}
+
+.ribbon.is-link:not(.is-outlined) {
+  background-color: #429ad1;
+  border-color: transparent;
+  color: #fff !important;
+}
+
+.ribbon.is-link.is-outlined {
+  background-color: transparent;
+  border-color: #429ad1;
+}
+
+.ribbon.is-info:not(.is-outlined) {
+  background-color: #209cee;
+  border-color: transparent;
+  color: #fff !important;
+}
+
+.ribbon.is-info.is-outlined {
+  background-color: transparent;
+  border-color: #209cee;
+}
+
+.ribbon.is-success:not(.is-outlined) {
+  background-color: #23d160;
+  border-color: transparent;
+  color: #fff !important;
+}
+
+.ribbon.is-success.is-outlined {
+  background-color: transparent;
+  border-color: #23d160;
+}
+
+.ribbon.is-warning:not(.is-outlined) {
+  background-color: #ffdd57;
+  border-color: transparent;
+  color: rgba(0, 0, 0, 0.7) !important;
+}
+
+.ribbon.is-warning.is-outlined {
+  background-color: transparent;
+  border-color: #ffdd57;
+}
+
+.ribbon.is-danger:not(.is-outlined) {
+  background-color: #ff3860;
+  border-color: transparent;
+  color: #fff !important;
+}
+
+.ribbon.is-danger.is-outlined {
+  background-color: transparent;
+  border-color: #ff3860;
+}
+
+.ribbon.is-small {
+  font-size: 0.75rem;
+}
+
+.ribbon.is-medium {
+  font-size: 1.25rem;
+}
+
+.ribbon.is-large {
+  font-size: 1.5rem;
+}
+
+.ribbon.is-outlined {
+  background-color: transparent;
+}
+
 .sk-fading-circle {
   position: absolute;
 }
@@ -15486,6 +15656,69 @@ p.card-header-title > span.tag.is-dark {
   position: relative;
   font-size: 1em;
   color: #31c9a1;
+}
+
+a.is-menu-button {
+  color: #343b4d;
+}
+
+a.is-menu-button:hover {
+  color: #439BD1;
+}
+
+.tag .is-delete {
+  padding-right: 5px !important;
+}
+
+.timeline-marker .is-32x32 {
+  background: #497da9;
+}
+
+.is-32x32 span.icon {
+  position: relative;
+  top: 2px;
+  left: 2px;
+}
+
+.dl-horizontal dt,
+.dl-horizontal div dt {
+  font-weight: 700;
+  width: 100%;
+}
+
+.dl-horizontal dd {
+  font-weight: 300;
+  /*float: left;*/
+  width: 100%;
+}
+
+.gross-loss {
+  text-align: right;
+}
+
+@media all and (max-width: 700px) {
+  .gross-loss {
+    text-align: left;
+  }
+}
+
+.assignments {
+  padding-left: 3rem;
+  padding-right: 3rem;
+}
+
+@media all and (max-width: 1920px) {
+  .assignments {
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
+}
+
+@media all and (max-width: 700px) {
+  .assignments {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
 }
 
 .timeline .timeline-item {

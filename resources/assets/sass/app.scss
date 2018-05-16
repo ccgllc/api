@@ -12,6 +12,7 @@
 @import "resources/assets/sass/bulma-check-radio.sass";
 @import "resources/assets/sass/tooltip.sass";
 @import 'resources/assets/sass/bulma-timeline.sass';
+@import 'resources/assets/sass/bulma-ribbon.sass';
 @import "./croppa.scss";
 // @import "resources/assets/sass/ccg-forms.sass";
 
@@ -530,6 +531,56 @@ p.card-header-title > span.tag {
 	}
 }
 
+a.is-menu-button{
+		color: #343b4d;
+		
+	}
+	a.is-menu-button:hover{
+		color: #439BD1;
+	};
+	.tag .is-delete{
+		padding-right: 5px !important;
+	}
+	.timeline-marker .is-32x32{
+		background: #497da9;
+	}
+	.is-32x32 span.icon{
+		position: relative;
+		top: 2px;
+		left: 2px;
+	}
+	.dl-horizontal dt, .dl-horizontal div dt{
+		font-weight: 700;
+		width: 100%;
+	}
+	.dl-horizontal dd {
+		font-weight: 300;
+		/*float: left;*/
+		width: 100%;
+	}
+
+.gross-loss{
+	text-align: right;
+	@media all and (max-width:700px) {
+		text-align: left;
+	}
+}
+
+.assignments{
+	padding-left: 3rem;
+	padding-right: 3rem;
+	@media all and (max-width: 1920px){
+		padding-left: 4rem;
+		padding-right: 4rem;
+	}
+	@media all and (max-width:700px) {
+		padding-left: 2rem;
+		padding-right: 2rem;
+	}
+	assignment{
+
+	}
+}
 //timeline 
 .timeline {
 	.timeline-item {

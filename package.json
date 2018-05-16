@@ -23,6 +23,7 @@
     },
     "dependencies": {
         "bulma": "^0.7.1",
+        "bulma-ribbon": "^1.0.2",
         "bulma-timeline": "^2.0.3",
         "chart.js": "^2.7.2",
         "vue-chartjs": "^3.3.1",
