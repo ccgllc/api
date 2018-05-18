@@ -15982,6 +15982,7 @@ button.is-menu {
 
 a.is-menu-button {
   color: #343b4d;
+  padding-right: 0;
 }
 
 a.is-menu-button:hover {
@@ -16017,6 +16018,17 @@ a.is-menu-button:hover {
 
 .claim-stat {
   text-align: center;
+}
+
+.claim-stat h3.stat-title {
+  color: #908F8F;
+  font-size: .6em;
+}
+
+.claim-stat .stat {
+  font-size: 2em;
+  font-weight: 700;
+  color: #64C6A3;
 }
 
 @media all and (max-width: 700px) {

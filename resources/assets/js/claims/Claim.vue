@@ -3,12 +3,9 @@
 		<div id="left-side" class="column is-9">
 			<div class="columns">
 				<title-header></title-header>
-				<!-- <gross-loss></gross-loss> -->
 			</div>
 
 			<claim-nav></claim-nav>
-
-			<!-- <hr class="is-hidden-mobile" style="background: #ddd;"> -->
 
 			<claim-map></claim-map>
 

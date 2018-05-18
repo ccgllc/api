@@ -37,16 +37,20 @@
                 <img 
                   src="{{ Auth::user()->avatar->path }}" 
                   alt="{{ Auth::user()->name}}" 
-                  width="30px" height="30px" 
-                  style="border-radius: 1000px; border: 1px solid #ccc; cursor: pointer; margin-right: .5em;">
-                {{ Auth::user()->name }}
+                  height="32px" width="32px"
+                  style="border-radius: 30px; border: 1px solid #ccc; cursor: pointer; margin-right: 1em;"
+                  ><span style="width: 100%;">{{ Auth::user()->name }}</span>
               </a>
               <div class="navbar-dropdown is-right">
                 @if(Auth::user()->applied)<a href="/profile" class="navbar-item">My Profile</a>@endif
                 @if (Auth::user()->hasRole('administrator'))
                 <a href="/dashboard" class="navbar-item">Dashboard</a>
+                <hr class="dropdown-divider">
+                <a href="/claims" class="navbar-item">Claims</a>
+                <hr class="dropdown-divider">
                 <a href="/users" class="navbar-item">Manage Users</a>
                 <a href="/roles" class="navbar-item">Manage Roles</a>
+
                  @endif
                  <hr class="dropdown-divider">
                 <a 

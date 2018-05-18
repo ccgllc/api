@@ -512,10 +512,6 @@ button.is-menu {
 	    font-weight: 700;
 	    margin-left: 2em;
 	}
-	@media screen and (min-width:  1366px) {
-			// font-size: 1em;
-			// width: 33%;
-		}
 }
 .title {
 	font-weight: 300;
@@ -560,34 +556,41 @@ button.is-menu {
 }
 
 a.is-menu-button{
-		color: #343b4d;	
-	}
-	a.is-menu-button:hover{
-		color: #439BD1;
-		background: $light-gray;
-	};
-	.tag .is-delete{
-		padding-right: 5px !important;
-	}
-	.timeline-marker .is-32x32{
-		background: #497da9;
-	}
-	.is-32x32 span.icon{
-		position: relative;
-		top: 2px;
-		left: 2px;
-	}
-	.dl-horizontal dt, .dl-horizontal div dt{
-		font-weight: 700;
-		width: 100%;
-	}
-	.dl-horizontal dd {
-		font-weight: 300;
-		/*float: left;*/
-		width: 100%;
-	}
+	color: #343b4d;	
+	padding-right: 0;
+}
+a.is-menu-button:hover{
+	color: #439BD1;
+	background: $light-gray;
+};
+.tag .is-delete{
+	padding-right: 5px !important;
+}
+.timeline-marker .is-32x32{
+	background: #497da9;
+}
+.is-32x32 span.icon{
+	position: relative;
+	top: 2px;
+	left: 2px;
+}
+.dl-horizontal dt, .dl-horizontal div dt{
+	font-weight: 700;
+	width: 100%;
+}
+.dl-horizontal dd {
+	font-weight: 300;
+	/*float: left;*/
+	width: 100%;
+}
 
 .claim-stat{
+	h3.stat-title {
+		color: #908F8F; font-size: .6em;
+	}
+	.stat {
+		font-size: 2em; font-weight: 700; color:#64C6A3;
+	}
 	text-align: center;
 	@media all and (max-width:700px) {
 		text-align: center;

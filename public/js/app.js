@@ -17698,14 +17698,19 @@ var render = function() {
             attrs: { type: "text", placeholder: "Search claims, users" },
             domProps: { value: _vm.search.query },
             on: {
-              keydown: function($event) {
-                _vm.dynamicSearch($event)
-              },
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
+              input: [
+                function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.search, "query", $event.target.value)
+                },
+                function($event) {
+                  _vm.dynamicSearch($event)
                 }
-                _vm.$set(_vm.search, "query", $event.target.value)
+              ],
+              keydown: function($event) {
+                _vm.detectKeyboardAction($event)
               }
             }
           })
@@ -17731,7 +17736,15 @@ var render = function() {
                     {
                       attrs: { href: "/" + _vm.search.scope + "/" + result.id }
                     },
-                    [_vm._v(_vm._s(result.claim_number || result.name))]
+                    [
+                      _c("strong", [
+                        _vm._v(_vm._s(result.claim_number || result.name))
+                      ]),
+                      _vm._v(" • "),
+                      _c("span", { staticStyle: { overflow: "hidden" } }, [
+                        _vm._v(_vm._s(result.insured))
+                      ])
+                    ]
                   )
                 ]
               )

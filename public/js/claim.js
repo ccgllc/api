@@ -241,9 +241,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
 
 
 
@@ -455,37 +452,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -534,7 +500,7 @@ var render = function() {
                 }
               })
             ]),
-            _vm._v(_vm._s(_vm.claim.claim_number))
+            _vm._v(_vm._s(_vm.claim.claim_number) + "\n\t\t\t\t")
           ]
         ),
         _vm._v(" "),
@@ -624,6 +590,8 @@ var render = function() {
               _vm._v(" "),
               _vm._m(7),
               _vm._v(" "),
+              _vm._m(8),
+              _vm._v(" "),
               _c("div", { staticClass: "column is-hidden-desktop" }, [
                 _c("a", {
                   staticClass: "delete",
@@ -705,146 +673,122 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "column is-half" }, [
-      _c("div", { staticClass: "columns" }, [
-        _c("div", { staticClass: "column" }, [
-          _c("h3", { staticClass: "main-menu-title" }, [_vm._v("Statuses")]),
-          _vm._v(" "),
-          _c("hr", { staticClass: "dropdown-divider" }),
-          _vm._v(" "),
-          _c(
-            "a",
-            {
-              staticClass: "is-menu-button dropdown-item",
-              attrs: { href: "#" }
-            },
-            [
-              _c("span", { staticClass: "icon has-text-info is-small" }, [
-                _c("i", { staticClass: "fa fa-plus-circle" })
-              ]),
-              _vm._v(" In Assign Queue")
-            ]
-          ),
-          _vm._v(" "),
-          _c("hr", { staticClass: "dropdown-divider" }),
-          _vm._v(" "),
-          _c(
-            "a",
-            {
-              staticClass: "is-menu-button dropdown-item",
-              attrs: { href: "#" }
-            },
-            [
-              _c("span", { staticClass: "icon has-text-info is-small" }, [
-                _c("i", { staticClass: "fa fa-user-plus" })
-              ]),
-              _vm._v(" Assignment")
-            ]
-          ),
-          _vm._v(" "),
-          _c("hr", { staticClass: "dropdown-divider" }),
-          _vm._v(" "),
-          _c(
-            "a",
-            {
-              staticClass: "is-menu-button dropdown-item",
-              attrs: { href: "#" }
-            },
-            [
-              _c("span", { staticClass: "icon has-text-info is-small" }, [
-                _c("i", { staticClass: "fa fa-money" })
-              ]),
-              _vm._v(" Submit an Estimate")
-            ]
-          ),
-          _vm._v(" "),
-          _c("hr", { staticClass: "dropdown-divider" }),
-          _vm._v(" "),
-          _c(
-            "a",
-            {
-              staticClass: "is-menu-button dropdown-item",
-              attrs: { href: "#" }
-            },
-            [
-              _c("span", { staticClass: "icon has-text-info is-small" }, [
-                _c("i", { staticClass: "fa fa-usd" })
-              ]),
-              _vm._v(" Issue an Estimate Correction")
-            ]
-          )
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "column" }, [
-          _c("h3", { staticClass: "main-menu-title is-hidden-mobile" }, [
-            _vm._v(" ")
+    return _c("div", { staticClass: "column" }, [
+      _c("h3", { staticClass: "main-menu-title" }, [_vm._v("Statuses")]),
+      _vm._v(" "),
+      _c("hr", { staticClass: "dropdown-divider" }),
+      _vm._v(" "),
+      _c(
+        "a",
+        { staticClass: "is-menu-button dropdown-item", attrs: { href: "#" } },
+        [
+          _c("span", { staticClass: "icon has-text-info is-small" }, [
+            _c("i", { staticClass: "fa fa-plus-circle" })
           ]),
-          _vm._v(" "),
-          _c("hr", { staticClass: "dropdown-divider" }),
-          _vm._v(" "),
-          _c(
-            "a",
-            {
-              staticClass: "is-menu-button dropdown-item",
-              attrs: { href: "#" }
-            },
-            [
-              _c("span", { staticClass: "icon has-text-info is-small" }, [
-                _c("i", { staticClass: "fa fa-mobile" })
-              ]),
-              _vm._v(" Customer Contacted")
-            ]
-          ),
-          _vm._v(" "),
-          _c("hr", { staticClass: "dropdown-divider" }),
-          _vm._v(" "),
-          _c(
-            "a",
-            {
-              staticClass: "is-menu-button dropdown-item",
-              attrs: { href: "#" }
-            },
-            [
-              _c("span", { staticClass: "icon has-text-info is-small" }, [
-                _c("i", { staticClass: "fa fa-search" })
-              ]),
-              _vm._v(" Site Inspected")
-            ]
-          ),
-          _vm._v(" "),
-          _c("hr", { staticClass: "dropdown-divider" }),
-          _vm._v(" "),
-          _c(
-            "a",
-            {
-              staticClass: "is-menu-button dropdown-item",
-              attrs: { href: "#" }
-            },
-            [
-              _c("span", { staticClass: "icon has-text-info is-small" }, [
-                _c("i", { staticClass: "fa fa-times-circle" })
-              ]),
-              _vm._v(" File Closed")
-            ]
-          ),
-          _vm._v(" "),
-          _c("hr", { staticClass: "dropdown-divider" }),
-          _vm._v(" "),
-          _c(
-            "a",
-            {
-              staticClass: "is-menu-button dropdown-item",
-              attrs: { href: "#" }
-            },
-            [
-              _c("span", { staticClass: "icon has-text-info is-small" }, [
-                _c("i", { staticClass: "fa fa-folder-open-o" })
-              ]),
-              _vm._v(" File Reopened")
-            ]
-          )
-        ])
-      ])
+          _vm._v(" In Assign Queue")
+        ]
+      ),
+      _vm._v(" "),
+      _c("hr", { staticClass: "dropdown-divider" }),
+      _vm._v(" "),
+      _c(
+        "a",
+        { staticClass: "is-menu-button dropdown-item", attrs: { href: "#" } },
+        [
+          _c("span", { staticClass: "icon has-text-info is-small" }, [
+            _c("i", { staticClass: "fa fa-user-plus" })
+          ]),
+          _vm._v(" Assignment")
+        ]
+      ),
+      _vm._v(" "),
+      _c("hr", { staticClass: "dropdown-divider" }),
+      _vm._v(" "),
+      _c(
+        "a",
+        { staticClass: "is-menu-button dropdown-item", attrs: { href: "#" } },
+        [
+          _c("span", { staticClass: "icon has-text-info is-small" }, [
+            _c("i", { staticClass: "fa fa-money" })
+          ]),
+          _vm._v(" Submit an Estimate")
+        ]
+      ),
+      _vm._v(" "),
+      _c("hr", { staticClass: "dropdown-divider" }),
+      _vm._v(" "),
+      _c(
+        "a",
+        { staticClass: "is-menu-button dropdown-item", attrs: { href: "#" } },
+        [
+          _c("span", { staticClass: "icon has-text-info is-small" }, [
+            _c("i", { staticClass: "fa fa-usd" })
+          ]),
+          _vm._v(" Issue an Estimate Correction")
+        ]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "column" }, [
+      _c("h3", { staticClass: "main-menu-title is-hidden-mobile" }, [
+        _vm._v(" ")
+      ]),
+      _vm._v(" "),
+      _c("hr", { staticClass: "dropdown-divider" }),
+      _vm._v(" "),
+      _c(
+        "a",
+        { staticClass: "is-menu-button dropdown-item", attrs: { href: "#" } },
+        [
+          _c("span", { staticClass: "icon has-text-info is-small" }, [
+            _c("i", { staticClass: "fa fa-mobile" })
+          ]),
+          _vm._v(" Customer Contacted")
+        ]
+      ),
+      _vm._v(" "),
+      _c("hr", { staticClass: "dropdown-divider" }),
+      _vm._v(" "),
+      _c(
+        "a",
+        { staticClass: "is-menu-button dropdown-item", attrs: { href: "#" } },
+        [
+          _c("span", { staticClass: "icon has-text-info is-small" }, [
+            _c("i", { staticClass: "fa fa-search" })
+          ]),
+          _vm._v(" Site Inspected")
+        ]
+      ),
+      _vm._v(" "),
+      _c("hr", { staticClass: "dropdown-divider" }),
+      _vm._v(" "),
+      _c(
+        "a",
+        { staticClass: "is-menu-button dropdown-item", attrs: { href: "#" } },
+        [
+          _c("span", { staticClass: "icon has-text-info is-small" }, [
+            _c("i", { staticClass: "fa fa-folder-o" })
+          ]),
+          _vm._v(" Close File")
+        ]
+      ),
+      _vm._v(" "),
+      _c("hr", { staticClass: "dropdown-divider" }),
+      _vm._v(" "),
+      _c(
+        "a",
+        { staticClass: "is-menu-button dropdown-item", attrs: { href: "#" } },
+        [
+          _c("span", { staticClass: "icon has-text-info is-small" }, [
+            _c("i", { staticClass: "fa fa-folder-open-o" })
+          ]),
+          _vm._v(" Reopen File")
+        ]
+      )
     ])
   },
   function() {
@@ -900,7 +844,7 @@ var staticRenderFns = [
         { staticClass: "is-menu-button dropdown-item", attrs: { href: "#" } },
         [
           _c("span", { staticClass: "icon has-text-info is-small" }, [
-            _c("i", { staticClass: "fa fa-envelope-o" })
+            _c("i", { staticClass: "fa fa-paper-plane-o" })
           ]),
           _vm._v(" Send Invoice to Carrier")
         ]
@@ -1767,6 +1711,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -1993,12 +1946,87 @@ var render = function() {
                               phone.number
                                 ? _c("span", [
                                     _c("strong", [_vm._v(_vm._s(phone.type))]),
-                                    _vm._v(": " + _vm._s(phone.number))
+                                    _vm._v(": "),
+                                    _c(
+                                      "a",
+                                      {
+                                        attrs: { href: "tel:+" + phone.number }
+                                      },
+                                      [_vm._v(_vm._s(phone.number))]
+                                    )
                                   ])
                                 : _vm._e()
                             ])
                           }
                         )
+                      ],
+                      2
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.claim.claim_data.deskAdjuster
+                  ? _c(
+                      "div",
+                      [
+                        _vm.claim.claim_data.deskAdjuster.name
+                          ? _c(
+                              "h3",
+                              {
+                                staticClass: "subtitle",
+                                staticStyle: {
+                                  color: "#aaa",
+                                  "font-size": ".8em"
+                                }
+                              },
+                              [_vm._v("Desk Adjuster")]
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _c(
+                          "h2",
+                          {
+                            staticClass: "title",
+                            staticStyle: { "font-size": "2rem" }
+                          },
+                          [
+                            _vm._v(
+                              _vm._s(_vm.claim.claim_data.deskAdjuster.name)
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _vm._l(
+                          _vm.claim.claim_data.deskAdjuster.phoneNumbers,
+                          function(phone) {
+                            return _c("p", [
+                              phone.number
+                                ? _c("span", [
+                                    _c("strong", [_vm._v(_vm._s(phone.type))]),
+                                    _vm._v(": "),
+                                    _c(
+                                      "a",
+                                      {
+                                        attrs: { href: "tel:+" + phone.number }
+                                      },
+                                      [_vm._v(_vm._s(phone.number))]
+                                    )
+                                  ])
+                                : _vm._e()
+                            ])
+                          }
+                        ),
+                        _vm._v(" "),
+                        _vm.claim.claim_data.deskAdjuster.email
+                          ? _c("p", [
+                              _c("strong", [_vm._v("Email")]),
+                              _vm._v(
+                                ": " +
+                                  _vm._s(
+                                    _vm.claim.claim_data.deskAdjuster.email
+                                  )
+                              )
+                            ])
+                          : _vm._e()
                       ],
                       2
                     )
@@ -3399,55 +3427,27 @@ var render = function() {
     _c("div", { staticClass: "column is-hidden-desktop is-12" }, [
       _c("div", { staticClass: "card" }, [
         _c("div", { staticClass: "card-content claim-stat" }, [
-          _c(
-            "h3",
-            {
-              staticClass: "subtitle",
-              staticStyle: { color: "#908F8F", "font-size": ".75em" }
-            },
-            [_vm._v("Gross Loss Amount")]
-          ),
+          _c("h3", { staticClass: "subtitle stat-title" }, [
+            _vm._v("Gross Loss Amount")
+          ]),
           _vm._v(" "),
-          _c(
-            "h1",
-            {
-              staticClass: "title has-text-info",
-              staticStyle: {
-                "font-size": "2em",
-                "font-weight": "700",
-                color: "#64C6A3"
-              }
-            },
-            [_vm._v("$" + _vm._s(_vm.claim.gross_loss))]
-          )
+          _c("h1", { staticClass: "title stat has-text-info" }, [
+            _vm._v("$" + _vm._s(_vm.claim.gross_loss))
+          ])
         ])
       ])
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "column is-hidden-mobile" }, [
+    _c("div", { staticClass: "column is-one-third is-hidden-mobile" }, [
       _c("div", { staticClass: "card" }, [
         _c("div", { staticClass: "card-content claim-stat" }, [
-          _c(
-            "h3",
-            {
-              staticClass: "subtitle",
-              staticStyle: { color: "#908F8F", "font-size": ".75em" }
-            },
-            [_vm._v("Gross Loss Amount")]
-          ),
+          _c("h3", { staticClass: "subtitle stat-title" }, [
+            _vm._v("Gross Loss Amount")
+          ]),
           _vm._v(" "),
-          _c(
-            "h1",
-            {
-              staticClass: "title has-text-info",
-              staticStyle: {
-                "font-size": "2em",
-                "font-weight": "700",
-                color: "#64C6A3"
-              }
-            },
-            [_vm._v("$" + _vm._s(_vm.claim.gross_loss))]
-          )
+          _c("h1", { staticClass: "title stat has-text-info" }, [
+            _vm._v("$" + _vm._s(_vm.claim.gross_loss))
+          ])
         ])
       ])
     ]),
@@ -3455,27 +3455,13 @@ var render = function() {
     _c("div", { staticClass: "column is-half-mobile" }, [
       _c("div", { staticClass: "card" }, [
         _c("div", { staticClass: "card-content claim-stat" }, [
-          _c(
-            "h3",
-            {
-              staticClass: "subtitle",
-              staticStyle: { color: "#908F8F", "font-size": ".75em" }
-            },
-            [_vm._v("Days Open")]
-          ),
+          _c("h3", { staticClass: "subtitle stat-title" }, [
+            _vm._v("Days Open")
+          ]),
           _vm._v(" "),
-          _c(
-            "h1",
-            {
-              staticClass: "title has-text-grey",
-              staticStyle: {
-                "font-size": "2em",
-                "font-weight": "700",
-                color: "#64C6A3"
-              }
-            },
-            [_vm._v(_vm._s("7"))]
-          )
+          _c("h1", { staticClass: "title stat has-text-grey" }, [
+            _vm._v(_vm._s("∞"))
+          ])
         ])
       ])
     ]),
@@ -3483,27 +3469,13 @@ var render = function() {
     _c("div", { staticClass: "column is-half-mobile" }, [
       _c("div", { staticClass: "card" }, [
         _c("div", { staticClass: "card-content claim-stat" }, [
-          _c(
-            "h3",
-            {
-              staticClass: "subtitle",
-              staticStyle: { color: "#908F8F", "font-size": ".75em" }
-            },
-            [_vm._v("Days To Contact")]
-          ),
+          _c("h3", { staticClass: "subtitle stat-title" }, [
+            _vm._v("Days To Contact")
+          ]),
           _vm._v(" "),
-          _c(
-            "h1",
-            {
-              staticClass: "title has-text-grey",
-              staticStyle: {
-                "font-size": "2em",
-                "font-weight": "700",
-                color: "#64C6A3"
-              }
-            },
-            [_vm._v(_vm._s("2"))]
-          )
+          _c("h1", { staticClass: "title stat has-text-grey" }, [
+            _vm._v(_vm._s("2"))
+          ])
         ])
       ])
     ]),
@@ -3511,27 +3483,13 @@ var render = function() {
     _c("div", { staticClass: "column is-half-mobile" }, [
       _c("div", { staticClass: "card" }, [
         _c("div", { staticClass: "card-content claim-stat" }, [
-          _c(
-            "h3",
-            {
-              staticClass: "subtitle",
-              staticStyle: { color: "#908F8F", "font-size": ".75em" }
-            },
-            [_vm._v("Days To Inspection")]
-          ),
+          _c("h3", { staticClass: "subtitle stat-title" }, [
+            _vm._v("Days To Inspection")
+          ]),
           _vm._v(" "),
-          _c(
-            "h1",
-            {
-              staticClass: "title has-text-grey",
-              staticStyle: {
-                "font-size": "2em",
-                "font-weight": "700",
-                color: "#64C6A3"
-              }
-            },
-            [_vm._v(_vm._s("4"))]
-          )
+          _c("h1", { staticClass: "title stat has-text-grey" }, [
+            _vm._v(_vm._s("4"))
+          ])
         ])
       ])
     ]),
@@ -3539,27 +3497,13 @@ var render = function() {
     _c("div", { staticClass: "column is-half-mobile" }, [
       _c("div", { staticClass: "card" }, [
         _c("div", { staticClass: "card-content claim-stat" }, [
-          _c(
-            "h3",
-            {
-              staticClass: "subtitle",
-              staticStyle: { color: "#908F8F", "font-size": ".75em" }
-            },
-            [_vm._v("Days to Estimate")]
-          ),
+          _c("h3", { staticClass: "subtitle stat-title" }, [
+            _vm._v("Days to Estimate")
+          ]),
           _vm._v(" "),
-          _c(
-            "h1",
-            {
-              staticClass: "title has-text-grey",
-              staticStyle: {
-                "font-size": "2em",
-                "font-weight": "700",
-                color: "#64C6A3"
-              }
-            },
-            [_vm._v(_vm._s("5"))]
-          )
+          _c("h1", { staticClass: "title stat has-text-grey" }, [
+            _vm._v(_vm._s("5"))
+          ])
         ])
       ])
     ])

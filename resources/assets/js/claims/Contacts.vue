@@ -45,7 +45,16 @@
 									<!-- <dt>Name:</dt> -->
 									<h2 class="title" style="font-size: 2rem;">{{ claim.claim_data.claimant.name }}</h2>
 									<p v-for="phone in claim.claim_data.claimant.phoneNumbers">
-										<span v-if="phone.number"><strong>{{ phone.type }}</strong>: {{ phone.number }}</span></p>
+										<span v-if="phone.number"><strong>{{ phone.type }}</strong>: <a :href="'tel:+' + phone.number">{{ phone.number }}</a></span></p>
+			    				</div>
+
+			    				<div v-if="claim.claim_data.deskAdjuster">
+									<h3 class="subtitle" style="color: #aaa; font-size: .8em;" v-if="claim.claim_data.deskAdjuster.name">Desk Adjuster</h3>
+									<!-- <dt>Name:</dt> -->
+									<h2 class="title" style="font-size: 2rem;">{{ claim.claim_data.deskAdjuster.name }}</h2>
+									<p v-for="phone in claim.claim_data.deskAdjuster.phoneNumbers">
+										<span v-if="phone.number"><strong>{{ phone.type }}</strong>: <a :href="'tel:+' + phone.number">{{ phone.number }}</a></span></p>
+										<p v-if="claim.claim_data.deskAdjuster.email"><strong>Email</strong>: {{ claim.claim_data.deskAdjuster.email }}</p>
 			    				</div>
 							</div>
 						</div><!-- end columns -->

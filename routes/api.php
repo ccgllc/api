@@ -64,6 +64,7 @@ Route::post('search', function(Request $request){
 		return CCG\User::with('roles')->where('name', 'like', "%$query%")->exclude('api_token')->take(10)->get();
 	}
 	
-	return CCG\Claims\Claim::where('claim_number', 'like', "%$query%")->take(10)->get();
+	return CCG\Claims\Claim::where('claim_number', 'like', "%$query%")
+							->orWhere('insured', 'like', "%$query%")->take(10)->get();
 	
 });
