@@ -5,14 +5,20 @@
 			  <ul>
 			    <li class="is-active">
 			      <a>
-			        <span class="icon is-small"><i class="fa fa-home" aria-hidden="true"></i></span>
-			        <span>Claim Information</span>
+			        <span class="icon is-small"><i class="fa fa-map-marker" aria-hidden="true"></i></span>
+			        <span>Claim Data</span>
 			      </a>
 			    </li>
 			    <li>
 			      <a>
-			        <span class="icon is-small"><i class="fa fa-list" aria-hidden="true"></i></span>
+			        <span class="icon is-small"><i class="fa fa-calculator" aria-hidden="true"></i></span>
 			        <span>Billing</span>
+			      </a>
+			    </li>
+			     <li>
+			      <a>
+			        <span class="icon is-small"><i class="fa fa-file-text-o" aria-hidden="true"></i></span>
+			        <span>Notes</span>
 			      </a>
 			    </li>
 			  </ul>

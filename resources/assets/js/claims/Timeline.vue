@@ -8,7 +8,7 @@
 
 				<div class="dropdown is-down is-hoverable">
 				  <div class="dropdown-trigger">
-				    <button class="button is-dark is-rounded" aria-haspopup="true" aria-controls="statuses">
+				    <button class="button is-rounded" aria-haspopup="true" aria-controls="statuses">
 				      <span>Update Status</span>
 				      <span class="icon is-small">
 				        <i class="fa fa-angle-down" aria-hidden="true"></i>

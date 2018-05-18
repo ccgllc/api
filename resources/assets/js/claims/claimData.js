@@ -1,6 +1,7 @@
 import statuses from './data/statuses.js'
 export default {
 	active: false,
+	locked: false,
 	claimId: '',
 	claim: {},
 	user: {},

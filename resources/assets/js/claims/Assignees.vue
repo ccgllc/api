@@ -15,8 +15,8 @@
     				<i class="fa fa-11x fa-user-circle-o"></i>
     			</span>
     		</a>
-    		<h3 v-text="user.name" style="color: #439BD1; overflow:hidden; font-weight: 700;"></h3>
-    		<h4 style="color: #bbb; font-size: 1em; margin-top: -.25em;">Adjuster</h4>
+    		<h3 v-text="user.name" style="color: #aaa; overflow:hidden;"></h3>
+    		<h4 style="color: #bbb; font-size: 1em; color: #439BD1; margin-top: -.25em; font-weight: 700;">Adjuster</h4>
 		</div><!--  end column -->
 		 <div class="column is-half">
 			<a :href="'/profile/' + reviewer.id + '#'">
@@ -32,8 +32,8 @@
     				<i class="fa fa-11x fa-user-circle-o"></i>
     			</span>
     		</a>
-			<h3 v-text="reviewer.name" style="color: #64C6A3; overflow:hidden; font-weight: 700;"></h3> 
-			<div style="color: #bbb; font-size: 1em; margin-top: -.25em;">Reviewer</div>
+			<h3 v-text="reviewer.name" style="color: #aaa; overflow:hidden;"></h3> 
+			<div style="color: #bbb; font-size: 1em; color: #64C6A3; margin-top: -.25em; font-weight: 700;">Reviewer</div>
 		</div><!--  end column -->	
 	</div>
 </template>

@@ -198,8 +198,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ClaimNavigation_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__ClaimNavigation_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Map_vue__ = __webpack_require__(377);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Map_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__Map_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__GrossLoss_vue__ = __webpack_require__(380);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__GrossLoss_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__GrossLoss_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ClaimStats_vue__ = __webpack_require__(407);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ClaimStats_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__ClaimStats_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Tags_vue__ = __webpack_require__(383);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Tags_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__Tags_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Contacts_vue__ = __webpack_require__(386);
@@ -212,6 +212,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__Assignees_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__Assignees_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__Timeline_vue__ = __webpack_require__(398);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__Timeline_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10__Timeline_vue__);
+//
+//
 //
 //
 //
@@ -260,7 +262,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		titleHeader: __WEBPACK_IMPORTED_MODULE_1__TitleHeader_vue___default.a,
 		claimNav: __WEBPACK_IMPORTED_MODULE_2__ClaimNavigation_vue___default.a,
 		claimMap: __WEBPACK_IMPORTED_MODULE_3__Map_vue___default.a,
-		grossLoss: __WEBPACK_IMPORTED_MODULE_4__GrossLoss_vue___default.a,
+		claimStats: __WEBPACK_IMPORTED_MODULE_4__ClaimStats_vue___default.a,
 		tags: __WEBPACK_IMPORTED_MODULE_5__Tags_vue___default.a,
 		contacts: __WEBPACK_IMPORTED_MODULE_6__Contacts_vue___default.a,
 		description: __WEBPACK_IMPORTED_MODULE_7__Description_vue___default.a,
@@ -346,6 +348,8 @@ module.exports = Component.exports
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__claimData_js__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__GrossLoss_vue__ = __webpack_require__(380);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__GrossLoss_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__GrossLoss_vue__);
 //
 //
 //
@@ -390,12 +394,114 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	name: 'Title',
+	components: {
+		grossLoss: __WEBPACK_IMPORTED_MODULE_1__GrossLoss_vue___default.a
+	},
 	data: function data() {
 		return __WEBPACK_IMPORTED_MODULE_0__claimData_js__["a" /* default */];
+	},
+
+	methods: {
+		scrollTop: function scrollTop() {
+			window.scrollTo(0, 0);
+		}
 	}
 });
 
@@ -408,14 +514,29 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "column is-three-quarters" }, [
+  return _c("div", { staticClass: "column" }, [
     _c("span", { staticClass: "is-hidden-mobile" }, [
       _vm._m(0),
       _vm._v(" "),
       _c("h1", { staticClass: "title is-hidden-tablet-only" }, [
-        _c("span", { staticClass: "claim-number" }, [
-          _vm._v(_vm._s(_vm.claim.claim_number))
-        ]),
+        _c(
+          "span",
+          { staticClass: "claim-number", attrs: { "data-badge": "2" } },
+          [
+            _c("span", { staticClass: "icon is-large" }, [
+              _c("i", {
+                staticClass: "fa fa-1x is-lock has-text-grey",
+                class: { "fa-lock": _vm.locked, "fa-unlock-alt": !_vm.locked },
+                on: {
+                  click: function($event) {
+                    _vm.locked = !_vm.locked
+                  }
+                }
+              })
+            ]),
+            _vm._v(_vm._s(_vm.claim.claim_number))
+          ]
+        ),
         _vm._v(" "),
         _c(
           "span",
@@ -451,15 +572,89 @@ var render = function() {
       "div",
       {
         staticClass: "dropdown",
-        class: { "is-active": _vm.active },
         on: {
           click: function($event) {
             _vm.active = !_vm.active
           }
         }
       },
-      [_vm._m(2), _vm._v(" "), _vm._m(3)]
-    )
+      [
+        _c(
+          "button",
+          {
+            staticClass: "button is-menu is-rounded is-grey",
+            class: { "is-info": !_vm.active },
+            staticStyle: { "margin-top": ".5rem" },
+            attrs: { "aria-haspopup": "true", "aria-controls": "menu" }
+          },
+          [
+            !_vm.active
+              ? _c("span", [_vm._m(2), _vm._v(" "), _vm._m(3)])
+              : _c("span", [
+                  _vm._m(4),
+                  _vm._v(" "),
+                  _c(
+                    "span",
+                    {
+                      staticStyle: {
+                        "font-weight": "700",
+                        "font-size": ".75em",
+                        position: "relative",
+                        top: "-1px",
+                        left: "-4px"
+                      }
+                    },
+                    [_vm._v("\n      \t\t\t\tclose\n      \t\t\t")]
+                  )
+                ])
+          ]
+        )
+      ]
+    ),
+    _vm._v(" "),
+    _vm.active
+      ? _c(
+          "div",
+          { staticClass: "main-menu", attrs: { id: "menu", role: "menu" } },
+          [
+            _c("div", { staticClass: "columns" }, [
+              _vm._m(5),
+              _vm._v(" "),
+              _vm._m(6),
+              _vm._v(" "),
+              _vm._m(7),
+              _vm._v(" "),
+              _c("div", { staticClass: "column is-hidden-desktop" }, [
+                _c("a", {
+                  staticClass: "delete",
+                  on: {
+                    click: function($event) {
+                      _vm.active = !_vm.active
+                      _vm.scrollTop()
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c("small", [
+                  _c(
+                    "span",
+                    {
+                      staticStyle: { cursor: "pointer" },
+                      on: {
+                        click: function($event) {
+                          _vm.active = !_vm.active
+                          _vm.scrollTop()
+                        }
+                      }
+                    },
+                    [_vm._v("close menu")]
+                  )
+                ])
+              ])
+            ])
+          ]
+        )
+      : _vm._e()
   ])
 }
 var staticRenderFns = [
@@ -483,40 +678,40 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "dropdown-trigger" }, [
-      _c(
-        "button",
-        {
-          staticClass: "button is-rounded is-info",
-          staticStyle: { "margin-top": ".5rem" },
-          attrs: { "aria-haspopup": "true", "aria-controls": "dropdown-menu" }
-        },
-        [
-          _c("span", [_vm._v("  I need to ...  ")]),
-          _vm._v(" "),
-          _c("span", { staticClass: "icon is-small" }, [
-            _c("i", {
-              staticClass: "fa fa-angle-down",
-              attrs: { "aria-hidden": "true" }
-            })
-          ])
-        ]
-      )
+    return _c("span", { staticClass: "icon is-small" }, [
+      _c("i", { staticClass: "fa fa-bars", attrs: { "aria-hidden": "true" } })
     ])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass: "dropdown-menu",
-        staticStyle: { "border-radius": "56px" },
-        attrs: { id: "dropdown-menu", role: "menu" }
-      },
-      [
-        _c("div", { staticClass: "dropdown-content" }, [
+    return _c("span", { staticClass: "icon is-small" }, [
+      _c("i", {
+        staticClass: "fa fa-chevron-circle-down",
+        attrs: { "aria-hidden": "true" }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "icon is-small" }, [
+      _c("i", { staticClass: "fa fa-times", attrs: { "aria-hidden": "true" } })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "column is-half" }, [
+      _c("div", { staticClass: "columns" }, [
+        _c("div", { staticClass: "column" }, [
+          _c("h3", { staticClass: "main-menu-title" }, [_vm._v("Statuses")]),
+          _vm._v(" "),
+          _c("hr", { staticClass: "dropdown-divider" }),
+          _vm._v(" "),
           _c(
             "a",
             {
@@ -527,9 +722,11 @@ var staticRenderFns = [
               _c("span", { staticClass: "icon has-text-info is-small" }, [
                 _c("i", { staticClass: "fa fa-plus-circle" })
               ]),
-              _vm._v(" Create an Invoice")
+              _vm._v(" In Assign Queue")
             ]
           ),
+          _vm._v(" "),
+          _c("hr", { staticClass: "dropdown-divider" }),
           _vm._v(" "),
           _c(
             "a",
@@ -539,9 +736,9 @@ var staticRenderFns = [
             },
             [
               _c("span", { staticClass: "icon has-text-info is-small" }, [
-                _c("i", { staticClass: "fa fa-credit-card" })
+                _c("i", { staticClass: "fa fa-user-plus" })
               ]),
-              _vm._v(" Add Adjuster Expenses")
+              _vm._v(" Assignment")
             ]
           ),
           _vm._v(" "),
@@ -571,14 +768,204 @@ var staticRenderFns = [
             },
             [
               _c("span", { staticClass: "icon has-text-info is-small" }, [
-                _c("i", { staticClass: "fa fa-envelope-o" })
+                _c("i", { staticClass: "fa fa-usd" })
               ]),
-              _vm._v(" Send Invoice to Carrier")
+              _vm._v(" Issue an Estimate Correction")
+            ]
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "column" }, [
+          _c("h3", { staticClass: "main-menu-title is-hidden-mobile" }, [
+            _vm._v(" ")
+          ]),
+          _vm._v(" "),
+          _c("hr", { staticClass: "dropdown-divider" }),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass: "is-menu-button dropdown-item",
+              attrs: { href: "#" }
+            },
+            [
+              _c("span", { staticClass: "icon has-text-info is-small" }, [
+                _c("i", { staticClass: "fa fa-mobile" })
+              ]),
+              _vm._v(" Customer Contacted")
+            ]
+          ),
+          _vm._v(" "),
+          _c("hr", { staticClass: "dropdown-divider" }),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass: "is-menu-button dropdown-item",
+              attrs: { href: "#" }
+            },
+            [
+              _c("span", { staticClass: "icon has-text-info is-small" }, [
+                _c("i", { staticClass: "fa fa-search" })
+              ]),
+              _vm._v(" Site Inspected")
+            ]
+          ),
+          _vm._v(" "),
+          _c("hr", { staticClass: "dropdown-divider" }),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass: "is-menu-button dropdown-item",
+              attrs: { href: "#" }
+            },
+            [
+              _c("span", { staticClass: "icon has-text-info is-small" }, [
+                _c("i", { staticClass: "fa fa-times-circle" })
+              ]),
+              _vm._v(" File Closed")
+            ]
+          ),
+          _vm._v(" "),
+          _c("hr", { staticClass: "dropdown-divider" }),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass: "is-menu-button dropdown-item",
+              attrs: { href: "#" }
+            },
+            [
+              _c("span", { staticClass: "icon has-text-info is-small" }, [
+                _c("i", { staticClass: "fa fa-folder-open-o" })
+              ]),
+              _vm._v(" File Reopened")
             ]
           )
         ])
-      ]
-    )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "column" }, [
+      _c("h3", { staticClass: "main-menu-title" }, [_vm._v("Billing")]),
+      _vm._v(" "),
+      _c("hr", { staticClass: "dropdown-divider" }),
+      _vm._v(" "),
+      _c(
+        "a",
+        { staticClass: "is-menu-button dropdown-item", attrs: { href: "#" } },
+        [
+          _c("span", { staticClass: "icon has-text-info is-small" }, [
+            _c("i", { staticClass: "fa fa-plus-circle" })
+          ]),
+          _vm._v(" Create an Invoice")
+        ]
+      ),
+      _vm._v(" "),
+      _c("hr", { staticClass: "dropdown-divider" }),
+      _vm._v(" "),
+      _c(
+        "a",
+        { staticClass: "is-menu-button dropdown-item", attrs: { href: "#" } },
+        [
+          _c("span", { staticClass: "icon has-text-info is-small" }, [
+            _c("i", { staticClass: "fa fa-credit-card" })
+          ]),
+          _vm._v(" Add Adjuster Expenses")
+        ]
+      ),
+      _vm._v(" "),
+      _c("hr", { staticClass: "dropdown-divider" }),
+      _vm._v(" "),
+      _c(
+        "a",
+        { staticClass: "is-menu-button dropdown-item", attrs: { href: "#" } },
+        [
+          _c("span", { staticClass: "icon has-text-info is-small" }, [
+            _c("i", { staticClass: "fa fa-file-pdf-o" })
+          ]),
+          _vm._v(" Preview Invoice")
+        ]
+      ),
+      _vm._v(" "),
+      _c("hr", { staticClass: "dropdown-divider" }),
+      _vm._v(" "),
+      _c(
+        "a",
+        { staticClass: "is-menu-button dropdown-item", attrs: { href: "#" } },
+        [
+          _c("span", { staticClass: "icon has-text-info is-small" }, [
+            _c("i", { staticClass: "fa fa-envelope-o" })
+          ]),
+          _vm._v(" Send Invoice to Carrier")
+        ]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "column" }, [
+      _c("h3", { staticClass: "main-menu-title" }, [_vm._v("Communication")]),
+      _vm._v(" "),
+      _c("hr", { staticClass: "dropdown-divider" }),
+      _vm._v(" "),
+      _c(
+        "a",
+        { staticClass: "is-menu-button dropdown-item", attrs: { href: "#" } },
+        [
+          _c("span", { staticClass: "icon has-text-info is-small" }, [
+            _c("i", { staticClass: "fa fa-comments-o" })
+          ]),
+          _vm._v(" Message Reviewer")
+        ]
+      ),
+      _vm._v(" "),
+      _c("hr", { staticClass: "dropdown-divider" }),
+      _vm._v(" "),
+      _c(
+        "a",
+        { staticClass: "is-menu-button dropdown-item", attrs: { href: "#" } },
+        [
+          _c("span", { staticClass: "icon has-text-info is-small" }, [
+            _c("i", { staticClass: "fa fa-comment-o" })
+          ]),
+          _vm._v(" Message Dispatch")
+        ]
+      ),
+      _vm._v(" "),
+      _c("hr", { staticClass: "dropdown-divider" }),
+      _vm._v(" "),
+      _c(
+        "a",
+        { staticClass: "is-menu-button dropdown-item", attrs: { href: "#" } },
+        [
+          _c("span", { staticClass: "icon has-text-info is-small" }, [
+            _c("i", { staticClass: "fa fa-user-times" })
+          ]),
+          _vm._v(" Request Reassignment")
+        ]
+      ),
+      _vm._v(" "),
+      _c("hr", { staticClass: "dropdown-divider" }),
+      _vm._v(" "),
+      _c(
+        "a",
+        { staticClass: "is-menu-button dropdown-item", attrs: { href: "#" } },
+        [
+          _c("span", { staticClass: "icon has-text-info is-small" }, [
+            _c("i", { staticClass: "fa fa-map-marker" })
+          ]),
+          _vm._v(" Send Location Data (sms) ")
+        ]
+      )
+    ])
   }
 ]
 render._withStripped = true
@@ -669,6 +1056,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -702,12 +1095,12 @@ var staticRenderFns = [
               _c("a", [
                 _c("span", { staticClass: "icon is-small" }, [
                   _c("i", {
-                    staticClass: "fa fa-home",
+                    staticClass: "fa fa-map-marker",
                     attrs: { "aria-hidden": "true" }
                   })
                 ]),
                 _vm._v(" "),
-                _c("span", [_vm._v("Claim Information")])
+                _c("span", [_vm._v("Claim Data")])
               ])
             ]),
             _vm._v(" "),
@@ -715,12 +1108,25 @@ var staticRenderFns = [
               _c("a", [
                 _c("span", { staticClass: "icon is-small" }, [
                   _c("i", {
-                    staticClass: "fa fa-list",
+                    staticClass: "fa fa-calculator",
                     attrs: { "aria-hidden": "true" }
                   })
                 ]),
                 _vm._v(" "),
                 _c("span", [_vm._v("Billing")])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("li", [
+              _c("a", [
+                _c("span", { staticClass: "icon is-small" }, [
+                  _c("i", {
+                    staticClass: "fa fa-file-text-o",
+                    attrs: { "aria-hidden": "true" }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("span", [_vm._v("Notes")])
               ])
             ])
           ])
@@ -940,6 +1346,39 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -958,56 +1397,116 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "column gross-loss" }, [
-    _c("div", { staticClass: "card has-ribbon has-ribbon-left" }, [
-      _c("div", { staticClass: "card-content" }, [
-        _c(
-          "h3",
-          {
-            staticClass: "subtitle",
-            staticStyle: { color: "#908F8F", "font-size": ".8em" }
-          },
-          [_vm._v("Gross Loss Amount")]
-        ),
-        _vm._v(" "),
-        _c(
-          "h1",
-          {
-            staticClass: "title",
-            staticStyle: {
-              "font-size": "2em",
-              "font-weight": "700",
-              color: "#64C6A3"
-            }
-          },
-          [_vm._v("$" + _vm._s(_vm.claim.gross_loss))]
-        ),
-        _vm._v(" "),
-        _c("hr", { staticStyle: { background: "#ddd" } }),
-        _vm._v(" "),
-        _c(
-          "a",
-          {
-            staticClass: "is-link is-small",
-            staticStyle: { "font-size": ".85em" },
-            attrs: { href: "#" }
-          },
-          [_vm._v("Issue Correction")]
-        ),
-        _vm._v(" "),
-        _c("span", { staticClass: "icon", staticStyle: { color: "#ccc" } }, [
-          _vm._v("•")
-        ]),
-        _vm._v(" "),
-        _c(
-          "a",
-          {
-            staticClass: "is-link is-small",
-            staticStyle: { "font-size": ".85em" },
-            attrs: { href: "#" }
-          },
-          [_vm._v("Billing")]
-        )
+  return _c("div", { staticClass: "columns" }, [
+    _c("div", { staticClass: "column gross-loss" }, [
+      _c("div", { staticClass: "card has-ribbon has-ribbon-left" }, [
+        _c("div", { staticClass: "card-content" }, [
+          _c(
+            "h3",
+            {
+              staticClass: "subtitle",
+              staticStyle: { color: "#908F8F", "font-size": ".8em" }
+            },
+            [_vm._v("Gross Loss Amount")]
+          ),
+          _vm._v(" "),
+          _c(
+            "h1",
+            {
+              staticClass: "title has-text-info",
+              staticStyle: {
+                "font-size": "2em",
+                "font-weight": "700",
+                color: "#64C6A3"
+              }
+            },
+            [_vm._v("$" + _vm._s(_vm.claim.gross_loss))]
+          )
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "column gross-loss" }, [
+      _c("div", { staticClass: "card has-ribbon has-ribbon-left" }, [
+        _c("div", { staticClass: "card-content" }, [
+          _c(
+            "h3",
+            {
+              staticClass: "subtitle",
+              staticStyle: { color: "#908F8F", "font-size": ".8em" }
+            },
+            [_vm._v("Days Open")]
+          ),
+          _vm._v(" "),
+          _c(
+            "h1",
+            {
+              staticClass: "title has-text-dark",
+              staticStyle: {
+                "font-size": "2em",
+                "font-weight": "700",
+                color: "#64C6A3"
+              }
+            },
+            [_vm._v(_vm._s("7"))]
+          )
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "column gross-loss" }, [
+      _c("div", { staticClass: "card has-ribbon has-ribbon-left" }, [
+        _c("div", { staticClass: "card-content" }, [
+          _c(
+            "h3",
+            {
+              staticClass: "subtitle",
+              staticStyle: { color: "#908F8F", "font-size": ".8em" }
+            },
+            [_vm._v("Invoices")]
+          ),
+          _vm._v(" "),
+          _c(
+            "h1",
+            {
+              staticClass: "title has-text-dark",
+              staticStyle: {
+                "font-size": "2em",
+                "font-weight": "700",
+                color: "#64C6A3"
+              }
+            },
+            [_vm._v(_vm._s("1"))]
+          )
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "column gross-loss" }, [
+      _c("div", { staticClass: "card has-ribbon has-ribbon-left" }, [
+        _c("div", { staticClass: "card-content" }, [
+          _c(
+            "h3",
+            {
+              staticClass: "subtitle",
+              staticStyle: { color: "#908F8F", "font-size": ".8em" }
+            },
+            [_vm._v("Notes")]
+          ),
+          _vm._v(" "),
+          _c(
+            "h1",
+            {
+              staticClass: "title has-text-dark",
+              staticStyle: {
+                "font-size": "2em",
+                "font-weight": "700",
+                color: "#64C6A3"
+              }
+            },
+            [_vm._v(_vm._s("0"))]
+          )
+        ])
       ])
     ])
   ])
@@ -2178,11 +2677,7 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("h3", {
-          staticStyle: {
-            color: "#439BD1",
-            overflow: "hidden",
-            "font-weight": "700"
-          },
+          staticStyle: { color: "#aaa", overflow: "hidden" },
           domProps: { textContent: _vm._s(_vm.user.name) }
         }),
         _vm._v(" "),
@@ -2190,9 +2685,10 @@ var render = function() {
           "h4",
           {
             staticStyle: {
-              color: "#bbb",
+              color: "#439BD1",
               "font-size": "1em",
-              "margin-top": "-.25em"
+              "margin-top": "-.25em",
+              "font-weight": "700"
             }
           },
           [_vm._v("Adjuster")]
@@ -2221,11 +2717,7 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("h3", {
-          staticStyle: {
-            color: "#64C6A3",
-            overflow: "hidden",
-            "font-weight": "700"
-          },
+          staticStyle: { color: "#aaa", overflow: "hidden" },
           domProps: { textContent: _vm._s(_vm.reviewer.name) }
         }),
         _vm._v(" "),
@@ -2233,9 +2725,10 @@ var render = function() {
           "div",
           {
             staticStyle: {
-              color: "#bbb",
+              color: "#64C6A3",
               "font-size": "1em",
-              "margin-top": "-.25em"
+              "margin-top": "-.25em",
+              "font-weight": "700"
             }
           },
           [_vm._v("Reviewer")]
@@ -2608,7 +3101,7 @@ var staticRenderFns = [
       _c(
         "button",
         {
-          staticClass: "button is-dark is-rounded",
+          staticClass: "button is-rounded",
           attrs: { "aria-haspopup": "true", "aria-controls": "statuses" }
         },
         [
@@ -2720,21 +3213,15 @@ var render = function() {
       "div",
       { staticClass: "column is-9", attrs: { id: "left-side" } },
       [
-        _c(
-          "div",
-          { staticClass: "columns" },
-          [_c("title-header"), _vm._v(" "), _c("gross-loss")],
-          1
-        ),
+        _c("div", { staticClass: "columns" }, [_c("title-header")], 1),
         _vm._v(" "),
-        _c("hr", {
-          staticClass: "is-hidden-mobile",
-          staticStyle: { background: "#ddd" }
-        }),
+        _c("claim-nav"),
         _vm._v(" "),
         _c("claim-map"),
         _vm._v(" "),
         _c("tags"),
+        _vm._v(" "),
+        _c("claim-stats"),
         _vm._v(" "),
         _c("contacts"),
         _vm._v(" "),
@@ -2765,6 +3252,331 @@ if (false) {
 
 /***/ }),
 
+/***/ 407:
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(408)
+/* template */
+var __vue_template__ = __webpack_require__(409)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/claims/ClaimStats.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-13e215f9", Component.options)
+  } else {
+    hotAPI.reload("data-v-13e215f9", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 408:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__claimData_js__ = __webpack_require__(8);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	name: 'GrossLoss',
+	data: function data() {
+		return __WEBPACK_IMPORTED_MODULE_0__claimData_js__["a" /* default */];
+	}
+});
+
+/***/ }),
+
+/***/ 409:
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "columns is-multiline is-mobile" }, [
+    _c("div", { staticClass: "column is-hidden-desktop is-12" }, [
+      _c("div", { staticClass: "card" }, [
+        _c("div", { staticClass: "card-content claim-stat" }, [
+          _c(
+            "h3",
+            {
+              staticClass: "subtitle",
+              staticStyle: { color: "#908F8F", "font-size": ".75em" }
+            },
+            [_vm._v("Gross Loss Amount")]
+          ),
+          _vm._v(" "),
+          _c(
+            "h1",
+            {
+              staticClass: "title has-text-info",
+              staticStyle: {
+                "font-size": "2em",
+                "font-weight": "700",
+                color: "#64C6A3"
+              }
+            },
+            [_vm._v("$" + _vm._s(_vm.claim.gross_loss))]
+          )
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "column is-hidden-mobile" }, [
+      _c("div", { staticClass: "card" }, [
+        _c("div", { staticClass: "card-content claim-stat" }, [
+          _c(
+            "h3",
+            {
+              staticClass: "subtitle",
+              staticStyle: { color: "#908F8F", "font-size": ".75em" }
+            },
+            [_vm._v("Gross Loss Amount")]
+          ),
+          _vm._v(" "),
+          _c(
+            "h1",
+            {
+              staticClass: "title has-text-info",
+              staticStyle: {
+                "font-size": "2em",
+                "font-weight": "700",
+                color: "#64C6A3"
+              }
+            },
+            [_vm._v("$" + _vm._s(_vm.claim.gross_loss))]
+          )
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "column is-half-mobile" }, [
+      _c("div", { staticClass: "card" }, [
+        _c("div", { staticClass: "card-content claim-stat" }, [
+          _c(
+            "h3",
+            {
+              staticClass: "subtitle",
+              staticStyle: { color: "#908F8F", "font-size": ".75em" }
+            },
+            [_vm._v("Days Open")]
+          ),
+          _vm._v(" "),
+          _c(
+            "h1",
+            {
+              staticClass: "title has-text-grey",
+              staticStyle: {
+                "font-size": "2em",
+                "font-weight": "700",
+                color: "#64C6A3"
+              }
+            },
+            [_vm._v(_vm._s("7"))]
+          )
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "column is-half-mobile" }, [
+      _c("div", { staticClass: "card" }, [
+        _c("div", { staticClass: "card-content claim-stat" }, [
+          _c(
+            "h3",
+            {
+              staticClass: "subtitle",
+              staticStyle: { color: "#908F8F", "font-size": ".75em" }
+            },
+            [_vm._v("Days To Contact")]
+          ),
+          _vm._v(" "),
+          _c(
+            "h1",
+            {
+              staticClass: "title has-text-grey",
+              staticStyle: {
+                "font-size": "2em",
+                "font-weight": "700",
+                color: "#64C6A3"
+              }
+            },
+            [_vm._v(_vm._s("2"))]
+          )
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "column is-half-mobile" }, [
+      _c("div", { staticClass: "card" }, [
+        _c("div", { staticClass: "card-content claim-stat" }, [
+          _c(
+            "h3",
+            {
+              staticClass: "subtitle",
+              staticStyle: { color: "#908F8F", "font-size": ".75em" }
+            },
+            [_vm._v("Days To Inspection")]
+          ),
+          _vm._v(" "),
+          _c(
+            "h1",
+            {
+              staticClass: "title has-text-grey",
+              staticStyle: {
+                "font-size": "2em",
+                "font-weight": "700",
+                color: "#64C6A3"
+              }
+            },
+            [_vm._v(_vm._s("4"))]
+          )
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "column is-half-mobile" }, [
+      _c("div", { staticClass: "card" }, [
+        _c("div", { staticClass: "card-content claim-stat" }, [
+          _c(
+            "h3",
+            {
+              staticClass: "subtitle",
+              staticStyle: { color: "#908F8F", "font-size": ".75em" }
+            },
+            [_vm._v("Days to Estimate")]
+          ),
+          _vm._v(" "),
+          _c(
+            "h1",
+            {
+              staticClass: "title has-text-grey",
+              staticStyle: {
+                "font-size": "2em",
+                "font-weight": "700",
+                color: "#64C6A3"
+              }
+            },
+            [_vm._v(_vm._s("5"))]
+          )
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-13e215f9", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ 8:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2773,6 +3585,7 @@ if (false) {
 
 /* harmony default export */ __webpack_exports__["a"] = ({
 	active: false,
+	locked: false,
 	claimId: '',
 	claim: {},
 	user: {},

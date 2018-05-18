@@ -3,17 +3,19 @@
 		<div id="left-side" class="column is-9">
 			<div class="columns">
 				<title-header></title-header>
-				<gross-loss></gross-loss>
+				<!-- <gross-loss></gross-loss> -->
 			</div>
 
-			<!-- <claim-nav class="is-hidden-mobile"></claim-nav> -->
+			<claim-nav></claim-nav>
 
-			<hr class="is-hidden-mobile" style="background: #ddd;">
+			<!-- <hr class="is-hidden-mobile" style="background: #ddd;"> -->
 
 			<claim-map></claim-map>
 
 			<tags></tags>
-
+			
+			<claim-stats></claim-stats>
+	
 			<contacts></contacts>
 
 			<description></description>
@@ -33,7 +35,7 @@
 	import titleHeader from './TitleHeader.vue';
 	import claimNav from './ClaimNavigation.vue';
 	import claimMap from './Map.vue';
-	import grossLoss from './GrossLoss.vue';
+	import claimStats from './ClaimStats.vue';
 	import tags from './Tags.vue';
 	import contacts from './Contacts.vue';
 	import description from './Description.vue';
@@ -46,7 +48,7 @@
 			titleHeader,
 			claimNav,
 			claimMap,
-			grossLoss,
+			claimStats,
 			tags,
 			contacts,
 			description,

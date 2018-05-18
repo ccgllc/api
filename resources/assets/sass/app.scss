@@ -13,6 +13,7 @@
 @import "resources/assets/sass/tooltip.sass";
 @import 'resources/assets/sass/bulma-timeline.sass';
 @import 'resources/assets/sass/bulma-ribbon.sass';
+@import 'resources/assets/sass/bulma-badge.sass';
 @import "./croppa.scss";
 // @import "resources/assets/sass/ccg-forms.sass";
 
@@ -493,8 +494,35 @@ p.card-header-title > span.tag {
 }
 
 //claim
+button.is-menu {
+	background: $info;
+	color: $light-gray;
+}
+.main-menu {
+	margin-top: 1.5rem;
+	// background: $gray;
+	// padding: 1rem;
+	h3.main-menu-title {
+		color: $info;
+		display: block;
+	    font-size: 11px;
+	    letter-spacing: 1px;
+	    margin-bottom: 5px;
+	    text-transform: uppercase;
+	    font-weight: 700;
+	    margin-left: 2em;
+	}
+	@media screen and (min-width:  1366px) {
+			// font-size: 1em;
+			// width: 33%;
+		}
+}
 .title {
 	font-weight: 300;
+	.is-lock {
+		color: $grey;
+		cursor: pointer;
+	}
 	&.is-hidden-desktop {
 		margin-bottom: 0;
 	}
@@ -514,7 +542,7 @@ p.card-header-title > span.tag {
 	.carrier {
 		font-size: .75em; 
 		position: relative; 
-		// top: -7px;
+		top: -7px;
 		@media screen and (max-width:  700) {
 			font-size: .35em;
 			font-weight: 100;
@@ -525,18 +553,18 @@ p.card-header-title > span.tag {
 		padding-left: .2em; 
 		padding-right: .2em; 
 		position: relative; 
-		// top: -5px; 
+		top: -5px; 
 		font-size: 1em;
 		color: $secondary;
 	}
 }
 
 a.is-menu-button{
-		color: #343b4d;
-		
+		color: #343b4d;	
 	}
 	a.is-menu-button:hover{
 		color: #439BD1;
+		background: $light-gray;
 	};
 	.tag .is-delete{
 		padding-right: 5px !important;
@@ -559,10 +587,10 @@ a.is-menu-button{
 		width: 100%;
 	}
 
-.gross-loss{
-	text-align: right;
+.claim-stat{
+	text-align: center;
 	@media all and (max-width:700px) {
-		text-align: left;
+		text-align: center;
 	}
 }
 

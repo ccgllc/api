@@ -21,16 +21,16 @@ class UsersController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->has('status')) {
-            $users =  User::status($request->status)->orderBy('created_at', 'desc')->paginate(15);
-            $status = ucwords($request->status).'s';
-        }
-        else {
+        // if ($request->has('status')) {
+        //     $users =  User::status($request->status)->orderBy('created_at', 'desc')->paginate(15);
+        //     $status = ucwords($request->status).'s';
+        // }
+        // else {
             $users = User::orderBy('created_at', 'desc')->paginate(15);
             $status = 'Users';
             $users->load('roles', 'profile');
-        }
-        return view('user.admin', compact('users', 'status'));
+        // }
+        return view('user.admin', compact('users'));
     }
 
     public function location($location)
@@ -69,7 +69,22 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($status)
+    public function show($id)
+    {
+        $user = User::findOrFail($id)->load([
+            'roles', 'profile', 'adjusterLicenses', 'documents', 'workHistory', 'certifications', 'softwareExperiences', 'avatar'
+        ]);
+        $user->role = $this->prepareRolesForDisplay($user->roles);
+        return view('profile.show', compact('user'));
+    }
+
+     /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function status($status)
     {
         $users =  User::status($status)->orderBy('created_at', 'desc')->paginate(15);
         $status = ucwords($status);
@@ -108,5 +123,10 @@ class UsersController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    protected function prepareRolesForDisplay($roles)
+    {
+        return ucwords(implode(', ', $roles->pluck('name')->toArray()));
     }
 }
