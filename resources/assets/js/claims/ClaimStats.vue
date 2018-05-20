@@ -6,6 +6,7 @@
 				<div class="card-content claim-stat">
 					<h3 class="subtitle stat-title">Gross Loss Amount</h3>
 					<h1 class="title stat has-text-info">${{ claim.gross_loss }}</h1>
+					<h3 class="subtitle stat-title"><a href="">Issue Correction</a></h3>
 				</div>	
 			</div>
 		</div>
@@ -15,6 +16,7 @@
 				<div class="card-content claim-stat">
 					<h3 class="subtitle stat-title">Gross Loss Amount</h3>
 					<h1 class="title stat has-text-info">${{ claim.gross_loss }}</h1>
+					<h3 class="subtitle stat-title"><a href="">Issue Correction</a></h3>
 				</div>
 			</div>
 		</div>
@@ -22,8 +24,9 @@
 		<div class="column is-half-mobile">
 			<div class="card">
 				<div class="card-content claim-stat">
-					<h3 class="subtitle stat-title">Days Open</h3>
-					<h1 class="title stat has-text-grey">{{ '∞' }}</h1>
+					<h3 class="subtitle stat-title">Time Open</h3>
+					<h1 class="title stat has-text-grey">6</h1>
+					<h3 class="subtitle stat-title">Days</h3>
 				</div>
 			</div>
 		</div>
@@ -31,8 +34,9 @@
 		<div class="column is-half-mobile">
 			<div class="card">
 				<div class="card-content claim-stat">
-					<h3 class="subtitle stat-title">Days To Contact</h3>
-					<h1 class="title stat has-text-grey">{{ '2' }}</h1>
+					<h3 class="subtitle stat-title">Time To Contact</h3>
+					<h1 class="title stat has-text-grey">2</h1>
+					<h3 class="subtitle stat-title">Days</h3>
 				</div>
 			</div>
 		</div>
@@ -41,8 +45,9 @@
 		<div class="column is-half-mobile">
 			<div class="card">
 				<div class="card-content claim-stat">
-					<h3 class="subtitle stat-title">Days To Inspection</h3>
-					<h1 class="title stat has-text-grey">{{ '4' }}</h1>
+					<h3 class="subtitle stat-title">Time To Inspection</h3>
+					<h1 class="title stat has-text-grey">4</h1>
+					<h3 class="subtitle stat-title">Days</h3>
 				</div>
 			</div>
 		</div>
@@ -50,8 +55,9 @@
 		<div class="column is-half-mobile">
 			<div class="card">
 				<div class="card-content claim-stat">
-					<h3 class="subtitle stat-title">Days to Estimate</h3>
-					<h1 class="title stat has-text-grey">{{ '5' }}</h1>
+					<h3 class="subtitle stat-title">Time to Estimate</h3>
+					<h1 class="title stat has-text-grey">5</h1>
+					<h3 class="subtitle stat-title">Days</h3>
 				</div>
 			</div>
 		</div>

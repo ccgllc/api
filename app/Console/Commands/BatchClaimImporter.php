@@ -2,9 +2,10 @@
 
 namespace CCG\Console\Commands;
 
-use CCG\Xact\XactClaimImport;
 use CCG\Claims\CreateClaimFromImport;
+use CCG\Xact\XactClaimImport;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 
 class BatchClaimImporter extends Command
 {
@@ -58,9 +59,12 @@ class BatchClaimImporter extends Command
                 // var_dump($file);
                 $data = file_get_contents($file);
                 $claim = new XactClaimImport($data);
-                // var_dump($claim->transactionId);
-                $this->persistClaimData($claim);
-                $idx += 1;
+                var_dump($claim->transactionId);
+                if(DB::table('claims')->where('transaction_id', $claim->transactionId)->doesntExist())
+                {
+                    $this->persistClaimData($claim);
+                    $idx += 1;
+                }
                 //unlink($file);
                 $bar->advance();
             }

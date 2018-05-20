@@ -1,7 +1,7 @@
 <template>	
 	<modal :show="creatingNewStatus">
-		<button @click="creatingNewStatus = !creatingNewStatus" class="delete is-large" style="position: absolute; top: 10px; right: 10px;" aria-label="close"></button>
-		<h3 class="subtitle has-text-info">Claim# {{ claim.claim_number }}</h3>
+		<button @click="creatingNewStatus = !creatingNewStatus" class="modal-close is-large" aria-label="close"></button>
+		<h3 class="subtitle has-text-info has-text-weight-light">Claim# {{ claim.claim_number }}</h3>
 		<h1 class="title" style="color: #efefef">{{ newStatus.name }}</h1>
 		<hr style="background: #485269">
 		<div class="field" v-if="newStatus.name == 'Select a status'">
@@ -43,7 +43,7 @@
 		
 		<div class="field" style="margin-top: 1em;">
 		  <input id="switchRoundedInfo" type="checkbox" name="switchRoundedInfo" class="switch is-small is-rounded is-info" checked="checked">
-		  <label for="switchRoundedInfo">Export to third party</label>
+		  <label for="switchRoundedInfo">Export to third parties</label>
 		</div>
 
 		<div class="has-text-right" style="margin-top: 1.5em;">

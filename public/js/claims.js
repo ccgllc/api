@@ -252,13 +252,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	name: 'ClaimList',
@@ -287,65 +280,14 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c(
-        "router-link",
-        {
-          staticClass: "btn btn-sm btn-primary",
-          attrs: { to: "/claims/create" }
-        },
-        [
-          _c("span", { staticClass: "glyphicon glyphicon-plus" }),
-          _vm._v("  Create New Claim")
-        ]
-      ),
-      _c("br"),
-      _c("br"),
+  return _c("div", [
+    _c("div", [
+      _c("h1", { staticClass: "title" }, [
+        _vm._v("Claims (" + _vm._s(_vm.claims.length) + ")")
+      ]),
       _vm._v(" "),
-      _c(
-        "div",
-        {
-          staticClass: "form-group",
-          staticStyle: { padding: "10px 0 10px 0" }
-        },
-        [
-          _c("label", { staticClass: "sr-only" }, [_vm._v("Search")]),
-          _vm._v(" "),
-          _c("div", { staticClass: "input-group" }, [
-            _vm._m(0),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.search,
-                  expression: "search"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                type: "text",
-                placeholder: "Claim Number, Adjuster, etc."
-              },
-              domProps: { value: _vm.search },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.search = $event.target.value
-                }
-              }
-            })
-          ])
-        ]
-      ),
-      _vm._v(" "),
-      _c("table", { staticClass: "table is-striped" }, [
-        _vm._m(1),
+      _c("table", { staticClass: "table is-striped is-full-width" }, [
+        _vm._m(0),
         _vm._v(" "),
         _c(
           "tbody",
@@ -364,19 +306,19 @@ var render = function() {
           })
         )
       ])
-    ],
-    1
-  )
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "pageloader is-left-to-right is-info",
+        class: { "is-active": !_vm.claims.length }
+      },
+      [_c("span", { staticClass: "title" }, [_vm._v("Loading Claims")])]
+    )
+  ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "input-group-addon" }, [
-      _c("span", { staticClass: "glyphicon glyphicon-search" })
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement

@@ -1251,6 +1251,10 @@ bulma-badge@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/bulma-badge/-/bulma-badge-1.0.1.tgz#855a6b4b8213a67201b4bc40bbc1ce1186674618"
 
+bulma-pageloader@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/bulma-pageloader/-/bulma-pageloader-1.0.1.tgz#9fcede4a15ac12716907d500a6ade6311d19f858"
+
 bulma-ribbon@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/bulma-ribbon/-/bulma-ribbon-1.0.2.tgz#31ac8239515618b042b58518593e79f2ea14eee9"
