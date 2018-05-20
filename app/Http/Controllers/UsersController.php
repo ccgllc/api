@@ -21,16 +21,17 @@ class UsersController extends Controller
      */
     public function index(Request $request)
     {
-        // if ($request->has('status')) {
-        //     $users =  User::status($request->status)->orderBy('created_at', 'desc')->paginate(15);
-        //     $status = ucwords($request->status).'s';
-        // }
-        // else {
+        if ($request->has('status')) {
+            $users =  User::status($request->status)->orderBy('created_at', 'desc')->paginate(15);
+            $status = ucwords($request->status).'s';
+        }
+        else {
             $users = User::orderBy('created_at', 'desc')->paginate(15);
             $status = 'Users';
             $users->load('roles', 'profile');
         // }
-        return view('user.admin', compact('users'));
+            return view('user.admin', compact('users', 'status'));
+         }
     }
 
     public function location($location)

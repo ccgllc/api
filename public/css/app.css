@@ -6658,7 +6658,7 @@ a.dropdown-item.is-active {
 }
 
 .modal-background {
-  background-color: rgba(10, 10, 10, 0.86);
+  background-color: rgba(52, 59, 76, 0.98);
 }
 
 .modal-content,
@@ -6747,14 +6747,14 @@ a.dropdown-item.is-active {
 
 .modal-card-body {
   -webkit-overflow-scrolling: touch;
-  background-color: white;
+  background-color: rgba(52, 59, 76, 0.98);
   -webkit-box-flex: 1;
       -ms-flex-positive: 1;
           flex-grow: 1;
   -ms-flex-negative: 1;
       flex-shrink: 1;
   overflow: auto;
-  padding: 20px;
+  padding: 2rem;
 }
 
 .navbar {
@@ -15960,7 +15960,7 @@ button.is-menu {
 .title .carrier {
   font-size: .75em;
   position: relative;
-  top: -7px;
+  top: 5%;
 }
 
 @media screen and (max-width: 700) {
@@ -15975,7 +15975,7 @@ button.is-menu {
   padding-left: .2em;
   padding-right: .2em;
   position: relative;
-  top: -5px;
+  top: 2%;
   font-size: 1em;
   color: #31c9a1;
 }
@@ -16054,6 +16054,60 @@ a.is-menu-button:hover {
     padding-left: 2rem;
     padding-right: 2rem;
   }
+}
+
+.modal-content label {
+  color: #7683a2;
+}
+
+.modal-content select,
+.modal-content input {
+  background: #292f3d;
+  color: #7683a2;
+  border-color: #48526a;
+}
+
+.modal-content select::-webkit-input-placeholder,
+.modal-content input::-webkit-input-placeholder {
+  color: #7683a2;
+}
+
+.modal-content select:-ms-input-placeholder,
+.modal-content input:-ms-input-placeholder {
+  color: #7683a2;
+}
+
+.modal-content select::-ms-input-placeholder,
+.modal-content input::-ms-input-placeholder {
+  color: #7683a2;
+}
+
+.modal-content select::placeholder,
+.modal-content input::placeholder {
+  color: #7683a2;
+}
+
+.modal-content .modal-content .control.has-icons-left .icon,
+.modal-content .modal-content .control.has-icons-right .icon {
+  color: #429ad1;
+}
+
+.modal-content .control.has-icons-left .icon,
+.modal-content .control.has-icons-right .icon {
+  color: #7683a2;
+}
+
+.modal-content .select:not(.is-multiple):not(.is-loading):hover::after {
+  border-color: #7683a2;
+}
+
+.modal-content .select select:hover,
+.modal-content .select select.is-hovered {
+  border-color: #7683a2;
+}
+
+.modal-content input:hover {
+  border-color: #7683a2;
 }
 
 .timeline .timeline-item {

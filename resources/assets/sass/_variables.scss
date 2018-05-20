@@ -38,8 +38,12 @@ $input-background-color: $light-gray;
 $card-background-color: hsl(0, 11%, 97%);
 $card-shadow: 0 2px 3px hsl(0, 0, 84%);
 
-
 //Tag 
 $tag-background-color: $secondary;
 $tag-color: $light-gray;
+
+//modal
+$modal-background-background-color:	rgba( $dark, .98);
+$modal-card-body-background-color: rgba( $dark, .98);
+$modal-card-body-padding: 2rem;
 

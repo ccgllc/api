@@ -1,5 +1,6 @@
 export default [
 	// { name: 'In Assign Queue', value: '',  type: 'date', disabled: false },
+	{ name: 'Select a status' },
 	{ name: 'Adjuster Assigned', value: '', assignee: 0, type: 'Adjuster' },
 	{ name: 'Reviewer Assigned', value: '', assignee: 0, type: 'Reviewer' },
 	{ name: 'Reassigned', value: '', assignee: 0, type: 'user' },

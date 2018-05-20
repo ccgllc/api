@@ -50,9 +50,9 @@
 				<div class="column">
 					<h3 class="main-menu-title">Statuses</h3>
 		    		<hr class="dropdown-divider">
-		    		<a href="#" class="is-menu-button dropdown-item"><span class="icon has-text-info is-small"><i class="fa fa-plus-circle"></i></span> In Assign Queue</a>
+		    		<a href="#"  class="is-menu-button dropdown-item"><span class="icon has-text-info is-small"><i class="fa fa-plus-circle"></i></span> In Assign Queue</a>
 		    		<hr class="dropdown-divider">
-		    		<a href="#" class="is-menu-button dropdown-item"><span class="icon has-text-info is-small"><i class="fa fa-user-plus"></i></span> Assignment</a>
+		    		<a href="#" @click="newStatus.name = 'Assignments'; creatingNewStatus = true;" class="is-menu-button dropdown-item"><span class="icon has-text-info is-small"><i class="fa fa-user-plus"></i></span> Assignments</a>
 			    	<hr class="dropdown-divider">
 					<a href="#" class="is-menu-button dropdown-item"><span class="icon has-text-info is-small"> <i class="fa fa-money"></i> </span> Submit an Estimate</a>
 					<hr class="dropdown-divider">
@@ -62,7 +62,7 @@
 				<div class="column">
 					<h3 class="main-menu-title is-hidden-mobile">&nbsp;</h3>
 		    		<hr class="dropdown-divider">
-		    		<a href="#" class="is-menu-button dropdown-item"><span class="icon has-text-info is-small"><i class="fa fa-mobile"></i></span> Customer Contacted</a>
+		    		<a href="#" @click="newStatus.name = 'Contacted'; creatingNewStatus = true;" class="is-menu-button dropdown-item"><span class="icon has-text-info is-small"><i class="fa fa-mobile"></i></span> Customer Contacted</a>
 			    	<hr class="dropdown-divider">
 			    	<a href="#" class="is-menu-button dropdown-item"><span class="icon has-text-info is-small"><i class="fa fa-search"></i> </span> Site Inspected</a>
 			    	<hr class="dropdown-divider">

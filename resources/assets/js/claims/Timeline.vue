@@ -8,7 +8,7 @@
 
 				<div class="dropdown is-down is-hoverable">
 				  <div class="dropdown-trigger">
-				    <button class="button is-rounded" aria-haspopup="true" aria-controls="statuses">
+				    <button @click="creatingNewStatus = !creatingNewStatus" class="button is-rounded" aria-haspopup="true" aria-controls="statuses">
 				      <span>Update Status</span>
 				      <span class="icon is-small">
 				        <i class="fa fa-angle-down" aria-hidden="true"></i>
@@ -18,7 +18,7 @@
 				  <div class="dropdown-menu" id="statuses" role="menu">
 				    <div class="dropdown-content">
 				      <a class="dropdown-item" v-for="status in statusesList">
-				        <span v-text="status.name"></span>
+				        <span v-text="status.name" @click="newStatus.name = status.name; creatingNewStatus = true;"></span>
 				      </a>
 				    </div>
 				  </div>
@@ -99,13 +99,18 @@
 				</div>
 			</div>
 		</div>
+		<new-status></new-status>
 	</div>
 </template>
 
 <script>
 	import claimData from './claimData.js';
+	import newStatus from './NewStatus.vue';
 	export default {
 		name: 'Timeline',
+		components: {
+			newStatus,
+		},
 		mounted() {
 			//console.log(this.user);
 		},
