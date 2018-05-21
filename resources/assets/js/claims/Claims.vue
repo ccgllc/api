@@ -20,7 +20,7 @@
 				</tbody>
 			</table>
 		</div>
-		<div class="pageloader is-left-to-right is-info"  :class="{ 'is-active': !claims.length }"><span class="title">Loading Claims</span></div>
+		<div class="pageloader is-left-to-right is-info" :class="{ 'is-active': !claims.length }"><span class="title">Loading Claims</span></div>
 	</div>
 </template>
 

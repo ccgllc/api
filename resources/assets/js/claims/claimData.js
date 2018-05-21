@@ -14,4 +14,6 @@ export default {
 	statusesList: statuses,
 	newStatus: createStatus, 
 	creatingNewStatus: false,
+	newTag: {},
+	creatingNewTag: false
 }

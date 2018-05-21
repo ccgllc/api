@@ -97,7 +97,7 @@
 				    <span class="tag is-medium is-secondary">FNOL</span>
 				  </div>
 				</div>
-				<new-status></new-status>
+				
 			</div>
 
 		<!-- </div> -->
@@ -107,12 +107,8 @@
 
 <script>
 	import claimData from './claimData.js';
-	import newStatus from './NewStatus.vue';
 	export default {
 		name: 'Timeline',
-		components: {
-			newStatus,
-		},
 		mounted() {
 			//console.log(this.user);
 		},

@@ -40,10 +40,12 @@ mix.js([
 
    if (mix.inProduction()) {
       mix.version();
-   } else {
-      //  mix.browserSync({
-      //    proxy: 'testing.ccgops',
-      //    host: 'testing.ccgops',
-      //    files: ['resources/views/**/*.php', 'app/**/*.php', 'routes/**/*.php']
-      // });
-   }
+   } 
+   // else {
+   //     mix.browserSync({
+   //       proxy: 'cms.ccgops.net',
+   //       https: true
+   //    });     // proxy: 'testing.ccgops',
+         // host: 'testing.ccgops',
+         // files: ['resources/views/**/*.php', 'app/**/*.php', 'routes/**/*.php']
+   //}
