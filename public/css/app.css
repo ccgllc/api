@@ -6659,7 +6659,7 @@ a.dropdown-item.is-active {
 }
 
 .modal-background {
-  background-color: rgba(52, 59, 76, 0.98);
+  background-color: #343b4c;
 }
 
 .modal-content,
@@ -6748,7 +6748,7 @@ a.dropdown-item.is-active {
 
 .modal-card-body {
   -webkit-overflow-scrolling: touch;
-  background-color: rgba(52, 59, 76, 0.98);
+  background-color: #343b4c;
   -webkit-box-flex: 1;
       -ms-flex-positive: 1;
           flex-grow: 1;

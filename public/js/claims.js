@@ -252,6 +252,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	name: 'ClaimList',
@@ -262,6 +265,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		};
 	},
 	mounted: function mounted() {
+		// this.claims = claims;
 		window.axios.get('/claims').then(function (response) {
 			console.log(this.claims);
 			return this.claims = response.data;
@@ -301,7 +305,11 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(claim.insured))])
+              _c("td", [_vm._v(_vm._s(claim.type_of_loss || "n/a"))]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(claim.insured))]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(claim.date_of_loss))])
             ])
           })
         )
@@ -329,7 +337,11 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Claim #")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Insured")])
+        _c("th", [_vm._v("Type")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Insured")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Date of Loss")])
       ])
     ])
   }

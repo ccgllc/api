@@ -2,9 +2,9 @@
 	<div class="columns">
 		<div class="column">
 			<div class="tags">
-				<span class="tag is-danger">CAT  <button class="delete is-small"></button></span>
-				<span class="tag is-info">Hurricane <button class="delete is-small"></button></span>
-				<span class="tag is-info">Harvey <button class="delete is-small"></button></span>
+				<span class="tag is-dark">CAT  <button class="delete is-small"></button></span>
+				<span class="tag is-dark">Hurricane <button class="delete is-small"></button></span>
+				<span class="tag is-dark">Harvey <button class="delete is-small"></button></span>
 				<span class="icon" @click="creatingNewTag = !creatingNewTag"><i class="fa fa-plus" style="color: #ccc; position:relative; top: -3px;"></i></span>
 			</div>
 		</div>

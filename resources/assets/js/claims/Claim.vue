@@ -1,6 +1,7 @@
 <template>
 	<div class="columns">
 		<div id="left-side" class="column is-9">
+			<alert v-if="hasAlert" :message="alert.message" :type="alert.type" @click="confirmingAlert = !confirmingAlert"></alert>
 			<title-header></title-header>
 			<claim-nav></claim-nav>
 			<claim-map></claim-map>
@@ -17,7 +18,6 @@
 		</div>
 		<!-- forms -->
 		<new-status></new-status>
-		
 	</div>
 </template>
 
@@ -34,6 +34,7 @@
 	import assignees from './Assignees.vue';
 	import timeline from './Timeline.vue';
 	import newStatus from './NewStatus.vue';
+	import alert from '../Alert.vue';
 	export default {
 		name: 'Claim',
 		components: {
@@ -47,7 +48,8 @@
 			claimInfo,
 			assignees,
 			timeline,
-			newStatus
+			newStatus,
+			alert
 		},
 		created() {
 			this.claim = claim;
@@ -55,6 +57,8 @@
 			this.claim.claim_data = JSON.parse(this.claim.claim_data);
 			this.user = user;
 			this.reviewer = reviewer;
+			this.hasAlert = true;
+			this.alert.message = 'You have been assigned to this claim please confirm or reject this assignment';
 		},
 		data() {
 			return claimData;

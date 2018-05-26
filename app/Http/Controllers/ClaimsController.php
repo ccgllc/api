@@ -31,10 +31,10 @@ class ClaimsController extends Controller {
 		if (!$request->ajax()){
 			// auth()->loginUsingId(5);
 			$superAdmin = auth()->user();
-		   // $claim = Claim::find(1516);
+		   $claims = Claim::all();
 		   // dd(json_decode($claim->claim_data));
 			// dd($superAdmin);
-			return view('claims.dashboard', compact('superAdmin'));
+			return view('claims.dashboard', compact('superAdmin', 'claims'));
 		}
 
 		return Claim::with('adjuster')->orderBy('date_received', 'desc')->get();

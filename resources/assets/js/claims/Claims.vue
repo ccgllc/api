@@ -7,15 +7,18 @@
 					<tr>
 						<th>Carrier</th>
 						<th>Claim #</th>
+						<th>Type</th>
 						<th>Insured</th>
-					
+						<th>Date of Loss</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr v-for="claim in claims">
 						<td>{{ claim.carrier_name }}</td>
 						<td><a :href="'/claims/' + claim.id">{{ claim.claim_number }}</a></td>
+						<td>{{ claim.type_of_loss || 'n/a' }}</td>
 						<td>{{ claim.insured }}</td>
+						<td>{{claim.date_of_loss}}</td>
 					</tr>
 				</tbody>
 			</table>
@@ -34,6 +37,7 @@
 			}
 		},
 		mounted() {
+			// this.claims = claims;
 			window.axios.get('/claims').then(function(response){
 				console.log(this.claims);
 				return this.claims = response.data;

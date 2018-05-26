@@ -24,7 +24,8 @@
 
     <script type="text/javascript">
         // $('#claims').addClass('active');
-		var superAdmin = {!! json_encode($superAdmin) !!}
+		var superAdmin = {!! json_encode($superAdmin) !!};
+        // var claims = { $claims !!};
 		// console.log(superAdmin);
     </script>
    {{-- <script type="text/javascript" src="/js/claims-dashboard.js"></script> --}}

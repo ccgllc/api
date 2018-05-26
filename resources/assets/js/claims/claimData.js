@@ -3,6 +3,8 @@ import createStatus from './data/newStatus.js';
 export default {
 	active: false,
 	locked: false,
+	hasAlert: false,
+	alert: { type: 'is-link', message: ''},
 	claimId: '',
 	claim: {},
 	user: {},
@@ -15,5 +17,7 @@ export default {
 	newStatus: createStatus, 
 	creatingNewStatus: false,
 	newTag: {},
-	creatingNewTag: false
+	creatingNewTag: false,
+	newConfirmAlert: {},
+	confirmingAlert: false,
 }

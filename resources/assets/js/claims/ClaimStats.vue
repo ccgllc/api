@@ -6,7 +6,7 @@
 				<div class="card-content claim-stat">
 					<h3 class="subtitle stat-title">Gross Loss Amount</h3>
 					<h1 class="title stat has-text-info">${{ claim.gross_loss }}</h1>
-					<h3 class="subtitle stat-title"><a href="">Issue Correction</a></h3>
+					<h3 class="subtitle stat-title"><a href=""><span class="icon"><i class="fa fa-retweet"></i> </span> Issue Correction</a></h3>
 				</div>	
 			</div>
 		</div>
@@ -16,7 +16,7 @@
 				<div class="card-content claim-stat">
 					<h3 class="subtitle stat-title">Gross Loss Amount</h3>
 					<h1 class="title stat has-text-info">${{ claim.gross_loss }}</h1>
-					<h3 class="subtitle stat-title"><a href="">Issue Correction</a></h3>
+					<h3 class="subtitle stat-title"><a href=""><span class="icon"><i class="fa fa-retweet"></i> </span> Issue Correction</a></h3>
 				</div>
 			</div>
 		</div>

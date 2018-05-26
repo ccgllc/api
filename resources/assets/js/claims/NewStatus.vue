@@ -18,7 +18,7 @@
 			<div class="column">
 				<div class="field">
 					<label class="label" for="another">Date:</label>
-					<div class="control control has-icons-left">
+					<div class="control has-icons-left">
 				    	<input v-model="newStatus.date" class="input" type="text" placeholder="mm/dd/yyyy">
 				    	<span class="icon is-small is-left">
 					      <i class="fa fa-calendar-o"></i>
@@ -29,7 +29,7 @@
 			</div>
 			<div class="column"><div class="field">
 			<label class="label" for="another">Time:</label>
-			<div class="control control has-icons-left">
+			<div class="control has-icons-left">
 		    	<input v-model="newStatus.time" class="input" type="text" placeholder="11:35 am">
 		    	<span class="icon is-small is-left">
 			      <i class="fa fa-clock-o"></i>
