@@ -1,6 +1,6 @@
 <?php
 
-namespace CCG\Http\Requests;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -25,7 +25,7 @@ class ValidateUserWorkHistory extends FormRequest
     {
         return [
             'type' => 'required',
-            'value' => 'required|numeric|max:65535'
+            'value' => 'required|numeric|max:65535|min:0'
         ];
     }
 

@@ -192,6 +192,7 @@
 						this.$router.push({ path: '/work-history' })
 					}).catch(error => {
 						this.btnState = false;
+						console.error(error);
 					});
 			},
 			setupView() {

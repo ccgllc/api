@@ -110,27 +110,27 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 
-/***/ 161:
+/***/ 162:
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(162);
-module.exports = __webpack_require__(235);
+__webpack_require__(163);
+module.exports = __webpack_require__(236);
 
 
 /***/ }),
 
-/***/ 162:
+/***/ 163:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_chart_js__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_chart_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_chart_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Search_vue__ = __webpack_require__(231);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Search_vue__ = __webpack_require__(232);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Search_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_Search_vue__);
-__webpack_require__(163);
+__webpack_require__(164);
 
 
 // import VueRouter from 'vue-router';
@@ -174,11 +174,11 @@ var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
 
 /***/ }),
 
-/***/ 163:
+/***/ 164:
 /***/ (function(module, exports, __webpack_require__) {
 
 
-window._ = __webpack_require__(164);
+window._ = __webpack_require__(165);
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
@@ -220,12 +220,36 @@ if (api_token) {
   window.axios.defaults.headers.common['Authorization'] = "Bearer " + api_token;
 } else {
   if (!window.location === '/login#') {
+    var prev = window.location;
     console.error('You need to login.');
-    window.axios.post('logout').then(function (response) {
-      //wndow.location = '/login';
+    window.axios.post('/logout').then(function (response) {
+      window.location = prev;
     });
   }
 }
+
+var originalFunction = console.error;
+console.error = function () {
+  var args = Array.prototype.slice.call(arguments);
+  if (args[0]) {
+    window.axios.post('/api/admin/client-error', args[0].response).then(function (response) {
+      if (args[0].response.status != 422) {
+        alert('Unfortunately we detected an issue with this request, We\'ve forwarded a copy of the error to our development team for investigation. If you continue to need help, please contact us at support@claimconsultantgroup.com');
+      }
+    });
+  }
+  // let error = {};
+  // error.message = args[0].reponse.data;
+  // alert(args[0].response.data.errors.value[0]);
+  if (args[0].response.status == 401) {
+    window.axios.post('/logout').then(function (response) {
+      window.location = '/login';
+    });
+  };
+  // alert(args);
+  // window.axios.post('/')
+  return originalFunction.apply(console, args);
+};
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
@@ -244,7 +268,7 @@ if (api_token) {
 
 /***/ }),
 
-/***/ 164:
+/***/ 165:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, module) {var __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -17358,15 +17382,15 @@ if (api_token) {
 
 /***/ }),
 
-/***/ 231:
+/***/ 232:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(232)
+var __vue_script__ = __webpack_require__(233)
 /* template */
-var __vue_template__ = __webpack_require__(234)
+var __vue_template__ = __webpack_require__(235)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -17406,14 +17430,14 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 232:
+/***/ 233:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__structur_src_form_Form_js__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__data_userData_js__ = __webpack_require__(24);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_lodash_lodash_min_js__ = __webpack_require__(233);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_lodash_lodash_min_js__ = __webpack_require__(234);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_lodash_lodash_min_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__node_modules_lodash_lodash_min_js__);
 //
 //
@@ -17519,7 +17543,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 233:
+/***/ 234:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, module) {var __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -17665,7 +17689,7 @@ An}(); true?($n._=rt, !(__WEBPACK_AMD_DEFINE_RESULT__ = (function(){return rt}).
 
 /***/ }),
 
-/***/ 234:
+/***/ 235:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -17766,7 +17790,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 235:
+/***/ 236:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
@@ -17904,6 +17928,7 @@ var Form = function () {
                     _this.onSuccess(response.data, reset);
                     resolve(response.data);
                 }).catch(function (error) {
+                    console.error(error);
                     _this.onFail(error.response.data.errors);
                     reject(error.response.data.errors);
                 });
@@ -18038,4 +18063,4 @@ var Errors = function () {
 
 /***/ })
 
-},[161]);
+},[162]);
