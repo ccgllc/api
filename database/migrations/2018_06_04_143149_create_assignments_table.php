@@ -15,7 +15,7 @@ class CreateAssignmentsTable extends Migration
     {
         Schema::create('assignments', function (Blueprint $table) {
             $table->increments('id');
-            $table->type('enum', ['adjuster', 'reviewer']);
+            $table->enum('type', ['adjuster', 'reviewer']);
             // user id foreign key.
             $table->integer('user_id')->unsigned(); 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
