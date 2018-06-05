@@ -120,6 +120,26 @@ class User extends Authenticatable
         return $this->hasOne(\CCG\Avatar::class);
     }
 
+    public function claims()
+    {
+        return $this->hasManyThrough(\CCG\Claims\Claim::class, \CCG\Claims\Assignment::class);
+    }
+
+    public function claimStatuses()
+    {
+      return $this->hasMany(\CCG\Claims\ClaimStatus::class);
+    }
+
+    public function estimates()
+    {
+      return $this->hasMany(\CCG\Claims\Estimate::class);
+    }
+
+     public function assignments()
+    {
+      return $this->hasMany(\CCG\Claims\Assignmment::class);
+    }
+
     /**
      * Scope a query to only include only users with
      * an employment status of applicant.

@@ -56,6 +56,14 @@ Route::namespace('Api\Acl')
 		Route::delete('role/{id}', 'RolesController@destroy');
 });
 
+Route::namespace('Api\Claims')
+	// ->middleware('auth:api')
+	->prefix('claims/{claim_id}/')
+	->group(function() {
+		Route::resource('assignments', 'AssignmentsController');
+		Route::resource('estimates', 'EstimatesController');
+	});
+
 Route::post('/admin/client-error', function(Request $request){
        Log::error($request->all());
        return response('success', 200);

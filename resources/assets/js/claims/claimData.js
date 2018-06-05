@@ -1,5 +1,5 @@
-import statuses from './data/statuses.js';
-import createStatus from './data/newStatus.js';
+import Statuses from './data/statuses.js';
+import NewStatus from './data/newStatus.js';
 export default {
 	active: false,
 	locked: false,
@@ -13,8 +13,8 @@ export default {
 	map: {},
 	marker: {},
 	home: {lat: 30.2702208, lng:  -97.7453625},
-	statusesList: statuses,
-	newStatus: createStatus, 
+	statusesList: Statuses,
+	newStatus: NewStatus, 
 	creatingNewStatus: false,
 	newTag: {},
 	creatingNewTag: false,

@@ -3892,6 +3892,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -3904,11 +3915,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		return __WEBPACK_IMPORTED_MODULE_0__claimData_js__["a" /* default */];
 	},
 	mounted: function mounted() {
-		// console.log(claim.claim_data.accessContact.name);
+		this.getTodaysDate();
 	},
 
 	methods: {
-		//
+		getTodaysDate: function getTodaysDate() {
+			var today = new Date();
+			this.newStatus.date = today.getMonth() + 1 + '/' + today.getDate() + '/' + today.getFullYear();
+			this.newStatus.time = today.toTimeString().replace(/(GMT-\d{1,}\s{1,}\S[A-z]{1,}\S)/g, '').trim();
+		},
+		toggleNewStatus: function toggleNewStatus() {
+			// this.getTodaysDate();
+			return this.creatingNewStatus = !this.creatingNewStatus;
+		}
 	},
 	computed: {
 		accessContact: function accessContact() {
@@ -3983,11 +4002,7 @@ var render = function() {
     _c("button", {
       staticClass: "modal-close is-large",
       attrs: { "aria-label": "close" },
-      on: {
-        click: function($event) {
-          _vm.creatingNewStatus = !_vm.creatingNewStatus
-        }
-      }
+      on: { click: _vm.toggleNewStatus }
     }),
     _vm._v(" "),
     _c("h3", { staticClass: "subtitle has-text-info has-text-weight-light" }, [
@@ -4055,95 +4070,89 @@ var render = function() {
         ])
       : _vm._e(),
     _vm._v(" "),
-    _c("div", { staticClass: "columns" }, [
-      _c("div", { staticClass: "column" }, [
-        _c("div", { staticClass: "field" }, [
-          _c("label", { staticClass: "label", attrs: { for: "another" } }, [
-            _vm._v("Date:")
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "control has-icons-left" }, [
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.newStatus.date,
-                  expression: "newStatus.date"
-                }
-              ],
-              staticClass: "input",
-              attrs: { type: "text", placeholder: "mm/dd/yyyy" },
-              domProps: { value: _vm.newStatus.date },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.newStatus, "date", $event.target.value)
-                }
-              }
-            }),
-            _vm._v(" "),
-            _c("span", { staticClass: "icon is-small is-left" }, [
-              _c("i", { staticClass: "fa fa-calendar-o" })
-            ]),
-            _vm._v(" "),
-            _vm.newStatus.errors.has("date")
-              ? _c("span", {
-                  staticClass: "help is-danger",
-                  domProps: {
-                    textContent: _vm._s(_vm.newStatus.errors.get("date"))
-                  }
-                })
-              : _vm._e()
-          ])
-        ])
+    _c("div", { staticClass: "field" }, [
+      _c("label", { staticClass: "label", attrs: { for: "another" } }, [
+        _vm._v("Date:")
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "column" }, [
-        _c("div", { staticClass: "field" }, [
-          _c("label", { staticClass: "label", attrs: { for: "another" } }, [
-            _vm._v("Time:")
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "control has-icons-left" }, [
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.newStatus.time,
-                  expression: "newStatus.time"
-                }
-              ],
-              staticClass: "input",
-              attrs: { type: "text", placeholder: "11:35 am" },
-              domProps: { value: _vm.newStatus.time },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.newStatus, "time", $event.target.value)
-                }
+      _c("div", { staticClass: "control has-icons-left" }, [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.newStatus.date,
+              expression: "newStatus.date"
+            }
+          ],
+          staticClass: "input",
+          attrs: { type: "text", placeholder: "yyyy/mm/dd/" },
+          domProps: { value: _vm.newStatus.date },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
               }
-            }),
-            _vm._v(" "),
-            _c("span", { staticClass: "icon is-small is-left" }, [
-              _c("i", { staticClass: "fa fa-clock-o" })
-            ]),
-            _vm._v(" "),
-            _vm.newStatus.errors.has("time")
-              ? _c("span", {
-                  staticClass: "help is-danger",
-                  domProps: {
-                    textContent: _vm._s(_vm.newStatus.errors.get("time"))
-                  }
-                })
-              : _vm._e()
-          ])
-        ])
+              _vm.$set(_vm.newStatus, "date", $event.target.value)
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c("span", { staticClass: "icon is-small is-left" }, [
+          _c("i", { staticClass: "fa fa-calendar-o" })
+        ]),
+        _vm._v(" "),
+        _vm.newStatus.errors.has("date")
+          ? _c("span", {
+              staticClass: "help is-danger",
+              domProps: {
+                textContent: _vm._s(_vm.newStatus.errors.get("date"))
+              }
+            })
+          : _vm._e()
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "field" }, [
+      _c("label", { staticClass: "label", attrs: { for: "another" } }, [
+        _vm._v("Time:")
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "control has-icons-left" }, [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.newStatus.time,
+              expression: "newStatus.time"
+            }
+          ],
+          staticClass: "input",
+          attrs: { type: "text", placeholder: "11:35 am" },
+          domProps: { value: _vm.newStatus.time },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.$set(_vm.newStatus, "time", $event.target.value)
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c("span", { staticClass: "icon is-small is-left" }, [
+          _c("i", { staticClass: "fa fa-clock-o" })
+        ]),
+        _vm._v(" "),
+        _vm.newStatus.errors.has("time")
+          ? _c("span", {
+              staticClass: "help is-danger",
+              domProps: {
+                textContent: _vm._s(_vm.newStatus.errors.get("time"))
+              }
+            })
+          : _vm._e()
       ])
     ]),
     _vm._v(" "),
@@ -4172,11 +4181,7 @@ var render = function() {
           {
             staticClass: "is-size-7 has-text-white is-light is-small is-link",
             staticStyle: { "margin-right": "1em", "margin-top": "2em" },
-            on: {
-              click: function($event) {
-                _vm.creatingNewStatus = false
-              }
-            }
+            on: { click: _vm.toggleNewStatus }
           },
           [_vm._v("cancel")]
         ),
@@ -4343,17 +4348,6 @@ var render = function() {
         "div",
         { staticClass: "column is-9", attrs: { id: "left-side" } },
         [
-          _vm.hasAlert
-            ? _c("alert", {
-                attrs: { message: _vm.alert.message, type: _vm.alert.type },
-                on: {
-                  click: function($event) {
-                    _vm.confirmingAlert = !_vm.confirmingAlert
-                  }
-                }
-              })
-            : _vm._e(),
-          _vm._v(" "),
           _c("title-header"),
           _vm._v(" "),
           _c("claim-nav"),

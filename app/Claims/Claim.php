@@ -55,7 +55,12 @@ class Claim extends Model
 
     public function assignments()
     {
-        return $this->statuses()->where('user_id', '!=', null)->get();
+        return $this->hasMany(\CCG\Claims\Assignment::class);
+    }
+
+     public function estimates()
+    {
+        return $this->hasMany(\CCG\Claims\Estimate::class);
     }
 
     public function carrier()

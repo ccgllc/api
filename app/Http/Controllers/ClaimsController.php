@@ -80,15 +80,16 @@ class ClaimsController extends Controller {
 	 */
 	public function show(Request $request, $id)
 	{
-		// return Claim::whereId($id)->with([
-		// 	'statuses' => function($query){
-		//  		$query->orderBy('created_at', 'desc');
-		//  	},
-  //           'statuses.user', 'invoices.payments.check.deposit','invoices.supplements', 'reviewer', 'adjuster', 'carrier'
-		// ])->first();
+		$claim = Claim::whereId($id)->with([
+			'statuses' => function($query){
+		 		$query->orderBy('created_at', 'desc');
+		 	},
+            'carrier', 'statuses.user', //'invoices.payments.check.deposit','invoices.supplements', 'reviewer', 'adjuster', 'carrier'
+		])->first();
 		// return Claim::find($id);
-		$claim = Claim::findOrFail($id)->load('carrier');
+		// $claim = Claim::findOrFail($id)->load('carrier');
 		// dd(json_encode($claim->claim_data));
+		// dd($claim);
 		$user = User::find(87); //15
 		$user->load('avatar');
 		$reviewer = User::find(13); //17

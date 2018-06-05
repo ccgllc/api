@@ -1,7 +1,7 @@
 <template>
 	<div class="columns">
 		<div id="left-side" class="column is-9">
-			<alert v-if="hasAlert" :message="alert.message" :type="alert.type" @click="confirmingAlert = !confirmingAlert"></alert>
+			<!-- <alert v-if="hasAlert" :message="alert.message" :type="alert.type" @click="confirmingAlert = !confirmingAlert"></alert> -->
 			<title-header></title-header>
 			<claim-nav></claim-nav>
 			<claim-map></claim-map>
