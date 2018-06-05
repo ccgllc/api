@@ -22,13 +22,13 @@ trait CreateClaimFromImport {
         $claim['is_commercial']   = $data->isCommercial;
         $claim['claim_number']    = $data->claimNumber;
         $claim['transaction_id']  = $data->transactionId;
-        $claim['current_status']  = 'In Assign Queue';
+        // $claim['current_status']  = 'In Assign Queue';
         $claim['carrier_name']    = $this->carrier->name;
         $claim['insured']         = $data->insured;
         $claim['type_of_loss']    = $data->typeOfLoss;
         $claim['catastrophe']      = $data->catastrophe;
         $claim['price_list_area'] = $data->priceListArea;
-        $claim['gross_loss']      = 0;
+        // $claim['gross_loss']      = 0;
         $claim['description']     = $data->description;
         $claim['date_of_loss']    = $data->dateOfLoss;
         $claim['date_received']   = $data->dateReceived;
