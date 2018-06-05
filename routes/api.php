@@ -62,6 +62,7 @@ Route::namespace('Api\Claims')
 	->group(function() {
 		Route::resource('assignments', 'AssignmentsController');
 		Route::resource('estimates', 'EstimatesController');
+		Route::resource('statuses', 'StatusesController');
 	});
 
 Route::post('/admin/client-error', function(Request $request){

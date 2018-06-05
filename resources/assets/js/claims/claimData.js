@@ -8,6 +8,7 @@ export default {
 	claimId: '',
 	claim: {},
 	user: {},
+	adjuster: {},
 	reviewer: {},
 	bounds: {},
 	map: {},

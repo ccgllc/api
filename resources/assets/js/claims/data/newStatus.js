@@ -4,10 +4,9 @@ let status = new Form ({
 	name: 'Select a status',
 	value: '',
 	date: '',
-	transaction_id: '',
-	orig_transaction_id: '',
 	claim_number: '',
 	time: '',
 	claim_id: '',
+	user_id: '',
 });
 export default status;

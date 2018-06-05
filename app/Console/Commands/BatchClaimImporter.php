@@ -59,7 +59,7 @@ class BatchClaimImporter extends Command
                 // var_dump($file);
                 $data = file_get_contents($file);
                 $claim = new XactClaimImport($data);
-                var_dump($claim->transactionId);
+                // var_dump($claim->transactionId);
                 if(DB::table('claims')->where('transaction_id', $claim->transactionId)->doesntExist())
                 {
                     $this->persistClaimData($claim);

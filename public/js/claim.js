@@ -319,10 +319,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	},
 	created: function created() {
 		this.claim = claim;
-		this.claim.gross_loss = '7,893.12';
 		this.claim.claim_data = JSON.parse(this.claim.claim_data);
 		this.user = user;
-		this.reviewer = reviewer;
+		// this.adjuster = this.claim.assignments.find(assignment => assignment.type = 'adjuster');
+		// this.reviewer = this.claim.assignments.find(assignment => assignment.type = 'reviewer');
 		this.hasAlert = true;
 		this.alert.message = 'You have been assigned to this claim please confirm or reject this assignment';
 	},
@@ -339,7 +339,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 "use strict";
 /* harmony default export */ __webpack_exports__["a"] = ([
 // { name: 'In Assign Queue', value: '',  type: 'date', disabled: false },
-{ name: 'Select a status' }, { name: 'Adjuster Assigned', value: '', assignee: 0, type: 'Adjuster' }, { name: 'Reviewer Assigned', value: '', assignee: 0, type: 'Reviewer' }, { name: 'Reassigned', value: '', assignee: 0, type: 'user' }, { name: 'Contacted', value: '', type: 'date' }, { name: 'Site Inspected', value: '', type: 'date' }, { name: 'Estimate Received', value: '', type: 'amount', disabled: false }, { name: 'Correction Received', value: '', type: 'amount' }, { name: 'File Closed', value: '', type: 'date' }, { name: 'File Reopened', value: '', type: 'date' }]);
+{ name: 'Select a status' }, { name: 'Adjuster Assigned', value: '', type: 'assignment' }, { name: 'Reviewer Assigned', value: '', type: 'assignment' }, { name: 'Reassigned', value: '', type: 'reassignment' }, { name: 'Contacted', value: '', type: 'date' }, { name: 'Site Inspected', value: '', type: 'date' }, { name: 'Estimate Received', value: '', type: 'value', disabled: false }, { name: 'Correction Received', value: '', type: 'value' }, { name: 'File Closed', value: '', type: 'date' }, { name: 'File Reopened', value: '', type: 'date' }]);
 
 /***/ }),
 
@@ -354,11 +354,10 @@ var status = new __WEBPACK_IMPORTED_MODULE_0__structur_src_form_Form_js__["a" /*
 	name: 'Select a status',
 	value: '',
 	date: '',
-	transaction_id: '',
-	orig_transaction_id: '',
 	claim_number: '',
 	time: '',
-	claim_id: ''
+	claim_id: '',
+	user_id: ''
 });
 /* harmony default export */ __webpack_exports__["a"] = (status);
 
@@ -526,6 +525,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -539,6 +539,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	},
 
 	methods: {
+		createStatus: function createStatus(type, name) {
+			this.newStatus.name = name;
+			this.newStatus.type = type;
+			this.creatingNewStatus = true;
+		},
 		scrollTop: function scrollTop() {
 			window.scrollTo(0, 0);
 		}
@@ -937,18 +942,18 @@ var render = function() {
                   _vm._v(" "),
                   _c("hr", { staticClass: "dropdown-divider" }),
                   _vm._v(" "),
-                  _vm._m(7),
-                  _vm._v(" "),
-                  _c("hr", { staticClass: "dropdown-divider" }),
-                  _vm._v(" "),
-                  _vm._m(8)
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "column" }, [
                   _c(
-                    "h3",
-                    { staticClass: "main-menu-title is-hidden-mobile" },
-                    [_vm._v(" ")]
+                    "a",
+                    {
+                      staticClass: "is-menu-button dropdown-item",
+                      attrs: { href: "#" },
+                      on: {
+                        click: function($event) {
+                          _vm.createStatus("date", "Customer Contacted")
+                        }
+                      }
+                    },
+                    [_vm._m(7), _vm._v(" Customer Contacted")]
                   ),
                   _vm._v(" "),
                   _c("hr", { staticClass: "dropdown-divider" }),
@@ -960,13 +965,26 @@ var render = function() {
                       attrs: { href: "#" },
                       on: {
                         click: function($event) {
-                          _vm.newStatus.name = "Contacted"
-                          _vm.creatingNewStatus = true
+                          _vm.createStatus("date", "Site Inspected")
                         }
                       }
                     },
-                    [_vm._m(9), _vm._v(" Customer Contacted")]
+                    [_vm._m(8), _vm._v(" Site Inspected")]
                   ),
+                  _vm._v(" "),
+                  _c("hr", { staticClass: "dropdown-divider" })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "column" }, [
+                  _c(
+                    "h3",
+                    { staticClass: "main-menu-title is-hidden-mobile" },
+                    [_vm._v(" ")]
+                  ),
+                  _vm._v(" "),
+                  _c("hr", { staticClass: "dropdown-divider" }),
+                  _vm._v(" "),
+                  _vm._m(9),
                   _vm._v(" "),
                   _c("hr", { staticClass: "dropdown-divider" }),
                   _vm._v(" "),
@@ -974,11 +992,35 @@ var render = function() {
                   _vm._v(" "),
                   _c("hr", { staticClass: "dropdown-divider" }),
                   _vm._v(" "),
-                  _vm._m(11),
+                  _c(
+                    "a",
+                    {
+                      staticClass: "is-menu-button dropdown-item",
+                      attrs: { href: "#" },
+                      on: {
+                        click: function($event) {
+                          _vm.createStatus("date", "File Closed")
+                        }
+                      }
+                    },
+                    [_vm._m(11), _vm._v(" Close File")]
+                  ),
                   _vm._v(" "),
                   _c("hr", { staticClass: "dropdown-divider" }),
                   _vm._v(" "),
-                  _vm._m(12)
+                  _c(
+                    "a",
+                    {
+                      staticClass: "is-menu-button dropdown-item",
+                      attrs: { href: "#" },
+                      on: {
+                        click: function($event) {
+                          _vm.createStatus("date", "File Reopened")
+                        }
+                      }
+                    },
+                    [_vm._m(12), _vm._v(" Reopen File")]
+                  )
                 ]),
                 _vm._v(" "),
                 _vm._m(13),
@@ -1090,6 +1132,22 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "icon has-text-info is-small" }, [
+      _c("i", { staticClass: "fa fa-mobile" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "icon has-text-info is-small" }, [
+      _c("i", { staticClass: "fa fa-search" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c(
       "a",
       { staticClass: "is-menu-button dropdown-item", attrs: { href: "#" } },
@@ -1121,53 +1179,16 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("span", { staticClass: "icon has-text-info is-small" }, [
-      _c("i", { staticClass: "fa fa-mobile" })
+      _c("i", { staticClass: "fa fa-folder-o" })
     ])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "a",
-      { staticClass: "is-menu-button dropdown-item", attrs: { href: "#" } },
-      [
-        _c("span", { staticClass: "icon has-text-info is-small" }, [
-          _c("i", { staticClass: "fa fa-search" })
-        ]),
-        _vm._v(" Site Inspected")
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "a",
-      { staticClass: "is-menu-button dropdown-item", attrs: { href: "#" } },
-      [
-        _c("span", { staticClass: "icon has-text-info is-small" }, [
-          _c("i", { staticClass: "fa fa-folder-o" })
-        ]),
-        _vm._v(" Close File")
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "a",
-      { staticClass: "is-menu-button dropdown-item", attrs: { href: "#" } },
-      [
-        _c("span", { staticClass: "icon has-text-info is-small" }, [
-          _c("i", { staticClass: "fa fa-folder-open-o" })
-        ]),
-        _vm._v(" Reopen File")
-      ]
-    )
+    return _c("span", { staticClass: "icon has-text-info is-small" }, [
+      _c("i", { staticClass: "fa fa-folder-open-o" })
+    ])
   },
   function() {
     var _vm = this
@@ -1747,143 +1768,113 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "columns is-multiline is-mobile" }, [
-    _c("div", { staticClass: "column is-hidden-desktop is-12" }, [
-      _c("div", { staticClass: "card" }, [
-        _c("div", { staticClass: "card-content claim-stat" }, [
-          _c("h3", { staticClass: "subtitle stat-title" }, [
-            _vm._v("Gross Loss Amount")
-          ]),
-          _vm._v(" "),
-          _c("h1", { staticClass: "title stat has-text-info" }, [
-            _vm._v("$" + _vm._s(_vm.claim.gross_loss))
-          ]),
-          _vm._v(" "),
-          _vm._m(0)
-        ])
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "column is-one-third is-hidden-mobile" }, [
-      _c("div", { staticClass: "card" }, [
-        _c("div", { staticClass: "card-content claim-stat" }, [
-          _c("h3", { staticClass: "subtitle stat-title" }, [
-            _vm._v("Gross Loss Amount")
-          ]),
-          _vm._v(" "),
-          _c("h1", { staticClass: "title stat has-text-info" }, [
-            _vm._v("$" + _vm._s(_vm.claim.gross_loss))
-          ]),
-          _vm._v(" "),
-          _vm._m(1)
-        ])
-      ])
-    ]),
-    _vm._v(" "),
-    _vm._m(2),
-    _vm._v(" "),
-    _vm._m(3),
-    _vm._v(" "),
-    _vm._m(4),
-    _vm._v(" "),
-    _vm._m(5)
-  ])
+  return _vm._m(0)
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("h3", { staticClass: "subtitle stat-title" }, [
-      _c("a", { attrs: { href: "" } }, [
-        _c("span", { staticClass: "icon" }, [
-          _c("i", { staticClass: "fa fa-retweet" })
-        ]),
-        _vm._v(" Issue Correction")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("h3", { staticClass: "subtitle stat-title" }, [
-      _c("a", { attrs: { href: "" } }, [
-        _c("span", { staticClass: "icon" }, [
-          _c("i", { staticClass: "fa fa-retweet" })
-        ]),
-        _vm._v(" Issue Correction")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "column is-half-mobile" }, [
-      _c("div", { staticClass: "card" }, [
-        _c("div", { staticClass: "card-content claim-stat" }, [
-          _c("h3", { staticClass: "subtitle stat-title" }, [
-            _vm._v("Time Open")
-          ]),
-          _vm._v(" "),
-          _c("h1", { staticClass: "title stat has-text-grey" }, [_vm._v("6")]),
-          _vm._v(" "),
-          _c("h3", { staticClass: "subtitle stat-title" }, [_vm._v("Days")])
+    return _c("div", { staticClass: "columns is-multiline is-mobile" }, [
+      _c("div", { staticClass: "column is-hidden-desktop is-12" }, [
+        _c("div", { staticClass: "card" }, [
+          _c("div", { staticClass: "card-content claim-stat" }, [
+            _c("h3", { staticClass: "subtitle stat-title" }, [
+              _vm._v("Gross Loss Amount")
+            ]),
+            _vm._v(" "),
+            _c("h3", { staticClass: "subtitle stat-title" }, [
+              _c("a", { attrs: { href: "" } }, [
+                _c("span", { staticClass: "icon" }, [
+                  _c("i", { staticClass: "fa fa-retweet" })
+                ]),
+                _vm._v(" Issue Correction")
+              ])
+            ])
+          ])
         ])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "column is-half-mobile" }, [
-      _c("div", { staticClass: "card" }, [
-        _c("div", { staticClass: "card-content claim-stat" }, [
-          _c("h3", { staticClass: "subtitle stat-title" }, [
-            _vm._v("Time To Contact")
-          ]),
-          _vm._v(" "),
-          _c("h1", { staticClass: "title stat has-text-grey" }, [_vm._v("2")]),
-          _vm._v(" "),
-          _c("h3", { staticClass: "subtitle stat-title" }, [_vm._v("Days")])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "column is-one-third is-hidden-mobile" }, [
+        _c("div", { staticClass: "card" }, [
+          _c("div", { staticClass: "card-content claim-stat" }, [
+            _c("h3", { staticClass: "subtitle stat-title" }, [
+              _vm._v("Gross Loss Amount")
+            ]),
+            _vm._v(" "),
+            _c("h3", { staticClass: "subtitle stat-title" }, [
+              _c("a", { attrs: { href: "" } }, [
+                _c("span", { staticClass: "icon" }, [
+                  _c("i", { staticClass: "fa fa-retweet" })
+                ]),
+                _vm._v(" Issue Correction")
+              ])
+            ])
+          ])
         ])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "column is-half-mobile" }, [
-      _c("div", { staticClass: "card" }, [
-        _c("div", { staticClass: "card-content claim-stat" }, [
-          _c("h3", { staticClass: "subtitle stat-title" }, [
-            _vm._v("Time To Inspection")
-          ]),
-          _vm._v(" "),
-          _c("h1", { staticClass: "title stat has-text-grey" }, [_vm._v("4")]),
-          _vm._v(" "),
-          _c("h3", { staticClass: "subtitle stat-title" }, [_vm._v("Days")])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "column is-half-mobile" }, [
+        _c("div", { staticClass: "card" }, [
+          _c("div", { staticClass: "card-content claim-stat" }, [
+            _c("h3", { staticClass: "subtitle stat-title" }, [
+              _vm._v("Time Open")
+            ]),
+            _vm._v(" "),
+            _c("h1", { staticClass: "title stat has-text-grey" }, [
+              _vm._v("6")
+            ]),
+            _vm._v(" "),
+            _c("h3", { staticClass: "subtitle stat-title" }, [_vm._v("Days")])
+          ])
         ])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "column is-half-mobile" }, [
-      _c("div", { staticClass: "card" }, [
-        _c("div", { staticClass: "card-content claim-stat" }, [
-          _c("h3", { staticClass: "subtitle stat-title" }, [
-            _vm._v("Time to Estimate")
-          ]),
-          _vm._v(" "),
-          _c("h1", { staticClass: "title stat has-text-grey" }, [_vm._v("5")]),
-          _vm._v(" "),
-          _c("h3", { staticClass: "subtitle stat-title" }, [_vm._v("Days")])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "column is-half-mobile" }, [
+        _c("div", { staticClass: "card" }, [
+          _c("div", { staticClass: "card-content claim-stat" }, [
+            _c("h3", { staticClass: "subtitle stat-title" }, [
+              _vm._v("Time To Contact")
+            ]),
+            _vm._v(" "),
+            _c("h1", { staticClass: "title stat has-text-grey" }, [
+              _vm._v("2")
+            ]),
+            _vm._v(" "),
+            _c("h3", { staticClass: "subtitle stat-title" }, [_vm._v("Days")])
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "column is-half-mobile" }, [
+        _c("div", { staticClass: "card" }, [
+          _c("div", { staticClass: "card-content claim-stat" }, [
+            _c("h3", { staticClass: "subtitle stat-title" }, [
+              _vm._v("Time To Inspection")
+            ]),
+            _vm._v(" "),
+            _c("h1", { staticClass: "title stat has-text-grey" }, [
+              _vm._v("4")
+            ]),
+            _vm._v(" "),
+            _c("h3", { staticClass: "subtitle stat-title" }, [_vm._v("Days")])
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "column is-half-mobile" }, [
+        _c("div", { staticClass: "card" }, [
+          _c("div", { staticClass: "card-content claim-stat" }, [
+            _c("h3", { staticClass: "subtitle stat-title" }, [
+              _vm._v("Time to Estimate")
+            ]),
+            _vm._v(" "),
+            _c("h1", { staticClass: "title stat has-text-grey" }, [
+              _vm._v("5")
+            ]),
+            _vm._v(" "),
+            _c("h3", { staticClass: "subtitle stat-title" }, [_vm._v("Days")])
+          ])
         ])
       ])
     ])
@@ -3308,7 +3299,7 @@ var render = function() {
     [
       _c("div", { staticClass: "column is-half assignment" }, [
         _c("a", { attrs: { href: "/profile/" + _vm.user.id + "#" } }, [
-          _vm.user.avatar
+          _vm.adjuster.avatar
             ? _c("img", {
                 staticStyle: {
                   "border-radius": "356px",
@@ -3316,8 +3307,8 @@ var render = function() {
                   cursor: "pointer"
                 },
                 attrs: {
-                  src: _vm.user.avatar.path,
-                  alt: _vm.user.name,
+                  src: _vm.adjuster.avatar.path,
+                  alt: _vm.adjuster.name,
                   width: "100%",
                   height: "auto"
                 },
@@ -3327,14 +3318,19 @@ var render = function() {
                   }
                 }
               })
-            : _c("span", { staticClass: "icon is-medium" }, [
-                _c("i", { staticClass: "fa fa-11x fa-user-circle-o" })
-              ])
+            : _c(
+                "span",
+                {
+                  staticClass: "icon is-standard",
+                  staticStyle: { padding: "3em" }
+                },
+                [_c("i", { staticClass: "fa fa-9x fa-user-circle-o" })]
+              )
         ]),
         _vm._v(" "),
         _c("h3", {
           staticStyle: { color: "#aaa", overflow: "hidden" },
-          domProps: { textContent: _vm._s(_vm.user.name) }
+          domProps: { textContent: _vm._s(_vm.adjuster.name) }
         }),
         _vm._v(" "),
         _c(
@@ -3367,8 +3363,8 @@ var render = function() {
                   height: "auto"
                 }
               })
-            : _c("span", { staticClass: "icon is-medium" }, [
-                _c("i", { staticClass: "fa fa-11x fa-user-circle-o" })
+            : _c("span", { staticClass: "icon is-standard" }, [
+                _c("i", { staticClass: "fa fa-9x fa-user-circle-o" })
               ])
         ]),
         _vm._v(" "),
@@ -3511,61 +3507,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3591,175 +3532,62 @@ var render = function() {
     "div",
     { staticClass: "content", staticStyle: { margin: "3rem" } },
     [
-      _c("div", { staticClass: "timeline" }, [
-        _c("div", { staticClass: "timeline-item" }, [
-          _vm.user.avatar
-            ? _c("div", { staticClass: "timeline-marker is-image is-32x32" }, [
-                _c("a", { attrs: { href: "/users/" + _vm.user.id } }, [
-                  _c("img", {
-                    attrs: { src: _vm.user.avatar.path, alt: _vm.user.name }
-                  })
+      _c(
+        "div",
+        { staticClass: "timeline" },
+        [
+          _vm._l(_vm.claim.statuses, function(status) {
+            return _c("div", { staticClass: "timeline-item" }, [
+              status.user
+                ? _c(
+                    "div",
+                    { staticClass: "timeline-marker is-image is-32x32" },
+                    [
+                      _c("a", { attrs: { href: "/users/" + status.user.id } }, [
+                        _c("img", {
+                          attrs: {
+                            src: status.user.avatar.path,
+                            alt: status.user.name
+                          }
+                        })
+                      ])
+                    ]
+                  )
+                : _c("div", { staticClass: "timeline-marker is-secondary" }),
+              _vm._v(" "),
+              _c("div", { staticClass: "timeline-content" }, [
+                _c("p", {
+                  staticClass: "heading",
+                  domProps: { textContent: _vm._s(status.date) }
+                }),
+                _vm._v(" "),
+                _c("p", [
+                  _c("strong", {
+                    domProps: { textContent: _vm._s(status.name) }
+                  }),
+                  _vm._v(" "),
+                  _c("br"),
+                  _vm._v(" "),
+                  status.user
+                    ? _c("span", {
+                        domProps: { textContent: _vm._s(status.user.name) }
+                      })
+                    : _c("span", {
+                        domProps: { textContent: _vm._s("System") }
+                      })
                 ])
               ])
-            : _c("div", { staticClass: "timeline-marker is-secondary" }),
+            ])
+          }),
           _vm._v(" "),
           _vm._m(0)
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "timeline-item" }, [
-          _vm.reviewer.avatar
-            ? _c(
-                "div",
-                {
-                  staticClass: "timeline-marker is-image is-32x32",
-                  staticStyle: { "border-color": "#439BD1" }
-                },
-                [
-                  _c("a", { attrs: { href: "/users/" + _vm.reviewer.id } }, [
-                    _c("img", {
-                      attrs: {
-                        src: _vm.reviewer.avatar.path,
-                        alt: _vm.reviewer.name
-                      }
-                    })
-                  ])
-                ]
-              )
-            : _c("div", { staticClass: "timeline-marker is-secondary" }),
-          _vm._v(" "),
-          _vm._m(1)
-        ]),
-        _vm._v(" "),
-        _vm._m(2),
-        _vm._v(" "),
-        _vm._m(3),
-        _vm._v(" "),
-        _c("div", { staticClass: "timeline-item" }, [
-          _vm.user.avatar
-            ? _c("div", { staticClass: "timeline-marker is-image is-32x32" }, [
-                _c("a", { attrs: { href: "/users/" + _vm.user.id } }, [
-                  _c("img", {
-                    attrs: { src: _vm.user.avatar.path, alt: _vm.user.name }
-                  })
-                ])
-              ])
-            : _c("div", { staticClass: "timeline-marker is-secondary" }),
-          _vm._v(" "),
-          _c("div", { staticClass: "timeline-content" }, [
-            _c("p", { staticClass: "heading" }, [_vm._v("February 01, 2018")]),
-            _vm._v(" "),
-            _c("p", [
-              _c("a", { attrs: { href: "/users/" + _vm.user.id } }, [
-                _vm._v(_vm._s(_vm.user.name))
-              ]),
-              _vm._v(" assigned as adjuster")
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "timeline-item" }, [
-          _vm.reviewer.avatar
-            ? _c(
-                "div",
-                {
-                  staticClass: "timeline-marker is-image is-32x32",
-                  staticStyle: { "border-color": "#439BD1" }
-                },
-                [
-                  _c("a", { attrs: { href: "/users/" + _vm.reviewer.id } }, [
-                    _c("img", {
-                      attrs: {
-                        src: _vm.reviewer.avatar.path,
-                        alt: _vm.reviewer.name
-                      }
-                    })
-                  ])
-                ]
-              )
-            : _c("div", { staticClass: "timeline-marker is-secondary" }),
-          _vm._v(" "),
-          _c("div", { staticClass: "timeline-content" }, [
-            _c("p", { staticClass: "heading" }, [_vm._v("February 01, 2018")]),
-            _vm._v(" "),
-            _c("p", [
-              _c("a", { attrs: { href: "/users/" + _vm.reviewer.id } }, [
-                _vm._v(_vm._s(_vm.reviewer.name))
-              ]),
-              _vm._v(" assigned as reviewer")
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _vm._m(4),
-        _vm._v(" "),
-        _vm._m(5)
-      ])
+        ],
+        2
+      )
     ]
   )
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "timeline-content" }, [
-      _c("p", { staticClass: "heading" }, [_vm._v("February 05, 2018")]),
-      _vm._v(" "),
-      _c("p", [_vm._v("Estimate Submitted - $7893.12")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "timeline-content" }, [
-      _c("p", { staticClass: "heading" }, [_vm._v("February 05, 2018")]),
-      _vm._v(" "),
-      _c("p", [_vm._v("Estimate Requested")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "timeline-item" }, [
-      _c("div", { staticClass: "timeline-marker is-secondary" }),
-      _vm._v(" "),
-      _c("div", { staticClass: "timeline-content" }, [
-        _c("p", { staticClass: "heading" }, [_vm._v("February 03, 2018")]),
-        _vm._v(" "),
-        _c("p", [_vm._v("Site Inspected")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "timeline-item" }, [
-      _c("div", { staticClass: "timeline-marker is-secondary" }),
-      _vm._v(" "),
-      _c("div", { staticClass: "timeline-content" }, [
-        _c("p", { staticClass: "heading" }, [_vm._v("February 01, 2018")]),
-        _vm._v(" "),
-        _c("p", [_vm._v("Customer Contacted")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "timeline-item" }, [
-      _c("div", { staticClass: "timeline-marker is-secondary" }),
-      _vm._v(" "),
-      _c("div", { staticClass: "timeline-content" }, [
-        _c("p", { staticClass: "heading" }, [_vm._v("January 31, 2018")]),
-        _vm._v(" "),
-        _c("p", [_vm._v("In Assignment Queue")])
-      ])
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -3903,6 +3731,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -3915,10 +3745,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		return __WEBPACK_IMPORTED_MODULE_0__claimData_js__["a" /* default */];
 	},
 	mounted: function mounted() {
+		this.newStatus.claim_number = this.claim.claim_number;
+		this.newStatus.claim_id = this.claim.id;
+		this.newStatus.user_id = this.user.id;
 		this.getTodaysDate();
 	},
 
 	methods: {
+		submit: function submit() {
+			var _this = this;
+
+			this.newStatus.post('/api/claims/' + this.claim.id + '/statuses').then(function (response) {
+				console.log(response);
+				_this.claim.statuses.unshift(response);
+				_this.toggleNewStatus();
+			});
+		},
 		getTodaysDate: function getTodaysDate() {
 			var today = new Date();
 			this.newStatus.date = today.getMonth() + 1 + '/' + today.getDate() + '/' + today.getFullYear();
@@ -3930,9 +3772,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		}
 	},
 	computed: {
-		accessContact: function accessContact() {
-			return claim.claim_data.accessContact.name;
-		}
+		// accessContact() {
+		// 	return claim.claim_data.accessContact.name
+		// }
 	}
 });
 
@@ -3999,196 +3841,229 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("modal", { attrs: { show: _vm.creatingNewStatus } }, [
-    _c("button", {
-      staticClass: "modal-close is-large",
-      attrs: { "aria-label": "close" },
-      on: { click: _vm.toggleNewStatus }
-    }),
-    _vm._v(" "),
-    _c("h3", { staticClass: "subtitle has-text-info has-text-weight-light" }, [
-      _vm._v("Claim# " + _vm._s(_vm.claim.claim_number))
-    ]),
-    _vm._v(" "),
-    _c("h1", { staticClass: "title", staticStyle: { color: "#efefef" } }, [
-      _vm._v(_vm._s(_vm.newStatus.name))
-    ]),
-    _vm._v(" "),
-    _c("hr", { staticStyle: { background: "#485269" } }),
-    _vm._v(" "),
-    _vm.newStatus.name == "Select a status"
-      ? _c("div", { staticClass: "field" }, [
-          _c("label", { staticClass: "label", attrs: { for: "status" } }, [
-            _vm._v("Status:")
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "control" }, [
-            _c("div", { staticClass: "select" }, [
-              _c(
-                "select",
-                {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.newStatus.name,
-                      expression: "newStatus.name"
-                    }
-                  ],
-                  staticClass: "input",
-                  attrs: { name: "status" },
-                  on: {
-                    change: function($event) {
-                      var $$selectedVal = Array.prototype.filter
-                        .call($event.target.options, function(o) {
-                          return o.selected
-                        })
-                        .map(function(o) {
-                          var val = "_value" in o ? o._value : o.value
-                          return val
-                        })
-                      _vm.$set(
-                        _vm.newStatus,
-                        "name",
-                        $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      )
-                    }
-                  }
-                },
-                _vm._l(_vm.statusesList, function(item) {
-                  return _c("option", {
-                    domProps: {
-                      value: item.name,
-                      textContent: _vm._s(item.name)
-                    }
-                  })
-                })
-              )
-            ])
-          ])
-        ])
-      : _vm._e(),
-    _vm._v(" "),
-    _c("div", { staticClass: "field" }, [
-      _c("label", { staticClass: "label", attrs: { for: "another" } }, [
-        _vm._v("Date:")
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "control has-icons-left" }, [
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.newStatus.date,
-              expression: "newStatus.date"
-            }
-          ],
-          staticClass: "input",
-          attrs: { type: "text", placeholder: "yyyy/mm/dd/" },
-          domProps: { value: _vm.newStatus.date },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.$set(_vm.newStatus, "date", $event.target.value)
-            }
-          }
-        }),
-        _vm._v(" "),
-        _c("span", { staticClass: "icon is-small is-left" }, [
-          _c("i", { staticClass: "fa fa-calendar-o" })
-        ]),
-        _vm._v(" "),
-        _vm.newStatus.errors.has("date")
-          ? _c("span", {
-              staticClass: "help is-danger",
-              domProps: {
-                textContent: _vm._s(_vm.newStatus.errors.get("date"))
-              }
-            })
-          : _vm._e()
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "field" }, [
-      _c("label", { staticClass: "label", attrs: { for: "another" } }, [
-        _vm._v("Time:")
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "control has-icons-left" }, [
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.newStatus.time,
-              expression: "newStatus.time"
-            }
-          ],
-          staticClass: "input",
-          attrs: { type: "text", placeholder: "11:35 am" },
-          domProps: { value: _vm.newStatus.time },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.$set(_vm.newStatus, "time", $event.target.value)
-            }
-          }
-        }),
-        _vm._v(" "),
-        _c("span", { staticClass: "icon is-small is-left" }, [
-          _c("i", { staticClass: "fa fa-clock-o" })
-        ]),
-        _vm._v(" "),
-        _vm.newStatus.errors.has("time")
-          ? _c("span", {
-              staticClass: "help is-danger",
-              domProps: {
-                textContent: _vm._s(_vm.newStatus.errors.get("time"))
-              }
-            })
-          : _vm._e()
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "field", staticStyle: { "margin-top": "1em" } }, [
-      _c("input", {
-        staticClass: "switch is-small is-rounded is-info",
-        attrs: {
-          id: "switchRoundedInfo",
-          type: "checkbox",
-          name: "switchRoundedInfo",
-          checked: "checked"
-        }
-      }),
-      _vm._v(" "),
-      _c("label", { attrs: { for: "switchRoundedInfo" } }, [
-        _vm._v("Export to third parties")
-      ])
-    ]),
-    _vm._v(" "),
     _c(
-      "div",
-      { staticClass: "has-text-right", staticStyle: { "margin-top": "1.5em" } },
+      "form",
+      {
+        on: {
+          submit: function($event) {
+            $event.preventDefault()
+            return _vm.submit($event)
+          }
+        }
+      },
       [
+        _c("button", {
+          staticClass: "modal-close is-large",
+          attrs: { "aria-label": "close" },
+          on: { click: _vm.toggleNewStatus }
+        }),
+        _vm._v(" "),
         _c(
-          "a",
-          {
-            staticClass: "is-size-7 has-text-white is-light is-small is-link",
-            staticStyle: { "margin-right": "1em", "margin-top": "2em" },
-            on: { click: _vm.toggleNewStatus }
-          },
-          [_vm._v("cancel")]
+          "h3",
+          { staticClass: "subtitle has-text-info has-text-weight-light" },
+          [_vm._v("Claim# " + _vm._s(_vm.claim.claim_number))]
         ),
         _vm._v(" "),
-        _c("button", { staticClass: "button is-info is-small" }, [
-          _vm._v("Add Status")
-        ])
+        _c("h1", { staticClass: "title", staticStyle: { color: "#efefef" } }, [
+          _vm._v(_vm._s(_vm.newStatus.name))
+        ]),
+        _vm._v(" "),
+        _c("hr", { staticStyle: { background: "#485269" } }),
+        _vm._v(" "),
+        _vm.newStatus.name == "Select a status"
+          ? _c("div", { staticClass: "field" }, [
+              _c("label", { staticClass: "label", attrs: { for: "status" } }, [
+                _vm._v("Status:")
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "control" }, [
+                _c("div", { staticClass: "select" }, [
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.newStatus.name,
+                          expression: "newStatus.name"
+                        }
+                      ],
+                      staticClass: "input",
+                      attrs: { name: "status" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.newStatus,
+                            "name",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
+                      }
+                    },
+                    _vm._l(_vm.statusesList, function(item) {
+                      return _c("option", {
+                        domProps: {
+                          value: item.name,
+                          textContent: _vm._s(item.name)
+                        }
+                      })
+                    })
+                  )
+                ])
+              ])
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _c("div", { staticClass: "field" }, [
+          _c("label", { staticClass: "label", attrs: { for: "another" } }, [
+            _vm._v("Date:")
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "control has-icons-left" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.newStatus.date,
+                  expression: "newStatus.date"
+                }
+              ],
+              staticClass: "input",
+              attrs: { type: "text", placeholder: "yyyy/mm/dd/" },
+              domProps: { value: _vm.newStatus.date },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.newStatus, "date", $event.target.value)
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("span", { staticClass: "icon is-small is-left" }, [
+              _c("i", { staticClass: "fa fa-calendar-o" })
+            ]),
+            _vm._v(" "),
+            _vm.newStatus.errors.has("date")
+              ? _c("span", {
+                  staticClass: "help is-danger",
+                  domProps: {
+                    textContent: _vm._s(_vm.newStatus.errors.get("date"))
+                  }
+                })
+              : _vm._e()
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "field" }, [
+          _c("label", { staticClass: "label", attrs: { for: "another" } }, [
+            _vm._v("Time:")
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "control has-icons-left" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.newStatus.time,
+                  expression: "newStatus.time"
+                }
+              ],
+              staticClass: "input",
+              attrs: { type: "text", placeholder: "11:35 am" },
+              domProps: { value: _vm.newStatus.time },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.newStatus, "time", $event.target.value)
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("span", { staticClass: "icon is-small is-left" }, [
+              _c("i", { staticClass: "fa fa-clock-o" })
+            ]),
+            _vm._v(" "),
+            _vm.newStatus.errors.has("time")
+              ? _c("span", {
+                  staticClass: "help is-danger",
+                  domProps: {
+                    textContent: _vm._s(_vm.newStatus.errors.get("time"))
+                  }
+                })
+              : _vm._e()
+          ])
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "field", staticStyle: { "margin-top": "1em" } },
+          [
+            _c("input", {
+              staticClass: "switch is-small is-rounded is-info",
+              attrs: {
+                id: "switchRoundedInfo",
+                type: "checkbox",
+                name: "switchRoundedInfo",
+                checked: "checked"
+              }
+            }),
+            _vm._v(" "),
+            _c("label", { attrs: { for: "switchRoundedInfo" } }, [
+              _vm._v("Export to third parties")
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "has-text-right",
+            staticStyle: { "margin-top": "1.5em" }
+          },
+          [
+            _c(
+              "a",
+              {
+                staticClass:
+                  "is-size-7 has-text-white is-light is-small is-link",
+                staticStyle: { "margin-right": "1em", "margin-top": "2em" },
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return _vm.toggleNewStatus($event)
+                  }
+                }
+              },
+              [_vm._v("cancel")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "button is-info is-small",
+                attrs: { type: "submit" }
+              },
+              [_vm._v("Add Status")]
+            )
+          ]
+        )
       ]
     )
   ])
@@ -4500,6 +4375,7 @@ var Errors = function () {
 	claimId: '',
 	claim: {},
 	user: {},
+	adjuster: {},
 	reviewer: {},
 	bounds: {},
 	map: {},

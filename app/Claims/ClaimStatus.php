@@ -30,11 +30,11 @@ class ClaimStatus extends Model
     	$this->attributes['date'] = $date->toDateString();
     }
 
-    // public function setTimeAttribute($query)
-    // {
-    //     $time = Carbon::parse($query);
-    //     $this->attributes['time'] = $time->toW3cString();
-    // }
+    public function setTimeAttribute($query)
+    {
+        $time = Carbon::parse($query);
+        $this->attributes['time'] = $time->format("Y-m-d H:i:s");
+    }
 
     public function getDateAttribute($query)
     {

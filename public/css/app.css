@@ -16548,6 +16548,16 @@ h2.has-text-primary strong {
   font-size: 11em;
 }
 
+.icon.is-standard {
+  width: 9rem;
+  height: 9rem;
+  color: #E3E3E3;
+}
+
+.icon.is-standard i.fa.fa-9x {
+  font-size: 9em;
+}
+
 h1.profile-title {
   color: #8f8f8f;
   text-transform: uppercase;

@@ -323,6 +323,15 @@ h1.hr-title {
 	}
 }
 
+.icon.is-standard {
+	width: 9rem;
+	height: 9rem;
+	color: $gray;
+	i.fa.fa-9x{
+		font-size: 9em;
+	}
+}
+
 h1.profile-title {
 	color: $gray-text;
 	text-transform: uppercase;

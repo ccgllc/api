@@ -37,7 +37,7 @@ class ClaimsController extends Controller {
 			return view('claims.dashboard', compact('superAdmin', 'claims'));
 		}
 
-		return Claim::with('adjuster')->orderBy('date_received', 'desc')->get();
+		return Claim::orderBy('date_received', 'desc')->get();
 
 	}
 
@@ -50,7 +50,6 @@ class ClaimsController extends Controller {
                 ->where('balance', '!=', 0);
             }, 
             // 'invoice',
-            'adjuster'
             ])->get();
 	}
 
@@ -84,17 +83,21 @@ class ClaimsController extends Controller {
 			'statuses' => function($query){
 		 		$query->orderBy('created_at', 'desc');
 		 	},
-            'carrier', 'statuses.user', //'invoices.payments.check.deposit','invoices.supplements', 'reviewer', 'adjuster', 'carrier'
+            'statuses.user.avatar', 'carrier', 'assignments', 'estimates' //'invoices.payments.check.deposit','invoices.supplements', 'reviewer', 'adjuster', 'carrier'
 		])->first();
+		// $claim->statuses->load('user.avatar');
+		// dd($claim);
+		$user = $request->user();
+		// $adjuster = 
 		// return Claim::find($id);
 		// $claim = Claim::findOrFail($id)->load('carrier');
 		// dd(json_encode($claim->claim_data));
 		// dd($claim);
-		$user = User::find(87); //15
-		$user->load('avatar');
-		$reviewer = User::find(13); //17
-		$reviewer->load('avatar');
-		return view('claims.show', compact('claim', 'user', 'reviewer'));
+		// $user = User::find(87); //15
+		// $user->load('avatar');
+		// $reviewer = User::find(13); //17
+		// $reviewer->load('avatar');
+		return view('claims.show', compact('claim', 'user'));
 	}
 
 	/**

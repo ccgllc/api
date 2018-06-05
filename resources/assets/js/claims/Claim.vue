@@ -53,10 +53,10 @@
 		},
 		created() {
 			this.claim = claim;
-			this.claim.gross_loss = '7,893.12';
 			this.claim.claim_data = JSON.parse(this.claim.claim_data);
 			this.user = user;
-			this.reviewer = reviewer;
+			// this.adjuster = this.claim.assignments.find(assignment => assignment.type = 'adjuster');
+			// this.reviewer = this.claim.assignments.find(assignment => assignment.type = 'reviewer');
 			this.hasAlert = true;
 			this.alert.message = 'You have been assigned to this claim please confirm or reject this assignment';
 		},

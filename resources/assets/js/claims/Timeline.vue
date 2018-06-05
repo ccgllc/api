@@ -26,76 +26,21 @@
 
 				<div class="timeline">
 
-				  <div class="timeline-item">
-				  	<div class="timeline-marker is-image is-32x32" v-if="user.avatar">
-				      <a :href="'/users/' + user.id"><img :src="user.avatar.path" :alt="user.name"></a>
+			  	<div class="timeline-item" v-for="status in claim.statuses">
+				  	<div class="timeline-marker is-image is-32x32" v-if="status.user">
+				      <a :href="'/users/' + status.user.id"><img :src="status.user.avatar.path" :alt="status.user.name"></a>
 				    </div>
 				    <div class="timeline-marker is-secondary" v-else></div>
 				  	<div class="timeline-content">
-				      <p class="heading">February 05, 2018</p>
-				      <p>Estimate Submitted - $7893.12</p>
+				      <p class="heading" v-text="status.date"></p>
+				      <p><strong v-text="status.name"></strong>  <br> <span v-if="status.user" v-text="status.user.name"></span> <span v-text="'System'" v-else></span></p>
 				    </div>
-					</div>
-
-				 	<div class="timeline-item">
-					  	<div class="timeline-marker is-image is-32x32" style="border-color: #439BD1;" v-if="reviewer.avatar">
-					      <a :href="'/users/' + reviewer.id"><img :src="reviewer.avatar.path" :alt="reviewer.name"></a>
-					    </div>
-					    <div class="timeline-marker is-secondary" v-else></div>
-					  	<div class="timeline-content">
-					      <p class="heading">February 05, 2018</p>
-					      <p>Estimate Requested</p>
-					    </div>
-					</div>
-
-					<div class="timeline-item">
-				  	<div class="timeline-marker is-secondary"></div>
-					  	<div class="timeline-content">
-					      <p class="heading">February 03, 2018</p>
-					      <p>Site Inspected</p>
-					    </div>
-					</div>
-
-				  <div class="timeline-item">
-				  	<div class="timeline-marker is-secondary"></div>
-				  	<div class="timeline-content">
-				      <p class="heading">February 01, 2018</p>
-				      <p>Customer Contacted</p>
-				    </div>
-				  </div>
-					
-				  <div class="timeline-item">
-			    	<div class="timeline-marker is-image is-32x32" v-if="user.avatar">
-				      <a :href="'/users/' + user.id"><img :src="user.avatar.path" :alt="user.name"></a>
-				    </div>
-				    <div class="timeline-marker is-secondary" v-else></div>
-				    <div class="timeline-content">
-				      <p class="heading">February 01, 2018</p>
-		      		  <p><a :href="'/users/' + user.id">{{user.name}}</a> assigned as adjuster</p>
-				    </div>
-				  </div>
-				   <div class="timeline-item">
-				   	<div class="timeline-marker is-image is-32x32" style="border-color: #439BD1;" v-if="reviewer.avatar">
-					      <a :href="'/users/' + reviewer.id"><img :src="reviewer.avatar.path" :alt="reviewer.name"></a>
-					    </div>
-					    <div class="timeline-marker is-secondary" v-else></div>
-				    <div class="timeline-content">
-				      <p class="heading">February 01, 2018</p>
-				      <p><a :href="'/users/' + reviewer.id">{{reviewer.name}}</a> assigned as reviewer</p>
-				    </div>
-				  </div>
-
-				  <div class="timeline-item">
-				    <div class="timeline-marker is-secondary"></div>
-				    <div class="timeline-content">
-				      <p class="heading">January 31, 2018</p>
-				      <p>In Assignment Queue</p>
-				    </div>
-				  </div>
+				</div>
 		
 				  <div class="timeline-header">
 				    <span class="tag is-medium is-secondary">FNOL</span>
 				  </div>
+
 				</div>
 				
 			</div>

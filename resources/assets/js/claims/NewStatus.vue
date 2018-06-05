@@ -1,5 +1,6 @@
 <template>	
 	<modal :show="creatingNewStatus">
+		<form @submit.prevent="submit">
 		<button @click="toggleNewStatus" class="modal-close is-large" aria-label="close"></button>
 		<h3 class="subtitle has-text-info has-text-weight-light">Claim# {{ claim.claim_number }}</h3>
 		<h1 class="title" style="color: #efefef">{{ newStatus.name }}</h1>
@@ -58,9 +59,10 @@
 		</div>
 
 		<div class="has-text-right" style="margin-top: 1.5em;">
-			<a @click="toggleNewStatus" class="is-size-7 has-text-white is-light is-small is-link" style="margin-right: 1em; margin-top: 2em;">cancel</a>
-			<button class="button is-info is-small">Add Status</button>
+			<a @click.prevent="toggleNewStatus" class="is-size-7 has-text-white is-light is-small is-link" style="margin-right: 1em; margin-top: 2em;">cancel</a>
+			<button type="submit" class="button is-info is-small">Add Status</button>
 		</div>
+		</form>
 	</modal>
 </template>
 <script>
@@ -75,9 +77,19 @@
 			return claimData;
 		},
 		mounted() {
+			this.newStatus.claim_number = this.claim.claim_number;
+			this.newStatus.claim_id = this.claim.id;
+			this.newStatus.user_id = this.user.id;
 			this.getTodaysDate();
 		},
 		methods: {
+			submit() {
+				this.newStatus.post('/api/claims/' + this.claim.id + '/statuses').then(response => {
+					console.log(response);
+					this.claim.statuses.unshift(response);
+					this.toggleNewStatus();
+				})
+			},
 			getTodaysDate() {
 				let today = new Date();
 				this.newStatus.date =   (today.getMonth()+1) + '/' + today.getDate() + '/'+ today.getFullYear();
@@ -86,12 +98,12 @@
 			toggleNewStatus() {
 				// this.getTodaysDate();
 				return this.creatingNewStatus = !this.creatingNewStatus;
-			}
+			},
 		},
 		computed: {
-			accessContact() {
-				return claim.claim_data.accessContact.name
-			}
+			// accessContact() {
+			// 	return claim.claim_data.accessContact.name
+			// }
 		}
 	}
 </script>

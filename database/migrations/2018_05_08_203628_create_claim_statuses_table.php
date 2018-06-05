@@ -23,10 +23,9 @@ class CreateClaimStatusesTable extends Migration
             $table->string('transaction_id')->nullable(); // identifier from exact.
             $table->string('orig_transaction_id')->nullable(); // identifier from exact.
             $table->string('claim_number'); // claim number just for reference.
-            $table->string('created_by')->default('system');
             $table->integer('claim_id')->unsigned(); // claim id foreign key.
             $table->foreign('claim_id')->references('id')->on('claims')->onDelete('cascade');
-            // $table->integer('user_id')->unsigned(); // user id foreign key.
+            $table->integer('user_id')->unsigned()->default(0); // user id foreign key.
             // $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->softDeletes();
             $table->timestamps();

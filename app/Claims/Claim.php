@@ -68,15 +68,15 @@ class Claim extends Model
         return $this->belongsTo(\CCG\Carrier::class, 'carrier_id', 'id');
     }
 
-    public function adjuster()
-    {
-        return $this->belongsTo(\CCG\User::class, 'adjuster_id', 'id');
-    }
+    // public function adjuster()
+    // {
+    //     return $this->belongsTo(\CCG\User::class, 'adjuster_id', 'id');
+    // }
 
-     public function reviewer()
-    {
-        return $this->belongsTo(\CCG\User::class, 'reviewer_id', 'id');
-    }
+    //  public function reviewer()
+    // {
+    //     return $this->belongsTo(\CCG\User::class, 'reviewer_id', 'id');
+    // }
 
     // public function ownerContactNumbers()
     // {

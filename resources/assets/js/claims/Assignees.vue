@@ -3,19 +3,19 @@
 		<div class="column is-half assignment">
 			<a :href="'/profile/' + user.id + '#'">
 				<img 
-	    			v-if="user.avatar"
-	    			:src="user.avatar.path"
-	    			:alt="user.name"
+	    			v-if="adjuster.avatar"
+	    			:src="adjuster.avatar.path"
+	    			:alt="adjuster.name"
 	    			@click="addingAvatar = true"
 	    			style="border-radius: 356px; border: 10px solid #439BD1; cursor: pointer;"
 	    			width="100%"
 	    			height="auto"
     			>
-    			<span class="icon is-medium" v-else>
-    				<i class="fa fa-11x fa-user-circle-o"></i>
+    			<span class="icon is-standard" style="padding: 3em;" v-else>
+    				<i class="fa fa-9x fa-user-circle-o"></i>
     			</span>
     		</a>
-    		<h3 v-text="user.name" style="color: #aaa; overflow:hidden;"></h3>
+    		<h3 v-text="adjuster.name" style="color: #aaa; overflow:hidden;"></h3>
     		<h4 style="color: #bbb; font-size: 1em; color: #439BD1; margin-top: -.25em; font-weight: 700;">Adjuster</h4>
 		</div><!--  end column -->
 		 <div class="column is-half">
@@ -28,8 +28,8 @@
 	    			width="100%"
 	    			height="auto"
     			>
-    			<span class="icon is-medium" v-else>
-    				<i class="fa fa-11x fa-user-circle-o"></i>
+    			<span class="icon is-standard" v-else>
+    				<i class="fa fa-9x fa-user-circle-o"></i>
     			</span>
     		</a>
 			<h3 v-text="reviewer.name" style="color: #aaa; overflow:hidden;"></h3> 

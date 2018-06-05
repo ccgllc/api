@@ -5,7 +5,7 @@
 			<div class="card">
 				<div class="card-content claim-stat">
 					<h3 class="subtitle stat-title">Gross Loss Amount</h3>
-					<h1 class="title stat has-text-info">${{ claim.gross_loss }}</h1>
+					<!-- <h1 class="title stat has-text-info"><span v-if="claim.estimates">${{ claim.estimates[0].gross_loss }}</span><span v-else">0</span></h1> -->
 					<h3 class="subtitle stat-title"><a href=""><span class="icon"><i class="fa fa-retweet"></i> </span> Issue Correction</a></h3>
 				</div>	
 			</div>
@@ -15,7 +15,7 @@
 			<div class="card">
 				<div class="card-content claim-stat">
 					<h3 class="subtitle stat-title">Gross Loss Amount</h3>
-					<h1 class="title stat has-text-info">${{ claim.gross_loss }}</h1>
+					<!-- <h1 class="title stat has-text-info"><span v-if="claim.estimates">${{ claim.estimates[0].gross_loss }}</span><span v-else">0</span></h1> -->
 					<h3 class="subtitle stat-title"><a href=""><span class="icon"><i class="fa fa-retweet"></i> </span> Issue Correction</a></h3>
 				</div>
 			</div>

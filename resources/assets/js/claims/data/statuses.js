@@ -1,13 +1,13 @@
 export default [
 	// { name: 'In Assign Queue', value: '',  type: 'date', disabled: false },
 	{ name: 'Select a status' },
-	{ name: 'Adjuster Assigned', value: '', assignee: 0, type: 'Adjuster' },
-	{ name: 'Reviewer Assigned', value: '', assignee: 0, type: 'Reviewer' },
-	{ name: 'Reassigned', value: '', assignee: 0, type: 'user' },
+	{ name: 'Adjuster Assigned', value: '', type: 'assignment' },
+	{ name: 'Reviewer Assigned', value: '', type: 'assignment' },
+	{ name: 'Reassigned', value: '', type: 'reassignment' },
 	{ name: 'Contacted', value: '', type: 'date'},
 	{ name: 'Site Inspected', value: '', type: 'date'},
-	{ name: 'Estimate Received', value: '', type: 'amount', disabled: false },
-	{ name: 'Correction Received', value: '', type: 'amount' },
+	{ name: 'Estimate Received', value: '', type: 'value', disabled: false },
+	{ name: 'Correction Received', value: '', type: 'value' },
 	{ name: 'File Closed', value: '', type: 'date'},
 	{ name: 'File Reopened', value: '', type: 'date'},
 ]
