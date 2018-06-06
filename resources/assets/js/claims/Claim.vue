@@ -2,7 +2,7 @@
 	<div class="columns">
 		<div id="left-side" class="column is-9">
 			<!-- <alert v-if="hasAlert" :message="alert.message" :type="alert.type" @click="confirmingAlert = !confirmingAlert"></alert> -->
-			<title-header></title-header>
+			<title-header @status-set="setStatus" @new-status-toggle="toggleCreatingNewStatus"></title-header>
 			<claim-nav></claim-nav>
 			<claim-map></claim-map>
 			<tags></tags>
@@ -13,11 +13,14 @@
 		</div>
 
 		<div  id="right-side" class="column is-3">
-			<assignees></assignees>
+			<assignees @status-set="setStatus" @new-status-toggle="toggleCreatingNewStatus"></assignees>
 			<timeline></timeline>
 		</div>
 		<!-- forms -->
-		<new-status></new-status>
+		<new-status 
+			@new-status-toggle="toggleCreatingNewStatus()"
+		>	
+		</new-status>
 	</div>
 </template>
 
@@ -62,6 +65,17 @@
 		},
 		data() {
 			return claimData;
+		},
+		methods: {
+			setStatus(data) {
+				console.log(data);
+				this.newStatus.name = data.name; 
+				return this.newStatus.type = data.type; 
+			},
+			toggleCreatingNewStatus() {
+				console.log('toggled');
+				return this.creatingNewStatus = !this.creatingNewStatus;
+			}
 		}
 	}
 </script>

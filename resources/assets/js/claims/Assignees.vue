@@ -1,7 +1,7 @@
 <template>
 	<div class="columns is-mobile assignments" style="text-align: center;">
 		<div class="column is-half assignment">
-			<a :href="'/profile/' + user.id + '#'">
+			<a @mouseup="$emit('status-set', statusesList[1]); $emit('new-status-toggle');">
 				<img 
 	    			v-if="adjuster.avatar"
 	    			:src="adjuster.avatar.path"
@@ -15,11 +15,11 @@
     				<i class="fa fa-9x fa-user-circle-o"></i>
     			</span>
     		</a>
-    		<h3 v-text="adjuster.name" style="color: #aaa; overflow:hidden;"></h3>
+    		<h3 style="color: #aaa; overflow:hidden;">{{ adjuster.name || 'Not Assigned' }}</h3>
     		<h4 style="color: #bbb; font-size: 1em; color: #439BD1; margin-top: -.25em; font-weight: 700;">Adjuster</h4>
 		</div><!--  end column -->
 		 <div class="column is-half">
-			<a :href="'/profile/' + reviewer.id + '#'">
+			<a @mouseup="$emit('status-set', statusesList[2]); $emit('new-status-toggle');">
 				<img 
 	    			v-if="reviewer.avatar"
 	    			:src="reviewer.avatar.path"
@@ -32,7 +32,7 @@
     				<i class="fa fa-9x fa-user-circle-o"></i>
     			</span>
     		</a>
-			<h3 v-text="reviewer.name" style="color: #aaa; overflow:hidden;"></h3> 
+			<h3 style="color: #aaa; overflow:hidden;">{{ reviewer.name || "Not Assigned" }}</h3> 
 			<div style="color: #bbb; font-size: 1em; color: #64C6A3; margin-top: -.25em; font-weight: 700;">Reviewer</div>
 		</div><!--  end column -->	
 	</div>

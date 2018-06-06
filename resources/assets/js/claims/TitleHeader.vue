@@ -51,14 +51,16 @@
 					<div class="column">
 						<h3 class="main-menu-title">Statuses</h3>
 			    		<hr class="dropdown-divider">
-			    		<a href="#"  class="is-menu-button dropdown-item"><span class="icon has-text-info is-small"><i class="fa fa-plus-circle"></i></span> In Assign Queue</a>
+			    		<a href="#"  @click="setStatusType(statusesList[1])" class="is-menu-button dropdown-item"><span class="icon has-text-info is-small"><i class="fa fa-plus-circle"></i></span> Assign Adjuster</a>
 			    		<hr class="dropdown-divider">
-			    		<a href="#" @click="newStatus.name = 'Assignments'; creatingNewStatus = true;" class="is-menu-button dropdown-item"><span class="icon has-text-info is-small"><i class="fa fa-user-plus"></i></span> Assignments</a>
+			    		<a href="#" @click="setStatusType(statusesList[2])" class="is-menu-button dropdown-item"><span class="icon has-text-info is-small"><i class="fa fa-plus-circle"></i></span> Assign Reviewer</a>
 			    		<hr class="dropdown-divider">
-				    	<a href="#" @click="createStatus('date', 'Customer Contacted')" class="is-menu-button dropdown-item"><span class="icon has-text-info is-small"><i class="fa fa-mobile"></i></span> Customer Contacted</a>
+			    		<a href="#" @click="setStatusType(statusesList[3])" class="is-menu-button dropdown-item"><span class="icon has-text-info is-small"><i class="fa fa-user-plus"></i></span> Reassign</a>
+			    		<hr class="dropdown-divider">
+				    	<a href="#" @click="setStatusType(statusesList[4])" class="is-menu-button dropdown-item"><span class="icon has-text-info is-small"><i class="fa fa-mobile"></i></span> Customer Contacted</a>
 				    	<hr class="dropdown-divider">
-				    	<a href="#" @click="createStatus('date', 'Site Inspected')" class="is-menu-button dropdown-item"><span class="icon has-text-info is-small"><i class="fa fa-search"></i> </span> Site Inspected</a>
-				    	<hr class="dropdown-divider">
+				    	<a href="#" @click="setStatusType(statusesList[5])" class="is-menu-button dropdown-item"><span class="icon has-text-info is-small"><i class="fa fa-search"></i> </span> Site Inspected</a>
+				    	<!-- <hr class="dropdown-divider"> -->
 					</div>
 
 					<div class="column">
@@ -68,9 +70,9 @@
 						<hr class="dropdown-divider">
 						<a href="#" class="is-menu-button dropdown-item"><span class="icon has-text-info is-small"><i class="fa fa-usd"></i> </span> Issue an Estimate Correction</a>
 			    		<hr class="dropdown-divider">
-						<a href="#" @click="createStatus('date', 'File Closed')" class="is-menu-button dropdown-item"><span class="icon has-text-info is-small"> <i class="fa fa-folder-o"></i> </span> Close File</a>
+						<a href="#" @click="setStatusType({ type: 'date', name: 'File Closed'})" class="is-menu-button dropdown-item"><span class="icon has-text-info is-small"> <i class="fa fa-folder-o"></i> </span> Close File</a>
 						<hr class="dropdown-divider">
-						<a href="#" @click="createStatus('date', 'File Reopened')" class="is-menu-button dropdown-item"><span class="icon has-text-info is-small"><i class="fa fa-folder-open-o"></i></span> Reopen File</a>
+						<a href="#" @click="setStatusType({ type: 'date', name: 'File Reopened'})" class="is-menu-button dropdown-item"><span class="icon has-text-info is-small"><i class="fa fa-folder-open-o"></i></span> Reopen File</a>
 					</div>
 
 			    	<div class="column">
@@ -117,10 +119,9 @@
 			return  claimData;
 		},
 		methods: {
-			createStatus(type, name) {
-				this.newStatus.name = name; 
-				this.newStatus.type = type; 
-				this.creatingNewStatus = true;
+			setStatusType(data) {
+				this.$emit('status-set', data);
+				return this.$emit('new-status-toggle')
 			},
 			scrollTop(){
 				window.scrollTo(0,0);

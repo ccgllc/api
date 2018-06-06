@@ -1,7 +1,7 @@
 <template>	
 	<modal :show="creatingNewStatus">
 		<form @submit.prevent="submit">
-		<button @click="toggleNewStatus" class="modal-close is-large" aria-label="close"></button>
+		<button @click.prevent="$emit('new-status-toggle')" class="modal-close is-large" aria-label="close"></button>
 		<h3 class="subtitle has-text-info has-text-weight-light">Claim# {{ claim.claim_number }}</h3>
 		<h1 class="title" style="color: #efefef">{{ newStatus.name }}</h1>
 		<hr style="background: #485269">
@@ -20,6 +20,16 @@
 				</div>
 		<!-- 	</div>
 		</div> -->
+
+			<!-- <div class="field" v-if="newStatus.name == 'Reviewer Assigned'">
+					<label class="label" for="status">Status:</label>
+					<div class="control">
+						<div class="select">
+						  <select v-model="newStatus.name" class="input" name="status">
+						    <option v-for="item in statusesList" :value="item.name" v-text="item.name"></option>
+						  </select>
+						</div>
+					</div> -->
 
 		<!-- <div class="columns">
 
@@ -59,7 +69,7 @@
 		</div>
 
 		<div class="has-text-right" style="margin-top: 1.5em;">
-			<a @click.prevent="toggleNewStatus" class="is-size-7 has-text-white is-light is-small is-link" style="margin-right: 1em; margin-top: 2em;">cancel</a>
+			<a @click.prevent="$emit('new-status-toggle')" class="is-size-7 has-text-white is-light is-small is-link" style="margin-right: 1em; margin-top: 2em;">cancel</a>
 			<button type="submit" class="button is-info is-small">Add Status</button>
 		</div>
 		</form>
@@ -87,7 +97,10 @@
 				this.newStatus.post('/api/claims/' + this.claim.id + '/statuses').then(response => {
 					console.log(response);
 					this.claim.statuses.unshift(response);
-					this.toggleNewStatus();
+					this.$emit('new-status-toggle');
+				}).catch(errors => {
+					console.error(errors);
+					this.$emit('new-status-toggle');
 				})
 			},
 			getTodaysDate() {
@@ -95,10 +108,10 @@
 				this.newStatus.date =   (today.getMonth()+1) + '/' + today.getDate() + '/'+ today.getFullYear();
 				this.newStatus.time = today.toTimeString().replace(/(GMT-\d{1,}\s{1,}\S[A-z]{1,}\S)/g, '').trim();
 			},
-			toggleNewStatus() {
-				// this.getTodaysDate();
-				return this.creatingNewStatus = !this.creatingNewStatus;
-			},
+			// toggleNewStatus() {
+			// 	// this.getTodaysDate();
+			// 	return this.creatingNewStatus = !this.creatingNewStatus;
+			// },
 		},
 		computed: {
 			// accessContact() {

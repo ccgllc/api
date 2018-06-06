@@ -28,7 +28,7 @@ class StatusesController extends Controller
     public function store(ValidateStatus $validStatus)
     {
         $status = $validStatus->persist();
-        $status->load('user.avatar');
+        $status->load('user.avatar', 'user.roles');
         return $status;
     }
 

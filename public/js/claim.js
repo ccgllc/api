@@ -287,6 +287,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 
@@ -328,6 +331,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	},
 	data: function data() {
 		return __WEBPACK_IMPORTED_MODULE_0__claimData_js__["a" /* default */];
+	},
+
+	methods: {
+		setStatus: function setStatus(data) {
+			console.log(data);
+			this.newStatus.name = data.name;
+			return this.newStatus.type = data.type;
+		},
+		toggleCreatingNewStatus: function toggleCreatingNewStatus() {
+			console.log('toggled');
+			return this.creatingNewStatus = !this.creatingNewStatus;
+		}
 	}
 });
 
@@ -526,6 +541,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -539,10 +556,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	},
 
 	methods: {
-		createStatus: function createStatus(type, name) {
-			this.newStatus.name = name;
-			this.newStatus.type = type;
-			this.creatingNewStatus = true;
+		setStatusType: function setStatusType(data) {
+			this.$emit('status-set', data);
+			return this.$emit('new-status-toggle');
 		},
 		scrollTop: function scrollTop() {
 			window.scrollTo(0, 0);
@@ -921,10 +937,6 @@ var render = function() {
                   _vm._v(" "),
                   _c("hr", { staticClass: "dropdown-divider" }),
                   _vm._v(" "),
-                  _vm._m(5),
-                  _vm._v(" "),
-                  _c("hr", { staticClass: "dropdown-divider" }),
-                  _vm._v(" "),
                   _c(
                     "a",
                     {
@@ -932,12 +944,11 @@ var render = function() {
                       attrs: { href: "#" },
                       on: {
                         click: function($event) {
-                          _vm.newStatus.name = "Assignments"
-                          _vm.creatingNewStatus = true
+                          _vm.setStatusType(_vm.statusesList[1])
                         }
                       }
                     },
-                    [_vm._m(6), _vm._v(" Assignments")]
+                    [_vm._m(5), _vm._v(" Assign Adjuster")]
                   ),
                   _vm._v(" "),
                   _c("hr", { staticClass: "dropdown-divider" }),
@@ -949,11 +960,11 @@ var render = function() {
                       attrs: { href: "#" },
                       on: {
                         click: function($event) {
-                          _vm.createStatus("date", "Customer Contacted")
+                          _vm.setStatusType(_vm.statusesList[2])
                         }
                       }
                     },
-                    [_vm._m(7), _vm._v(" Customer Contacted")]
+                    [_vm._m(6), _vm._v(" Assign Reviewer")]
                   ),
                   _vm._v(" "),
                   _c("hr", { staticClass: "dropdown-divider" }),
@@ -965,14 +976,44 @@ var render = function() {
                       attrs: { href: "#" },
                       on: {
                         click: function($event) {
-                          _vm.createStatus("date", "Site Inspected")
+                          _vm.setStatusType(_vm.statusesList[3])
                         }
                       }
                     },
-                    [_vm._m(8), _vm._v(" Site Inspected")]
+                    [_vm._m(7), _vm._v(" Reassign")]
                   ),
                   _vm._v(" "),
-                  _c("hr", { staticClass: "dropdown-divider" })
+                  _c("hr", { staticClass: "dropdown-divider" }),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      staticClass: "is-menu-button dropdown-item",
+                      attrs: { href: "#" },
+                      on: {
+                        click: function($event) {
+                          _vm.setStatusType(_vm.statusesList[4])
+                        }
+                      }
+                    },
+                    [_vm._m(8), _vm._v(" Customer Contacted")]
+                  ),
+                  _vm._v(" "),
+                  _c("hr", { staticClass: "dropdown-divider" }),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      staticClass: "is-menu-button dropdown-item",
+                      attrs: { href: "#" },
+                      on: {
+                        click: function($event) {
+                          _vm.setStatusType(_vm.statusesList[5])
+                        }
+                      }
+                    },
+                    [_vm._m(9), _vm._v(" Site Inspected")]
+                  )
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "column" }, [
@@ -984,11 +1025,11 @@ var render = function() {
                   _vm._v(" "),
                   _c("hr", { staticClass: "dropdown-divider" }),
                   _vm._v(" "),
-                  _vm._m(9),
+                  _vm._m(10),
                   _vm._v(" "),
                   _c("hr", { staticClass: "dropdown-divider" }),
                   _vm._v(" "),
-                  _vm._m(10),
+                  _vm._m(11),
                   _vm._v(" "),
                   _c("hr", { staticClass: "dropdown-divider" }),
                   _vm._v(" "),
@@ -999,11 +1040,14 @@ var render = function() {
                       attrs: { href: "#" },
                       on: {
                         click: function($event) {
-                          _vm.createStatus("date", "File Closed")
+                          _vm.setStatusType({
+                            type: "date",
+                            name: "File Closed"
+                          })
                         }
                       }
                     },
-                    [_vm._m(11), _vm._v(" Close File")]
+                    [_vm._m(12), _vm._v(" Close File")]
                   ),
                   _vm._v(" "),
                   _c("hr", { staticClass: "dropdown-divider" }),
@@ -1015,17 +1059,20 @@ var render = function() {
                       attrs: { href: "#" },
                       on: {
                         click: function($event) {
-                          _vm.createStatus("date", "File Reopened")
+                          _vm.setStatusType({
+                            type: "date",
+                            name: "File Reopened"
+                          })
                         }
                       }
                     },
-                    [_vm._m(12), _vm._v(" Reopen File")]
+                    [_vm._m(13), _vm._v(" Reopen File")]
                   )
                 ]),
                 _vm._v(" "),
-                _vm._m(13),
-                _vm._v(" "),
                 _vm._m(14),
+                _vm._v(" "),
+                _vm._m(15),
                 _vm._v(" "),
                 _c("div", { staticClass: "column is-hidden-desktop" }, [
                   _c("a", {
@@ -1109,16 +1156,17 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "a",
-      { staticClass: "is-menu-button dropdown-item", attrs: { href: "#" } },
-      [
-        _c("span", { staticClass: "icon has-text-info is-small" }, [
-          _c("i", { staticClass: "fa fa-plus-circle" })
-        ]),
-        _vm._v(" In Assign Queue")
-      ]
-    )
+    return _c("span", { staticClass: "icon has-text-info is-small" }, [
+      _c("i", { staticClass: "fa fa-plus-circle" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "icon has-text-info is-small" }, [
+      _c("i", { staticClass: "fa fa-plus-circle" })
+    ])
   },
   function() {
     var _vm = this
@@ -3298,40 +3346,50 @@ var render = function() {
     },
     [
       _c("div", { staticClass: "column is-half assignment" }, [
-        _c("a", { attrs: { href: "/profile/" + _vm.user.id + "#" } }, [
-          _vm.adjuster.avatar
-            ? _c("img", {
-                staticStyle: {
-                  "border-radius": "356px",
-                  border: "10px solid #439BD1",
-                  cursor: "pointer"
-                },
-                attrs: {
-                  src: _vm.adjuster.avatar.path,
-                  alt: _vm.adjuster.name,
-                  width: "100%",
-                  height: "auto"
-                },
-                on: {
-                  click: function($event) {
-                    _vm.addingAvatar = true
+        _c(
+          "a",
+          {
+            on: {
+              mouseup: function($event) {
+                _vm.$emit("status-set", _vm.statusesList[1])
+                _vm.$emit("new-status-toggle")
+              }
+            }
+          },
+          [
+            _vm.adjuster.avatar
+              ? _c("img", {
+                  staticStyle: {
+                    "border-radius": "356px",
+                    border: "10px solid #439BD1",
+                    cursor: "pointer"
+                  },
+                  attrs: {
+                    src: _vm.adjuster.avatar.path,
+                    alt: _vm.adjuster.name,
+                    width: "100%",
+                    height: "auto"
+                  },
+                  on: {
+                    click: function($event) {
+                      _vm.addingAvatar = true
+                    }
                   }
-                }
-              })
-            : _c(
-                "span",
-                {
-                  staticClass: "icon is-standard",
-                  staticStyle: { padding: "3em" }
-                },
-                [_c("i", { staticClass: "fa fa-9x fa-user-circle-o" })]
-              )
-        ]),
+                })
+              : _c(
+                  "span",
+                  {
+                    staticClass: "icon is-standard",
+                    staticStyle: { padding: "3em" }
+                  },
+                  [_c("i", { staticClass: "fa fa-9x fa-user-circle-o" })]
+                )
+          ]
+        ),
         _vm._v(" "),
-        _c("h3", {
-          staticStyle: { color: "#aaa", overflow: "hidden" },
-          domProps: { textContent: _vm._s(_vm.adjuster.name) }
-        }),
+        _c("h3", { staticStyle: { color: "#aaa", overflow: "hidden" } }, [
+          _vm._v(_vm._s(_vm.adjuster.name || "Not Assigned"))
+        ]),
         _vm._v(" "),
         _c(
           "h4",
@@ -3348,30 +3406,40 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "column is-half" }, [
-        _c("a", { attrs: { href: "/profile/" + _vm.reviewer.id + "#" } }, [
-          _vm.reviewer.avatar
-            ? _c("img", {
-                staticStyle: {
-                  "border-radius": "256px",
-                  border: "10px solid #64C6A3",
-                  cursor: "pointer"
-                },
-                attrs: {
-                  src: _vm.reviewer.avatar.path,
-                  alt: _vm.reviewer.name,
-                  width: "100%",
-                  height: "auto"
-                }
-              })
-            : _c("span", { staticClass: "icon is-standard" }, [
-                _c("i", { staticClass: "fa fa-9x fa-user-circle-o" })
-              ])
-        ]),
+        _c(
+          "a",
+          {
+            on: {
+              mouseup: function($event) {
+                _vm.$emit("status-set", _vm.statusesList[2])
+                _vm.$emit("new-status-toggle")
+              }
+            }
+          },
+          [
+            _vm.reviewer.avatar
+              ? _c("img", {
+                  staticStyle: {
+                    "border-radius": "256px",
+                    border: "10px solid #64C6A3",
+                    cursor: "pointer"
+                  },
+                  attrs: {
+                    src: _vm.reviewer.avatar.path,
+                    alt: _vm.reviewer.name,
+                    width: "100%",
+                    height: "auto"
+                  }
+                })
+              : _c("span", { staticClass: "icon is-standard" }, [
+                  _c("i", { staticClass: "fa fa-9x fa-user-circle-o" })
+                ])
+          ]
+        ),
         _vm._v(" "),
-        _c("h3", {
-          staticStyle: { color: "#aaa", overflow: "hidden" },
-          domProps: { textContent: _vm._s(_vm.reviewer.name) }
-        }),
+        _c("h3", { staticStyle: { color: "#aaa", overflow: "hidden" } }, [
+          _vm._v(_vm._s(_vm.reviewer.name || "Not Assigned"))
+        ]),
         _vm._v(" "),
         _c(
           "div",
@@ -3570,7 +3638,14 @@ var render = function() {
                   _vm._v(" "),
                   status.user
                     ? _c("span", {
-                        domProps: { textContent: _vm._s(status.user.name) }
+                        domProps: {
+                          textContent: _vm._s(
+                            status.user.name +
+                              " (" +
+                              status.user.roles[0].label +
+                              ")"
+                          )
+                        }
                       })
                     : _c("span", {
                         domProps: { textContent: _vm._s("System") }
@@ -3733,6 +3808,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -3758,17 +3843,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			this.newStatus.post('/api/claims/' + this.claim.id + '/statuses').then(function (response) {
 				console.log(response);
 				_this.claim.statuses.unshift(response);
-				_this.toggleNewStatus();
+				_this.$emit('new-status-toggle');
+			}).catch(function (errors) {
+				console.error(errors);
+				_this.$emit('new-status-toggle');
 			});
 		},
 		getTodaysDate: function getTodaysDate() {
 			var today = new Date();
 			this.newStatus.date = today.getMonth() + 1 + '/' + today.getDate() + '/' + today.getFullYear();
 			this.newStatus.time = today.toTimeString().replace(/(GMT-\d{1,}\s{1,}\S[A-z]{1,}\S)/g, '').trim();
-		},
-		toggleNewStatus: function toggleNewStatus() {
-			// this.getTodaysDate();
-			return this.creatingNewStatus = !this.creatingNewStatus;
 		}
 	},
 	computed: {
@@ -3855,7 +3939,12 @@ var render = function() {
         _c("button", {
           staticClass: "modal-close is-large",
           attrs: { "aria-label": "close" },
-          on: { click: _vm.toggleNewStatus }
+          on: {
+            click: function($event) {
+              $event.preventDefault()
+              _vm.$emit("new-status-toggle")
+            }
+          }
         }),
         _vm._v(" "),
         _c(
@@ -4047,7 +4136,7 @@ var render = function() {
                 on: {
                   click: function($event) {
                     $event.preventDefault()
-                    return _vm.toggleNewStatus($event)
+                    _vm.$emit("new-status-toggle")
                   }
                 }
               },
@@ -4223,7 +4312,12 @@ var render = function() {
         "div",
         { staticClass: "column is-9", attrs: { id: "left-side" } },
         [
-          _c("title-header"),
+          _c("title-header", {
+            on: {
+              "status-set": _vm.setStatus,
+              "new-status-toggle": _vm.toggleCreatingNewStatus
+            }
+          }),
           _vm._v(" "),
           _c("claim-nav"),
           _vm._v(" "),
@@ -4245,11 +4339,26 @@ var render = function() {
       _c(
         "div",
         { staticClass: "column is-3", attrs: { id: "right-side" } },
-        [_c("assignees"), _vm._v(" "), _c("timeline")],
+        [
+          _c("assignees", {
+            on: {
+              "status-set": _vm.setStatus,
+              "new-status-toggle": _vm.toggleCreatingNewStatus
+            }
+          }),
+          _vm._v(" "),
+          _c("timeline")
+        ],
         1
       ),
       _vm._v(" "),
-      _c("new-status")
+      _c("new-status", {
+        on: {
+          "new-status-toggle": function($event) {
+            _vm.toggleCreatingNewStatus()
+          }
+        }
+      })
     ],
     1
   )
