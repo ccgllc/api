@@ -171,7 +171,7 @@ class XactClaimImport extends XmlImporter {
     {
         if ($json->XACTNET_INFO->{'@attributes'}->carrierId == '3975005')
         {
-            return $json->XACTNET_INFO->{'@attributes'}->businessUnit;
+            return $json->XACTNET_INFO->{'@attributes'}->businessUnit ?? 'No Carrier';
         }
         return $json->XACTNET_INFO->{'@attributes'}->carrierName;
     }
