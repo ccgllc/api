@@ -2,7 +2,8 @@
 	<div class="columns">
 		<div id="left-side" class="column is-9">
 			<!-- <alert v-if="hasAlert" :message="alert.message" :type="alert.type" @click="confirmingAlert = !confirmingAlert"></alert> -->
-			<title-header @status-set="setStatus" @new-status-toggle="toggleCreatingNewStatus"></title-header>
+			<title-header></title-header>
+			<claim-menu @status-set="setStatus" @new-status-toggle="toggleCreatingNewStatus"></claim-menu>
 			<claim-nav></claim-nav>
 			<claim-map></claim-map>
 			<tags></tags>
@@ -27,6 +28,7 @@
 <script>
 	import claimData from './claimData.js';
 	import titleHeader from './TitleHeader.vue';
+	import claimMenu from './ClaimMenu.vue';
 	import claimNav from './ClaimNavigation.vue';
 	import claimMap from './Map.vue';
 	import claimStats from './ClaimStats.vue';
@@ -42,6 +44,7 @@
 		name: 'Claim',
 		components: {
 			titleHeader,
+			claimMenu,
 			claimNav,
 			claimMap,
 			claimStats,
