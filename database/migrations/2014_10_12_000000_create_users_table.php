@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('api_token')->nullable();
             $table->string('verification_token')->nullable();
             $table->rememberToken();
+            $table->string('role', 64)->nullable();
             $table->boolean('verified')->default(0);
             $table->boolean('applied')->default(0);
             $table->timestamps();

@@ -15,20 +15,20 @@ class CreateClaimsTable extends Migration
     {
         Schema::create('claims', function (Blueprint $table) {
             $table->increments('id'); 
-            $table->string('claim_type');// eg daily , cat
+            $table->string('claim_type');// eg daily,cat
             $table->boolean('is_commercial')->default(0);
             $table->string('claim_number')->index();
             $table->string('transaction_id')->unique()->nullable(); //only for xact imported claims
             $table->string('carrier_name'); // just for convenience...
-            // $table->string('current_status')->nullable();
+            $table->string('current_status')->nullable();
             $table->string('insured');
-            $table->string('email')->nullable();
-            $table->string('type_of_loss');
+            // $table->string('email')->nullable();
+            $table->string('type_of_loss');  // wind, hail, windstorm, hurricane, flood, theft, auto, other,
             $table->string('job_type')->nullable(); 
             $table->string('catastrophe')->nullable();
             $table->string('price_list_area')->nullable();
             $table->text('description')->nullable();
-            $table->dateTime('appointment_date')->nullable();
+            // $table->dateTime('appointment_date')->nullable();
             $table->date('date_of_loss')->nullable();
             $table->date('date_received')->nullable();
             $table->json('claim_data');

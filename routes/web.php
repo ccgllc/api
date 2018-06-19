@@ -50,7 +50,8 @@ Route::post('claims/import', 'ClaimsImportController@import');
 Route::resource('claims', 'ClaimsController');
 Route::resource('claims/status', 'ClaimStatusController');
 
-Route::get('/dashboard', 'DashboardController@show');
+Route::get('dashboard', 'DashboardController@show');
+Route::get('hr', 'HrDashboardController@show');
 
 Route::resource('users', 'UsersController');
 Route::get('users/status/{status}', 'UsersController@status');

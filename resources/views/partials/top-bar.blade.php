@@ -14,18 +14,12 @@
 
   <div id="userMenu" class="navbar-menu">
     <div class="navbar-start">
-      @if (Auth::user()->hasRole('administrator'))
-      <div class="navbar-item">
-        <div class="field">
-             {{--  <input class="input is-search" type="text" placeholder="Search"> --}}
-             <search></search>
-          </div>
-        </div>
+        @if (Auth::user()->hasRole('administrator'))
+          <search></search>
+          <role-switcher @role-switched="switchRole" :current-role="currentRole"></role-switcher>
         @endif
-        
         {{-- <a href="" class="navbar-item">Link</a> --}}
-
-      </div>
+    </div>
 
     <div class="navbar-end">
           @guest

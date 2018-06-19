@@ -1,4 +1,4 @@
-webpackJsonp([6],{
+webpackJsonp([5],{
 
 /***/ 1:
 /***/ (function(module, exports) {
@@ -114,7 +114,7 @@ module.exports = function normalizeComponent (
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(163);
-module.exports = __webpack_require__(236);
+module.exports = __webpack_require__(239);
 
 
 /***/ }),
@@ -130,6 +130,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_chart_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_chart_js__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Search_vue__ = __webpack_require__(232);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Search_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_Search_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_RoleSwitcher_vue__ = __webpack_require__(236);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_RoleSwitcher_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__components_RoleSwitcher_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__structur_src_form_Form_js__ = __webpack_require__(4);
 __webpack_require__(164);
 
 
@@ -148,11 +151,41 @@ __webpack_require__(164);
 // });
 
 
+
 var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
 	name: "App",
 	el: "#app",
+	data: function data() {
+		return {
+			userId: window.user.id,
+			form: new __WEBPACK_IMPORTED_MODULE_4__structur_src_form_Form_js__["a" /* default */]({
+				role: ''
+			})
+		};
+	},
+
 	components: {
-		search: __WEBPACK_IMPORTED_MODULE_2__components_Search_vue___default.a
+		search: __WEBPACK_IMPORTED_MODULE_2__components_Search_vue___default.a,
+		roleSwitcher: __WEBPACK_IMPORTED_MODULE_3__components_RoleSwitcher_vue___default.a
+	},
+	computed: {
+		currentRole: function currentRole() {
+			return window.user.role;
+		},
+		uri: function uri() {
+			return '/api/users/' + this.userId + '/role/';
+		}
+	},
+	methods: {
+		switchRole: function switchRole(role) {
+			var _this = this;
+
+			this.form.role = role;
+			this.form.put(this.uri).then(function (response) {
+				console.log(response);
+				return _this.form.role = response;
+			});
+		}
 	},
 	mounted: function mounted() {
 		document.addEventListener('DOMContentLoaded', function () {
@@ -169,6 +202,7 @@ var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
 				});
 			}
 		});
+		this.form.role = window.user.role;
 	}
 });
 
@@ -17456,6 +17490,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -17696,86 +17734,92 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { attrs: { id: "search" } }, [
-    _c(
-      "form",
-      {
-        on: {
-          submit: function($event) {
-            $event.preventDefault()
-          }
-        }
-      },
-      [
-        _c("div", { staticClass: "field" }, [
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.search.query,
-                expression: "search.query"
-              }
-            ],
-            staticClass: "input is-search",
-            staticStyle: { position: "relative" },
-            attrs: { type: "text", placeholder: "Search claims, users" },
-            domProps: { value: _vm.search.query },
+  return _c("div", { staticClass: "navbar-item" }, [
+    _c("div", { staticClass: "field" }, [
+      _c("div", { attrs: { id: "search" } }, [
+        _c(
+          "form",
+          {
             on: {
-              input: [
-                function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.search, "query", $event.target.value)
-                },
-                function($event) {
-                  _vm.dynamicSearch($event)
-                }
-              ],
-              keydown: function($event) {
-                _vm.detectKeyboardAction($event)
+              submit: function($event) {
+                $event.preventDefault()
               }
             }
-          })
-        ])
-      ]
-    ),
-    _vm._v(" "),
-    _vm.results.length > 0
-      ? _c("div", { staticClass: "menu" }, [
-          _c(
-            "ul",
-            { staticClass: "menu-list" },
-            _vm._l(_vm.results, function(result) {
-              return _c(
-                "li",
-                {
-                  class: { selected: _vm.isSelected == result.id },
-                  staticStyle: { "list-style": "none" }
-                },
-                [
-                  _c(
-                    "a",
+          },
+          [
+            _c("div", { staticClass: "field" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.search.query,
+                    expression: "search.query"
+                  }
+                ],
+                staticClass: "input is-search",
+                staticStyle: { position: "relative" },
+                attrs: { type: "text", placeholder: "Search claims, users" },
+                domProps: { value: _vm.search.query },
+                on: {
+                  input: [
+                    function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.search, "query", $event.target.value)
+                    },
+                    function($event) {
+                      _vm.dynamicSearch($event)
+                    }
+                  ],
+                  keydown: function($event) {
+                    _vm.detectKeyboardAction($event)
+                  }
+                }
+              })
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _vm.results.length > 0
+          ? _c("div", { staticClass: "menu" }, [
+              _c(
+                "ul",
+                { staticClass: "menu-list" },
+                _vm._l(_vm.results, function(result) {
+                  return _c(
+                    "li",
                     {
-                      attrs: { href: "/" + _vm.search.scope + "/" + result.id }
+                      class: { selected: _vm.isSelected == result.id },
+                      staticStyle: { "list-style": "none" }
                     },
                     [
-                      _c("strong", [
-                        _vm._v(_vm._s(result.claim_number || result.name))
-                      ]),
-                      _vm._v(" • "),
-                      _c("span", { staticStyle: { overflow: "hidden" } }, [
-                        _vm._v(_vm._s(result.insured))
-                      ])
+                      _c(
+                        "a",
+                        {
+                          attrs: {
+                            href: "/" + _vm.search.scope + "/" + result.id
+                          }
+                        },
+                        [
+                          _c("strong", [
+                            _vm._v(_vm._s(result.claim_number || result.name))
+                          ]),
+                          _vm._v(" • "),
+                          _c("span", { staticStyle: { overflow: "hidden" } }, [
+                            _vm._v(_vm._s(result.insured))
+                          ])
+                        ]
+                      )
                     ]
                   )
-                ]
+                })
               )
-            })
-          )
-        ])
-      : _vm._e()
+            ])
+          : _vm._e()
+      ])
+    ])
   ])
 }
 var staticRenderFns = []
@@ -17791,6 +17835,176 @@ if (false) {
 /***/ }),
 
 /***/ 236:
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(237)
+/* template */
+var __vue_template__ = __webpack_require__(238)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/RoleSwitcher.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-44ba53ae", Component.options)
+  } else {
+    hotAPI.reload("data-v-44ba53ae", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 237:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	name: 'RoleSwitcher',
+	props: ['currentRole'],
+	computed: {
+		//
+	},
+	data: function data() {
+		return {
+			role: this.currentRole
+		};
+	},
+
+	methods: {
+		switchRole: function switchRole() {
+			return this.role == 0 ? null : this.$emit('role-switched', this.role);
+		}
+	}
+});
+
+/***/ }),
+
+/***/ 238:
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "navbar-item" }, [
+    _c("div", { staticClass: "field" }, [
+      _c("div", { staticClass: "select" }, [
+        _c(
+          "select",
+          {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.role,
+                expression: "role"
+              }
+            ],
+            staticStyle: {
+              "background-color": "#4A5268",
+              color: "#7683a2",
+              "border-color": "#48526a"
+            },
+            on: {
+              change: [
+                function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.role = $event.target.multiple
+                    ? $$selectedVal
+                    : $$selectedVal[0]
+                },
+                _vm.switchRole
+              ]
+            }
+          },
+          [
+            _c("option", { attrs: { value: "0" } }, [_vm._v("Act As...")]),
+            _vm._v(" "),
+            _c("option", { attrs: { value: "administrator" } }, [
+              _vm._v("Admin")
+            ]),
+            _vm._v(" "),
+            _c("option", { attrs: { value: "dispatch" } }, [
+              _vm._v("Dispatch")
+            ]),
+            _vm._v(" "),
+            _c("option", { attrs: { value: "adjuster" } }, [
+              _vm._v("Adjuster")
+            ]),
+            _vm._v(" "),
+            _c("option", { attrs: { value: "reviewer" } }, [_vm._v("Reviewer")])
+          ]
+        )
+      ])
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-44ba53ae", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 239:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

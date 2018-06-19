@@ -1,5 +1,5 @@
 <template>
-	<div class="columns">
+	<div class="columns" style="margin-bottom: 0;">
 		<div class="column">
 			<span class="is-hidden-mobile">
 				<h3 class="subtitle is-hidden-tablet-only"><span style="color: #bbb;">Claim#</span></h3>

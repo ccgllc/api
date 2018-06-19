@@ -50,7 +50,7 @@ class XactClaimImport extends XmlImporter {
         if (isset($json->ADM->COVERAGE_LOSS->{'@attributes'}->catastrophe))
         {
             $this->catastrophe     = $json->ADM->COVERAGE_LOSS->{'@attributes'}->catastrophe;
-             $this->claimType      = 'CAT';
+            $this->catastrophe ? $this->claimType = 'CAT' : $this->claimType = 'Daily';
         }else{
            $this->catastrophe = '';
            $this->claimType = 'Daily';
@@ -91,25 +91,11 @@ class XactClaimImport extends XmlImporter {
     {
         // prepare data for assignmnet
         $contacts = $this->filterContacts($json->CONTACTS->CONTACT);
-        // dd($json->CONTACTS->CONTACT);
-        // dd($contacts);
         $access = $json->CLAIM_INFO->ADMIN_INFO;
         $contacts['accessContact'] =  $access;
 
-        // $this->setContacts($contacts);
-
-        // not every import will have DeskAdjuster obj, If so we set an empty obj for consistent results.
-        // !isset($contacts['deskAdjuster']) ? $contacts['deskAdjuster'] = new \stdClass : null;
-        // !isset($contacts['claimant']) ? $contacts['claimant'] = new \stdClass : null;
-        // !isset($contacts['client']) ? $contacts['client'] = new \stdClass : null;
-        // !isset($access) ? $contacts['access'] = new \stdClass : null;
-
         //assign each contact.
         $this->setContacts($contacts);
-        //  $this->claimant = new Contact($contacts['claimant']);
-        // $this->client = new Contact($contacts['client']);
-        // $this->deskAdjuster = new Contact($contacts['deskAdjuster']);
-        // $this->accessContact = new Contact($access);
     }
 
     public function setContacts($contacts)

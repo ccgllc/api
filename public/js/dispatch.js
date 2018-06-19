@@ -1,4 +1,4 @@
-webpackJsonp([12],{
+webpackJsonp([11],{
 
 /***/ 1:
 /***/ (function(module, exports) {
@@ -110,78 +110,43 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 
-/***/ 370:
+/***/ 340:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(371);
+module.exports = __webpack_require__(341);
 
 
 /***/ }),
 
-/***/ 371:
+/***/ 341:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_router__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Claims_vue__ = __webpack_require__(372);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Claims_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__Claims_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Dashboard_vue__ = __webpack_require__(342);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Dashboard_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__Dashboard_vue__);
 
 
-// import Croppa from 'vue-croppa';
-
-
-// import Claim from './Claim.vue';
-// import Documents from './Documents';
-// import Certifications from './Certifications';
-// import WorkHistory from './WorkHistory';
-// import profileNavigation from './ProfileNavigation'
-
-__WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_router__["default"]);
-// Vue.use(Croppa, { componentName: 'avatar-cropper' });
-
-var routes = [{ path: '/', name: "claims", component: __WEBPACK_IMPORTED_MODULE_2__Claims_vue___default.a }];
-
-var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["default"]({
-	routes: routes,
-	linkActiveClass: 'is-active'
-});
-
-// router.beforeEach((to, from, next) => {
-
-// })
-
-var ClaimsVue = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
-	name: 'Claims',
-	router: router,
+var vue = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
+	el: '#dashboard',
 	components: {
-		// profileNavigation,
-	},
-	mounted: function mounted() {
-		// this.user = window.userData;
-		// this.user.avatar.path = '';
-	},
-	data: function data() {
-		return {};
-	},
-
-	computed: {},
-	methods: {}
-}).$mount('#claims');
+		dashboard: __WEBPACK_IMPORTED_MODULE_1__Dashboard_vue___default.a
+	}
+});
 
 /***/ }),
 
-/***/ 372:
+/***/ 342:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(373)
+var __vue_script__ = __webpack_require__(343)
 /* template */
-var __vue_template__ = __webpack_require__(374)
+var __vue_template__ = __webpack_require__(344)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -198,7 +163,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/claims/Claims.vue"
+Component.options.__file = "resources/assets/js/dispatch/Dashboard.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -207,9 +172,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-78a1a8ed", Component.options)
+    hotAPI.createRecord("data-v-63022151", Component.options)
   } else {
-    hotAPI.reload("data-v-78a1a8ed", Component.options)
+    hotAPI.reload("data-v-63022151", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -221,14 +186,11 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 373:
+/***/ 343:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
 //
 //
 //
@@ -257,73 +219,64 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-	name: 'ClaimList',
+	name: 'DispatchDashboard',
+	created: function created() {
+		return this.claims.forEach(function (claim) {
+			claim.claim_data = JSON.parse(claim.claim_data);
+		});
+	},
 	data: function data() {
 		return {
-			claims: [],
-			search: ''
+			claims: dispatch.claims
 		};
-	},
-	mounted: function mounted() {
-		// this.claims = claims;
-		window.axios.get('/claims').then(function (response) {
-			console.log(this.claims);
-			return this.claims = response.data;
-		}.bind(this));
-	},
-
-	methods: {}
+	}
 });
 
 /***/ }),
 
-/***/ 374:
+/***/ 344:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("div", [
-      _c("h1", { staticClass: "title" }, [
-        _vm._v("Claims (" + _vm._s(_vm.claims.length) + ")")
-      ]),
-      _vm._v(" "),
-      _c("table", { staticClass: "table is-striped is-full-width" }, [
-        _vm._m(0),
-        _vm._v(" "),
-        _c(
-          "tbody",
-          _vm._l(_vm.claims, function(claim) {
-            return _c("tr", [
-              _c("td", [_vm._v(_vm._s(claim.carrier_name))]),
-              _vm._v(" "),
-              _c("td", [
-                _c("a", { attrs: { href: "/claims/" + claim.id } }, [
-                  _vm._v(_vm._s(claim.claim_number))
-                ])
-              ]),
-              _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(claim.type_of_loss || "n/a"))]),
-              _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(claim.insured))]),
-              _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(claim.date_of_loss))])
-            ])
-          })
-        )
-      ])
-    ]),
+  return _c("div", { attrs: { id: "claims" } }, [
+    _c("h1", { staticClass: "title" }, [_vm._v("Dispatch Dashboard")]),
     _vm._v(" "),
-    _c(
-      "div",
-      {
-        staticClass: "pageloader is-left-to-right is-info",
-        class: { "is-active": !_vm.claims.length }
-      },
-      [_c("span", { staticClass: "title" }, [_vm._v("Loading Claims")])]
-    )
+    _c("table", { staticClass: "table" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c(
+        "tbody",
+        _vm._l(_vm.claims, function(claim) {
+          return _c("tr", [
+            _c("td", [
+              _c("a", {
+                attrs: { href: "/claims/" + claim.id },
+                domProps: { textContent: _vm._s(claim.claim_number) }
+              })
+            ]),
+            _vm._v(" "),
+            _c("td", { domProps: { textContent: _vm._s(claim.insured) } }),
+            _vm._v(" "),
+            _c("td", {
+              domProps: {
+                textContent: _vm._s(
+                  claim.claim_data.client.addresses[1].city +
+                    ", " +
+                    claim.claim_data.client.addresses[1].state
+                )
+              }
+            }),
+            _vm._v(" "),
+            _c("td", { domProps: { textContent: _vm._s(claim.type_of_loss) } }),
+            _vm._v(" "),
+            _c("td", { domProps: { textContent: _vm._s(claim.date_of_loss) } })
+          ])
+        })
+      )
+    ])
   ])
 }
 var staticRenderFns = [
@@ -333,13 +286,13 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", [_vm._v("Carrier")]),
-        _vm._v(" "),
         _c("th", [_vm._v("Claim #")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Type")]),
-        _vm._v(" "),
         _c("th", [_vm._v("Insured")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Loss Location")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Type Of Loss")]),
         _vm._v(" "),
         _c("th", [_vm._v("Date of Loss")])
       ])
@@ -351,10 +304,10 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-78a1a8ed", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-63022151", module.exports)
   }
 }
 
 /***/ })
 
-},[370]);
+},[340]);

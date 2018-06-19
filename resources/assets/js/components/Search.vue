@@ -1,16 +1,20 @@
 <template>
-	<div id="search">
-		<form @submit.prevent> <!-- @keydown="search.errors.clear($event.target.name) -->
-			<div class="field">
-			    <input v-model="search.query" class="input is-search" type="text" @input="dynamicSearch($event)" @keydown="detectKeyboardAction($event)" placeholder="Search claims, users" style="position: relative;">
+	 <div class="navbar-item">
+        <div class="field">
+			<div id="search">
+				<form @submit.prevent> <!-- @keydown="search.errors.clear($event.target.name) -->
+					<div class="field">
+					    <input v-model="search.query" class="input is-search" type="text" @input="dynamicSearch($event)" @keydown="detectKeyboardAction($event)" placeholder="Search claims, users" style="position: relative;">
+					</div>
+				</form>
+				<div class="menu" v-if="results.length > 0">
+					<ul class="menu-list">
+						<li v-for="result in results" style="list-style: none;" v-bind:class="{selected: isSelected == result.id }">
+							<a :href="'/' + search.scope + '/' + result.id"><strong>{{ result.claim_number || result.name  }}</strong> • <span style="overflow: hidden;">{{ result.insured }}</span></a> 
+						</li>
+					</ul>
+				</div>
 			</div>
-		</form>
-		<div class="menu" v-if="results.length > 0">
-			<ul class="menu-list">
-				<li v-for="result in results" style="list-style: none;" v-bind:class="{selected: isSelected == result.id }">
-					<a :href="'/' + search.scope + '/' + result.id"><strong>{{ result.claim_number || result.name  }}</strong> • <span style="overflow: hidden;">{{ result.insured }}</span></a> 
-				</li>
-			</ul>
 		</div>
 	</div>
 </template>

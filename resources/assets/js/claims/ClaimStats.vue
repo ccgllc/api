@@ -25,7 +25,7 @@
 			<div class="card">
 				<div class="card-content claim-stat">
 					<h3 class="subtitle stat-title">Time Open</h3>
-					<h1 class="title stat has-text-grey">6</h1>
+					<h1 class="title stat has-text-grey">--</h1>
 					<h3 class="subtitle stat-title">Days</h3>
 				</div>
 			</div>
@@ -35,7 +35,7 @@
 			<div class="card">
 				<div class="card-content claim-stat">
 					<h3 class="subtitle stat-title">Time To Contact</h3>
-					<h1 class="title stat has-text-grey">2</h1>
+					<h1 class="title stat has-text-grey">--</h1>
 					<h3 class="subtitle stat-title">Days</h3>
 				</div>
 			</div>
@@ -46,7 +46,7 @@
 			<div class="card">
 				<div class="card-content claim-stat">
 					<h3 class="subtitle stat-title">Time To Inspection</h3>
-					<h1 class="title stat has-text-grey">4</h1>
+					<h1 class="title stat has-text-grey">--</h1>
 					<h3 class="subtitle stat-title">Days</h3>
 				</div>
 			</div>
@@ -56,7 +56,7 @@
 			<div class="card">
 				<div class="card-content claim-stat">
 					<h3 class="subtitle stat-title">Time to Estimate</h3>
-					<h1 class="title stat has-text-grey">5</h1>
+					<h1 class="title stat has-text-grey">--</h1>
 					<h3 class="subtitle stat-title">Days</h3>
 				</div>
 			</div>

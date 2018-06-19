@@ -18,7 +18,7 @@
     		<h3 style="color: #aaa; overflow:hidden;">{{ adjuster.name || 'Not Assigned' }}</h3>
     		<h4 style="color: #bbb; font-size: 1em; color: #439BD1; margin-top: -.25em; font-weight: 700;">Adjuster</h4>
 		</div><!--  end column -->
-		 <div class="column is-half">
+		<div class="column is-half assignment">
 			<a @mouseup="$emit('status-set', statusesList[2]); $emit('new-status-toggle');">
 				<img 
 	    			v-if="reviewer.avatar"
@@ -43,7 +43,6 @@
 		name: 'Assignees',
 		mounted() {
 			//console.log(this.user);
-
 		},
 		data() {
 			return claimData;

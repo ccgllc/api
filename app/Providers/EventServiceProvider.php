@@ -20,11 +20,12 @@ class EventServiceProvider extends ServiceProvider
             'CCG\Listeners\SendAccountVerificationEmail', 
         ],
          'CCG\Events\ClaimImported' => [
-            'CCG\Listeners\CreateDefaultClaimStatus'
+            'CCG\Listeners\CreateDefaultClaimStatus',
+            'CCG\Listeners\CreateClaimTags'
         ],
-        'CCG\Events\ClaimWasReceived' => [
-            'CCG\Listeners\CreateClaimInvoice'
-        ],
+        // 'CCG\Events\ClaimWasReceived' => [
+        //     'CCG\Listeners\CreateClaimInvoice'
+        // ],
         'CCG\Events\ClaimStatusUpdated' => [
             'CCG\Listeners\UpdateClaimStatus'
         ],

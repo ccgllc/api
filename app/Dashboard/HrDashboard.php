@@ -6,7 +6,7 @@ use CCG\Dashboard\Chart;
 use CCG\Role;
 use CCG\User;
 
-class Dashboard 
+class HrDashboard 
 {
 	public $newHires;
 	public $candidates;

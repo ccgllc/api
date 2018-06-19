@@ -89,7 +89,7 @@
 		mounted() {
 			this.newStatus.claim_number = this.claim.claim_number;
 			this.newStatus.claim_id = this.claim.id;
-			this.newStatus.user_id = this.user.id;
+			this.newStatus.user_id = window.user.id;
 			this.getTodaysDate();
 		},
 		methods: {

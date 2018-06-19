@@ -1,6 +1,6 @@
 <template>
-	<div class="columns">
-		<div class="column">
+	<!-- <div class="columns"> -->
+		<div class="#" style="margin-bottom: 1em;">
 				<div class="dropdown" @click="active = !active"> 
 			    	<button class="button is-menu is-rounded is-grey" v-bind:class="{'is-info': !active,}" style="margin-top: .5rem;" aria-haspopup="true" aria-controls="menu" >
 				     	<span v-if="!active">
@@ -81,7 +81,7 @@
 				</div>
 		  	</div>
 		</div>
-	</div>
+	<!-- </div> -->
 </template>
 <script>
 	import claimData from './claimData.js';

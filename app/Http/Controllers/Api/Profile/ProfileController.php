@@ -74,6 +74,18 @@ class ProfileController extends Controller {
    		return $valid;
 	}
 
+	public function role(Request $request, $id)
+	{
+		$valid = $request->validate([
+        	'role' => 'required|max:64',
+   		]);	
+
+   		return $this->getUser($id)->update($valid)
+   			? $valid['role']
+   			: response('500 Internal Server Error', 500); 
+   		
+	}
+
 	public function license(Request $request, $id)
 	{
 		$valid = $request->validate([

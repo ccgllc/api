@@ -38,6 +38,11 @@ class Claim extends Model
         $this->attributes['insured'] = ucwords(strtolower($name));
     }
 
+    public function tags()
+    {
+        return $this->belongsToMany(\CCG\Tag::class);
+    }
+
     public function invoices()
     {
         return $this->hasMany(\CCG\Invoice::class);
