@@ -189,9 +189,9 @@
 			}
 		},
 		computed: {
-			address() {
-				return `https://maps.googleapis.com/maps/api/geocode/json?address=${this.number}+${this.street}+${this.city}+${this.state}&key=AIzaSyAJ2-Na1yIv_0zOlDuTbrizwya-5HcL1C0`;
-			},
+			// address() {
+			// 	return `https://maps.googleapis.com/maps/api/geocode/json?address=${this.number}+${this.street}+${this.city}+${this.state}&key=AIzaSyAJ2-Na1yIv_0zOlDuTbrizwya-5HcL1C0`;
+			// },
 			origin() {
 				if(this.selectedClaims.length) {
 					let loc = this.selectedClaims[0].claim_data.client.addresses[1];
@@ -232,7 +232,7 @@
 				let self = this
 				let results = [];
 		    	self.adjusters.filter(adjuster => {
-		    		if (results.length <= 25) {
+		    		if (results.length <= 24) {
 						for (let license of adjuster.adjuster_licenses) {
 							if (license.license_state === self.selectedClaims[0].claim_data.client.addresses[1].state){
 								results.push(adjuster)
@@ -257,8 +257,7 @@
 			getDistances() {
 				let self = this
 				let service = new google.maps.DistanceMatrixService()
-				return service.getDistanceMatrix(
-				  {
+				return service.getDistanceMatrix({
 				    origins: [self.origin],
 				    destinations: self.destinations,
 				    travelMode: 'DRIVING',
@@ -267,10 +266,10 @@
 			},
 			filterDistances(response, status) {
 				let self = this
-				console.log(response);
+				console.log(status);
 				return self.filteredAdjusters.forEach(adjuster => {
 					let idx = self.filteredAdjusters.indexOf(adjuster);
-					console.log(response.rows[0].elements[idx]);
+					console.log(response);
 					if(response.rows[0].elements[idx]) {
 						adjuster.distance = {text: '', value: 0};
 						adjuster.distance.text = response.rows[0].elements[idx].distance.text;///string eg.12.3 mi

@@ -387,9 +387,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	},
 
 	computed: {
-		address: function address() {
-			return 'https://maps.googleapis.com/maps/api/geocode/json?address=' + this.number + '+' + this.street + '+' + this.city + '+' + this.state + '&key=AIzaSyAJ2-Na1yIv_0zOlDuTbrizwya-5HcL1C0';
-		},
+		// address() {
+		// 	return `https://maps.googleapis.com/maps/api/geocode/json?address=${this.number}+${this.street}+${this.city}+${this.state}&key=AIzaSyAJ2-Na1yIv_0zOlDuTbrizwya-5HcL1C0`;
+		// },
 		origin: function origin() {
 			if (this.selectedClaims.length) {
 				var loc = this.selectedClaims[0].claim_data.client.addresses[1];
@@ -452,7 +452,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			var self = this;
 			var results = [];
 			self.adjusters.filter(function (adjuster) {
-				if (results.length <= 25) {
+				if (results.length <= 24) {
 					var _iteratorNormalCompletion2 = true;
 					var _didIteratorError2 = false;
 					var _iteratorError2 = undefined;
@@ -507,10 +507,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		},
 		filterDistances: function filterDistances(response, status) {
 			var self = this;
-			console.log(response);
+			console.log(status);
 			return self.filteredAdjusters.forEach(function (adjuster) {
 				var idx = self.filteredAdjusters.indexOf(adjuster);
-				console.log(response.rows[0].elements[idx]);
+				console.log(response);
 				if (response.rows[0].elements[idx]) {
 					adjuster.distance = { text: '', value: 0 };
 					adjuster.distance.text = response.rows[0].elements[idx].distance.text; ///string eg.12.3 mi

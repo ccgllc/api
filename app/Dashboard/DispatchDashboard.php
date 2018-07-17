@@ -43,17 +43,8 @@ class DispatchDashboard
 			return $profile->user;
 		});
 
-		// $adjusters->transform(function ($adjuster, $key) {
-		// 	// dd($adjuster);
-		//     return $adjuster->distance = $this->distance;
-		//     // return $adjuster;
-		// });
-
-		// dd($adjusters);
-
-
 		$list = $adjusters->filter(function($user, $key) {
-			return !isset($user->adjusterLicenses) ?:  $user->adjusterLicenses->count();
+			return $user->adjusterLicenses->count();
 		});
 
 		return array_values($list->toArray());
