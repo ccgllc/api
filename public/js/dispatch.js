@@ -335,6 +335,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			zoom: 7,
 			center: this.home
 		});
+
+		// this.turnOffAxiosHeaders()
 		// this.addMarker('claim', this.claims[0])
 		// this.selectedClaims.push(this.claims[0]);
 		// for (let claim of this.claims) {
@@ -358,16 +360,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		// 				})
 		// 				.catch(error => error);
 		// }
-
-		// this.autocomplete = new google.maps.places.Autocomplete(
-		//      /* @type {!HTMLInputElement} */
-		//     (document.getElementById('claim-location')),
-		//     {types: ['geocode']}
-		// );
-
-		// When the user selects an address from the dropdown, populate the address
-		// fields in the form.
-		// this.autocomplete.addListener('place_changed', () => { this.setHome() });
 	},
 	data: function data() {
 		return {
@@ -389,13 +381,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			home: { lat: 30.2702208, lng: -97.7453625 },
 			city: '',
 			state: '',
+			street: '',
 			number: 0
 		};
 	},
 
 	computed: {
+		address: function address() {
+			return 'https://maps.googleapis.com/maps/api/geocode/json?address=' + this.number + '+' + this.street + '+' + this.city + '+' + this.state + '&key=AIzaSyAJ2-Na1yIv_0zOlDuTbrizwya-5HcL1C0';
+		},
 		origin: function origin() {
-			// return `https://maps.googleapis.com/maps/api/geocode/json?address=${this.number}+${this.street}+${this.city}+${this.state}&key=AIzaSyAJ2-Na1yIv_0zOlDuTbrizwya-5HcL1C0`;
 			if (this.selectedClaims.length) {
 				var loc = this.selectedClaims[0].claim_data.client.addresses[1];
 				return new google.maps.LatLng(loc.latitude, loc.longitude);

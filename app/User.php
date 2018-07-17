@@ -30,6 +30,9 @@ class User extends Authenticatable
         'password', 'remember_token', 'api_token', 'verification_token'
     ];
 
+     protected $appends = ['distance'];
+
+
     public function getCreatedAtAttribute($value)
     {
        return \Carbon\Carbon::parse($value)->diffForHumans();
@@ -138,6 +141,15 @@ class User extends Authenticatable
      public function assignments()
     {
       return $this->hasMany(\CCG\Claims\Assignmment::class);
+    }
+
+    public function getDistanceAttribute()
+    {
+        return $this->attributes['distance'] = (object) [
+          'text' => '',
+          'xp' => 0,
+          'value' => 0
+        ];
     }
 
     /**

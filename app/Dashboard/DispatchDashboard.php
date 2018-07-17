@@ -43,19 +43,20 @@ class DispatchDashboard
 			return $profile->user;
 		});
 
-		$adjusters->transform(function ($adjuster, $key) {
-		    $adjuster->distance = new \stdClass;
-		    $adjuster->distance->text = '';
-		    $adjuster->distance->value = 0;
-		    $adjuster->xp = 0;
-		    return $adjuster;
+		// $adjusters->transform(function ($adjuster, $key) {
+		// 	// dd($adjuster);
+		//     return $adjuster->distance = $this->distance;
+		//     // return $adjuster;
+		// });
+
+		// dd($adjusters);
+
+
+		$list = $adjusters->filter(function($user, $key) {
+			return !isset($user->adjusterLicenses) ?:  $user->adjusterLicenses->count();
 		});
 
-		$adjusters = $adjusters->filter(function($adjuster) {
-			return $adjuster->adjusterLicenses->count();
-		});
-
-		return array_values($adjusters->toArray());
+		return array_values($list->toArray());
 	}
 
 	public function getClaims()

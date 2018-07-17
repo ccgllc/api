@@ -78,15 +78,17 @@ class ProfileController extends Controller {
 	public function location(Request $request)
 	{
 		foreach ($request->adjusters as $adjuster) {
-			$profile = Profile::findOrFail($adjuster['profile']['id']);
-			$profile->update([ 
-			 	 'lat' => $adjuster['profile']['lat'] , 
-			 	 'lng' => $adjuster['profile']['lng'] ,
-			 	 'place_id' => $adjuster['profile']['place_id'] ,
-			 	 'formatted_address' => $adjuster['profile']['formatted_address']
-			]);
+			var_dump($adjuster['profile']['id']);
+			if($profile = Profile::findOrFail($adjuster['profile']['id'])) {
+				$profile->update([ 
+				 	 'lat' => $adjuster['profile']['lat'] , 
+				 	 'lng' => $adjuster['profile']['lng'] ,
+				 	 'place_id' => $adjuster['profile']['place_id'] ,
+				 	 'formatted_address' => $adjuster['profile']['formatted_address']
+				]);
+			}
 		}
-		return response(200, 'Updated');
+		return response('Updated', 200);
 	}
 
 	public function role(Request $request, $id)
