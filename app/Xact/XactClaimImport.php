@@ -74,6 +74,9 @@ class XactClaimImport extends XmlImporter {
         // Drill down policy information
         $this->policy = new Policy($json->ADM);
         !isset($this->policy->isCommerical) ? $this->isCommercial = 0 : $this->isCommercial = $this->policy->isCommercial;
+        //because there is one other place we might be able to dicern 
+        //wether or not this claims is commercial.
+        
 
         // make sure full xml info is not returned.
         $this->saveXmlFile($this->transactionId);

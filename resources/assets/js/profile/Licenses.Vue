@@ -48,7 +48,7 @@
 			      <p class="modal-card-title">Add a new Adjuster License</p>
 			      <button class="delete" aria-label="close" @click="creatingNewLicense = false"></button>
 			    </header>
-			    <section class="modal-card-body">
+			    <section class="modal-card-body" style="background: #fff;">
 			      <form @submit.prevent="submit" @keydown="newLicense.errors.clear($event.target.name)">
 					<div class="columns">
 					

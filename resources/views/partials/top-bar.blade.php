@@ -27,7 +27,7 @@
             <a class="navbar-item" href="{{ route('register') }}">Register</a>
           @else
             <div class="navbar-item has-dropdown is-hoverable">
-              <a class="navbar-link is-active">
+              <a class="navbar-link is-active" href="/profile">
                 <img 
                   src="{{ Auth::user()->avatar->path }}" 
                   alt="{{ Auth::user()->name}}" 
@@ -38,14 +38,13 @@
               <div class="navbar-dropdown is-right">
                 @if(Auth::user()->applied)<a href="/profile" class="navbar-item">My Profile</a>@endif
                 @if (Auth::user()->hasRole('administrator'))
-                <a href="/dashboard" class="navbar-item">Dashboard</a>
-                <hr class="dropdown-divider">
-                <a href="/claims" class="navbar-item">Claims</a>
-                <hr class="dropdown-divider">
-                <a href="/users" class="navbar-item">Manage Users</a>
-                <a href="/roles" class="navbar-item">Manage Roles</a>
-
-                 @endif
+                  <a href="/dashboard" class="navbar-item">Dashboard</a>
+                  <hr class="dropdown-divider">
+                  <a href="/claims" class="navbar-item">Claims</a>
+                  <hr class="dropdown-divider">
+                  <a href="/users" class="navbar-item">Manage Users</a>
+                  <a href="/roles" class="navbar-item">Manage Roles</a>
+                @endif
                  <hr class="dropdown-divider">
                 <a 
                   class="navbar-item" 

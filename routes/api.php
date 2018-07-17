@@ -36,6 +36,9 @@ Route::namespace('Api\Profile')
 		Route::delete('user/{id}/license/{licenseId}', 'ProfileController@destroyLicense');
 		Route::post('user/{id}/avatar/', 'ProfileController@createAvatar');
 		Route::delete('user/avatar/{id}', 'ProfileController@destroyAvatar');
+		 //temporary and only for batch updating exisitng profile data 
+		// where no lat lng data exists.
+		Route::post('users/locations', 'ProfileController@location');
 		Route::post('user/{id}/documents', 'UserDocumentsController@store');
 		Route::delete('user/documents/{id}', 'UserDocumentsController@destroy');
 		Route::post('user/{id}/certifications', 'UserCertificationsController@store');

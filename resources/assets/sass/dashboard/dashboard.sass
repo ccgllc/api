@@ -1,0 +1,92 @@
+.is-dispatch-claim,
+	.card-content
+		padding: 1rem !important
+		h3.title
+			font-size: 1.25em
+			font-weight: 700
+		h4.subtitle
+			font-size: .75em
+
+	&.is-active
+		.is-icon
+			// background-color: $darker
+		background-color: $dark
+		border-color: $dark-border
+		.card-content
+			h3.title a
+				color: $light-gray
+			h4.subtitle
+				color: $primary-bright
+		&:hover
+			background-color: darken($dark, 5%)
+
+	&:hover
+		cursor: pointer
+		background-color: lighten($card-background-color, 2%)
+
+.is-dispatch-adjuster,
+	.card-content
+		padding: 1rem !important
+		h3.title
+			font-size: 1.25em
+			font-weight: 700
+		h4.subtitle
+			font-size: .75em
+
+	&.is-active
+		.is-icon
+			//background-color: $darker
+		background-color: $primary-bright
+		border-color: darken($primary-bright, 5%);
+		.card-content
+			h3.title a
+				color: $light-gray
+			h4.subtitle
+				color: $dark
+		&:hover
+			background-color: darken($primary-bright, 5%);
+
+	&:hover
+		cursor: pointer
+		background-color: lighten($card-background-color, 2%)
+
+.is-dispatch-action
+	border: 1px solid darken($secondary, 5%) !important
+	background-color: $secondary
+	&:hover
+		cursor: pointer
+		background-color: darken($secondary, 5%)
+		.card-content
+			padding: 1rem !important
+			h3.title
+				color: $light-gray
+
+	.card-content
+		padding: 1rem !important
+		h3.title
+			color: $light-gray
+			font-size: 1.25em
+			font-weight: 700
+
+	&.is-active
+		.is-icon
+			//background-color: $darker
+		
+		
+		.card-content
+			h3.title a
+				color: $light-gray
+			h4.subtitle
+				color: $dark
+		&:hover
+			background-color: darken($secondary, 5%);
+
+.tags.is-input
+    position: absolute
+    top: .45rem
+    left: .5rem
+    /* width: 2.25em; */
+    z-index: 4
+	   
+
+	

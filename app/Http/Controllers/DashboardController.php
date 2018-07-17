@@ -11,16 +11,21 @@ class DashboardController extends Controller
 {
 	public function __construct()
 	{
-		$this->middleware(['auth']);
+		$this->middleware(['auth', 'dashboard']);
 	}
 
     public function show(Request $request)
     {
-       	$data = $this->getDashboardData($request->user()->role);
-       	// dd($data);
-       	// $data = json_encode($data);
-       	$view = 'dashboard.'.$request->user()->role;
-    	return view($view, compact('data'));
+       // $user = Auth::onceUsingId(20);
+        if ($request->user()->role) {
+            $data = $this->getDashboardData($request->user()->role);
+            $view = 'dashboard.'.$request->user()->role;
+            return view($view, compact('data'));
+        }
+        else {
+            return redirect('/profle');
+        }
+       	
     }
 
     protected function getDashboardData($role)

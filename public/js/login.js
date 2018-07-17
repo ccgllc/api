@@ -1,4 +1,4 @@
-webpackJsonp([9],{
+webpackJsonp([10],{
 
 /***/ 1:
 /***/ (function(module, exports) {
@@ -243,7 +243,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -264,6 +263,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				console.log(response);
 				var storage = window.localStorage;
 				storage.setItem('token', response.token);
+				bootstrap();
 				return window.location.href = response.destination;
 			});
 		}

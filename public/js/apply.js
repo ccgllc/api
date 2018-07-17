@@ -138,6 +138,10 @@ module.exports = function normalizeComponent (
 		state: '',
 		zip: '',
 		phone: '',
+		lat: 0,
+		lng: 0,
+		place_id: '',
+		formatted_address: '',
 		license_state: '',
 		license_number: '',
 		expiration_month: '',
@@ -552,6 +556,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -561,7 +576,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			appData: __WEBPACK_IMPORTED_MODULE_0__data_appData_js__["a" /* default */],
 			hasXactimate: false,
 			currentYear: '',
-			btnState: false
+			btnState: false,
+			geocoder: {},
+			autocomplete: {},
+			componentForm: {
+				street_number: 'short_name',
+				route: 'long_name',
+				locality: 'long_name',
+				administrative_area_level_1: 'short_name',
+				country: 'long_name',
+				postal_code: 'short_name'
+			}
 		};
 	},
 	mounted: function mounted() {
@@ -569,19 +594,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	},
 
 	computed: {
-		//
+		requiredFieldsBlank: function requiredFieldsBlank() {
+			if (this.appData.personalInfo.city == '' || this.appData.personalInfo.state == '' || this.appData.personalInfo.zip == '' || this.appData.personalInfo.street == '') {
+				return true;
+			}
+			return false;
+		}
 	},
 	methods: {
 		submit: function submit() {
 			var _this = this;
 
-			this.appData.personalInfo.post('/api/user/personal-information', false).then(function (response) {
-				console.log(response.data);
-				_this.$router.push({ path: '/work-history' });
-			}).catch(function (error) {
-				_this.btnState = false;
-				console.error(error);
-			});
+			if (!this.requiredFieldsBlank) {
+				this.appData.personalInfo.post('/api/user/personal-information', false).then(function (response) {
+					console.log(response.data);
+					_this.$router.push({ path: '/work-history' });
+				}).catch(function (error) {
+					_this.btnState = false;
+					console.error(error);
+				});
+			}
 		},
 		setupView: function setupView() {
 			this.appData.text.title = "Personal Information";
@@ -589,6 +621,44 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			this.appData.progress = 1;
 			var today = new Date();
 			this.currentYear = today.getFullYear();
+			this.geocoder = new google.maps.Geocoder();
+			this.autocomplete = new google.maps.places.Autocomplete(document.getElementById('street'), { types: ['geocode'] });
+			// When the user selects an address from the dropdown, populate the address
+			// fields in the form.
+			// function 
+			this.autocomplete.addListener('place_changed', this.setAddressFields);
+		},
+		setAddressFields: function setAddressFields() {
+			var place = this.autocomplete.getPlace();
+			console.log(place);
+			for (var i = 0; i < place.address_components.length; i++) {
+				var addressType = place.address_components[i].types[0];
+
+				if (this.componentForm[addressType]) {
+					switch (addressType) {
+						case 'street_number':
+							this.appData.personalInfo.street = place.address_components[i][this.componentForm[addressType]];
+							break;
+						case 'route':
+							this.appData.personalInfo.street += ' ' + place.address_components[i][this.componentForm[addressType]];
+							break;
+						case 'locality':
+							this.appData.personalInfo.city = place.address_components[i][this.componentForm[addressType]];
+							break;
+						case 'administrative_area_level_1':
+							this.appData.personalInfo.state = place.address_components[i][this.componentForm[addressType]];
+							break;
+						case 'postal_code':
+							this.appData.personalInfo.zip = place.address_components[i][this.componentForm[addressType]];
+					}
+					//  let val = place.address_components[i][componentForm[addressType]];
+					// this.appData.personalInformation[componentForm[addressType]] = val;
+				}
+			}
+			this.appData.personalInfo.lat = place.geometry.lat;
+			this.appData.personalInfo.lng = place.geometry.lng;
+			this.appData.personalInfo.formatted_address = place.formatted_address;
+			this.appData.personalInfo.place_id = place.place_id;
 		}
 	}
 });
@@ -640,55 +710,35 @@ var render = function() {
       _vm._v(" "),
       _c("hr"),
       _vm._v(" "),
-      _c("div", { staticClass: "field" }, [
-        _c("label", { staticClass: "label" }, [_vm._v("Street:")]),
-        _vm._v(" "),
-        _c("div", { staticClass: "control control has-icons-left" }, [
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.appData.personalInfo.street,
-                expression: "appData.personalInfo.street"
-              }
-            ],
-            staticClass: "input",
-            attrs: { type: "text" },
-            domProps: { value: _vm.appData.personalInfo.street },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.$set(
-                  _vm.appData.personalInfo,
-                  "street",
-                  $event.target.value
-                )
-              }
-            }
-          }),
-          _vm._v(" "),
-          _vm._m(1),
-          _vm._v(" "),
-          _vm.appData.personalInfo.errors.has("street")
-            ? _c("span", {
-                staticClass: "help is-danger",
-                domProps: {
-                  textContent: _vm._s(
-                    _vm.appData.personalInfo.errors.get("street")
-                  )
-                }
-              })
-            : _vm._e()
-        ])
-      ]),
+      _vm.autocomplete
+        ? _c("div", { staticClass: "field" }, [
+            _c("label", { staticClass: "label" }, [_vm._v("Address:")]),
+            _vm._v(" "),
+            _c("div", { staticClass: "control control has-icons-left" }, [
+              _c("input", {
+                staticClass: "input",
+                attrs: { id: "street", type: "text" }
+              }),
+              _vm._v(" "),
+              _vm._m(1),
+              _vm._v(" "),
+              _vm.appData.personalInfo.errors.has("street")
+                ? _c("span", {
+                    staticClass: "help is-danger",
+                    domProps: {
+                      textContent: _vm._s(
+                        _vm.appData.personalInfo.errors.get("street")
+                      )
+                    }
+                  })
+                : _vm._e()
+            ])
+          ])
+        : _vm._e(),
       _vm._v(" "),
-      _c("div", { staticClass: "columns" }, [
-        _c("div", { staticClass: "column" }, [
-          _c("div", { staticClass: "field" }, [
-            _c("label", { staticClass: "label" }, [_vm._v("City:")]),
+      !_vm.autocomplete
+        ? _c("div", { staticClass: "field" }, [
+            _c("label", { staticClass: "label" }, [_vm._v("Street:")]),
             _vm._v(" "),
             _c("div", { staticClass: "control control has-icons-left" }, [
               _c("input", {
@@ -696,13 +746,13 @@ var render = function() {
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.appData.personalInfo.city,
-                    expression: "appData.personalInfo.city"
+                    value: _vm.appData.personalInfo.street,
+                    expression: "appData.personalInfo.street"
                   }
                 ],
                 staticClass: "input",
                 attrs: { type: "text" },
-                domProps: { value: _vm.appData.personalInfo.city },
+                domProps: { value: _vm.appData.personalInfo.street },
                 on: {
                   input: function($event) {
                     if ($event.target.composing) {
@@ -710,7 +760,7 @@ var render = function() {
                     }
                     _vm.$set(
                       _vm.appData.personalInfo,
-                      "city",
+                      "street",
                       $event.target.value
                     )
                   }
@@ -719,127 +769,179 @@ var render = function() {
               _vm._v(" "),
               _vm._m(2),
               _vm._v(" "),
-              _vm.appData.personalInfo.errors.has("city")
+              _vm.appData.personalInfo.errors.has("street")
                 ? _c("span", {
                     staticClass: "help is-danger",
                     domProps: {
                       textContent: _vm._s(
-                        _vm.appData.personalInfo.errors.get("city")
+                        _vm.appData.personalInfo.errors.get("street")
                       )
                     }
                   })
                 : _vm._e()
             ])
           ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "column" }, [
-          _c("label", { staticClass: "label" }, [_vm._v("State")]),
-          _vm._v(" "),
-          _c("div", { staticClass: "select" }, [
-            _c(
-              "select",
-              {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.appData.personalInfo.state,
-                    expression: "appData.personalInfo.state"
-                  }
-                ],
-                on: {
-                  change: function($event) {
-                    var $$selectedVal = Array.prototype.filter
-                      .call($event.target.options, function(o) {
-                        return o.selected
-                      })
-                      .map(function(o) {
-                        var val = "_value" in o ? o._value : o.value
-                        return val
-                      })
-                    _vm.$set(
-                      _vm.appData.personalInfo,
-                      "state",
-                      $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-                    )
-                  }
-                }
-              },
-              [
-                _c("option", { attrs: { value: "" } }, [
-                  _vm._v("Select State")
-                ]),
+        : _vm._e(),
+      _vm._v(" "),
+      !_vm.autocomplete
+        ? _c("div", { staticClass: "columns" }, [
+            _c("div", { staticClass: "column" }, [
+              _c("div", { staticClass: "field" }, [
+                _c("label", { staticClass: "label" }, [_vm._v("City:")]),
                 _vm._v(" "),
-                _vm._l(_vm.appData.states, function(state) {
-                  return _c("option", { domProps: { value: state.abbr } }, [
-                    _vm._v(_vm._s(state.name))
-                  ])
-                })
-              ],
-              2
-            )
-          ]),
-          _vm._v(" "),
-          _vm.appData.personalInfo.errors.has("state")
-            ? _c("span", {
-                staticClass: "help is-danger",
-                domProps: {
-                  textContent: _vm._s(
-                    _vm.appData.personalInfo.errors.get("state")
-                  )
-                }
-              })
-            : _vm._e()
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "column" }, [
-          _c("div", { staticClass: "field" }, [
-            _c("label", { staticClass: "label" }, [_vm._v("Zip:")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "control has-icons-left" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.appData.personalInfo.zip,
-                    expression: "appData.personalInfo.zip"
-                  }
-                ],
-                staticClass: "input",
-                attrs: { type: "text" },
-                domProps: { value: _vm.appData.personalInfo.zip },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
+                _c("div", { staticClass: "control control has-icons-left" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.appData.personalInfo.city,
+                        expression: "appData.personalInfo.city"
+                      }
+                    ],
+                    staticClass: "input",
+                    attrs: { type: "text" },
+                    domProps: { value: _vm.appData.personalInfo.city },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.appData.personalInfo,
+                          "city",
+                          $event.target.value
+                        )
+                      }
                     }
-                    _vm.$set(
-                      _vm.appData.personalInfo,
-                      "zip",
-                      $event.target.value
-                    )
-                  }
-                }
-              }),
+                  }),
+                  _vm._v(" "),
+                  _vm._m(3),
+                  _vm._v(" "),
+                  _vm.appData.personalInfo.errors.has("city")
+                    ? _c("span", {
+                        staticClass: "help is-danger",
+                        domProps: {
+                          textContent: _vm._s(
+                            _vm.appData.personalInfo.errors.get("city")
+                          )
+                        }
+                      })
+                    : _vm._e()
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "column" }, [
+              _c("label", { staticClass: "label" }, [_vm._v("State")]),
               _vm._v(" "),
-              _vm._m(3),
+              _c("div", { staticClass: "select" }, [
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.appData.personalInfo.state,
+                        expression: "appData.personalInfo.state"
+                      }
+                    ],
+                    on: {
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.$set(
+                          _vm.appData.personalInfo,
+                          "state",
+                          $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        )
+                      }
+                    }
+                  },
+                  [
+                    _c("option", { attrs: { value: "" } }, [
+                      _vm._v("Select State")
+                    ]),
+                    _vm._v(" "),
+                    _vm._l(_vm.appData.states, function(state) {
+                      return _c("option", { domProps: { value: state.abbr } }, [
+                        _vm._v(_vm._s(state.name))
+                      ])
+                    })
+                  ],
+                  2
+                )
+              ]),
               _vm._v(" "),
-              _vm.appData.personalInfo.errors.has("zip")
+              _vm.appData.personalInfo.errors.has("state")
                 ? _c("span", {
                     staticClass: "help is-danger",
                     domProps: {
                       textContent: _vm._s(
-                        _vm.appData.personalInfo.errors.get("zip")
+                        _vm.appData.personalInfo.errors.get("state")
                       )
                     }
                   })
                 : _vm._e()
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "column" }, [
+              _c("div", { staticClass: "field" }, [
+                _c("label", { staticClass: "label" }, [_vm._v("Zip:")]),
+                _vm._v(" "),
+                _c("div", { staticClass: "control has-icons-left" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.appData.personalInfo.zip,
+                        expression: "appData.personalInfo.zip"
+                      }
+                    ],
+                    staticClass: "input",
+                    attrs: { type: "text" },
+                    domProps: { value: _vm.appData.personalInfo.zip },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.appData.personalInfo,
+                          "zip",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _vm._m(4),
+                  _vm._v(" "),
+                  _vm.appData.personalInfo.errors.has("zip")
+                    ? _c("span", {
+                        staticClass: "help is-danger",
+                        domProps: {
+                          textContent: _vm._s(
+                            _vm.appData.personalInfo.errors.get("zip")
+                          )
+                        }
+                      })
+                    : _vm._e()
+                ])
+              ])
             ])
           ])
-        ])
-      ]),
+        : _vm._e(),
       _vm._v(" "),
       _c("div", { staticClass: "field" }, [
         _c("label", { staticClass: "label" }, [_vm._v("Phone:")]),
@@ -867,7 +969,7 @@ var render = function() {
             }
           }),
           _vm._v(" "),
-          _vm._m(4),
+          _vm._m(5),
           _vm._v(" "),
           _vm.appData.personalInfo.errors.has("phone")
             ? _c("span", {
@@ -884,7 +986,7 @@ var render = function() {
       _vm._v(" "),
       _c("br"),
       _vm._v(" "),
-      _vm._m(5),
+      _vm._m(6),
       _vm._v(" "),
       _c("hr"),
       _vm._v(" "),
@@ -984,7 +1086,7 @@ var render = function() {
                 }
               }),
               _vm._v(" "),
-              _vm._m(6),
+              _vm._m(7),
               _vm._v(" "),
               _vm.appData.personalInfo.errors.has("license_number")
                 ? _c("span", {
@@ -1131,7 +1233,7 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _vm._m(7),
+      _vm._m(8),
       _vm._v(" "),
       _c("hr"),
       _vm._v(" "),
@@ -1237,13 +1339,14 @@ var render = function() {
             {
               staticClass: "button is-primary",
               class: { "is-loading": _vm.btnState },
+              attrs: { disabled: _vm.requiredFieldsBlank },
               on: {
                 click: function($event) {
                   _vm.btnState = !_vm.btnState
                 }
               }
             },
-            [_c("span", [_vm._v("save & continue")]), _vm._v(" "), _vm._m(8)]
+            [_c("span", [_vm._v("save & continue")]), _vm._v(" "), _vm._m(9)]
           )
         ])
       ])
@@ -1257,6 +1360,14 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("h2", { staticClass: "subtitle has-text-primary" }, [
       _c("strong", [_vm._v("Your Contact Info")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "icon is-small is-left" }, [
+      _c("i", { staticClass: "fa fa-home" })
     ])
   },
   function() {

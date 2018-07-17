@@ -43,6 +43,15 @@ class Claim extends Model
         return $this->belongsToMany(\CCG\Tag::class);
     }
 
+    public function hasTag($data)
+    {
+        if (is_string($data))
+        {
+            return $this->tags->contains('name', $data);
+        }
+        return !! $data->intersect($this->tags)->count();
+    }
+
     public function invoices()
     {
         return $this->hasMany(\CCG\Invoice::class);

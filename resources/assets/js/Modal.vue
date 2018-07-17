@@ -1,5 +1,5 @@
 <template>
-	<div class="modal" :class="{ 'is-active': show }">
+	<div class="modal" :class="{ 'is-active': show, 'is-solid': solid }">
 	  <div class="modal-background"></div>
 		<div class="modal-content">
 			<section class="">
@@ -11,7 +11,7 @@
 <script>
 	export default {
 		name: 'Modal',
-		props: ['show'],
+		props: ['show', 'solid'],
 		data(){
 			return {
 

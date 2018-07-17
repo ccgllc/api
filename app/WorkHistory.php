@@ -8,6 +8,14 @@ class WorkHistory extends Model
 {
     protected $guarded = ['id'];
 
+     /** 
+     * setup our relationsip to the user.
+     */ 
+    public function getTotal($value)
+    {
+        return static::sum();
+    }
+
     /** 
      * setup our relationsip to the user.
      */ 

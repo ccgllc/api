@@ -4,6 +4,7 @@ namespace CCG\Http\Controllers\Api\Profile;
 
 use CCG\Avatar;
 use CCG\Http\Controllers\Controller;
+use CCG\Profile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -74,6 +75,20 @@ class ProfileController extends Controller {
    		return $valid;
 	}
 
+	public function location(Request $request)
+	{
+		foreach ($request->adjusters as $adjuster) {
+			$profile = Profile::findOrFail($adjuster['profile']['id']);
+			$profile->update([ 
+			 	 'lat' => $adjuster['profile']['lat'] , 
+			 	 'lng' => $adjuster['profile']['lng'] ,
+			 	 'place_id' => $adjuster['profile']['place_id'] ,
+			 	 'formatted_address' => $adjuster['profile']['formatted_address']
+			]);
+		}
+		return response(200, 'Updated');
+	}
+
 	public function role(Request $request, $id)
 	{
 		$valid = $request->validate([
@@ -95,7 +110,7 @@ class ProfileController extends Controller {
 			'expiration_year' => 'required|numeric'
 		]);
 
-		$license = $this->getUser($id)->AdjusterLicenses()->create($valid);
+		$license = $this->getUser($id)->adjusterLicenses()->create($valid);
 
 		return $license;
 

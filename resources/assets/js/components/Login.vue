@@ -36,7 +36,6 @@
 
             <div class="control">
                 <button class="button is-medium is-ccg is-full-width">
-                    <!-- <span>Go</span> -->
                     <span class="icon is-small">
                         <i class="fa fa-check"></i>
                     </span>
@@ -69,6 +68,7 @@
 						console.log(response);
                         let storage = window.localStorage;
                         storage.setItem('token', response.token);
+                        bootstrap();
 						return window.location.href = response.destination;
 				});
 			}

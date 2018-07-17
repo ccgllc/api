@@ -83,7 +83,10 @@ class ClaimsController extends Controller {
 			'statuses' => function($query){
 		 		$query->orderBy('created_at', 'desc');
 		 	},
-            'statuses.user.avatar', 'statuses.user.roles', 'carrier', 'assignments', 'estimates', 'tags' //'invoices.payments.check.deposit','invoices.supplements', 'reviewer', 'adjuster', 'carrier'
+		 	'tags' => function($query) {
+		 		$query->orderBy('created_at', 'asc');
+		 	},
+            'statuses.user.avatar', 'statuses.user.roles', 'carrier', 'assignments', 'estimates',  //'invoices.payments.check.deposit','invoices.supplements', 'reviewer', 'adjuster', 'carrier'
 		])->first();
 		// $claim->statuses->load('user.avatar');
 		// dd($claim);

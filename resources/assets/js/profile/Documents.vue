@@ -20,7 +20,7 @@
 			      <p class="modal-card-title">Add a new file</p>
 			      <button class="delete" aria-label="close" @click="creatingNewFile = false"></button>
 			    </header>
-			    <section class="modal-card-body">
+			    <section class="modal-card-body" style="background: #fff;">
 			      <form @submit.prevent="submit" @keydown="newFile.errors.clear($event.target.name)">
 					<div class="columns is-multiline">
 					

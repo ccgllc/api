@@ -59,7 +59,7 @@
 			      <p class="modal-card-title">New certification or software experience</p>
 			      <button class="delete" aria-label="close" @click="creatingNew = false"></button>
 			    </header>
-			    <section class="modal-card-body">
+			    <section class="modal-card-body" style="background: #fff;">
 			      <form @submit.prevent="submit" @keydown="form.errors.clear($event.target.name)">
 					<div class="columns is-multiline">
 					

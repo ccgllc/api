@@ -53,6 +53,9 @@ class ValidatePersonalInfo extends FormRequest
                 'state',
                 'zip',
                 'phone',
+                'lat', 'lng',
+                'place_id',
+                'formatted_address',
                 'xactnet_address',
                 'user_id'
             ])

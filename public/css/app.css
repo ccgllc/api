@@ -16215,6 +16215,124 @@ label.panel-block:hover {
   border: 2px solid #fff;
 }
 
+.is-dispatch-claim .card-content {
+  padding: 1rem !important;
+}
+
+.is-dispatch-claim .card-content h3.title {
+  font-size: 1.25em;
+  font-weight: 700;
+}
+
+.is-dispatch-claim .card-content h4.subtitle {
+  font-size: .75em;
+}
+
+.is-dispatch-claim.is-active {
+  background-color: #343b4c;
+  border-color: #48526a;
+}
+
+.is-dispatch-claim.is-active .card-content h3.title a {
+  color: #fafafa;
+}
+
+.is-dispatch-claim.is-active .card-content h4.subtitle {
+  color: #429ad1;
+}
+
+.is-dispatch-claim.is-active:hover {
+  background-color: #292f3d;
+}
+
+.is-dispatch-claim:hover {
+  cursor: pointer;
+  background-color: #fdfcfc;
+}
+
+.is-dispatch-adjuster .card-content {
+  padding: 1rem !important;
+}
+
+.is-dispatch-adjuster .card-content h3.title {
+  font-size: 1.25em;
+  font-weight: 700;
+}
+
+.is-dispatch-adjuster .card-content h4.subtitle {
+  font-size: .75em;
+}
+
+.is-dispatch-adjuster.is-active {
+  background-color: #429ad1;
+  border-color: #318fc9;
+}
+
+.is-dispatch-adjuster.is-active .card-content h3.title a {
+  color: #fafafa;
+}
+
+.is-dispatch-adjuster.is-active .card-content h4.subtitle {
+  color: #343b4c;
+}
+
+.is-dispatch-adjuster.is-active:hover {
+  background-color: #318fc9;
+}
+
+.is-dispatch-adjuster:hover {
+  cursor: pointer;
+  background-color: #fdfcfc;
+}
+
+.is-dispatch-action {
+  border: 1px solid #2cb590 !important;
+  background-color: #31c9a1;
+}
+
+.is-dispatch-action:hover {
+  cursor: pointer;
+  background-color: #2cb590;
+}
+
+.is-dispatch-action:hover .card-content {
+  padding: 1rem !important;
+}
+
+.is-dispatch-action:hover .card-content h3.title {
+  color: #fafafa;
+}
+
+.is-dispatch-action .card-content {
+  padding: 1rem !important;
+}
+
+.is-dispatch-action .card-content h3.title {
+  color: #fafafa;
+  font-size: 1.25em;
+  font-weight: 700;
+}
+
+.is-dispatch-action.is-active .card-content h3.title a {
+  color: #fafafa;
+}
+
+.is-dispatch-action.is-active .card-content h4.subtitle {
+  color: #343b4c;
+}
+
+.is-dispatch-action.is-active:hover {
+  background-color: #2cb590;
+}
+
+.tags.is-input {
+  position: absolute;
+  top: .45rem;
+  left: .5rem;
+  /* width: 2.25em; */
+  z-index: 4;
+}
+
 .columns.is-gapless:not(:last-child) {
   margin-bottom: 0;
 }
@@ -16904,57 +17022,57 @@ a.is-menu-button:hover {
   }
 }
 
-.modal-content label {
+.modal.is-solid .modal-content label {
   color: #7683a2;
 }
 
-.modal-content select,
-.modal-content input {
+.modal.is-solid .modal-content select,
+.modal.is-solid .modal-content input {
   background: #292f3d;
   color: #7683a2;
   border-color: #48526a;
 }
 
-.modal-content select::-webkit-input-placeholder,
-.modal-content input::-webkit-input-placeholder {
+.modal.is-solid .modal-content select::-webkit-input-placeholder,
+.modal.is-solid .modal-content input::-webkit-input-placeholder {
   color: #7683a2;
 }
 
-.modal-content select:-ms-input-placeholder,
-.modal-content input:-ms-input-placeholder {
+.modal.is-solid .modal-content select:-ms-input-placeholder,
+.modal.is-solid .modal-content input:-ms-input-placeholder {
   color: #7683a2;
 }
 
-.modal-content select::-ms-input-placeholder,
-.modal-content input::-ms-input-placeholder {
+.modal.is-solid .modal-content select::-ms-input-placeholder,
+.modal.is-solid .modal-content input::-ms-input-placeholder {
   color: #7683a2;
 }
 
-.modal-content select::placeholder,
-.modal-content input::placeholder {
+.modal.is-solid .modal-content select::placeholder,
+.modal.is-solid .modal-content input::placeholder {
   color: #7683a2;
 }
 
-.modal-content .modal-content .control.has-icons-left .icon,
-.modal-content .modal-content .control.has-icons-right .icon {
+.modal.is-solid .modal-content .modal-content .control.has-icons-left .icon,
+.modal.is-solid .modal-content .modal-content .control.has-icons-right .icon {
   color: #429ad1;
 }
 
-.modal-content .control.has-icons-left .icon,
-.modal-content .control.has-icons-right .icon {
+.modal.is-solid .modal-content .control.has-icons-left .icon,
+.modal.is-solid .modal-content .control.has-icons-right .icon {
   color: #7683a2;
 }
 
-.modal-content .select:not(.is-multiple):not(.is-loading):hover::after {
+.modal.is-solid .modal-content .select:not(.is-multiple):not(.is-loading):hover::after {
   border-color: #7683a2;
 }
 
-.modal-content .select select:hover,
-.modal-content .select select.is-hovered {
+.modal.is-solid .modal-content .select select:hover,
+.modal.is-solid .modal-content .select select.is-hovered {
   border-color: #7683a2;
 }
 
-.modal-content input:hover {
+.modal.is-solid .modal-content input:hover {
   border-color: #7683a2;
 }
 

@@ -51,13 +51,13 @@
 		    </div>
 	    </div>
 	</div>
-	<div class="modal" v-bind:class="{ 'is-active': addingAvatar }">
+	<div class="modal is-solid" v-bind:class="{ 'is-active': addingAvatar }">
 	  <div class="modal-background"></div>
 	  <div class="modal-card">
-	    <header class="modal-card-head">
+	   {{--  <header class="modal-card-head">
 	      <p class="modal-card-title">Add Your Profile Picture</p>
 	      <button class="delete" aria-label="close" @click="addingAvatar=false"></button>
-	    </header>
+	    </header> --}}
 	    <section class="modal-card-body">
 	    <div class="columns">
 	    	<div class="column is-6 is-offset-3">
@@ -76,13 +76,14 @@
 			    >
 			   	 	<div class="spinner" v-if="avatarCropper && avatarCropper.loading"></div>
 	     		</avatar-cropper>
+	     		<button class="button is-success" @click="uploadImage" :disabled="!imgLoaded">Save Profile Image</button>
+	      		<button class="button" @click="addingAvatar = false">Cancel</button>
 	    	</div>
 	    </div>
 	    </section>
-	    <footer class="modal-card-foot">
-	      <button class="button is-success" @click="uploadImage" :disabled="!imgLoaded">Save Profile Image</button>
-	      <button class="button" @click="addingAvatar = false">Cancel</button>
-	    </footer>
+	   {{--  <footer class="modal-card-foot"> --}}
+	      
+	    {{-- </footer> --}}
 	  </div>
 	</div>
 </div>	

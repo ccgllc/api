@@ -20,7 +20,7 @@ class ProfileController extends Controller
 	{
 		$user = Auth::user();
 		$user->load(['roles', 'profile', 'adjusterLicenses', 'documents', 'workHistory', 'certifications', 'softwareExperiences', 'avatar']);
-		$user->role = $this->prepareRolesForDisplay($user->roles);
+		// $user->role = $this->prepareRolesForDisplay($user->roles);
 		return response()
 					->view('profile.show', compact('user'), 200);
 					//->header('X-TOKEN', 'klajdbflkajhfa');

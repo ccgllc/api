@@ -213,77 +213,55 @@ var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
 
 
 window._ = __webpack_require__(165);
-
-/**
- * We'll load jQuery and the Bootstrap jQuery plugin which provides support
- * for JavaScript based Bootstrap features such as modals and tabs. This
- * code may be modified to fit the specific needs of your application.
- */
-
-// try {
-//     window.$ = window.jQuery = require('jquery');
-
-//     require('bootstrap-sass');
-// } catch (e) {}
-
-/**
- * We'll load the axios HTTP library which allows us to easily issue requests
- * to our Laravel back-end. This library automatically handles sending the
- * CSRF token as a header based on the value of the "XSRF" token cookie.
- */
-
 window.axios = __webpack_require__(13);
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
-/**
- * Next we will register the CSRF Token as a common header with Axios so that
- * all outgoing HTTP requests automatically have it attached. This is just
- * a simple convenience so we don't have to attach every token manually.
- */
+window.bootstrap = function () {
+	window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
-var token = document.head.querySelector('meta[name="csrf-token"]');
-var api_token = window.localStorage.token;
+	var token = document.head.querySelector('meta[name="csrf-token"]');
+	var api_token = window.localStorage.token;
 
-if (token) {
-  window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
-} else {
-  console.error('CSRF token not found');
-}
+	if (token) {
+		window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+	} else {
+		console.error('CSRF token not found');
+	}
 
-if (api_token) {
-  window.axios.defaults.headers.common['Authorization'] = "Bearer " + api_token;
-} else {
-  if (!window.location === '/login#') {
-    var prev = window.location;
-    console.error('You need to login.');
-    window.axios.post('/logout').then(function (response) {
-      window.location = prev;
-    });
-  }
-}
-
-// let originalFunction = console.error;
-// console.error = function() {
-//   let args = Array.prototype.slice.call(arguments);
-//   if(args[0]) {
-//   	window.axios.post('/api/admin/client-error', args[0].response).then(response => {
-//   		if(args[0].response.status != 422) {
-//   			alert('Unfortunately we detected an issue with this request, We\'ve forwarded a copy of the error to our development team for investigation. If you continue to need help, please contact us at support@claimconsultantgroup.com');
-//   		}
-//   	});
-// }
-//   // let error = {};
-//   // error.message = args[0].reponse.data;
-//   // alert(args[0].response.data.errors.value[0]);
-//   if (args[0].response.status == 401) {
-//   	window.axios.post('/logout').then(response => {
-// 	    window.location = '/login';
-//  	})
-//   };
-//   // alert(args);
-//   // window.axios.post('/')
-//   return originalFunction.apply(console, args);
-// }
+	if (api_token) {
+		window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + api_token;
+	} else {
+		if (!window.location === '/login#') {
+			var prev = window.location;
+			console.error('You need to login.');
+			window.axios.post('/logout').then(function (response) {
+				window.location = prev;
+			});
+		}
+	}
+	// var originalFunction = console.error;
+	// console.error = function() {
+	//   var args = Array.prototype.slice.call(arguments);
+	//   if(args[0]) {
+	//   	window.axios.post('/api/admin/client-error', args[0].response).then(response => {
+	//   		if(args[0].response.status != 422) {
+	//   			alert('Unfortunately we detected an issue with this request, We\'ve forwarded a copy of the error to our development team for investigation. If you continue to need help, please contact us at support@claimconsultantgroup.com');
+	//   		}
+	//   	});
+	// }
+	//   // var error = {};
+	//   // error.message = args[0].reponse.data;
+	//   // alert(args[0].response.data.errors.value[0]);
+	//   if (args[0].response.status == 401) {
+	//   	window.axios.post('/logout').then(response => {
+	// 	    window.location = '/login';
+	//  	})
+	//   };
+	//   // alert(args);
+	//   // window.axios.post('/')
+	//   return originalFunction.apply(console, args);
+	// }
+};
+bootstrap();
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

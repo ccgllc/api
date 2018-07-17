@@ -18,6 +18,8 @@
 @import "./croppa.scss";
 // @import "resources/assets/sass/ccg-forms.sass";
 
+@import "resources/assets/sass/dashboard/dashboard.sass";
+
 
 .columns.is-gapless:not(:last-child) {
     margin-bottom: 0;
@@ -622,35 +624,36 @@ a.is-menu-button:hover{
 	}
 }
 // Modal form
-.modal-content {
-	label {
-		color: $less-dark;
-	}
-	select, input {
-		background: $darker;
-		color: $less-dark;
-		border-color: $dark-border;
-		&::placeholder {
+.modal.is-solid {
+	.modal-content {
+		label {
 			color: $less-dark;
 		}
-	}
-	.modal-content .control.has-icons-left .icon, .modal-content .control.has-icons-right .icon {
-		color: $primary-bright;
-	}
-	.control.has-icons-left .icon, .control.has-icons-right .icon {
-		color: $less-dark;
-	}
-	.select:not(.is-multiple):not(.is-loading):hover::after {
-		border-color: $less-dark;
-	}
-	.select select:hover, .select select.is-hovered {
-		border-color: $less-dark;
-	}
-	input:hover{
-		border-color: $less-dark;
+		select, input {
+			background: $darker;
+			color: $less-dark;
+			border-color: $dark-border;
+			&::placeholder {
+				color: $less-dark;
+			}
+		}
+		.modal-content .control.has-icons-left .icon, .modal-content .control.has-icons-right .icon {
+			color: $primary-bright;
+		}
+		.control.has-icons-left .icon, .control.has-icons-right .icon {
+			color: $less-dark;
+		}
+		.select:not(.is-multiple):not(.is-loading):hover::after {
+			border-color: $less-dark;
+		}
+		.select select:hover, .select select.is-hovered {
+			border-color: $less-dark;
+		}
+		input:hover{
+			border-color: $less-dark;
+		}
 	}
 }
-
 
 //timeline 
 .timeline {

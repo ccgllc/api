@@ -4578,280 +4578,298 @@ var render = function() {
             })
           ]),
           _vm._v(" "),
-          _c("section", { staticClass: "modal-card-body" }, [
-            _c(
-              "form",
-              {
-                on: {
-                  submit: function($event) {
-                    $event.preventDefault()
-                    return _vm.submit($event)
-                  },
-                  keydown: function($event) {
-                    _vm.newLicense.errors.clear($event.target.name)
+          _c(
+            "section",
+            {
+              staticClass: "modal-card-body",
+              staticStyle: { background: "#fff" }
+            },
+            [
+              _c(
+                "form",
+                {
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      return _vm.submit($event)
+                    },
+                    keydown: function($event) {
+                      _vm.newLicense.errors.clear($event.target.name)
+                    }
                   }
-                }
-              },
-              [
-                _c("div", { staticClass: "columns" }, [
-                  _c("div", { staticClass: "column is-2" }, [
-                    _c("div", { staticClass: "field" }, [
-                      _c("label", { staticClass: "label" }, [_vm._v("State:")]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "select" }, [
-                        _c(
-                          "select",
-                          {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.newLicense.license_state,
-                                expression: "newLicense.license_state"
-                              }
-                            ],
-                            on: {
-                              change: function($event) {
-                                var $$selectedVal = Array.prototype.filter
-                                  .call($event.target.options, function(o) {
-                                    return o.selected
-                                  })
-                                  .map(function(o) {
-                                    var val = "_value" in o ? o._value : o.value
-                                    return val
-                                  })
-                                _vm.$set(
-                                  _vm.newLicense,
-                                  "license_state",
-                                  $event.target.multiple
-                                    ? $$selectedVal
-                                    : $$selectedVal[0]
-                                )
-                              }
-                            }
-                          },
-                          [
-                            _c("option", { attrs: { value: "" } }),
-                            _vm._v(" "),
-                            _vm._l(_vm.states, function(state) {
-                              return _c(
-                                "option",
-                                { domProps: { value: state.abbr } },
-                                [_vm._v(_vm._s(state.abbr))]
-                              )
-                            })
-                          ],
-                          2
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _vm.newLicense.errors.has("license_state")
-                        ? _c("span", {
-                            staticClass: "help is-danger",
-                            domProps: {
-                              textContent: _vm._s(
-                                _vm.newLicense.errors.get("license_state")
-                              )
-                            }
-                          })
-                        : _vm._e()
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "column is-4" }, [
-                    _c("div", { staticClass: "field" }, [
-                      _c("label", { staticClass: "label" }, [
-                        _vm._v("License #:")
-                      ]),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "control control has-icons-left" },
-                        [
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.newLicense.license_number,
-                                expression: "newLicense.license_number"
-                              }
-                            ],
-                            staticClass: "input",
-                            attrs: { type: "text" },
-                            domProps: { value: _vm.newLicense.license_number },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
+                },
+                [
+                  _c("div", { staticClass: "columns" }, [
+                    _c("div", { staticClass: "column is-2" }, [
+                      _c("div", { staticClass: "field" }, [
+                        _c("label", { staticClass: "label" }, [
+                          _vm._v("State:")
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "select" }, [
+                          _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.newLicense.license_state,
+                                  expression: "newLicense.license_state"
                                 }
-                                _vm.$set(
-                                  _vm.newLicense,
-                                  "license_number",
-                                  $event.target.value
+                              ],
+                              on: {
+                                change: function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.$set(
+                                    _vm.newLicense,
+                                    "license_state",
+                                    $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  )
+                                }
+                              }
+                            },
+                            [
+                              _c("option", { attrs: { value: "" } }),
+                              _vm._v(" "),
+                              _vm._l(_vm.states, function(state) {
+                                return _c(
+                                  "option",
+                                  { domProps: { value: state.abbr } },
+                                  [_vm._v(_vm._s(state.abbr))]
+                                )
+                              })
+                            ],
+                            2
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _vm.newLicense.errors.has("license_state")
+                          ? _c("span", {
+                              staticClass: "help is-danger",
+                              domProps: {
+                                textContent: _vm._s(
+                                  _vm.newLicense.errors.get("license_state")
                                 )
                               }
-                            }
-                          }),
+                            })
+                          : _vm._e()
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "column is-4" }, [
+                      _c("div", { staticClass: "field" }, [
+                        _c("label", { staticClass: "label" }, [
+                          _vm._v("License #:")
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "control control has-icons-left" },
+                          [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.newLicense.license_number,
+                                  expression: "newLicense.license_number"
+                                }
+                              ],
+                              staticClass: "input",
+                              attrs: { type: "text" },
+                              domProps: {
+                                value: _vm.newLicense.license_number
+                              },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.newLicense,
+                                    "license_number",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _vm._m(3),
+                            _vm._v(" "),
+                            _vm.newLicense.errors.has("license_number")
+                              ? _c("span", {
+                                  staticClass: "help is-danger",
+                                  domProps: {
+                                    textContent: _vm._s(
+                                      _vm.newLicense.errors.get(
+                                        "license_number"
+                                      )
+                                    )
+                                  }
+                                })
+                              : _vm._e()
+                          ]
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "column is-2" }, [
+                      _c("div", { staticClass: "field" }, [
+                        _c("label", { staticClass: "label" }, [
+                          _vm._v("Exp. Mo:")
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "select" }, [
+                          _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.newLicense.expiration_month,
+                                  expression: "newLicense.expiration_month"
+                                }
+                              ],
+                              on: {
+                                change: function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.$set(
+                                    _vm.newLicense,
+                                    "expiration_month",
+                                    $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  )
+                                }
+                              }
+                            },
+                            [
+                              _c("option", { attrs: { value: "" } }, [
+                                _vm._v("mo.")
+                              ]),
+                              _vm._v(" "),
+                              _vm._l(_vm.months, function(month) {
+                                return _c(
+                                  "option",
+                                  { domProps: { value: month.abbr } },
+                                  [_vm._v(_vm._s(month.abbr))]
+                                )
+                              })
+                            ],
+                            2
+                          ),
                           _vm._v(" "),
-                          _vm._m(3),
-                          _vm._v(" "),
-                          _vm.newLicense.errors.has("license_number")
+                          _vm.newLicense.errors.has("expiration_month")
                             ? _c("span", {
                                 staticClass: "help is-danger",
                                 domProps: {
                                   textContent: _vm._s(
-                                    _vm.newLicense.errors.get("license_number")
+                                    _vm.newLicense.errors.get(
+                                      "expiration_month"
+                                    )
                                   )
                                 }
                               })
                             : _vm._e()
-                        ]
-                      )
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "column is-2" }, [
-                    _c("div", { staticClass: "field" }, [
-                      _c("label", { staticClass: "label" }, [
-                        _vm._v("Exp. Mo:")
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "select" }, [
-                        _c(
-                          "select",
-                          {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.newLicense.expiration_month,
-                                expression: "newLicense.expiration_month"
-                              }
-                            ],
-                            on: {
-                              change: function($event) {
-                                var $$selectedVal = Array.prototype.filter
-                                  .call($event.target.options, function(o) {
-                                    return o.selected
-                                  })
-                                  .map(function(o) {
-                                    var val = "_value" in o ? o._value : o.value
-                                    return val
-                                  })
-                                _vm.$set(
-                                  _vm.newLicense,
-                                  "expiration_month",
-                                  $event.target.multiple
-                                    ? $$selectedVal
-                                    : $$selectedVal[0]
-                                )
-                              }
-                            }
-                          },
-                          [
-                            _c("option", { attrs: { value: "" } }, [
-                              _vm._v("mo.")
-                            ]),
-                            _vm._v(" "),
-                            _vm._l(_vm.months, function(month) {
-                              return _c(
-                                "option",
-                                { domProps: { value: month.abbr } },
-                                [_vm._v(_vm._s(month.abbr))]
-                              )
-                            })
-                          ],
-                          2
-                        ),
-                        _vm._v(" "),
-                        _vm.newLicense.errors.has("expiration_month")
-                          ? _c("span", {
-                              staticClass: "help is-danger",
-                              domProps: {
-                                textContent: _vm._s(
-                                  _vm.newLicense.errors.get("expiration_month")
-                                )
-                              }
-                            })
-                          : _vm._e()
+                        ])
                       ])
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "column is-4" }, [
-                    _c("div", { staticClass: "field" }, [
-                      _c("label", { staticClass: "label" }, [
-                        _vm._v("Exp. Year:")
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "select" }, [
-                        _c(
-                          "select",
-                          {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.newLicense.expiration_year,
-                                expression: "newLicense.expiration_year"
-                              }
-                            ],
-                            on: {
-                              change: function($event) {
-                                var $$selectedVal = Array.prototype.filter
-                                  .call($event.target.options, function(o) {
-                                    return o.selected
-                                  })
-                                  .map(function(o) {
-                                    var val = "_value" in o ? o._value : o.value
-                                    return val
-                                  })
-                                _vm.$set(
-                                  _vm.newLicense,
-                                  "expiration_year",
-                                  $event.target.multiple
-                                    ? $$selectedVal
-                                    : $$selectedVal[0]
-                                )
-                              }
-                            }
-                          },
-                          [
-                            _c("option", { attrs: { value: "" } }, [
-                              _vm._v("yr.")
-                            ]),
-                            _vm._v(" "),
-                            _vm._l(10, function(n) {
-                              return _c(
-                                "option",
-                                {
-                                  domProps: { value: _vm.currentYear + n - 1 }
-                                },
-                                [_vm._v(_vm._s(_vm.currentYear + n - 1))]
-                              )
-                            })
-                          ],
-                          2
-                        ),
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "column is-4" }, [
+                      _c("div", { staticClass: "field" }, [
+                        _c("label", { staticClass: "label" }, [
+                          _vm._v("Exp. Year:")
+                        ]),
                         _vm._v(" "),
-                        _vm.newLicense.errors.has("expiration_year")
-                          ? _c("span", {
-                              staticClass: "help is-danger",
-                              domProps: {
-                                textContent: _vm._s(
-                                  _vm.newLicense.errors.get("expiration_year")
-                                )
+                        _c("div", { staticClass: "select" }, [
+                          _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.newLicense.expiration_year,
+                                  expression: "newLicense.expiration_year"
+                                }
+                              ],
+                              on: {
+                                change: function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.$set(
+                                    _vm.newLicense,
+                                    "expiration_year",
+                                    $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  )
+                                }
                               }
-                            })
-                          : _vm._e()
+                            },
+                            [
+                              _c("option", { attrs: { value: "" } }, [
+                                _vm._v("yr.")
+                              ]),
+                              _vm._v(" "),
+                              _vm._l(10, function(n) {
+                                return _c(
+                                  "option",
+                                  {
+                                    domProps: { value: _vm.currentYear + n - 1 }
+                                  },
+                                  [_vm._v(_vm._s(_vm.currentYear + n - 1))]
+                                )
+                              })
+                            ],
+                            2
+                          ),
+                          _vm._v(" "),
+                          _vm.newLicense.errors.has("expiration_year")
+                            ? _c("span", {
+                                staticClass: "help is-danger",
+                                domProps: {
+                                  textContent: _vm._s(
+                                    _vm.newLicense.errors.get("expiration_year")
+                                  )
+                                }
+                              })
+                            : _vm._e()
+                        ])
                       ])
                     ])
                   ])
-                ])
-              ]
-            )
-          ]),
+                ]
+              )
+            ]
+          ),
           _vm._v(" "),
           _c("footer", { staticClass: "modal-card-foot" }, [
             _c(
@@ -5369,168 +5387,179 @@ var render = function() {
               })
             ]),
             _vm._v(" "),
-            _c("section", { staticClass: "modal-card-body" }, [
-              _c(
-                "form",
-                {
-                  on: {
-                    submit: function($event) {
-                      $event.preventDefault()
-                      return _vm.submit($event)
-                    },
-                    keydown: function($event) {
-                      _vm.newFile.errors.clear($event.target.name)
+            _c(
+              "section",
+              {
+                staticClass: "modal-card-body",
+                staticStyle: { background: "#fff" }
+              },
+              [
+                _c(
+                  "form",
+                  {
+                    on: {
+                      submit: function($event) {
+                        $event.preventDefault()
+                        return _vm.submit($event)
+                      },
+                      keydown: function($event) {
+                        _vm.newFile.errors.clear($event.target.name)
+                      }
                     }
-                  }
-                },
-                [
-                  _c("div", { staticClass: "columns is-multiline" }, [
-                    _c("div", { staticClass: "column is-3" }, [
-                      _c("div", { staticClass: "field" }, [
-                        _c("label", { staticClass: "label" }, [
-                          _vm._v("Type:")
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "select is-fullwidth" }, [
-                          _c(
-                            "select",
-                            {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.newFile.type,
-                                  expression: "newFile.type"
+                  },
+                  [
+                    _c("div", { staticClass: "columns is-multiline" }, [
+                      _c("div", { staticClass: "column is-3" }, [
+                        _c("div", { staticClass: "field" }, [
+                          _c("label", { staticClass: "label" }, [
+                            _vm._v("Type:")
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "select is-fullwidth" }, [
+                            _c(
+                              "select",
+                              {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.newFile.type,
+                                    expression: "newFile.type"
+                                  }
+                                ],
+                                on: {
+                                  change: function($event) {
+                                    var $$selectedVal = Array.prototype.filter
+                                      .call($event.target.options, function(o) {
+                                        return o.selected
+                                      })
+                                      .map(function(o) {
+                                        var val =
+                                          "_value" in o ? o._value : o.value
+                                        return val
+                                      })
+                                    _vm.$set(
+                                      _vm.newFile,
+                                      "type",
+                                      $event.target.multiple
+                                        ? $$selectedVal
+                                        : $$selectedVal[0]
+                                    )
+                                  }
                                 }
+                              },
+                              [
+                                _c("option", { attrs: { value: "" } }, [
+                                  _vm._v("select")
+                                ]),
+                                _vm._v(" "),
+                                _vm._l(_vm.types, function(type) {
+                                  return _c(
+                                    "option",
+                                    { domProps: { value: type } },
+                                    [_vm._v(_vm._s(type))]
+                                  )
+                                })
                               ],
-                              on: {
-                                change: function($event) {
-                                  var $$selectedVal = Array.prototype.filter
-                                    .call($event.target.options, function(o) {
-                                      return o.selected
-                                    })
-                                    .map(function(o) {
-                                      var val =
-                                        "_value" in o ? o._value : o.value
-                                      return val
-                                    })
-                                  _vm.$set(
-                                    _vm.newFile,
-                                    "type",
-                                    $event.target.multiple
-                                      ? $$selectedVal
-                                      : $$selectedVal[0]
+                              2
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _vm.newFile.errors.has("type")
+                            ? _c("span", {
+                                staticClass: "help is-danger",
+                                domProps: {
+                                  textContent: _vm._s(
+                                    _vm.newFile.errors.get("type")
                                   )
                                 }
-                              }
-                            },
-                            [
-                              _c("option", { attrs: { value: "" } }, [
-                                _vm._v("select")
-                              ]),
-                              _vm._v(" "),
-                              _vm._l(_vm.types, function(type) {
-                                return _c(
-                                  "option",
-                                  { domProps: { value: type } },
-                                  [_vm._v(_vm._s(type))]
-                                )
                               })
+                            : _vm._e()
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "column is-9" }, [
+                        _c("div", { staticClass: "field" }, [
+                          _c("label", { staticClass: "label" }, [
+                            _vm._v("Filename:")
+                          ]),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.newFile.filename,
+                                expression: "newFile.filename"
+                              }
                             ],
-                            2
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _vm.newFile.errors.has("type")
-                          ? _c("span", {
-                              staticClass: "help is-danger",
-                              domProps: {
-                                textContent: _vm._s(
-                                  _vm.newFile.errors.get("type")
-                                )
-                              }
-                            })
-                          : _vm._e()
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "column is-9" }, [
-                      _c("div", { staticClass: "field" }, [
-                        _c("label", { staticClass: "label" }, [
-                          _vm._v("Filename:")
-                        ]),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.newFile.filename,
-                              expression: "newFile.filename"
-                            }
-                          ],
-                          staticClass: "input",
-                          attrs: { type: "text", placeholder: "My File" },
-                          domProps: { value: _vm.newFile.filename },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.$set(
-                                _vm.newFile,
-                                "filename",
-                                $event.target.value
-                              )
-                            }
-                          }
-                        }),
-                        _vm._v(" "),
-                        _vm.newFile.errors.has("filename")
-                          ? _c("span", {
-                              staticClass: "help is-danger",
-                              domProps: {
-                                textContent: _vm._s(
-                                  _vm.newFile.errors.get("filename")
-                                )
-                              }
-                            })
-                          : _vm._e()
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "column" }, [
-                      _c("div", { staticClass: "field" }, [
-                        _c("div", { staticClass: "file has-name is-primary" }, [
-                          _c("label", { staticClass: "file-label" }, [
-                            _c("input", {
-                              staticClass: "file-input",
-                              attrs: { type: "file", name: "resume" },
-                              on: {
-                                change: function($event) {
-                                  _vm.processFile($event.target.files)
+                            staticClass: "input",
+                            attrs: { type: "text", placeholder: "My File" },
+                            domProps: { value: _vm.newFile.filename },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
                                 }
+                                _vm.$set(
+                                  _vm.newFile,
+                                  "filename",
+                                  $event.target.value
+                                )
                               }
-                            }),
-                            _vm._v(" "),
-                            _vm._m(0),
-                            _vm._v(" "),
-                            _vm.filename != ""
-                              ? _c("span", {
-                                  staticClass: "file-name",
-                                  domProps: {
-                                    textContent: _vm._s(_vm.filename)
+                            }
+                          }),
+                          _vm._v(" "),
+                          _vm.newFile.errors.has("filename")
+                            ? _c("span", {
+                                staticClass: "help is-danger",
+                                domProps: {
+                                  textContent: _vm._s(
+                                    _vm.newFile.errors.get("filename")
+                                  )
+                                }
+                              })
+                            : _vm._e()
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "column" }, [
+                        _c("div", { staticClass: "field" }, [
+                          _c(
+                            "div",
+                            { staticClass: "file has-name is-primary" },
+                            [
+                              _c("label", { staticClass: "file-label" }, [
+                                _c("input", {
+                                  staticClass: "file-input",
+                                  attrs: { type: "file", name: "resume" },
+                                  on: {
+                                    change: function($event) {
+                                      _vm.processFile($event.target.files)
+                                    }
                                   }
-                                })
-                              : _vm._e()
-                          ])
+                                }),
+                                _vm._v(" "),
+                                _vm._m(0),
+                                _vm._v(" "),
+                                _vm.filename != ""
+                                  ? _c("span", {
+                                      staticClass: "file-name",
+                                      domProps: {
+                                        textContent: _vm._s(_vm.filename)
+                                      }
+                                    })
+                                  : _vm._e()
+                              ])
+                            ]
+                          )
                         ])
                       ])
                     ])
-                  ])
-                ]
-              )
-            ]),
+                  ]
+                )
+              ]
+            ),
             _vm._v(" "),
             _c("footer", { staticClass: "modal-card-foot" }, [
               _c(
@@ -5939,225 +5968,240 @@ var render = function() {
             })
           ]),
           _vm._v(" "),
-          _c("section", { staticClass: "modal-card-body" }, [
-            _c(
-              "form",
-              {
-                on: {
-                  submit: function($event) {
-                    $event.preventDefault()
-                    return _vm.submit($event)
-                  },
-                  keydown: function($event) {
-                    _vm.form.errors.clear($event.target.name)
+          _c(
+            "section",
+            {
+              staticClass: "modal-card-body",
+              staticStyle: { background: "#fff" }
+            },
+            [
+              _c(
+                "form",
+                {
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      return _vm.submit($event)
+                    },
+                    keydown: function($event) {
+                      _vm.form.errors.clear($event.target.name)
+                    }
                   }
-                }
-              },
-              [
-                _c("div", { staticClass: "columns is-multiline" }, [
-                  _c("div", { staticClass: "column is-12" }, [
-                    _c("div", { staticClass: "field" }, [
-                      _c("label", { staticClass: "label" }, [_vm._v("Type:")]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "select is-fullwidth" }, [
-                        _c(
-                          "select",
-                          {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.type,
-                                expression: "type"
+                },
+                [
+                  _c("div", { staticClass: "columns is-multiline" }, [
+                    _c("div", { staticClass: "column is-12" }, [
+                      _c("div", { staticClass: "field" }, [
+                        _c("label", { staticClass: "label" }, [
+                          _vm._v("Type:")
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "select is-fullwidth" }, [
+                          _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.type,
+                                  expression: "type"
+                                }
+                              ],
+                              on: {
+                                change: [
+                                  function($event) {
+                                    var $$selectedVal = Array.prototype.filter
+                                      .call($event.target.options, function(o) {
+                                        return o.selected
+                                      })
+                                      .map(function(o) {
+                                        var val =
+                                          "_value" in o ? o._value : o.value
+                                        return val
+                                      })
+                                    _vm.type = $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  },
+                                  _vm.clearForm
+                                ]
                               }
-                            ],
-                            on: {
-                              change: [
-                                function($event) {
-                                  var $$selectedVal = Array.prototype.filter
-                                    .call($event.target.options, function(o) {
-                                      return o.selected
-                                    })
-                                    .map(function(o) {
-                                      var val =
-                                        "_value" in o ? o._value : o.value
-                                      return val
-                                    })
-                                  _vm.type = $event.target.multiple
-                                    ? $$selectedVal
-                                    : $$selectedVal[0]
-                                },
-                                _vm.clearForm
-                              ]
-                            }
-                          },
-                          [
-                            _c("option", { attrs: { value: "" } }, [
-                              _vm._v("Select")
+                            },
+                            [
+                              _c("option", { attrs: { value: "" } }, [
+                                _vm._v("Select")
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "option",
+                                { attrs: { value: "software-experiences" } },
+                                [_vm._v("Software Experience")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "option",
+                                { attrs: { value: "certifications" } },
+                                [_vm._v("Certification")]
+                              )
+                            ]
+                          )
+                        ])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _vm.type == "software-experiences"
+                      ? _c("div", { staticClass: "column is-12" }, [
+                          _c("div", { staticClass: "field" }, [
+                            _c("label", { staticClass: "label" }, [
+                              _vm._v("Software Experience:")
                             ]),
                             _vm._v(" "),
-                            _c(
-                              "option",
-                              { attrs: { value: "software-experiences" } },
-                              [_vm._v("Software Experience")]
-                            ),
+                            _c("div", { staticClass: "select is-fullwidth" }, [
+                              _c(
+                                "select",
+                                {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.form.type,
+                                      expression: "form.type"
+                                    }
+                                  ],
+                                  on: {
+                                    change: function($event) {
+                                      var $$selectedVal = Array.prototype.filter
+                                        .call($event.target.options, function(
+                                          o
+                                        ) {
+                                          return o.selected
+                                        })
+                                        .map(function(o) {
+                                          var val =
+                                            "_value" in o ? o._value : o.value
+                                          return val
+                                        })
+                                      _vm.$set(
+                                        _vm.form,
+                                        "type",
+                                        $event.target.multiple
+                                          ? $$selectedVal
+                                          : $$selectedVal[0]
+                                      )
+                                    }
+                                  }
+                                },
+                                [
+                                  _c("option", { attrs: { value: "" } }, [
+                                    _vm._v("Select")
+                                  ]),
+                                  _vm._v(" "),
+                                  _vm._l(_vm.experienceTypes, function(exp) {
+                                    return _c(
+                                      "option",
+                                      { domProps: { value: exp.name } },
+                                      [_vm._v(_vm._s(exp.label))]
+                                    )
+                                  })
+                                ],
+                                2
+                              )
+                            ]),
                             _vm._v(" "),
-                            _c(
-                              "option",
-                              { attrs: { value: "certifications" } },
-                              [_vm._v("Certification")]
-                            )
-                          ]
-                        )
-                      ])
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _vm.type == "software-experiences"
-                    ? _c("div", { staticClass: "column is-12" }, [
-                        _c("div", { staticClass: "field" }, [
-                          _c("label", { staticClass: "label" }, [
-                            _vm._v("Software Experience:")
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "select is-fullwidth" }, [
-                            _c(
-                              "select",
-                              {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.form.type,
-                                    expression: "form.type"
-                                  }
-                                ],
-                                on: {
-                                  change: function($event) {
-                                    var $$selectedVal = Array.prototype.filter
-                                      .call($event.target.options, function(o) {
-                                        return o.selected
-                                      })
-                                      .map(function(o) {
-                                        var val =
-                                          "_value" in o ? o._value : o.value
-                                        return val
-                                      })
-                                    _vm.$set(
-                                      _vm.form,
-                                      "type",
-                                      $event.target.multiple
-                                        ? $$selectedVal
-                                        : $$selectedVal[0]
+                            _vm.form.errors.has("type")
+                              ? _c("span", {
+                                  staticClass: "help is-danger",
+                                  domProps: {
+                                    textContent: _vm._s(
+                                      _vm.form.errors.get("type")
                                     )
                                   }
-                                }
-                              },
-                              [
-                                _c("option", { attrs: { value: "" } }, [
-                                  _vm._v("Select")
-                                ]),
-                                _vm._v(" "),
-                                _vm._l(_vm.experienceTypes, function(exp) {
-                                  return _c(
-                                    "option",
-                                    { domProps: { value: exp.name } },
-                                    [_vm._v(_vm._s(exp.label))]
-                                  )
                                 })
-                              ],
-                              2
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _vm.form.errors.has("type")
-                            ? _c("span", {
-                                staticClass: "help is-danger",
-                                domProps: {
-                                  textContent: _vm._s(
-                                    _vm.form.errors.get("type")
-                                  )
-                                }
-                              })
-                            : _vm._e()
+                              : _vm._e()
+                          ])
                         ])
-                      ])
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm.type == "certifications"
-                    ? _c("div", { staticClass: "column is-12" }, [
-                        _c("div", { staticClass: "field" }, [
-                          _c("label", { staticClass: "label" }, [
-                            _vm._v("Certification:")
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "select is-fullwidth" }, [
-                            _c(
-                              "select",
-                              {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.form.type,
-                                    expression: "form.type"
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.type == "certifications"
+                      ? _c("div", { staticClass: "column is-12" }, [
+                          _c("div", { staticClass: "field" }, [
+                            _c("label", { staticClass: "label" }, [
+                              _vm._v("Certification:")
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "select is-fullwidth" }, [
+                              _c(
+                                "select",
+                                {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.form.type,
+                                      expression: "form.type"
+                                    }
+                                  ],
+                                  on: {
+                                    change: function($event) {
+                                      var $$selectedVal = Array.prototype.filter
+                                        .call($event.target.options, function(
+                                          o
+                                        ) {
+                                          return o.selected
+                                        })
+                                        .map(function(o) {
+                                          var val =
+                                            "_value" in o ? o._value : o.value
+                                          return val
+                                        })
+                                      _vm.$set(
+                                        _vm.form,
+                                        "type",
+                                        $event.target.multiple
+                                          ? $$selectedVal
+                                          : $$selectedVal[0]
+                                      )
+                                    }
                                   }
+                                },
+                                [
+                                  _c("option", { attrs: { value: "" } }, [
+                                    _vm._v("Select")
+                                  ]),
+                                  _vm._v(" "),
+                                  _vm._l(_vm.certificationTypes, function(
+                                    cert
+                                  ) {
+                                    return _c(
+                                      "option",
+                                      { domProps: { value: cert.name } },
+                                      [_vm._v(_vm._s(cert.label))]
+                                    )
+                                  })
                                 ],
-                                on: {
-                                  change: function($event) {
-                                    var $$selectedVal = Array.prototype.filter
-                                      .call($event.target.options, function(o) {
-                                        return o.selected
-                                      })
-                                      .map(function(o) {
-                                        var val =
-                                          "_value" in o ? o._value : o.value
-                                        return val
-                                      })
-                                    _vm.$set(
-                                      _vm.form,
-                                      "type",
-                                      $event.target.multiple
-                                        ? $$selectedVal
-                                        : $$selectedVal[0]
+                                2
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _vm.form.errors.has("type")
+                              ? _c("span", {
+                                  staticClass: "help is-danger",
+                                  domProps: {
+                                    textContent: _vm._s(
+                                      _vm.form.errors.get("type")
                                     )
                                   }
-                                }
-                              },
-                              [
-                                _c("option", { attrs: { value: "" } }, [
-                                  _vm._v("Select")
-                                ]),
-                                _vm._v(" "),
-                                _vm._l(_vm.certificationTypes, function(cert) {
-                                  return _c(
-                                    "option",
-                                    { domProps: { value: cert.name } },
-                                    [_vm._v(_vm._s(cert.label))]
-                                  )
                                 })
-                              ],
-                              2
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _vm.form.errors.has("type")
-                            ? _c("span", {
-                                staticClass: "help is-danger",
-                                domProps: {
-                                  textContent: _vm._s(
-                                    _vm.form.errors.get("type")
-                                  )
-                                }
-                              })
-                            : _vm._e()
+                              : _vm._e()
+                          ])
                         ])
-                      ])
-                    : _vm._e()
-                ])
-              ]
-            )
-          ]),
+                      : _vm._e()
+                  ])
+                ]
+              )
+            ]
+          ),
           _vm._v(" "),
           _c("footer", { staticClass: "modal-card-foot" }, [
             _c(
@@ -6569,7 +6613,7 @@ var render = function() {
     _c(
       "a",
       {
-        staticClass: "button is-primary",
+        staticClass: "button is-info",
         on: {
           click: function($event) {
             _vm.showForm = !_vm.showForm
@@ -6595,239 +6639,250 @@ var render = function() {
           })
         ]),
         _vm._v(" "),
-        _c("section", { staticClass: "modal-card-body" }, [
-          _c(
-            "div",
-            {
-              staticClass: "columns",
-              on: {
-                keydown: function($event) {
-                  _vm.newWorkHistory.errors.clear($event.target.name)
+        _c(
+          "section",
+          {
+            staticClass: "modal-card-body",
+            staticStyle: { background: "#fff" }
+          },
+          [
+            _c(
+              "div",
+              {
+                staticClass: "columns",
+                on: {
+                  keydown: function($event) {
+                    _vm.newWorkHistory.errors.clear($event.target.name)
+                  }
                 }
-              }
-            },
-            [
-              _c("div", { staticClass: "column is-6" }, [
-                _c("label", { staticClass: "label", attrs: { for: "types" } }, [
-                  _vm._v("Type:")
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "select" }, [
+              },
+              [
+                _c("div", { staticClass: "column is-6" }, [
                   _c(
-                    "select",
-                    {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.newWorkHistory.type,
-                          expression: "newWorkHistory.type"
-                        }
-                      ],
-                      attrs: {
-                        name: "types",
-                        id: "types",
-                        disabled: this.editing
-                      },
-                      on: {
-                        change: function($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function(o) {
-                              return o.selected
-                            })
-                            .map(function(o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.$set(
-                            _vm.newWorkHistory,
-                            "type",
-                            $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          )
-                        }
-                      }
-                    },
-                    [
-                      _c("option", { attrs: { value: "" } }, [
-                        _vm._v("Select")
-                      ]),
-                      _vm._v(" "),
-                      _vm._l(_vm.types, function(type) {
-                        return _c("option", { domProps: { value: type } }, [
-                          _vm._v(
-                            _vm._s(_vm._f("capitalize")(_vm._f("format")(type)))
-                          )
-                        ])
-                      })
-                    ],
-                    2
+                    "label",
+                    { staticClass: "label", attrs: { for: "types" } },
+                    [_vm._v("Type:")]
                   ),
                   _vm._v(" "),
-                  _vm.newWorkHistory.errors.has("type")
-                    ? _c("span", {
-                        staticClass: "help is-danger",
-                        domProps: {
-                          textContent: _vm._s(
-                            _vm.newWorkHistory.errors.get("type")
-                          )
-                        }
-                      })
-                    : _vm._e()
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "column is-6" }, [
-                _vm.newWorkHistory.type.includes("claims")
-                  ? _c("div", { staticClass: "field" }, [
-                      _c(
-                        "label",
-                        { staticClass: "label", attrs: { for: "value" } },
-                        [
-                          _vm._v(
-                            _vm._s(
-                              _vm._f("capitalize")(
-                                _vm._f("format")(_vm.newWorkHistory.type)
-                              )
-                            )
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c("input", {
+                  _c("div", { staticClass: "select" }, [
+                    _c(
+                      "select",
+                      {
                         directives: [
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.newWorkHistory.value,
-                            expression: "newWorkHistory.value"
+                            value: _vm.newWorkHistory.type,
+                            expression: "newWorkHistory.type"
                           }
                         ],
-                        staticClass: "input",
                         attrs: {
-                          type: "number",
-                          maxlength: "6",
-                          min: "0",
-                          max: "65535",
-                          placeholder: "0",
-                          number: ""
+                          name: "types",
+                          id: "types",
+                          disabled: this.editing
                         },
-                        domProps: { value: _vm.newWorkHistory.value },
                         on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
                             _vm.$set(
                               _vm.newWorkHistory,
-                              "value",
-                              $event.target.value
+                              "type",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
                             )
                           }
                         }
-                      }),
-                      _vm._v(" "),
-                      _vm.newWorkHistory.errors.has("value")
-                        ? _c("span", {
-                            staticClass: "help is-danger",
-                            domProps: {
-                              textContent: _vm._s(
-                                _vm.newWorkHistory.errors.get("value")
+                      },
+                      [
+                        _c("option", { attrs: { value: "" } }, [
+                          _vm._v("Select")
+                        ]),
+                        _vm._v(" "),
+                        _vm._l(_vm.types, function(type) {
+                          return _c("option", { domProps: { value: type } }, [
+                            _vm._v(
+                              _vm._s(
+                                _vm._f("capitalize")(_vm._f("format")(type))
+                              )
+                            )
+                          ])
+                        })
+                      ],
+                      2
+                    ),
+                    _vm._v(" "),
+                    _vm.newWorkHistory.errors.has("type")
+                      ? _c("span", {
+                          staticClass: "help is-danger",
+                          domProps: {
+                            textContent: _vm._s(
+                              _vm.newWorkHistory.errors.get("type")
+                            )
+                          }
+                        })
+                      : _vm._e()
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "column is-6" }, [
+                  _vm.newWorkHistory.type.includes("claims")
+                    ? _c("div", { staticClass: "field" }, [
+                        _c(
+                          "label",
+                          { staticClass: "label", attrs: { for: "value" } },
+                          [
+                            _vm._v(
+                              _vm._s(
+                                _vm._f("capitalize")(
+                                  _vm._f("format")(_vm.newWorkHistory.type)
+                                )
+                              )
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.newWorkHistory.value,
+                              expression: "newWorkHistory.value"
+                            }
+                          ],
+                          staticClass: "input",
+                          attrs: {
+                            type: "number",
+                            maxlength: "6",
+                            min: "0",
+                            max: "65535",
+                            placeholder: "0",
+                            number: ""
+                          },
+                          domProps: { value: _vm.newWorkHistory.value },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.newWorkHistory,
+                                "value",
+                                $event.target.value
                               )
                             }
-                          })
-                        : _vm._e()
-                    ])
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.newWorkHistory.type.includes("experience")
-                  ? _c("div", { staticClass: "field" }, [
-                      _c(
-                        "label",
-                        { staticClass: "label", attrs: { for: "value" } },
-                        [_vm._v("Years")]
-                      ),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.years,
-                            expression: "years"
                           }
-                        ],
-                        staticClass: "input",
-                        attrs: {
-                          type: "number",
-                          maxlength: "2",
-                          min: "0",
-                          max: "99",
-                          placeholder: "0",
-                          number: ""
-                        },
-                        domProps: { value: _vm.years },
-                        on: {
-                          input: [
-                            function($event) {
-                              if ($event.target.composing) {
-                                return
+                        }),
+                        _vm._v(" "),
+                        _vm.newWorkHistory.errors.has("value")
+                          ? _c("span", {
+                              staticClass: "help is-danger",
+                              domProps: {
+                                textContent: _vm._s(
+                                  _vm.newWorkHistory.errors.get("value")
+                                )
                               }
-                              _vm.years = $event.target.value
-                            },
-                            _vm.calculateMonths
-                          ]
-                        }
-                      })
-                    ])
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.newWorkHistory.type.includes("experience")
-                  ? _c("div", { staticClass: "field" }, [
-                      _c(
-                        "label",
-                        { staticClass: "label", attrs: { for: "value" } },
-                        [_vm._v("Months")]
-                      ),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.months,
-                            expression: "months"
+                            })
+                          : _vm._e()
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.newWorkHistory.type.includes("experience")
+                    ? _c("div", { staticClass: "field" }, [
+                        _c(
+                          "label",
+                          { staticClass: "label", attrs: { for: "value" } },
+                          [_vm._v("Years")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.years,
+                              expression: "years"
+                            }
+                          ],
+                          staticClass: "input",
+                          attrs: {
+                            type: "number",
+                            maxlength: "2",
+                            min: "0",
+                            max: "99",
+                            placeholder: "0",
+                            number: ""
+                          },
+                          domProps: { value: _vm.years },
+                          on: {
+                            input: [
+                              function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.years = $event.target.value
+                              },
+                              _vm.calculateMonths
+                            ]
                           }
-                        ],
-                        staticClass: "input",
-                        attrs: {
-                          type: "number",
-                          maxlength: "2",
-                          min: "0",
-                          max: "11",
-                          placeholder: "0",
-                          number: ""
-                        },
-                        domProps: { value: _vm.months },
-                        on: {
-                          input: [
-                            function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.months = $event.target.value
-                            },
-                            _vm.calculateMonths
-                          ]
-                        }
-                      })
-                    ])
-                  : _vm._e()
-              ])
-            ]
-          )
-        ]),
+                        })
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.newWorkHistory.type.includes("experience")
+                    ? _c("div", { staticClass: "field" }, [
+                        _c(
+                          "label",
+                          { staticClass: "label", attrs: { for: "value" } },
+                          [_vm._v("Months")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.months,
+                              expression: "months"
+                            }
+                          ],
+                          staticClass: "input",
+                          attrs: {
+                            type: "number",
+                            maxlength: "2",
+                            min: "0",
+                            max: "11",
+                            placeholder: "0",
+                            number: ""
+                          },
+                          domProps: { value: _vm.months },
+                          on: {
+                            input: [
+                              function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.months = $event.target.value
+                              },
+                              _vm.calculateMonths
+                            ]
+                          }
+                        })
+                      ])
+                    : _vm._e()
+                ])
+              ]
+            )
+          ]
+        ),
         _vm._v(" "),
         _c("footer", { staticClass: "modal-card-foot" }, [
           _c("div", { staticClass: "field is-grouped" }, [

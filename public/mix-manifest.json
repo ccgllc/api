@@ -7,11 +7,11 @@
     "/js/app.js": "/js/app.js",
     "/css/app.css": "/css/app.css",
     "/js/manageRoles.js": "/js/manageRoles.js",
+    "/js/dispatch.js": "/js/dispatch.js",
     "/js/requestPasswordReset.js": "/js/requestPasswordReset.js",
     "/js/register.js": "/js/register.js",
     "/js/login.js": "/js/login.js",
     "/js/manageUserRoles.js": "/js/manageUserRoles.js",
-    "/js/dispatch.js": "/js/dispatch.js",
     "/js/claims.js": "/js/claims.js",
     "/js/user.js": "/js/user.js",
     "/js/manifest.js": "/js/manifest.js"

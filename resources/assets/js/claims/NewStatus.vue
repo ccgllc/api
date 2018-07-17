@@ -1,5 +1,5 @@
 <template>	
-	<modal :show="creatingNewStatus">
+	<modal :show="creatingNewStatus" :solid="true">
 		<form @submit.prevent="submit">
 		<button @click.prevent="$emit('new-status-toggle')" class="modal-close is-large" aria-label="close"></button>
 		<h3 class="subtitle has-text-info has-text-weight-light">Claim# {{ claim.claim_number }}</h3>

@@ -23,7 +23,7 @@
 				</div>
 			</div>
 		</div>
-			<a class="button is-primary" @click="showForm = !showForm">Add Work History</a>
+			<a class="button is-info" @click="showForm = !showForm">Add Work History</a>
 			<!-- <form @submit.prevent="save" > -->
 			<div class="modal" :class="{ 'is-active': showForm }">
 			  <div class="modal-background"></div>
@@ -32,7 +32,7 @@
 			      <p class="modal-card-title">Add Work History</p>
 			      <button class="delete" aria-label="close" @mouseup="cancel"></button>
 			    </header>
-			    <section class="modal-card-body">
+			    <section class="modal-card-body" style="background: #fff;">
 			    	<div class="columns" @keydown="newWorkHistory.errors.clear($event.target.name)">
 			    		<div class="column is-6">
 			    			<label for="types" class="label">Type:</label>

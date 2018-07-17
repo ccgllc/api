@@ -26,6 +26,7 @@ class CreateUsersTable extends Migration
             $table->boolean('verified')->default(0);
             $table->boolean('applied')->default(0);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
