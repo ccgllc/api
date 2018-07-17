@@ -74,7 +74,7 @@
 								<input type="checkbox" v-model="selected" :value="user.id" :id="user.id" :name="user.id" class="is-checkbox is-circle is-small has-user">
 			 					<label :for="user.id">&nbsp;</label>
 			 				</td>
-							<td><a :href="'/profile/' + user.id" v-text='user.name'></a></td>
+							<td><a :href="'/users/' + user.id" v-text='user.name'></a></td>
 							<td v-text='user.email'></td>
 							<td v-text="user.status"></td>
 							<td>
