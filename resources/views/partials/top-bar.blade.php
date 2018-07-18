@@ -28,7 +28,7 @@
           @else
             <div class="navbar-item has-dropdown is-hoverable">
               <a class="navbar-link is-active" href="/profile">
-                @if(Auth::user()->avatar)
+                @if(isset(Auth::user()->avatar))
                 <img 
                   src="{{ Auth::user()->avatar->path }}" 
                   alt="{{ Auth::user()->name}}" 
