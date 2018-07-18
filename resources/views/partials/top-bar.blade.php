@@ -28,12 +28,15 @@
           @else
             <div class="navbar-item has-dropdown is-hoverable">
               <a class="navbar-link is-active" href="/profile">
+                @if(Auth::user()->avatar)
                 <img 
                   src="{{ Auth::user()->avatar->path }}" 
                   alt="{{ Auth::user()->name}}" 
                   height="32px" width="32px"
                   style="border-radius: 30px; border: 1px solid #ccc; cursor: pointer; margin-right: 1em;"
-                  ><span style="width: 100%;">{{ Auth::user()->name }}</span>
+                  >
+                @endif
+                  <span style="width: 100%;">{{ Auth::user()->name }}</span>
               </a>
               <div class="navbar-dropdown is-right">
                 @if(Auth::user()->applied)<a href="/profile" class="navbar-item">My Profile</a>@endif
