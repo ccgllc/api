@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Profile extends Model
 {
+    // use softDeletes;
+
 	protected $guarded = ['id'];
 
 	/** 
