@@ -4,7 +4,7 @@
 
 @section('content')
     <section id="login" class="hero is-fullheight">
-    	<div class="hero-body" style="margin-top: -20%">
+    	<div class="hero-body" >
 			<div class="container">
 				<div class="column is-4 is-offset-4">
 					<div class="icon-on-white"></div>
