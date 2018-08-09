@@ -56,14 +56,10 @@ let app = new Vue({
         // fields in the form.
     	this.autocomplete.addListener('place_changed', () => { this.setHome() });
 
-
-
         this.current_page = window.users.current_page;
-		if(window.users.data) {
-			return this.userData.users = window.users.data;
-		} else {
-			return this.userData.users = window.users;
-		}
+        return window.users.data 
+        	? this.userData.users = window.users.data 
+        	: this.userData.users = window.users;
 	},
 	methods: {
 		geolocate() {

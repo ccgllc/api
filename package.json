@@ -22,6 +22,7 @@
         "vue": "^2.5.7"
     },
     "dependencies": {
+        "babel-polyfill": "^6.26.0",
         "bulma": "^0.7.1",
         "bulma-badge": "^1.0.1",
         "bulma-pageloader": "^1.0.1",
