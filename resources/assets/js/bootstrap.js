@@ -28,28 +28,28 @@ window.bootstrap = function () {
 		    })
 		}
 	}
-	// var originalFunction = console.error;
-	// console.error = function() {
-	//   var args = Array.prototype.slice.call(arguments);
-	//   if(args[0]) {
-	//   	window.axios.post('/api/admin/client-error', args[0].response).then(response => {
-	//   		if(args[0].response.status != 422) {
-	//   			alert('Unfortunately we detected an issue with this request, We\'ve forwarded a copy of the error to our development team for investigation. If you continue to need help, please contact us at support@claimconsultantgroup.com');
-	//   		}
-	//   	});
-	// }
-	//   // var error = {};
-	//   // error.message = args[0].reponse.data;
-	//   // alert(args[0].response.data.errors.value[0]);
-	//   if (args[0].response.status == 401) {
-	//   	window.axios.post('/logout').then(response => {
-	// 	    window.location = '/login';
-	//  	})
-	//   };
-	//   // alert(args);
-	//   // window.axios.post('/')
-	//   return originalFunction.apply(console, args);
-	// }
+	var originalFunction = console.error;
+	console.error = function() {
+	  var args = Array.prototype.slice.call(arguments);
+	  if(args[0]) {
+	  	window.axios.post('/api/admin/client-error', args[0].response).then(response => {
+	  		if(args[0].response.status != 422) {
+	  			alert('Unfortunately we detected an issue with this request, We\'ve forwarded a copy of the error to our development team for investigation. If you continue to need help, please contact us at support@claimconsultantgroup.com');
+	  		}
+	  	});
+	}
+	  // var error = {};
+	  // error.message = args[0].reponse.data;
+	  // alert(args[0].response.data.errors.value[0]);
+	  if (args[0].response.status == 401) {
+	  	window.axios.post('/logout').then(response => {
+		    window.location = '/login';
+	 	})
+	  };
+	  // alert(args);
+	  // window.axios.post('/')
+	  return originalFunction.apply(console, args);
+	}
 }
 bootstrap();
 
