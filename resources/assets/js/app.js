@@ -1,22 +1,11 @@
 require('./bootstrap');
+
 import Vue from 'vue';
 import Chart from 'chart.js';
-// import VueRouter from 'vue-router';
-// import axios from 'axios';
-
-
-// Vue.prototype.$http = axios
-
-// let app = new Vue({
-// 	name: 'App',
-// 	el: "#app",
-// 	mounted() {
-// 		console.log('this is app.js');
-// 	}
-// });
 import search from './components/Search.vue';
 import roleSwitcher from './components/RoleSwitcher.vue';
 import Form from './structur/src/form/Form.js';
+
 let app = new Vue({
 	name: "App",
 	el: "#app",
