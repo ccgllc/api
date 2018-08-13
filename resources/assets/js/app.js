@@ -22,7 +22,7 @@ let app = new Vue({
 	el: "#app",
 	data() {
 		return {
-			userId: window.user.id,
+			userId: 0,
 			form: new Form({
 				role: ''
 			})
@@ -34,10 +34,10 @@ let app = new Vue({
 	},
 	computed: {
 		currentRole() {
-			return window.user.role;
+			return window.user ? window.user.role : 'No User';
 		},
 		uri() {
-			return '/api/users/' + this.userId + '/role/';
+			return window.user ? '/api/users/' + this.userId + '/role/' : null;
 		}
 		},
 	methods: {
@@ -64,6 +64,7 @@ let app = new Vue({
 		    });
 		  }
 		});
-		this.form.role = window.user.role;
+		this.userId = window.user ? window.user.id : 0;
+		this.form.role = window.user ? window.user.role : this.currentRole;
 	}
 })
