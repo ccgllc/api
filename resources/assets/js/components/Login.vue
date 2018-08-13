@@ -1,6 +1,6 @@
 <template>
     <!-- <div class="column is-one-third is-offset-one-third"> -->
-       <form method="post" action="/login" @submit.prevent="submit" @keydown="form.errors.clear($event.target.name)">
+       <form method="post" @submit.prevent="submit" @keydown="form.errors.clear($event.target.name)">
 
         <div class="field is-signin">
             <!-- <label class="label">Email</label> -->
