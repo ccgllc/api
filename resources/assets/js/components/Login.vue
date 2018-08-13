@@ -62,16 +62,20 @@
 			}
 		},
 		methods: {
-			submit () {
-				return this.form.post('/login')
-					.then(response => {
-						console.log(response);
-                        let storage = window.localStorage;
-                        storage.setItem('token', response.token);
-                        bootstrap();
-						return window.location.href = response.destination;
-				});
-			}
+			async submit () {
+               let response = await this.login();
+               console.log(response);
+               this.setToken(response.token);
+               await bootstrap();
+			   return window.location.href = response.destination;
+			},
+            login() {
+                return this.form.post('/login');
+            },
+            setToken(token){
+                let storage = window.localStorage;
+                storage.setItem('token', token);
+            }
 		}
 	}
 </script>
