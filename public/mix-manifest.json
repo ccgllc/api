@@ -1,5 +1,5 @@
 {
-    "/js/app.js": "/js/app.js?id=9d8884a29c9c66093099",
+    "/js/app.js": "/js/app.js?id=5d721a5efbe689e31e03",
     "/css/app.css": "/css/app.css?id=25e98b16f85e6d0f9f7a",
     "/js/vendor.js": "/js/vendor.js?id=a825c0fc0700728af600",
     "/js/claim.js": "/js/claim.js?id=8bed7ec73016b0d00398",
@@ -8,10 +8,10 @@
     "/js/hrDashboard.js": "/js/hrDashboard.js?id=b8c5319c04f261d28f39",
     "/js/dispatch.js": "/js/dispatch.js?id=41498d6a381d9e1f863f",
     "/js/manageRoles.js": "/js/manageRoles.js?id=c47839ddbed7f57d9220",
-    "/js/requestPasswordReset.js": "/js/requestPasswordReset.js?id=a6476cc96b3e4ca51d0f",
-    "/js/register.js": "/js/register.js?id=0a919cd0df01dd9954d1",
-    "/js/manageUserRoles.js": "/js/manageUserRoles.js?id=4797d0057f75bb8b4566",
-    "/js/login.js": "/js/login.js?id=100305272f17d752d1dd",
+    "/js/login.js": "/js/login.js?id=64e07faf176198531328",
+    "/js/requestPasswordReset.js": "/js/requestPasswordReset.js?id=955b36ef1139ad9e5d43",
+    "/js/register.js": "/js/register.js?id=faf7ed4f260be92e7d75",
+    "/js/manageUserRoles.js": "/js/manageUserRoles.js?id=1d0e2a673b1469a5887d",
     "/js/claims.js": "/js/claims.js?id=a0a18d1ca1a53314a599",
     "/js/user.js": "/js/user.js?id=e385adee490cdcee44a9",
     "/js/manifest.js": "/js/manifest.js?id=3df7f45d7ea02b7bb9be"
