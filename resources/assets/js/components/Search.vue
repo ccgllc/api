@@ -31,7 +31,7 @@
 				url: '/api/search',
 				search: new Form({
 					query: '',
-					scope: 'claims',
+					scope: 'users',
 				}),
 				results: [],
 				complete: true,
@@ -62,11 +62,12 @@
 					break;
 
 					// case
-
-					case '@': 
-					this.search.scope = 'profile';
-					return true;
-					break;
+					// Will default to profile searches until claim 
+					// searches are needed. 
+					// case '@': 
+					// this.search.scope = 'profile';
+					// return true;
+					// break;
 
 					case 'Enter':
 					window.location = '/' + this.search.scope + '/' + this.isSelected;
@@ -94,7 +95,7 @@
 						console.log(response);
 						// this.userData.users = response;
 						this.results = response;
-						this.search.scope = 'claims';
+						// this.search.scope = 'claims';
 					}).catch(error => {
 						console.log('has an error');
 				});
