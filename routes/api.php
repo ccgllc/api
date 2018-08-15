@@ -78,7 +78,7 @@ Route::post('search', function(Request $request){
 	$query = $request->get('query');
 	$query = str_replace("@", '', $query);
 
-	if ($request->scope == 'profile') {
+	if ($request->scope == 'users') {
 		return CCG\User::with('roles')->where('name', 'like', "%$query%")->exclude('api_token')->take(10)->get();
 	}
 	
