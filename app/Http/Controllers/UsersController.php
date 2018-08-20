@@ -2,9 +2,10 @@
 
 namespace CCG\Http\Controllers;
 
+use CCG\Auth\ConfirmsEmails;
+use CCG\Certification;
 use CCG\User;
 use Illuminate\Http\Request;
-use CCG\Auth\ConfirmsEmails;
 
 class UsersController extends Controller
 {
@@ -42,6 +43,35 @@ class UsersController extends Controller
         });
         $status = ucwords($location. ' users');
         return view('user.admin', compact('users', 'status'));
+    }
+
+     public function certifications($certification)
+    {
+        $certification = $this->parseCertification($certification);
+        $certifications = Certification::where('type', '=', $certification)->get();
+        // dd($certifications);
+        $users = $certifications->map(function ($certification, $key){
+            return $certification->user;
+        });
+        $status = ucwords($certification. ' users');
+        return view('user.admin', compact('users', 'status'));
+    }
+
+    public function parseCertification($cert)
+    {
+        switch ($cert) {
+
+            case 'TWIA':
+                return "TWIA/TFPA";
+                break;
+
+            case 'rope':
+                return "rope/harness";
+                break;
+
+            default:
+                return $cert;
+        }
     }
 
     /**

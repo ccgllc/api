@@ -12,6 +12,19 @@ let app = new Vue({
 	data: {
 		userData,
 		states,
+		certifications: [
+			// { name: 'none', label: 'None' },
+			{ name: 'AIC', label: 'AIC' },
+			{ name: 'CPCU', label: 'CPCU' },
+			{ name: 'TWIA', label: 'TWIA / TFPA' },
+			{ name: 'NFIP', label: 'NFIP' },
+			{ name: 'HAAG', label: 'HAAG' },
+			{ name: 'IIRC', label: 'IIRC' },
+			{ name: 'rope', label: 'Rope & Harness' },
+			{ name: 'Earthquake', label: 'Earthquake' },
+			{ name: 'Umpire', label: 'Umpire' },
+			{ name: 'Appraiser', label: 'Appraiser' },
+		],
 		selected: [],
 		allSelected: false,
 		userService: new UserService({

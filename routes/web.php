@@ -56,6 +56,7 @@ Route::get('hr', 'HrDashboardController@show');
 Route::resource('users', 'UsersController');
 Route::get('users/status/{status}', 'UsersController@status');
 Route::get('users/location/{state}', 'UsersController@location');
+Route::get('users/certifications/{certification}', 'UsersController@certifications');
 // Route::get('users/{status}', 'UsersController@status');
 Route::resource('users/{id}/documents', 'UserDocumentsController');
 Route::resource('users/{id}/roles', 'UserRolesController');
