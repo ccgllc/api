@@ -13,7 +13,7 @@
 				<label for="claim-location" class="label">Claim Location</label>
 				<input type="text" id="claim-location" class="input" @focus="geolocate">
 
-				<div id="map" style="width: 100%; height: 500px;"></div><br>
+				<div id="map" style="width: 100%; height: 200px;"></div><br>
 
 					<div class="dropdown is-hoverable" v-if="selected.length == 0">
 					  <div class="dropdown-trigger">
@@ -31,7 +31,25 @@
 					      </a>
 					    </div>
 					  </div>
-					</div><br><br>
+					</div>
+					<div class="dropdown is-hoverable" v-if="selected.length == 0">
+					  <div class="dropdown-trigger">
+					    <button class="button" aria-haspopup="true" aria-controls="certifications">
+					      <span>Users By Certification</span>
+					      <span class="icon is-small">
+					        <i class="fa fa-angle-down" aria-hidden="true"></i>
+					      </span>
+					    </button>
+					  </div>
+					  <div class="dropdown-menu" id="certifications" role="menu">
+					    <div class="dropdown-content">
+					      <a class="dropdown-item" v-for="certification in certifications" :href="'/users/certifications/' + certification.name">
+					        @{{ certification.label }}
+					      </a>
+					    </div>
+					  </div>
+					</div>
+					<br><br>
 										 
 					
 					<div class="field is-grouped" v-show="selected.length > 0">

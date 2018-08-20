@@ -13,7 +13,7 @@ class Certification extends Model
      */ 
 	 public function user()
 	{
-		return $this->belongsTo(CCG\User::class);
+		return $this->belongsTo(\CCG\User::class);
 	}
 
 	public function scopeOfType($query, $type)
