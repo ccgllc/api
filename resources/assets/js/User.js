@@ -39,6 +39,7 @@ let app = new Vue({
 		map: {},
 		marker: {},
 		home: {lat: 30.2702208, lng:  -97.7453625},
+		filename: 'FilteredUsers.csv'
 	},
 	computed: {
 		resetUsers() {
@@ -109,6 +110,7 @@ let app = new Vue({
 				for (let checkbox in checkboxes) {
 					if (typeof(checkboxes[checkbox]) !== 'function' && typeof(checkboxes[checkbox]) !== 'number') {
 						checkboxes[checkbox].checked = true;
+						// console.log(checkboxes[checkbox].value);
 						this.selected.push(checkboxes[checkbox].value);
 					}
 				}
@@ -139,6 +141,52 @@ let app = new Vue({
 		},
 		findUser(idx) {
 			return this.userData.users.find(user => user.id == this.selected[idx])
-		}
+		},
+		exportToCsv: function(filename, rows) {
+
+       		var processRow = function (row) {
+       			// console.log(row);
+       			var finalVal = '';
+       			Object.keys(row).forEach(function(key){
+       				if (rows.indexOf(row) == 0) {
+       					// console.log(key);
+       				 	key === 'distance' 
+       				 		? finalVal += '"' + key + '"' + '\n' 
+       				 		: finalVal += '"' + key + '"' + ',';
+       				}
+       			});
+       			Object.keys(row).forEach(function(key){
+       				var innerValue = row[key] === null ? 'n/a' : row[key].toString();
+   	 				var result = innerValue.replace(/"/g, '""');
+                    // result = '"' + result + '"';
+                    key == 'id' ? finalVal : finalVal += ','; 
+                	finalVal += result;
+       			});
+				// console.log(finalVal);
+            	return finalVal + '\n';
+    		};
+
+        	var csvFile = '';
+        	for (var i = 0; i < rows.length; i++) {
+            	csvFile += processRow(rows[i]);
+       		}
+
+        	var blob = new Blob([csvFile], { type: 'text/csv;charset=utf-8;' });
+    		if (navigator.msSaveBlob) { // IE 10+
+          	  navigator.msSaveBlob(blob, filename);
+        	} else {
+            	var link = document.createElement("a");
+	            if (link.download !== undefined) { // feature detection
+	                // Browsers that support HTML5 download attribute
+	                var url = URL.createObjectURL(blob);
+	                link.setAttribute("href", url);
+	                link.setAttribute("download", filename);
+	                link.style.visibility = 'hidden';
+	                document.body.appendChild(link);
+	                link.click();
+	                document.body.removeChild(link);
+	            }
+        	}
+    	}
 	}
 });
