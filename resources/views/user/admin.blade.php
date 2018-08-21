@@ -70,7 +70,15 @@
 					      	&nbsp; Delete Selected
 					    </a>
 					  </p>
+					  <p class="control">
+					  	<div class="button is-success" @click="exportToCsv(filename, userData.users)">
+					  		<span class="icon is-small"><i class="fa fa-download"></i></span>
+					  		&nbsp; Export To Csv
+					  	</div>
+					  </p>
 					</div>
+
+
 
 
 				<table class="table is-striped is-fullwidth" style="background: transparent">
@@ -89,7 +97,7 @@
 					<tbody>
 						<tr v-for="user in userData.users" :key="user.id">
 							<td>
-								<input type="checkbox" v-model="selected" :value="user.id" :id="user.id" :name="user.id" class="is-checkbox is-circle is-small has-user">
+								<input type="checkbox" v-model="selected" :value="user.name" :id="user.id" :name="user.id" class="is-checkbox is-circle is-small has-user">
 			 					<label :for="user.id">&nbsp;</label>
 			 				</td>
 							<td><a :href="'/users/' + user.id" v-text='user.name'></a></td>
