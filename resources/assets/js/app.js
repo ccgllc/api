@@ -4,6 +4,7 @@ import Vue from 'vue';
 import Chart from 'chart.js';
 import search from './components/Search.vue';
 import roleSwitcher from './components/RoleSwitcher.vue';
+import support from './components/Support.vue';
 import Form from './structur/src/form/Form.js';
 
 let app = new Vue({
@@ -14,12 +15,14 @@ let app = new Vue({
 			userId: 0,
 			form: new Form({
 				role: ''
-			})
+			}),
+			showSupport: false
 		}
 	},
 	components: {
+		support,
 		search,
-		roleSwitcher
+		roleSwitcher,
 	},
 	computed: {
 		currentRole() {
@@ -36,6 +39,9 @@ let app = new Vue({
 				console.log(response);
 				return this.form.role = response;
 			});
+		},
+		toggleSupport(){
+			return this.showSupport = !this.showSupport;
 		}
 	},
 	mounted() {

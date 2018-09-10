@@ -1,6 +1,6 @@
 webpackJsonp([11],{
 
-/***/ 1:
+/***/ 2:
 /***/ (function(module, exports) {
 
 /* globals __VUE_SSR_CONTEXT__ */
@@ -110,112 +110,22 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 
-/***/ 18:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-
-
-var Resource = function () {
-	function Resource(config) {
-		_classCallCheck(this, Resource);
-
-		this.config = config;
-	}
-
-	_createClass(Resource, [{
-		key: 'get',
-		value: function get(endpoint) {
-			return this.request('get', endpoint);
-		}
-	}, {
-		key: 'put',
-		value: function put(endpoint, data) {
-			this.config.data = data;
-			return this.request('put', endpoint);
-		}
-	}, {
-		key: 'delete',
-		value: function _delete(endpoint) {
-			return this.request('delete', endpoint);
-		}
-	}, {
-		key: 'getData',
-		value: function getData() {
-			if (this.config.data != undefined) {
-				return this.config.data;
-			}
-		}
-	}, {
-		key: 'request',
-		value: function request(method, endpoint) {
-			var _this = this;
-
-			return new Promise(function (resolve, reject) {
-				__WEBPACK_IMPORTED_MODULE_0_axios___default.a[method](_this.getFullUri() + endpoint, _this.getData()).then(function (response) {
-					// this.onSuccess(response.data);
-					resolve(response.data);
-				}).catch(function (error) {
-					reject(error.response.data.errors);
-				});
-			});
-		}
-	}, {
-		key: 'getFullUri',
-		value: function getFullUri() {
-			return this.getPrefix() + this.getResource() + this.getParams();
-		}
-	}, {
-		key: 'getPrefix',
-		value: function getPrefix() {
-			return this.config.uri.prefix != '' ? '/' + this.config.uri.prefix + '/' : '';
-		}
-	}, {
-		key: 'getResource',
-		value: function getResource() {
-			return this.config.uri.resource != '' ? this.config.uri.resource + '/' : ''; //throw 'you must provide a resource.';
-		}
-	}, {
-		key: 'getParams',
-		value: function getParams() {
-			return this.config.uri.params.length > 0 ? this.config.uri.params[0].id + '/' : '';
-		}
-	}, {
-		key: 'onSuccess',
-		value: function onSuccess(data) {
-			return data;
-		}
-	}]);
-
-	return Resource;
-}();
-
-/* harmony default export */ __webpack_exports__["a"] = (Resource);
-
-/***/ }),
-
-/***/ 296:
+/***/ 628:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(297);
+module.exports = __webpack_require__(629);
 
 
 /***/ }),
 
-/***/ 297:
+/***/ 629:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_UserRoles_vue__ = __webpack_require__(298);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_UserRoles_vue__ = __webpack_require__(630);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_UserRoles_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_UserRoles_vue__);
 
 // import Resource from './structur/src/services/Resource.js';
@@ -236,15 +146,15 @@ var userRoles = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
 
 /***/ }),
 
-/***/ 298:
+/***/ 630:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(1)
+var normalizeComponent = __webpack_require__(2)
 /* script */
-var __vue_script__ = __webpack_require__(299)
+var __vue_script__ = __webpack_require__(631)
 /* template */
-var __vue_template__ = __webpack_require__(300)
+var __vue_template__ = __webpack_require__(632)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -284,12 +194,12 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 299:
+/***/ 631:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__structur_src_services_Resource_js__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__structur_src_services_Resource_js__ = __webpack_require__(67);
 //
 //
 //
@@ -364,7 +274,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 300:
+/***/ 632:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -450,6 +360,96 @@ if (false) {
   }
 }
 
+/***/ }),
+
+/***/ 67:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(59);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+
+
+var Resource = function () {
+	function Resource(config) {
+		_classCallCheck(this, Resource);
+
+		this.config = config;
+	}
+
+	_createClass(Resource, [{
+		key: 'get',
+		value: function get(endpoint) {
+			return this.request('get', endpoint);
+		}
+	}, {
+		key: 'put',
+		value: function put(endpoint, data) {
+			this.config.data = data;
+			return this.request('put', endpoint);
+		}
+	}, {
+		key: 'delete',
+		value: function _delete(endpoint) {
+			return this.request('delete', endpoint);
+		}
+	}, {
+		key: 'getData',
+		value: function getData() {
+			if (this.config.data != undefined) {
+				return this.config.data;
+			}
+		}
+	}, {
+		key: 'request',
+		value: function request(method, endpoint) {
+			var _this = this;
+
+			return new Promise(function (resolve, reject) {
+				__WEBPACK_IMPORTED_MODULE_0_axios___default.a[method](_this.getFullUri() + endpoint, _this.getData()).then(function (response) {
+					// this.onSuccess(response.data);
+					resolve(response.data);
+				}).catch(function (error) {
+					reject(error.response.data.errors);
+				});
+			});
+		}
+	}, {
+		key: 'getFullUri',
+		value: function getFullUri() {
+			return this.getPrefix() + this.getResource() + this.getParams();
+		}
+	}, {
+		key: 'getPrefix',
+		value: function getPrefix() {
+			return this.config.uri.prefix != '' ? '/' + this.config.uri.prefix + '/' : '';
+		}
+	}, {
+		key: 'getResource',
+		value: function getResource() {
+			return this.config.uri.resource != '' ? this.config.uri.resource + '/' : ''; //throw 'you must provide a resource.';
+		}
+	}, {
+		key: 'getParams',
+		value: function getParams() {
+			return this.config.uri.params.length > 0 ? this.config.uri.params[0].id + '/' : '';
+		}
+	}, {
+		key: 'onSuccess',
+		value: function onSuccess(data) {
+			return data;
+		}
+	}]);
+
+	return Resource;
+}();
+
+/* harmony default export */ __webpack_exports__["a"] = (Resource);
+
 /***/ })
 
-},[296]);
+},[628]);

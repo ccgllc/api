@@ -1,0 +1,1 @@
+<support v-on:toggle-support="toggleSupport" :show="showSupport"></support>
