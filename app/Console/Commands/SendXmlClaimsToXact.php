@@ -63,7 +63,7 @@ class SendXmlClaimsToXact extends Command
                 //dd($extFilename);
               if ($this->sftp->pwd() === "/IN")  $this->sftp->put($extFilename, $file, SFTP::SOURCE_LOCAL_FILE);
                // dd($this->sftp->pwd());
-                //unlink($file);
+                unlink($file);
                 $bar->advance();
             }
             $this->info(" $idx claims exported.");
