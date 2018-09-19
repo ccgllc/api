@@ -9,7 +9,7 @@
 	<div class="columns is-gapless" id="profile">
 
 	<div class="options column is-1 has-text-centered">
-		@include('partials.user.options')
+		{{-- @include('partials.user.options') --}}
 	 </div>
 
     <div class="column is-10">
