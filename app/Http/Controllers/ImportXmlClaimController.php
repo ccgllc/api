@@ -21,7 +21,10 @@ class ImportXmlClaimController extends Controller
     public function import(Request $request)
     {
     	//capture xml from request body
-    	$xml = simplexml_load_file($request->file('xml'));
+    	//dd($request->all());
+    	// dd(file_get_contents('php://input'));
+    	// $xml = simplexml_load_file($request->file('xml'));
+    	$xml = simplexml_load_string(file_get_contents('php://input'), 'SimpleXMLElement', LIBXML_NOCDATA);
     	// create xml file in memory 
     	$doc = $this->createXml($xml);
     	// create a new http client
