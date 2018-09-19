@@ -16,6 +16,7 @@ Route::get('/', function () {
     return redirect('register');
 });
 
+
 Route::get('oauth/login', function(){
 	return Socialite::driver('facebook')->redirect();
 });
@@ -45,6 +46,13 @@ route::get('apply', function(Illuminate\Http\Request $request){
 	}
 	return view('apply', compact('user'));//->withCookie($cookie);
 })->middleware('auth');
+
+
+Route::get('/claims/import/xml', 'ImportXmlClaimController@show');
+Route::post('/claims/import/xml', 'ImportXmlClaimController@import');
+Route::post('/claims/import/xml/webhook', 'ImportXmlClaimController@import');
+
+// '/claims/import/xml/webhook'
 
 Route::post('claims/import', 'ClaimsImportController@import');
 Route::resource('claims', 'ClaimsController');
