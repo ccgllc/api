@@ -10,7 +10,7 @@ trait GeneratesXmlClaim {
 	public $data;
 	public $doc;
 
-	public function createXml(object $data)
+	public function createXml($data)
 	{
 		$this->data = $data;
 		$this->doc = new XactClaimXml();
