@@ -9,6 +9,8 @@ class ImportXmlClaimController extends Controller
 {
 	use GeneratesXmlClaim;
 
+	public $test = false; 
+
 	public function __construct()
 	{
 		//
@@ -21,10 +23,7 @@ class ImportXmlClaimController extends Controller
     public function import(Request $request)
     {
     	//capture xml from request body
-    	//dd($request->all());
-    	// dd(file_get_contents('php://input'));
-    	// $xml = simplexml_load_file($request->file('xml'));
-    	$xml = simplexml_load_string(file_get_contents('php://input'), 'SimpleXMLElement', LIBXML_NOCDATA);
+    	$xml = simplexml_load_string($request->getContent(), 'SimpleXMLElement', LIBXML_NOCDATA);
     	// create xml file in memory 
     	$doc = $this->createXml($xml);
     	// create a new http client
@@ -45,10 +44,7 @@ class ImportXmlClaimController extends Controller
 		// wait for promise to resolve.
 		$promise->wait();
 		$zip = new \ZipArchive();
-		// dd(storage_path('fnol_xml').'/'.$doc->claimNumber.'/'.$doc->claimNumber.'.zip');
-		// dd($zip->open(storage_path('fnol_xml').'/'.$doc->claimNumber.'.zip'));
-		// dd(file_exists(storage_path('fnol_xml').'/'.$doc->claimNumber.'/'. $doc->claimNumber.'.pdf'));
-		if ($zip->open(storage_path('fnol_xml').'/'.$doc->claimNumber.'/'.$doc->claimNumber.'.XML', \ZIPARCHIVE::CREATE | \ZIPARCHIVE::OVERWRITE) == true) {
+			if ($zip->open(storage_path('fnol_xml').'/'.$doc->claimNumber.'/'.$doc->claimNumber.'.XML', \ZIPARCHIVE::CREATE | \ZIPARCHIVE::OVERWRITE) == true) {
 		    $zip->addFile(storage_path('fnol_xml').'/'.$doc->claimNumber.'/'.'XACTDOC.XML', 'XACTDOC.XML');
 		    $zip->addFile(storage_path('fnol_xml').'/'.$doc->claimNumber.'/'. $doc->claimNumber.'.pdf', $doc->claimNumber.'.pdf');
 		    $zip->close();
@@ -57,8 +53,18 @@ class ImportXmlClaimController extends Controller
 		    echo 'failed';
 		}
 
-		rename(storage_path('fnol_xml').'/'.$doc->claimNumber.'/'.$doc->claimNumber.'.XML', storage_path('fnol_xml').'/out/'.$doc->claimNumber.'.XML');
+		if ($this->test) {
+			rename(storage_path('fnol_xml').'/'.$doc->claimNumber.'/'.$doc->claimNumber.'.XML', storage_path('fnol_xml').'/test/'.$doc->claimNumber.'.XML');
+		} else {
+			rename(storage_path('fnol_xml').'/'.$doc->claimNumber.'/'.$doc->claimNumber.'.XML', storage_path('fnol_xml').'/out/'.$doc->claimNumber.'.XML');
+		}
 
+    }
+
+    public function testImport(Request $request)
+    {
+    	$this->test = true; 
+    	$this->import($request);
     }
 
     protected function generatePdfFilename ($claimNumber)

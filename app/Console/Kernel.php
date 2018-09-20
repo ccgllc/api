@@ -15,7 +15,8 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         Commands\RegistrantReminderEmails::class,
         Commands\BatchClaimImporter::class,
-        Commands\SendXmlCLaimsToXact::class
+        Commands\SendXmlCLaimsToXact::class,
+         Commands\SendTestXmlCLaimsToXact::class
     ];
 
     /**
@@ -29,7 +30,9 @@ class Kernel extends ConsoleKernel
         // $schedule->command('registrants:remind')
         //          ->weekly();
          $schedule->command('claims:send')
-                 ->everyMinute();;    
+                 ->everyMinute();
+          $schedule->command('claims:send-tests')
+                 ->everyMinute();
     }
 
     /**

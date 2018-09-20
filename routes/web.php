@@ -51,6 +51,7 @@ route::get('apply', function(Illuminate\Http\Request $request){
 Route::get('/claims/import/xml', 'ImportXmlClaimController@show');
 Route::post('/claims/import/xml', 'ImportXmlClaimController@import');
 Route::post('/claims/import/xml/webhook', 'ImportXmlClaimController@import');
+Route::post('/claims/import/xml/webhook/test', 'ImportXmlClaimController@testImport');
 
 // '/claims/import/xml/webhook'
 
