@@ -20,6 +20,7 @@ trait GeneratesXmlClaim {
 		$this->buildProjectInfo();
 		$this->buildAdm();
 		$this->buildCoverages();
+		$this->buildTypeOfLoss();
 		$this->buildContacts();
 		$this->addAttachments();
 		$this->doc->save();
@@ -85,6 +86,13 @@ trait GeneratesXmlClaim {
 				: $this->doc->addAttribute('deductible', str_replace(',', '', $cov->op_ded), 'coverage');
 			$this->doc->addAttribute('applyTo', 2, 'coverage');
 		}
+	}
+
+	protected function buildTypeOfLoss ()
+	{
+		$tol = $this->doc->createXmlNode('tol', 'adm');
+		$this->doc->addAttribute('desc', 'Wind', 'tol');
+		$this->doc->addAttribute('code', 'WIND', 'tol');
 	}
 
 	protected function buildContacts()
