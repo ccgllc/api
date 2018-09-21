@@ -36,7 +36,7 @@ trait GeneratesXmlClaim {
 		$this->doc->addAttribute('businessUnit', 'NCUA', 'xactnetInfo');
 		$this->doc->addAttribute('rotationTrade', 'General', 'xactnetInfo');
 		$this->doc->addAttribute('jobSizeCode', '1', 'xactnetInfo');
-		// $this->doc->addAttribute('recipientsXNAddress', 'LANDON.XATEST.27.3', 'xactnetInfo');
+		$this->doc->addAttribute('recipientsXNAddress', 'CLAIM_CONSULTANT_GROUP.HOME.WEB', 'xactnetInfo');
 		// dd($this->doc->save());
 	}
 
