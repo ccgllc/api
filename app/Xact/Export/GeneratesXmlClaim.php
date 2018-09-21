@@ -20,7 +20,6 @@ trait GeneratesXmlClaim {
 		$this->buildProjectInfo();
 		$this->buildAdm();
 		$this->buildCoverages();
-		$this->buildTypeOfLoss();
 		$this->buildContacts();
 		$this->addAttachments();
 		$this->doc->save();
@@ -61,12 +60,13 @@ trait GeneratesXmlClaim {
 	protected function buildCoverages()
 	{
 		$this->doc->createXmlNode('coverageLoss', 'adm');
-		$coverages = $this->doc->createXmlNode('coverages', 'coverageLoss');
 		$this->doc->addAttribute('policyStart', $this->formatDate((string)$this->data->effective_date->formatted), 'coverageLoss');
 		$this->doc->addAttribute('policyEnd', $this->formatDate((string)$this->data->expiration_date->formatted), 'coverageLoss');
 		$this->doc->addAttribute('claimNumber', htmlspecialchars($this->data->claim_number), 'coverageLoss');
 		$this->doc->addAttribute('policyNumber', htmlspecialchars($this->data->policy_number), 'coverageLoss');
 		$this->doc->addAttribute('isCommercial', 0, 'coverageLoss');
+		$this->buildTypeOfLoss();
+		$coverages = $this->doc->createXmlNode('coverages', 'coverageLoss');
 		// dd($this->hasNamedStorm());
 		$this->hasNamedStorm() 
 			? $this->doc->addAttribute('catastrophe', 1, 'coverageLoss') 
@@ -90,7 +90,7 @@ trait GeneratesXmlClaim {
 
 	protected function buildTypeOfLoss ()
 	{
-		$tol = $this->doc->createXmlNode('tol', 'adm');
+		$tol = $this->doc->createXmlNode('tol', 'coverageLoss');
 		$this->doc->addAttribute('desc', 'Wind', 'tol');
 		$this->doc->addAttribute('code', 'WIND', 'tol');
 	}
