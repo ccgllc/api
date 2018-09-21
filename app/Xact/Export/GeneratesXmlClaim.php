@@ -32,7 +32,7 @@ trait GeneratesXmlClaim {
 	{
 		$this->doc->createXmlNode('xactnetInfo', 'rootNode');
 		$this->doc->addAttribute('carrierId', '3975005', 'xactnetInfo');
-		$this->doc->addAttribute('transactionType', 'EST,PRJ', 'xactnetInfo');
+		// $this->doc->addAttribute('transactionType', 'EST,PRJ', 'xactnetInfo');
 		$this->doc->addAttribute('sendersXNAddress', 'CLAIM_CONSULTANT_GROUP.HOME.WEB', 'xactnetInfo');
 		$this->doc->addAttribute('businessUnit', 'NCUA', 'xactnetInfo');
 		$this->doc->addAttribute('rotationTrade', 'General', 'xactnetInfo');
