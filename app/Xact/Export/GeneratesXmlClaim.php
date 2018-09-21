@@ -91,7 +91,7 @@ trait GeneratesXmlClaim {
 		$contacts = $this->doc->createXmlNode('contacts', 'rootNode');
 		$client = $this->doc->createXmlNode('contact', 'contacts');
 		$this->doc->addAttribute('type', 'Client', 'contact');
-		$this->doc->addAttribute('name', htmlspecialchars($this->data->insured_name_1), 'contact');
+		$this->doc->addAttribute('name', htmlspecialchars($this->data->insured_names_combined), 'contact');
 		$this->doc->createXmlNode('addresses', 'contact');
 		// property address assignment
 		$this->doc->createXmlNode('address', 'addresses');
