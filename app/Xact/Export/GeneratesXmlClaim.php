@@ -77,6 +77,8 @@ trait GeneratesXmlClaim {
 			$this->doc->addAttribute('id', "COV$count", 'coverage');
 			$this->doc->addAttribute('covName', htmlspecialchars($cov->name), 'coverage');
 			$this->doc->addAttribute('policyLimit', str_replace(',', '', $cov->limit), 'coverage');
+			$this->doc->addAttribute('covType', $this->getCoverageType($cov), 'coverage');
+			var_dump($this->getCoverageType($cov));
 			// ternary for wp_deductible and op_ded based on :named_storm_loss: wp_ded == % of coverage_limit
 			// dd((int)str_replace('%', '', $cov->wh_ded) / 100);
 			// dd(((int)str_replace('%', '', $cov->wh_ded) / 100) * (int)str_replace(',', '', $cov->coverage_limit));
@@ -156,6 +158,22 @@ trait GeneratesXmlClaim {
 	{
 		// dd($this->data->named_storm_loss);
 		return (string) $this->data->named_storm_loss === 'Yes' ? true : false;
+	}
+
+	public function getCoverageType($cov)
+	{
+		if(preg_match('/\d{3}/', $cov->name, $match) > 0) {
+			switch ($match[0]) {
+				case $match[0] >= 510 && $match[0] <= 559:
+					return 2;
+					break;
+				case $match[0] >= 560: 
+					return 1;
+					break;
+				default: 
+					return 0;
+			} 
+		}
 	}
 
 	protected function calculateNamedStormDeductible ($cov)
