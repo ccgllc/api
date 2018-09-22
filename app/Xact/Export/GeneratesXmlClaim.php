@@ -107,7 +107,7 @@ trait GeneratesXmlClaim {
 		$this->doc->createXmlNode('address', 'addresses');
 		$this->doc->addAttribute('type', 'Property', 'address');
 		$this->doc->addAttribute('street', htmlspecialchars($this->data->property_street), 'address');
-		$this->doc->addAttribute('city', htmlspecialchars($this->data->property_address->city), 'address');
+		$this->doc->addAttribute('city', htmlspecialchars($this->getPropertyCity()), 'address');
 		$this->doc->addAttribute('state', 'NC', 'address');
 		$this->doc->addAttribute('postal', htmlspecialchars($this->data->property_postal), 'address');
 		$this->doc->addAttribute('country', 'US', 'address');
@@ -145,6 +145,13 @@ trait GeneratesXmlClaim {
 		$this->doc->addAttribute('fileName', $this->doc->claimNumber.'.pdf', 'extFile');
 	}
 
+	public function getPropertyCity()
+	{
+		return $this->data->property_address->city 
+			? $this->data->property_address->city 
+			: $this->data->property_city;
+	}
+
 	public function hasNamedStorm()
 	{
 		// dd($this->data->named_storm_loss);
@@ -155,18 +162,26 @@ trait GeneratesXmlClaim {
 	{
 		// dd($this->hasNamedStormDeductible($cov));
 		if ($this->hasNamedStormDeductible($cov)) {
-			if (preg_match('/%/', $cov->ns_ded) > 0) 
+			if ($this->hasPercentageDeductible($cov, 'ns_ded'))
 			{
-				return ((int)str_replace('%', '', $cov->ns_ded) / 100) * (int)str_replace(',', '', $cov->limit);
+				return $this->calculatePercentageDeductible($cov, 'ns_ded');
 			}
 			return $cov->ns_ded;
 		}
 		else if ($this->hasWindCode()) 
 		{
+			if ($this->hasPercentageDeductible($cov, 'wh_ded')) 
+			{
+				return $this->calculatePercentageDeductible($cov, 'wh_ded');
+			}
 			return str_replace(',', '', $cov->wh_ded);
 		} 
 		else 
 		{
+			if ($this->hasPercentageDeductible($cov, 'op_ded')) 
+			{
+				return $this->calculatePercentageDeductible($cov, 'op_ded');
+			}
 			return str_replace(',', '', $cov->op_ded);
 		}
 	}
@@ -175,7 +190,9 @@ trait GeneratesXmlClaim {
 	{
 		if($this->hasWindCode())
 		{
-			return str_replace(',', '', $cov->wh_ded);
+			return $this->hasPercentageDeductible()
+			?  $this->calculatePercentageDeductible($cov, 'wh_ded')
+			: str_replace(',', '', $cov->wh_ded);
 		}
 		else 
 		{
@@ -184,11 +201,22 @@ trait GeneratesXmlClaim {
 		
 	}
 
+	protected function calculatePercentageDeductible ($cov, $type)
+	{
+		return ((int)str_replace('%', '', $cov->{$type}) / 100) * (int)str_replace(',', '', $cov->limit);
+	}
+
 	public function hasNamedStormDeductible($cov)
 	{
 		// dd($this->data->named_storm_loss);
 		// dd($cov->ns_ded);
 		return (string) $cov->ns_ded ? true : false;
+	}
+
+	public function hasPercentageDeductible($cov, $type)
+	{
+		// dd($cov->{$type} > 0);
+		return preg_match('/%/', $cov->{$type}) > 0 ? true : false;
 	}
 
 	public function hasWindCode()
