@@ -67,7 +67,6 @@ trait GeneratesXmlClaim {
 		$this->doc->addAttribute('isCommercial', 0, 'coverageLoss');
 		$this->buildTypeOfLoss();
 		$coverages = $this->doc->createXmlNode('coverages', 'coverageLoss');
-		// dd($this->hasNamedStorm());
 		$this->hasNamedStorm() 
 			? $this->doc->addAttribute('catastrophe', 1, 'coverageLoss') 
 			: $this->doc->addAttribute('catastrophe', 0, 'coverageLoss');
@@ -76,14 +75,16 @@ trait GeneratesXmlClaim {
 			$count ++;
 			$coverage = $this->doc->createXmlNode('coverage', 'coverages');
 			$this->doc->addAttribute('id', "COV$count", 'coverage');
-			$this->doc->addAttribute('covName', htmlspecialchars($cov->coverage_name), 'coverage');
-			$this->doc->addAttribute('policyLimit', str_replace(',', '', $cov->coverage_limit), 'coverage');
+			$this->doc->addAttribute('covName', htmlspecialchars($cov->name), 'coverage');
+			$this->doc->addAttribute('policyLimit', str_replace(',', '', $cov->limit), 'coverage');
 			// ternary for wp_deductible and op_ded based on :named_storm_loss: wp_ded == % of coverage_limit
 			// dd((int)str_replace('%', '', $cov->wh_ded) / 100);
 			// dd(((int)str_replace('%', '', $cov->wh_ded) / 100) * (int)str_replace(',', '', $cov->coverage_limit));
+			// dd($this->hasNamedStorm());
+			
 			$this->hasNamedStorm()
-				? $this->doc->addAttribute('deductible', ((int)str_replace('%', '', $cov->wh_ded) / 100) * (int)str_replace(',', '', $cov->coverage_limit), 'coverage')
-				: $this->doc->addAttribute('deductible', str_replace(',', '', $cov->op_ded), 'coverage');
+				? $this->doc->addAttribute('deductible', $this->calculateNamedStormDeductible($cov), 'coverage')
+				: $this->doc->addAttribute('deductible', $this->calculateDeductible($cov), 'coverage');
 			$this->doc->addAttribute('applyTo', 2, 'coverage');
 		}
 	}
@@ -148,6 +149,53 @@ trait GeneratesXmlClaim {
 	{
 		// dd($this->data->named_storm_loss);
 		return (string) $this->data->named_storm_loss === 'Yes' ? true : false;
+	}
+
+	protected function calculateNamedStormDeductible ($cov)
+	{
+		// dd($this->hasNamedStormDeductible($cov));
+		if ($this->hasNamedStormDeductible($cov)) {
+			if (preg_match('/%/', $cov->ns_ded) > 0) 
+			{
+				return ((int)str_replace('%', '', $cov->ns_ded) / 100) * (int)str_replace(',', '', $cov->limit);
+			}
+			return $cov->ns_ded;
+		}
+		else if ($this->hasWindCode()) 
+		{
+			return str_replace(',', '', $cov->wh_ded);
+		} 
+		else 
+		{
+			return str_replace(',', '', $cov->op_ded);
+		}
+	}
+
+	protected function calculateDeductible($cov)
+	{
+		if($this->hasWindCode())
+		{
+			return str_replace(',', '', $cov->wh_ded);
+		}
+		else 
+		{
+			return str_replace(',', '', $cov->op_ded);
+		}
+		
+	}
+
+	public function hasNamedStormDeductible($cov)
+	{
+		// dd($this->data->named_storm_loss);
+		// dd($cov->ns_ded);
+		return (string) $cov->ns_ded ? true : false;
+	}
+
+	public function hasWindCode()
+	{
+		return $this->data->type_of_loss == '04' || $this->data->type_of_loss == '06'
+			? true
+			: false;
 	}
 
 	protected function getTime ()
