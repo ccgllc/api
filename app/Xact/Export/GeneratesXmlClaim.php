@@ -9,6 +9,7 @@ trait GeneratesXmlClaim {
 
 	public $data;
 	public $doc;
+	public $overallDeductible;
 
 	public function createXml($data)
 	{
@@ -66,29 +67,41 @@ trait GeneratesXmlClaim {
 		$this->doc->addAttribute('policyNumber', htmlspecialchars($this->data->policy_number), 'coverageLoss');
 		$this->doc->addAttribute('isCommercial', 0, 'coverageLoss');
 		$this->buildTypeOfLoss();
-		$coverages = $this->doc->createXmlNode('coverages', 'coverageLoss');
+		$this->doc->createXmlNode('coverages', 'coverageLoss');
 		$this->hasNamedStorm() 
 			? $this->doc->addAttribute('catastrophe', 1, 'coverageLoss') 
 			: $this->doc->addAttribute('catastrophe', 0, 'coverageLoss');
-		$count = 0;
+		$coverages = collect();
 		foreach($this->data->coverage as $cov) {
-			$count ++;
-			$coverage = $this->doc->createXmlNode('coverage', 'coverages');
-			$this->doc->addAttribute('id', "COV$count", 'coverage');
-			$this->doc->addAttribute('covName', htmlspecialchars($cov->name), 'coverage');
-			$this->doc->addAttribute('policyLimit', str_replace(',', '', $cov->limit), 'coverage');
-			$this->doc->addAttribute('covType', $this->getCoverageType($cov), 'coverage');
-			var_dump($this->getCoverageType($cov));
-			// ternary for wp_deductible and op_ded based on :named_storm_loss: wp_ded == % of coverage_limit
-			// dd((int)str_replace('%', '', $cov->wh_ded) / 100);
-			// dd(((int)str_replace('%', '', $cov->wh_ded) / 100) * (int)str_replace(',', '', $cov->coverage_limit));
-			// dd($this->hasNamedStorm());
-			
-			$this->hasNamedStorm()
-				? $this->doc->addAttribute('deductible', $this->calculateNamedStormDeductible($cov), 'coverage')
-				: $this->doc->addAttribute('deductible', $this->calculateDeductible($cov), 'coverage');
-			$this->doc->addAttribute('applyTo', 2, 'coverage');
+			$cov->type = $this->getCoverageType($cov);
+			$coverages->push($cov);
 		}
+
+		$this->addCoverage($coverages->firstWhere('type', '0'), 'Dewlling', 1);
+		$this->addCoverage($coverages->firstWhere('type', '2'), 'Contents', 2);
+		$this->addCoverage($coverages->firstWhere('type', '1'), 'Other Structures', 3);
+
+	}
+
+	protected function addCoverage ($cov, $name, $id)
+	{
+		if ($cov == null) 
+		{
+			$cov = new \stdClass();
+			$cov->type = "1";
+			$cov->limit = ( (int) $this->doc->coverages->firstChild->attributes[2]->value * .1);
+		}
+		$this->doc->createXmlNode('coverage', 'coverages');
+		$this->doc->addAttribute('id', "COV$id", 'coverage');
+		$this->doc->addAttribute('covName', $name, 'coverage');
+		$this->doc->addAttribute('policyLimit', str_replace(',', '', $cov->limit), 'coverage');
+		$this->doc->addAttribute('covType', $cov->type, 'coverage');
+		if ($cov->type == 0) {
+			$this->hasNamedStorm()
+			? $this->doc->addAttribute('overallDeductible', $this->calculateNamedStormDeductible($cov), 'coverageLoss')
+			: $this->doc->addAttribute('overallDeductible', $this->calculateDeductible($cov), 'coverageLoss');
+		}
+		
 	}
 
 	protected function buildTypeOfLoss ()
@@ -126,7 +139,7 @@ trait GeneratesXmlClaim {
 		$this->doc->createXmlNode('phone', 'contactmethods');
 		$this->doc->addAttribute('type', 'Home', 'phone');
 		$this->doc->addAttribute('number', htmlspecialchars($this->data->home_phone_number), 'phone');
-		// dd($this->doc->save());
+		
 	}
 
 	protected function addAttachments()
