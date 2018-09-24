@@ -77,7 +77,7 @@ trait GeneratesXmlClaim {
 			$coverages->push($cov);
 		}
 
-		$this->addCoverage($coverages->firstWhere('type', '0'), 'Dewlling', 1);
+		$this->addCoverage($coverages->firstWhere('type', '0'), 'Dwelling', 1);
 		$this->addCoverage($coverages->firstWhere('type', '2'), 'Contents', 2);
 		$this->addCoverage($coverages->firstWhere('type', '1'), 'Other Structures', 3);
 
@@ -101,6 +101,7 @@ trait GeneratesXmlClaim {
 			? $this->doc->addAttribute('overallDeductible', $this->calculateNamedStormDeductible($cov), 'coverageLoss')
 			: $this->doc->addAttribute('overallDeductible', $this->calculateDeductible($cov), 'coverageLoss');
 		}
+		$this->doc->addAttribute('applyTo', 2, 'coverage');
 		
 	}
 
