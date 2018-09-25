@@ -139,7 +139,8 @@ trait GeneratesXmlClaim {
 		$this->doc->createXmlNode('phone', 'contactmethods');
 		$this->doc->addAttribute('type', 'Home', 'phone');
 		$this->doc->addAttribute('number', htmlspecialchars($this->data->home_phone_number), 'phone');
-		if ($this->data->business_phone_number){
+		// dd((string)$this->data->business_phone_number[0] == true);
+		if ((string)$this->data->business_phone_number){
 			$this->doc->createXmlNode('phone', 'contactmethods');
 			$this->doc->addAttribute('type', 'Business', 'phone');
 			$this->doc->addAttribute('number', htmlspecialchars($this->data->business_phone_number), 'phone');
