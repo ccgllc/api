@@ -102,7 +102,6 @@ trait GeneratesXmlClaim {
 			: $this->doc->addAttribute('overallDeductible', $this->calculateDeductible($cov), 'coverageLoss');
 		}
 		$this->doc->addAttribute('applyTo', 2, 'coverage');
-		
 	}
 
 	protected function buildTypeOfLoss ()
@@ -140,6 +139,11 @@ trait GeneratesXmlClaim {
 		$this->doc->createXmlNode('phone', 'contactmethods');
 		$this->doc->addAttribute('type', 'Home', 'phone');
 		$this->doc->addAttribute('number', htmlspecialchars($this->data->home_phone_number), 'phone');
+		if ($this->data->business_phone_number){
+			$this->doc->createXmlNode('phone', 'contactmethods');
+			$this->doc->addAttribute('type', 'Business', 'phone');
+			$this->doc->addAttribute('number', htmlspecialchars($this->data->business_phone_number), 'phone');
+		}
 		
 	}
 
