@@ -80,7 +80,7 @@ class ValidateCertification extends FormRequest
     {
         $ext = $this->file('resume')->clientExtension();
         $name = $this->user()->name;
-        $filename = $name.'.'.$ext;
+        $filename = str_random(40).'.'.$ext;
         // dd($this->file('resume'));
         $path = $this->file('resume')->storeAs('resumes', $filename, 'hr');
         $doc = new Document;

@@ -37,7 +37,7 @@ class ValidateDocument extends FormRequest
     {
         $ext = $this->file('file')->clientExtension();  
         $name = $this->filename;
-        $filename = $name.'.'.$ext;
+        $filename = str_random(40).'.'.$ext;
         $path = $this->file('file')->storeAs('resumes', $filename, 'hr');
         $doc = new \CCG\Document;
         $doc->name = $name;
