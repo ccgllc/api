@@ -18,7 +18,7 @@ class UserDocumentsController extends Controller
     {
     	$document = Document::whereId($id)->firstOrFail();
   		$disk = storage_path().'/hr/';
-    	$file = $disk.'/'.$document->path;
+    	$file = $disk.$document->path;
 		return response()->download($file, $document->name.'.'.$document->extension);
     }
 }
