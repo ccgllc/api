@@ -7,6 +7,8 @@ use CCG\Traits\Excludable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Auth\Passwords\CanResetPassword;
+use CCG\Notifications\ResetPassword;
 
 class User extends Authenticatable
 {
@@ -174,4 +176,9 @@ class User extends Authenticatable
     {
         return $query->orderBy('created_at', 'desc');
     }
+
+    public function sendPasswordResetNotification($token)
+  {
+      $this->notify(new ResetPassword($token));
+  }
 }
