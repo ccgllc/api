@@ -73,21 +73,22 @@ trait GeneratesXmlClaim {
 			? $this->doc->addAttribute('catastrophe', 1, 'coverageLoss') 
 			: $this->doc->addAttribute('catastrophe', 0, 'coverageLoss');
 		$coverages = collect();
+		$count = 0;
 		foreach($this->data->coverage as $cov) {
+			$count++;
 			$cov->type = $this->getCoverageType($cov);
+			$cov->id = $count;
 			$coverages->push($cov);
 		}
 		
-		$count = 0;
-		$coverages->each(function ($item, $key) use ($count) {
-			$types = ['Dwelling', 'OtherStructures', 'Contents']; // indexed by XACT TOL codes 0, 1, 2
-			$count++;
-			$this->addCoverage($item, e($item->name), $count); //,$types[(int)$item->type]
+		$coverages->each(function ($item, $key) {
+			//$types = ['Dwelling', 'OtherStructures', 'Contents']; // indexed by XACT TOL codes 0, 1, 2
+			$this->addCoverage($item, e($item->name)); //,$types[(int)$item->type]
 		});
 		
 	}
 
-	protected function addCoverage ($cov, $name, $id)
+	protected function addCoverage ($cov, $name)
 	{
 	// 	if ($cov == null) 
 	// 	{
@@ -96,7 +97,7 @@ trait GeneratesXmlClaim {
 	// 		$cov->limit = ( (int) $this->doc->coverages->firstChild->attributes[2]->value * .1);
 	// 	}
 		$this->doc->createXmlNode('coverage', 'coverages');
-		$this->doc->addAttribute('id', "COV$id", 'coverage');
+		$this->doc->addAttribute('id', "COV$cov->id", 'coverage');
 		$this->doc->addAttribute('covName', $name, 'coverage');
 		$this->doc->addAttribute('policyLimit', str_replace(',', '', $cov->limit), 'coverage');
 		$this->doc->addAttribute('covType', $cov->type, 'coverage');
