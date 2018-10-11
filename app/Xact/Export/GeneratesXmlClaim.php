@@ -24,6 +24,7 @@ trait GeneratesXmlClaim {
 		$this->buildContacts();
 		$this->addAttachments();
 		$this->doc->save();
+		$this->overallDeductible = 0;
 		return $this->doc;
 		// $this->buildCoverageLoss();
 	}
@@ -76,30 +77,43 @@ trait GeneratesXmlClaim {
 			$cov->type = $this->getCoverageType($cov);
 			$coverages->push($cov);
 		}
-
-		$this->addCoverage($coverages->firstWhere('type', '0'), 'Dwelling', 1);
-		$this->addCoverage($coverages->firstWhere('type', '2'), 'Contents', 2);
-		$this->addCoverage($coverages->firstWhere('type', '1'), 'Other Structures', 3);
-
+		
+		$count = 0;
+		$coverages->each(function ($item, $key) use ($count) {
+			$types = ['Dwelling', 'OtherStructures', 'Contents']; // indexed by XACT TOL codes 0, 1, 2
+			$count++;
+			$this->addCoverage($item, e($item->name), $count); //,$types[(int)$item->type]
+		});
+		
 	}
 
 	protected function addCoverage ($cov, $name, $id)
 	{
-		if ($cov == null) 
-		{
-			$cov = new \stdClass();
-			$cov->type = "1";
-			$cov->limit = ( (int) $this->doc->coverages->firstChild->attributes[2]->value * .1);
-		}
+	// 	if ($cov == null) 
+	// 	{
+	// 		$cov = new \stdClass();
+	// 		$cov->type = "1";
+	// 		$cov->limit = ( (int) $this->doc->coverages->firstChild->attributes[2]->value * .1);
+	// 	}
 		$this->doc->createXmlNode('coverage', 'coverages');
 		$this->doc->addAttribute('id', "COV$id", 'coverage');
 		$this->doc->addAttribute('covName', $name, 'coverage');
 		$this->doc->addAttribute('policyLimit', str_replace(',', '', $cov->limit), 'coverage');
 		$this->doc->addAttribute('covType', $cov->type, 'coverage');
+		$max = 0;
 		if ($cov->type == 0) {
 			$this->hasNamedStorm()
-			? $this->doc->addAttribute('overallDeductible', $this->calculateNamedStormDeductible($cov), 'coverageLoss')
-			: $this->doc->addAttribute('overallDeductible', $this->calculateDeductible($cov), 'coverageLoss');
+				? $this->doc->addAttribute('overallDeductible', $this->overallDeductible = $this->calculateNamedStormDeductible($cov), 'coverageLoss')
+				: $this->doc->addAttribute('overallDeductible', $this->overallDeductible = $this->calculateDeductible($cov), 'coverageLoss');
+		} 
+		if (!$this->overallDeductible && $cov->type != 0) {
+			$ded = collect([['ded' => (int)$cov->op_ded], ['ded' => (int)$cov->ns_ded], ['ded' => (int)$cov->wh_ded]]);
+
+			$max = $ded->pipe(function($ded) use($max){
+				return $ded->max('ded') > $max ? $ded->max('ded') : $max;
+			});
+
+			$this->doc->addAttribute('overallDeductible', $max, 'coverageLoss');
 		}
 		$this->doc->addAttribute('applyTo', 2, 'coverage');
 	}
@@ -107,8 +121,9 @@ trait GeneratesXmlClaim {
 	protected function buildTypeOfLoss ()
 	{
 		$tol = $this->doc->createXmlNode('tol', 'coverageLoss');
-		$this->doc->addAttribute('desc', 'Wind', 'tol');
-		$this->doc->addAttribute('code', 'WIND', 'tol');
+		$lossType = $this->getLossType();
+		$this->doc->addAttribute('desc', $lossType, 'tol');
+		$this->doc->addAttribute('code', strtoupper($lossType), 'tol');
 	}
 
 	protected function buildContacts()
@@ -191,6 +206,40 @@ trait GeneratesXmlClaim {
 					break;
 				default: 
 					return 0;
+			} 
+		}
+	}
+
+	public function getLossType()
+	{
+		if($this->data->type_of_loss > 0) {
+			switch ($this->data->type_of_loss) {
+				case $this->data->type_of_loss == 4 || $this->data->type_of_loss == 6:
+					return 'Wind';
+					break;
+				case $this->data->type_of_loss == 5: 
+					return 'Tornado';
+					break;
+				case $this->data->type_of_loss == 8:
+					return 'Accidental Discharge';
+					break;
+				case $this->data->type_of_loss == 11:
+					return 'Fire';
+					break;
+				case $this->data->type_of_loss == 12: 
+					return 'Lightning';
+					break;
+				case $this->data->type_of_loss == 14: 
+					return 'Hail';
+				case $this->data->type_of_loss == 16:
+					return 'Freezing';
+					break;
+				case $this->data->type_of_loss == 29:
+					return 'Vmm';
+					break;
+				case $this->data->type_of_loss == 49:
+					return 'All Other Damage';
+					break;
 			} 
 		}
 	}
