@@ -42,7 +42,10 @@ class ResetPassword extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)->subject('Reset Your CCG Account Password')->markdown('emails.account.reset', ['token' => $this->token]);
+        return (new MailMessage)
+            ->from('no-reply@ccgops.net')
+            ->subject('Reset Your CCG Account Password')
+            ->markdown('emails.account.reset', ['token' => $this->token]);
     }
 
     /**
