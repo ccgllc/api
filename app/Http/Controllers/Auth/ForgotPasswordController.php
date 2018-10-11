@@ -3,7 +3,7 @@
 namespace CCG\Http\Controllers\Auth;
 
 use CCG\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
+use CCG\Auth\SendsPasswordResetEmails;
 
 class ForgotPasswordController extends Controller
 {
