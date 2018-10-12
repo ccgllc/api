@@ -21,8 +21,8 @@ trait ConfirmsEmails {
 				'verified'           => 1
 			]);
 		}
-		$this->guard()->login($user);
-		return $user;
+		//$this->guard()->login($user);
+		return redirect('/login');
 	}
 
 	public function emailIsNotConfirmed(Request $request)
