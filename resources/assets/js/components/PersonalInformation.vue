@@ -263,12 +263,12 @@
   						case 'postal_code' :
   							this.appData.personalInfo.zip = place.address_components[i][this.componentForm[addressType]];
 		          	}
-		           //  let val = place.address_components[i][componentForm[addressType]];
-		           // this.appData.personalInformation[componentForm[addressType]] = val;
 		          }
 		        }
-		        this.appData.personalInfo.lat = place.geometry.lat;
-		        this.appData.personalInfo.lng = place.geometry.lng;
+		        // console.log(place.geometry.location.lat());
+		        // console.log(place.geometry.location.lng());
+		        this.appData.personalInfo.lat = place.geometry.location.lat();
+		        this.appData.personalInfo.lng = place.geometry.location.lng();
 		        this.appData.personalInfo.formatted_address = place.formatted_address;
 		        this.appData.personalInfo.place_id = place.place_id;
 			}
