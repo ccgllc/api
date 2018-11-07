@@ -52,7 +52,7 @@ class BatchClaimImporter extends Command
         if ($this->confirm('Do you wish to continue? [y|N]')) {
             // $this->info('Importing...');
             $idx = 0;
-            $files = glob(storage_path('XMLDATA/*.{XML}'), GLOB_BRACE);
+            $files = glob(storage_path('fnol_xml/in/*.{XML}'), GLOB_BRACE);
             $bar = $this->output->createProgressBar(count($files));
             foreach($files as $file)
             {
