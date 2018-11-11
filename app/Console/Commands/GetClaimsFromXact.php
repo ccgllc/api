@@ -2,13 +2,14 @@
 
 namespace CCG\Console\Commands;
 
-use phpseclib\Net\SFTP;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Console\Command;
+use CCG\Xact\FtpClient;
 
 class GetClaimsFromXact extends Command
 {
+    use FtpClient;
      /**
      * sftp instance.
      *
@@ -38,12 +39,6 @@ class GetClaimsFromXact extends Command
     public function __construct()
     {
         parent::__construct();
-         $this->sftp = new SFTP(env('SFTP_HOST'));
-        if (! $this->sftp->login(env('SFTP_USERNAME'), env('SFTP_PASSWORD')))
-        {
-         throw new \Exception('Login failed');
-        }
-        $this->sftp->chdir('OUT');
     }
 
     /**
@@ -53,15 +48,17 @@ class GetClaimsFromXact extends Command
      */
     public function handle()
     {
+        $this->sftp = $this->connectToFtp();
+        $this->sftp->chdir('OUT');
         $files = collect($this->sftp->rawlist())->sortByDesc('mtime');
         $transferable = $files->where('mtime', '>', cache('xactTimeMarker')->timestamp);
-        $transferable->count();
+        // $transferable->count();
         $transferable->each(function ($file) {
             $extFilename = storage_path('fnol_xml').'/in/'.$file['filename'];
             if ($this->sftp->pwd() === "/OUT")  $this->sftp->get($file['filename'], $extFilename);
         });
         Cache::forever('xactTimeMarker', Carbon::createFromTimeStamp($transferable->max('mtime')));
          $this->info($transferable->count().' files transferred.');
-        // eval(\Psy\sh());
+        eval(\Psy\sh());
     }
 }

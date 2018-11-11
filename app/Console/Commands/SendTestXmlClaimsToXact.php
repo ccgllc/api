@@ -3,10 +3,11 @@
 namespace CCG\Console\Commands;
 
 use Illuminate\Console\Command;
-use phpseclib\Net\SFTP;
+use CCG\Xact\FtpClient;
 
 class SendTestXmlClaimsToXact extends Command
 {
+    use FtpClient;
     /**
      * The name and signature of the console command.
      *
@@ -31,12 +32,6 @@ class SendTestXmlClaimsToXact extends Command
     public function __construct()
     {
         parent::__construct();
-        $this->sftp = new SFTP(env('TEST_SFTP_HOST'));
-        if (! $this->sftp->login(env('TEST_SFTP_USERNAME'), env('TEST_SFTP_PASSWORD')))
-        {
-         throw new \Exception('Login failed');
-        }
-        $this->sftp->chdir('IN');
     }
 
     /**
@@ -46,7 +41,8 @@ class SendTestXmlClaimsToXact extends Command
      */
     public function handle()
     {
-        $idx = 0;
+        $this->sftp = $this->connectToTestFtp();
+        $this->sftp->chdir('IN');
         $files = glob(storage_path('fnol_xml/test/*.{XML}'), GLOB_BRACE);
         $bar = $this->output->createProgressBar(count($files));
             foreach($files as $file)

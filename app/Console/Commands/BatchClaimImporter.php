@@ -23,7 +23,7 @@ class BatchClaimImporter extends Command
      *
      * @var string
      */
-    protected $description = 'Batch import XML claim data';
+    protected $description = 'Batch import transferred XML claim data';
 
      /**
      * Files array to loop through.
@@ -63,6 +63,7 @@ class BatchClaimImporter extends Command
                 if(DB::table('claims')->where('transaction_id', $claim->transactionId)->doesntExist())
                 {
                     $this->persistClaimData($claim);
+                    // $this->saveJsonFile($claim->claim_data);
                     $idx += 1;
                 }
                 //unlink($file);

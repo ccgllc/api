@@ -3,10 +3,11 @@
 namespace CCG\Console\Commands;
 
 use Illuminate\Console\Command;
-use phpseclib\Net\SFTP;
+use CCG\Xact\FtpClient;
 
 class SendJsonClaimData extends Command
 {
+    use FtpClient;
     /**
      * The name and signature of the console command.
      *
@@ -19,7 +20,7 @@ class SendJsonClaimData extends Command
      *
      * @var string
      */
-    protected $description = 'Send simplified claim data in JSON to FTP folder.';
+    protected $description = 'Send parsed claim data in JSON to FTP folder.';
 
     /**
      * Create a new command instance.
