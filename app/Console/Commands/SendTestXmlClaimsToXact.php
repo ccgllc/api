@@ -4,6 +4,7 @@ namespace CCG\Console\Commands;
 
 use Illuminate\Console\Command;
 use CCG\Xact\FtpClient;
+use phpseclib\Net\SFTP;
 
 class SendTestXmlClaimsToXact extends Command
 {
@@ -44,6 +45,7 @@ class SendTestXmlClaimsToXact extends Command
         $this->sftp = $this->connectToTestFtp();
         $this->sftp->chdir('IN');
         $files = glob(storage_path('fnol_xml/test/*.{XML}'), GLOB_BRACE);
+        $idx = 0;
         $bar = $this->output->createProgressBar(count($files));
             foreach($files as $file)
             {
