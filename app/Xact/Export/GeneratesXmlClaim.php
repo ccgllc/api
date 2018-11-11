@@ -15,7 +15,7 @@ trait GeneratesXmlClaim {
 	{
 		$this->data = $data;
 		$this->doc = new XactClaimXml();
-		$this->doc->claimNumber = $this->data->claim_number;
+		$this->doc->claimNumber = $this->getClaimNumber();
 		$this->doc->pdfLink = $this->data->media_link_original;
 		$this->buildXactnetInfo();
 		$this->buildProjectInfo();
@@ -35,7 +35,7 @@ trait GeneratesXmlClaim {
 		$this->doc->addAttribute('carrierId', '3975005', 'xactnetInfo');
 		// $this->doc->addAttribute('transactionType', 'EST,PRJ', 'xactnetInfo');
 		$this->doc->addAttribute('sendersXNAddress', 'CLAIM_CONSULTANT_GROUP.HOME.WEB', 'xactnetInfo');
-		$this->doc->addAttribute('businessUnit', 'NCUA', 'xactnetInfo');
+		$this->doc->addAttribute('businessUnit', $this->getCarrier(), 'xactnetInfo'); //'NCUA'
 		$this->doc->addAttribute('rotationTrade', 'General', 'xactnetInfo');
 		$this->doc->addAttribute('jobSizeCode', '1', 'xactnetInfo');
 		$this->doc->addAttribute('recipientsXNAddress', 'CLAIM_CONSULTANT_GROUP.HOME.WEB', 'xactnetInfo');
@@ -64,7 +64,7 @@ trait GeneratesXmlClaim {
 		$this->doc->createXmlNode('coverageLoss', 'adm');
 		$this->doc->addAttribute('policyStart', $this->formatDate((string)$this->data->effective_date->formatted), 'coverageLoss');
 		$this->doc->addAttribute('policyEnd', $this->formatDate((string)$this->data->expiration_date->formatted), 'coverageLoss');
-		$this->doc->addAttribute('claimNumber', htmlspecialchars($this->data->claim_number), 'coverageLoss');
+		$this->doc->addAttribute('claimNumber', htmlspecialchars($this->doc->claimNumber), 'coverageLoss');
 		$this->doc->addAttribute('policyNumber', htmlspecialchars($this->data->policy_number), 'coverageLoss');
 		$this->doc->addAttribute('isCommercial', 0, 'coverageLoss');
 		$this->buildTypeOfLoss();
@@ -99,7 +99,7 @@ trait GeneratesXmlClaim {
 		$this->doc->createXmlNode('coverage', 'coverages');
 		$this->doc->addAttribute('id', "COV$cov->id", 'coverage');
 		$this->doc->addAttribute('covName', $name, 'coverage');
-		$this->doc->addAttribute('policyLimit', str_replace(',', '', $cov->limit), 'coverage');
+		$this->doc->addAttribute('policyLimit', str_replace(',', '', str_replace('$', '', $cov->limit)), 'coverage');
 		$this->doc->addAttribute('covType', $cov->type, 'coverage');
 		$max = 0;
 		if ($cov->type == 0) {
@@ -107,12 +107,13 @@ trait GeneratesXmlClaim {
 				? $this->doc->addAttribute('overallDeductible', $this->overallDeductible = $this->calculateNamedStormDeductible($cov), 'coverageLoss')
 				: $this->doc->addAttribute('overallDeductible', $this->overallDeductible = $this->calculateDeductible($cov), 'coverageLoss');
 		} 
-		if (!$this->overallDeductible && $cov->type != 0) {
+		if (!$this->overallDeductible) {
 			$ded = collect([['ded' => (int)$cov->op_ded], ['ded' => (int)$cov->ns_ded], ['ded' => (int)$cov->wh_ded]]);
 
 			$max = $ded->pipe(function($ded) use($max){
 				return $ded->max('ded') > $max ? $ded->max('ded') : $max;
 			});
+
 
 			$this->doc->addAttribute('overallDeductible', $max, 'coverageLoss');
 		}
@@ -140,7 +141,7 @@ trait GeneratesXmlClaim {
 		$this->doc->addAttribute('street', htmlspecialchars($this->data->property_street), 'address');
 		$this->doc->addAttribute('city', htmlspecialchars($this->getPropertyCity()), 'address');
 		$this->doc->addAttribute('state', 'NC', 'address');
-		$this->doc->addAttribute('postal', htmlspecialchars($this->data->property_postal), 'address');
+		$this->doc->addAttribute('postal', htmlspecialchars($this->data->property_address->zipcode), 'address');
 		$this->doc->addAttribute('country', 'US', 'address');
 		// mailing address assignment
 		$this->doc->createXmlNode('address', 'addresses');
@@ -154,7 +155,13 @@ trait GeneratesXmlClaim {
 		$this->doc->createXmlNode('contactmethods', 'contact');
 		$this->doc->createXmlNode('phone', 'contactmethods');
 		$this->doc->addAttribute('type', 'Home', 'phone');
-		$this->doc->addAttribute('number', htmlspecialchars($this->data->home_phone_number), 'phone');
+		if ($this->getCarrier() == 'CIGP') {
+			$phone = str_replace(') ', '-', $this->data->home_phone_number);
+			$phone = trim(str_replace('(', '', $phone));
+		} else {
+			$phone = $this->data->home_phone_number;
+		}
+		$this->doc->addAttribute('number', $phone, 'phone');
 		// dd((string)$this->data->business_phone_number[0] == true);
 		if ((string)$this->data->business_phone_number){
 			$this->doc->createXmlNode('phone', 'contactmethods');
@@ -197,8 +204,28 @@ trait GeneratesXmlClaim {
 
 	public function getCoverageType($cov)
 	{
+		if ($this->getCarrier() == 'CIGP') {
+			switch ($cov->name) 
+			{
+				case $cov->name == 'Dwelling':
+					return 0;
+					break;
+				case $cov->name == 'Contents':
+					return 1;
+					break;
+				default: 
+					return 2;
+					break;
+			}
+		}
 		if(preg_match('/\d{3}/', $cov->name, $match) > 0) {
 			switch ($match[0]) {
+				case $match[0] >= 510 && $match[0] <= 559:
+					return 2;
+					break;
+				case $match[0] >= 560: 
+					return 1;
+					break;
 				case $match[0] >= 510 && $match[0] <= 559:
 					return 2;
 					break;
@@ -243,6 +270,7 @@ trait GeneratesXmlClaim {
 					break;
 			} 
 		}
+		if ($this->getCarrier() == 'CIGP') return 'Fire';
 	}
 
 	protected function calculateNamedStormDeductible ($cov)
@@ -321,8 +349,24 @@ trait GeneratesXmlClaim {
 
 	public function formatDate ($date)
 	{
+		// eval(\Psy\sh());
+		// dd($date);
 		$d = \DateTime::createFromFormat('m-d-y', $date);
 		return gettype($d) == "boolean" ? '0000-00-00' :  $d->format('Y-m-d');
+	}
+
+	protected function getCarrier()
+	{
+		return $this->data->carrier;
+	}
+
+	protected function getClaimNumber ()
+	{
+		return $this->getCarrier() == 'NCUA' ? $this->data->claim_number : $this->getClaimNumberFromFilename();
+	}
+	protected function getClaimNumberFromFilename()
+	{
+		return trim(str_replace('Acord.pdf', '', $this->data->file_name));
 	}
 
 }

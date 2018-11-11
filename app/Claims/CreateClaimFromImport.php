@@ -57,6 +57,7 @@ trait CreateClaimFromImport {
     private function mapCarrier($label)
     {
         // var_dump($label);
+        $label === 'Capital Insurance Group' ? $label = 'CIGP' : $label;
     	$this->carrier = Carrier::where('label', $label)->firstOrFail();
     	return $this->carrier->id;
     }
