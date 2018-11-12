@@ -362,7 +362,7 @@ trait GeneratesXmlClaim {
 
 	protected function getClaimNumber ()
 	{
-		return $this->getCarrier() == 'NCUA' ? $this->data->claim_number : $this->getClaimNumberFromFilename();
+		return $this->data->claim_number;
 	}
 	protected function getClaimNumberFromFilename()
 	{
