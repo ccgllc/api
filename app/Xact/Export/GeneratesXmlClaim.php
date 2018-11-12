@@ -148,8 +148,8 @@ trait GeneratesXmlClaim {
 		$this->doc->addAttribute('type', 'Home', 'address');
 		$this->doc->addAttribute('street', htmlspecialchars($this->data->mailing_street), 'address');
 		$this->doc->addAttribute('city', htmlspecialchars($this->data->mailing_city), 'address');
-		if ((string)$this->data->mailing_state_parsed) $this->doc->addAttribute('state', $this->data->mailing_state_parsed, 'address');
-		if (!(string)$this->data->mailing_state_parsed) $this->doc->addAttribute('state', 'NC', 'address');
+		if ((string)$this->data->mailing_state_normalized) $this->doc->addAttribute('state', $this->data->mailing_state_normalized, 'address');
+		if (!(string)$this->data->mailing_state_normalized) $this->doc->addAttribute('state', 'NC', 'address');
 		$this->doc->addAttribute('postal', htmlspecialchars($this->data->mailing_postal), 'address');
 		$this->doc->addAttribute('country', 'US', 'address');
 		// phone number assignment
