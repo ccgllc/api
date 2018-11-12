@@ -4,6 +4,7 @@ namespace CCG\Console\Commands;
 
 use Illuminate\Console\Command;
 use CCG\Xact\FtpClient;
+use phpseclib\Net\SFTP;
 
 class SendXmlClaimsToXact extends Command
 {
