@@ -366,7 +366,7 @@ trait GeneratesXmlClaim {
 	}
 	protected function getClaimNumberFromFilename()
 	{
-		return trim(str_replace('/{\D}/', '', $this->data->file_name));
+		return trim(preg_replace('/(\D)/', '', $this->data->file_name));
 	}
 
 }
