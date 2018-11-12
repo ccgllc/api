@@ -80,7 +80,7 @@ trait GeneratesXmlClaim {
 			$cov->id = $count;
 			$coverages->push($cov);
 		}
-		
+		// dd($coverages);
 		$coverages->each(function ($item, $key) {
 			//$types = ['Dwelling', 'OtherStructures', 'Contents']; // indexed by XACT TOL codes 0, 1, 2
 			$this->addCoverage($item, e($item->name)); //,$types[(int)$item->type]
@@ -99,7 +99,7 @@ trait GeneratesXmlClaim {
 		$this->doc->createXmlNode('coverage', 'coverages');
 		$this->doc->addAttribute('id', "COV$cov->id", 'coverage');
 		$this->doc->addAttribute('covName', $name, 'coverage');
-		$this->doc->addAttribute('policyLimit', str_replace(',', '', str_replace('$', '', $cov->limit)), 'coverage');
+		$this->doc->addAttribute('policyLimit', str_replace(',', '', str_replace('$', '', (string)$cov->limit ? $cov->limit : 0)), 'coverage');
 		$this->doc->addAttribute('covType', $cov->type, 'coverage');
 		$max = 0;
 		if ($cov->type == 0) {
