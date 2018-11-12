@@ -362,11 +362,11 @@ trait GeneratesXmlClaim {
 
 	protected function getClaimNumber ()
 	{
-		return $this->data->claim_number;
+		return $this->getCarrier() == 'CIGP' ? $this->getClaimNumberFromFilename() : $this->data->claim_number;
 	}
 	protected function getClaimNumberFromFilename()
 	{
-		return trim(str_replace('Acord.pdf', '', $this->data->file_name));
+		return trim(str_replace('/{\D}/', '', $this->data->file_name));
 	}
 
 }
