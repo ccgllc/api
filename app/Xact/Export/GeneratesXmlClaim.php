@@ -140,7 +140,7 @@ trait GeneratesXmlClaim {
 		$this->doc->addAttribute('type', 'Property', 'address');
 		$this->doc->addAttribute('street', htmlspecialchars($this->data->property_street), 'address');
 		$this->doc->addAttribute('city', htmlspecialchars($this->getPropertyCity()), 'address');
-		$this->doc->addAttribute('state', 'NC', 'address');
+		$this->doc->addAttribute('state', $this->data->property_state, 'address');
 		$this->doc->addAttribute('postal', htmlspecialchars($this->data->property_address->zipcode), 'address');
 		$this->doc->addAttribute('country', 'US', 'address');
 		// mailing address assignment
@@ -148,7 +148,7 @@ trait GeneratesXmlClaim {
 		$this->doc->addAttribute('type', 'Home', 'address');
 		$this->doc->addAttribute('street', htmlspecialchars($this->data->mailing_street), 'address');
 		$this->doc->addAttribute('city', htmlspecialchars($this->data->mailing_city), 'address');
-		$this->doc->addAttribute('state', 'NC', 'address');
+		$this->doc->addAttribute('state', $this->data->mailing_state, 'address');
 		$this->doc->addAttribute('postal', htmlspecialchars($this->data->mailing_postal), 'address');
 		$this->doc->addAttribute('country', 'US', 'address');
 		// phone number assignment
