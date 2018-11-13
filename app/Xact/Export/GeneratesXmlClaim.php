@@ -149,7 +149,7 @@ trait GeneratesXmlClaim {
 		$this->doc->addAttribute('street', htmlspecialchars($this->data->mailing_street), 'address');
 		$this->doc->addAttribute('city', htmlspecialchars($this->data->mailing_city), 'address');
 		if ((string)$this->data->mailing_state_normalized) $this->doc->addAttribute('state', $this->data->mailing_state_normalized, 'address');
-		if (!(string)$this->data->mailing_state_normalized) $this->doc->addAttribute('state', 'NC', 'address');
+		if ($this->getCarrier() == "NCUA") $this->doc->addAttribute('state', 'NC', 'address');
 		$this->doc->addAttribute('postal', htmlspecialchars($this->data->mailing_postal), 'address');
 		$this->doc->addAttribute('country', 'US', 'address');
 		// phone number assignment
@@ -213,6 +213,9 @@ trait GeneratesXmlClaim {
 					break;
 				case $cov->name == 'Contents':
 					return 1;
+					break;
+				case $cov->name == 'Addl Living Expenses':
+					return 0;
 					break;
 				default: 
 					return 2;
