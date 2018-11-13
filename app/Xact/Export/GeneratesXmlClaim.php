@@ -73,19 +73,34 @@ trait GeneratesXmlClaim {
 			? $this->doc->addAttribute('catastrophe', 1, 'coverageLoss') 
 			: $this->doc->addAttribute('catastrophe', 0, 'coverageLoss');
 		$coverages = collect();
-		$count = 0;
-		foreach($this->data->coverage as $cov) {
-			$count++;
-			$cov->type = $this->getCoverageType($cov);
-			$cov->id = $count;
-			$coverages->push($cov);
+		if ($this->getCarrier() == 'NCUA') {
+			$count = 0;
+			foreach($this->data->coverage as $cov) {
+				$count++;
+				$cov->type = $this->getCoverageType($cov);
+				$cov->id = $count;
+				$coverages->push($cov);
+			}
+			// dd($coverages);
 		}
-		// dd($coverages);
+		if ($this->getCarrier() == 'CIGP') {
+			$count = 0;
+			// dd($this->data->combined_coverage);
+			foreach ($this->data->combined_coverage->children() as $cover) {
+				$count ++;
+				$cov = new \stdClass;
+				// dd();
+				$cov->name = ucwords(str_replace('_', ' ', $cover->getName()));
+				$cov->limit = $cover;
+				$cov->id = $count;
+				$cov->type = $this->getCoverageType($cov);
+				$coverages->push($cov);
+			}
+		}
 		$coverages->each(function ($item, $key) {
-			//$types = ['Dwelling', 'OtherStructures', 'Contents']; // indexed by XACT TOL codes 0, 1, 2
-			$this->addCoverage($item, e($item->name)); //,$types[(int)$item->type]
-		});
-		
+				//$types = ['Dwelling', 'OtherStructures', 'Contents']; // indexed by XACT TOL codes 0, 1, 2
+				$this->addCoverage($item, e($item->name)); //,$types[(int)$item->type]
+			});
 	}
 
 	protected function addCoverage ($cov, $name)
@@ -107,13 +122,12 @@ trait GeneratesXmlClaim {
 				? $this->doc->addAttribute('overallDeductible', $this->overallDeductible = $this->calculateNamedStormDeductible($cov), 'coverageLoss')
 				: $this->doc->addAttribute('overallDeductible', $this->overallDeductible = $this->calculateDeductible($cov), 'coverageLoss');
 		} 
-		if (!$this->overallDeductible) {
+		if (!$this->overallDeductible && $this->getCarrier() != 'CIGP') {
 			$ded = collect([['ded' => (int)$cov->op_ded], ['ded' => (int)$cov->ns_ded], ['ded' => (int)$cov->wh_ded]]);
 
 			$max = $ded->pipe(function($ded) use($max){
 				return $ded->max('ded') > $max ? $ded->max('ded') : $max;
 			});
-
 
 			$this->doc->addAttribute('overallDeductible', $max, 'coverageLoss');
 		}
@@ -307,6 +321,9 @@ trait GeneratesXmlClaim {
 
 	protected function calculateDeductible($cov)
 	{
+		if ($this->getCarrier() == 'CIGP') {
+			return 0;
+		}
 		if($this->hasWindCode())
 		{
 			return $this->hasPercentageDeductible()
