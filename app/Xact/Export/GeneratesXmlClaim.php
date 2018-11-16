@@ -189,7 +189,10 @@ trait GeneratesXmlClaim {
 
 	protected function addAttachments()
 	{
-		mkdir(storage_path('fnol_xml').'/'.$this->doc->claimNumber);
+		if (!is_dir(storage_path('fnol_xml').'/'.$this->doc->claimNumber))
+		{
+			mkdir(storage_path('fnol_xml').'/'.$this->doc->claimNumber);
+		} 
 		$this->doc->createXmlNode('attachments', 'rootNode');
 		$this->doc->createXmlNode('extFiles', 'rootNode');
 		$this->doc->carrier == 'CIGP' 
