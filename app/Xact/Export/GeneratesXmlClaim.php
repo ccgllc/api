@@ -15,6 +15,7 @@ trait GeneratesXmlClaim {
 	{
 		$this->data = $data;
 		$this->doc = new XactClaimXml();
+		$this->doc->carrier = $this->getCarrier();
 		$this->doc->claimNumber = $this->getClaimNumber();
 		$this->doc->pdfLink = $this->data->media_link_original;
 		$this->buildXactnetInfo();
@@ -35,7 +36,7 @@ trait GeneratesXmlClaim {
 		$this->doc->addAttribute('carrierId', '3975005', 'xactnetInfo');
 		// $this->doc->addAttribute('transactionType', 'EST,PRJ', 'xactnetInfo');
 		$this->doc->addAttribute('sendersXNAddress', 'CLAIM_CONSULTANT_GROUP.HOME.WEB', 'xactnetInfo');
-		$this->doc->addAttribute('businessUnit', $this->getCarrier(), 'xactnetInfo'); //'NCUA'
+		$this->doc->addAttribute('businessUnit', $this->doc->carrier, 'xactnetInfo'); //'NCUA'
 		$this->doc->addAttribute('rotationTrade', 'General', 'xactnetInfo');
 		$this->doc->addAttribute('jobSizeCode', '1', 'xactnetInfo');
 		$this->doc->addAttribute('recipientsXNAddress', 'CLAIM_CONSULTANT_GROUP.HOME.WEB', 'xactnetInfo');
@@ -73,7 +74,7 @@ trait GeneratesXmlClaim {
 			? $this->doc->addAttribute('catastrophe', 1, 'coverageLoss') 
 			: $this->doc->addAttribute('catastrophe', 0, 'coverageLoss');
 		$coverages = collect();
-		if ($this->getCarrier() == 'NCUA') {
+		if ($this->doc->carrier == 'NCUA') {
 			$count = 0;
 			foreach($this->data->coverage as $cov) {
 				$count++;
@@ -83,7 +84,7 @@ trait GeneratesXmlClaim {
 			}
 			// dd($coverages);
 		}
-		if ($this->getCarrier() == 'CIGP') {
+		if ($this->doc->carrier == 'CIGP') {
 			$count = 0;
 			// dd($this->data->combined_coverage);
 			foreach ($this->data->combined_coverage->children() as $cover) {
@@ -122,7 +123,7 @@ trait GeneratesXmlClaim {
 				? $this->doc->addAttribute('overallDeductible', $this->overallDeductible = $this->calculateNamedStormDeductible($cov), 'coverageLoss')
 				: $this->doc->addAttribute('overallDeductible', $this->overallDeductible = $this->calculateDeductible($cov), 'coverageLoss');
 		} 
-		if (!$this->overallDeductible && $this->getCarrier() != 'CIGP') {
+		if (!$this->overallDeductible && $this->doc->carrier != 'CIGP') {
 			$ded = collect([['ded' => (int)$cov->op_ded], ['ded' => (int)$cov->ns_ded], ['ded' => (int)$cov->wh_ded]]);
 
 			$max = $ded->pipe(function($ded) use($max){
@@ -163,14 +164,14 @@ trait GeneratesXmlClaim {
 		$this->doc->addAttribute('street', htmlspecialchars($this->data->mailing_street), 'address');
 		$this->doc->addAttribute('city', htmlspecialchars($this->data->mailing_city), 'address');
 		if ((string)$this->data->mailing_state_normalized) $this->doc->addAttribute('state', $this->data->mailing_state_normalized, 'address');
-		if ($this->getCarrier() == "NCUA") $this->doc->addAttribute('state', 'NC', 'address');
+		if ($this->doc->carrier == "NCUA") $this->doc->addAttribute('state', 'NC', 'address');
 		$this->doc->addAttribute('postal', htmlspecialchars($this->data->mailing_postal), 'address');
 		$this->doc->addAttribute('country', 'US', 'address');
 		// phone number assignment
 		$this->doc->createXmlNode('contactmethods', 'contact');
 		$this->doc->createXmlNode('phone', 'contactmethods');
 		$this->doc->addAttribute('type', 'Home', 'phone');
-		if ($this->getCarrier() == 'CIGP') {
+		if ($this->doc->carrier == 'CIGP') {
 			$phone = str_replace(') ', '-', $this->data->home_phone_number);
 			$phone = trim(str_replace('(', '', $phone));
 		} else {
@@ -188,21 +189,91 @@ trait GeneratesXmlClaim {
 
 	protected function addAttachments()
 	{
-		$attachments = $this->doc->createXmlNode('attachments', 'rootNode');
-		$client = $this->doc->createXmlNode('attachment', 'attachments');
-		$this->doc->addAttribute('id', 'ATT1', 'attachment');
-		$this->doc->addAttribute('type', 'CD', 'attachment');
-		$this->doc->addAttribute('name', $this->doc->claimNumber.' FNOL', 'attachment');
-		$this->doc->addAttribute('origFilename', $this->doc->claimNumber.'.pdf', 'attachment');
-		$this->doc->addAttribute('dateTime', $this->getTime(), 'attachment');
-		$this->doc->addAttribute('extFile_attach', 'EXT1', 'attachment');
-		$this->doc->addAttribute('sendToXm8', '0', 'attachment');
-		// create and configure extFiles...
-		$extFiles = $this->doc->createXmlNode('extFiles', 'rootNode');
-		$extFile = $this->doc->createXmlNode('extFile', 'extFiles');
-		$this->doc->addAttribute('id', 'EXT1', 'extFile');
-		$this->doc->addAttribute('fileName', $this->doc->claimNumber.'.pdf', 'extFile');
+		$this->doc->createXmlNode('attachments', 'rootNode');
+		$this->doc->createXmlNode('extFiles', 'rootNode');
+		$this->doc->carrier == 'CIGP' 
+			? $files = glob(storage_path('fnol_xml/docs/*.{pdf}'), GLOB_BRACE)
+			: $files[] = $this->getExternalFile();
+    	$docs = collect();
+    	foreach ($files as $file) { 
+    		$reg ='/'. $this->doc->claimNumber .'/';
+	      	if (preg_match($reg, $file)) {
+	      		preg_match('/(?<=docs\/).+/', $file, $matches);
+	      		count($matches) > 0 
+	      			? $docs->put($matches[0], $file)
+	      			: $docs->put($this->data->file_name, $file);
+	   		}
+	   	}
+	   	$num = 1;
+	   	foreach($docs->toArray() as $key => $doc) {
+	   		rename($doc, storage_path('fnol_xml').'/'. $this->doc->claimNumber .'/' . $key);
+	   		$this->doc->createXmlNode('attachment', 'attachments');
+			$this->doc->addAttribute('id', 'ATT'.$num, 'attachment');
+			$this->doc->addAttribute('type', 'CD', 'attachment');
+			$this->doc->addAttribute('name', $key, 'attachment');
+			$this->doc->addAttribute('origFilename', $key, 'attachment');
+			$this->doc->addAttribute('dateTime', $this->getTime(), 'attachment');
+			$this->doc->addAttribute('extFile_attach', 'EXT'.$num, 'attachment');
+			$this->doc->addAttribute('sendToXm8', '0', 'attachment');
+			// create and configure extFiles...
+			$extFile = $this->doc->createXmlNode('extFile', 'extFiles');
+			$this->doc->addAttribute('id', 'EXT'.$num, 'extFile');
+			$this->doc->addAttribute('fileName', $key, 'extFile');
+			$num++;
+	   	};
+
+	   	$this->zipClaim($docs->toArray());
+	   	
 	}
+
+	protected function zipClaim(array $docs)
+	{
+		$zip = new \ZipArchive();
+		$path = storage_path('fnol_xml').'/'.$this->doc->claimNumber.'/';
+		// dd($path);
+		if ($zip->open($path.$this->doc->claimNumber.'.XML', \ZIPARCHIVE::CREATE | \ZIPARCHIVE::OVERWRITE) == true) 
+		{
+			$zip->addFile($path.'XACTDOC.XML', 'XACTDOC.XML');
+			foreach($docs as $key => $doc)
+			{
+				var_dump($path.$key);
+		   		$zip->addFile($path.$key, $key);
+			}
+			$zip->close();
+		    echo 'ok'; 
+		} 
+		else 
+		{
+		    echo 'failed';
+		}
+	}
+
+	protected function getExternalFile()
+	{
+		//create a new http client
+    	$client = new \GuzzleHttp\Client();
+    	//create request object uses pdf link embedded in raw xml data for its uri..
+    	$request = new \GuzzleHttp\Psr7\Request('GET', $this->doc->pdfLink);
+    	// open a new (empty) pdf file
+    	$file = fopen($this->generatePdfFilename($this->data->file_name), "w+");
+    	// create async http request
+		$promise = $client->sendAsync($request)->then(function ($response) use ($file) {
+		    // write request body (pdf data) into our $file
+		    fwrite($file, $response->getBody());
+		    // close newly written file and remove from memory
+		    fclose($file);
+		    // test sugar -- remove.
+		   // echo 'I completed! ';
+		});
+		//wait for promise to resolve.
+		$promise->wait();
+		return  $this->generatePdfFilename($this->data->file_name);
+	}
+
+	protected function generatePdfFilename ($filename)
+    {
+    	return storage_path('fnol_xml').'/docs/'.$filename;
+    }
 
 	public function getPropertyCity()
 	{
@@ -219,7 +290,7 @@ trait GeneratesXmlClaim {
 
 	public function getCoverageType($cov)
 	{
-		if ($this->getCarrier() == 'CIGP') {
+		if ($this->doc->carrier == 'CIGP') {
 			switch ($cov->name) 
 			{
 				case $cov->name == 'Dwelling':
@@ -288,7 +359,7 @@ trait GeneratesXmlClaim {
 					break;
 			} 
 		}
-		if ($this->getCarrier() == 'CIGP') return 'Fire';
+		if ($this->doc->carrier == 'CIGP') return 'Fire';
 	}
 
 	protected function calculateNamedStormDeductible ($cov)
@@ -321,7 +392,7 @@ trait GeneratesXmlClaim {
 
 	protected function calculateDeductible($cov)
 	{
-		if ($this->getCarrier() == 'CIGP') {
+		if ($this->doc->carrier == 'CIGP') {
 			return 0;
 		}
 		if($this->hasWindCode())
@@ -378,16 +449,22 @@ trait GeneratesXmlClaim {
 
 	protected function getCarrier()
 	{
-		return $this->data->carrier;
+		return (string)$this->data->carrier 
+			? $this->data->carrier 
+			: 'NCUA';
 	}
 
 	protected function getClaimNumber ()
 	{
-		return $this->getCarrier() == 'CIGP' ? $this->getClaimNumberFromFilename() : $this->data->claim_number;
+		return $this->doc->carrier == 'CIGP' 
+			 ? $this->getClaimNumberFromFilename() 
+			 : $this->data->claim_number;
 	}
 	protected function getClaimNumberFromFilename()
 	{
-		return trim(preg_replace('/[^0-9]/', '', $this->data->file_name));
+		$num = trim(preg_replace('/(\D)/', '', $this->data->file_name));
+		preg_match('/(15{1}\d{5})/', $num, $matches);
+		return count($matches) > 0 ? $matches[0] : preg_replace('/(\.[A-z,0-9]{3,})/', '', (string)$this->data->file_name);
 	}
 
 }

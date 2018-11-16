@@ -21,6 +21,7 @@ class XactClaimXml {
 	public $attachment;
 	public $extFiles;
 	public $extFile; 
+	public $carrier; 
 	public $claimNumber; 
 	public $pdfLink;
 
