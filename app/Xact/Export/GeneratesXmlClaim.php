@@ -196,18 +196,8 @@ trait GeneratesXmlClaim {
 		$this->doc->createXmlNode('attachments', 'rootNode');
 		$this->doc->createXmlNode('extFiles', 'rootNode');
 		$this->doc->carrier == 'CIGP' 
-			? $files = glob(storage_path('fnol_xml/docs/*.{pdf}'), GLOB_BRACE)
-			: $files[] = $this->getExternalFile();
-    	$docs = collect();
-    	foreach ($files as $file) { 
-    		$reg ='/'. $this->doc->claimNumber .'/';
-	      	if (preg_match($reg, $file)) {
-	      		preg_match('/(?<=docs\/).+/', $file, $matches);
-	      		count($matches) > 0 
-	      			? $docs->put($matches[0], $file)
-	      			: $docs->put($this->data->file_name, $file);
-	   		}
-	   	}
+			? $docs = $this->getClaimDocs()
+			: $docs = $this->getExternalFile();
 	   	$num = 1;
 	   	foreach($docs->toArray() as $key => $doc) {
 	   		rename($doc, storage_path('fnol_xml').'/'. $this->doc->claimNumber .'/' . $key);
@@ -234,7 +224,6 @@ trait GeneratesXmlClaim {
 	{
 		$zip = new \ZipArchive();
 		$path = storage_path('fnol_xml').'/'.$this->doc->claimNumber.'/';
-		// dd($path);
 		if ($zip->open($path.$this->doc->claimNumber.'.XML', \ZIPARCHIVE::CREATE | \ZIPARCHIVE::OVERWRITE) == true) 
 		{
 			$zip->addFile($path.'XACTDOC.XML', 'XACTDOC.XML');
@@ -242,6 +231,7 @@ trait GeneratesXmlClaim {
 			{
 		   		$zip->addFile($path.$key, $key);
 			}
+			// dd($zip);
 			$zip->close();
 		    echo 'ok'; 
 		} 
@@ -251,8 +241,37 @@ trait GeneratesXmlClaim {
 		}
 	}
 
+	protected function getClaimDocs() {
+		$path = storage_path('fnol_xml/docs/');
+		$docs = collect();
+		//if we have a claim folder we should have the claim doc there.
+		if (is_dir(storage_path('fnol_xml').'/'.$this->doc->claimNumber)) 
+		{
+			$path = storage_path('fnol_xml').'/'.$this->doc->claimNumber.'/';
+			$files = glob($path.'*.{pdf}', GLOB_BRACE);
+			foreach ($files as $file) { 
+				$docs->put(str_replace($path, '', $file), $file);
+			}
+			// dd($docs);
+			if ($docs->count() > 0) return $docs;
+		}
+		//check default location for files.
+		$files = glob($path.'*.{pdf}', GLOB_BRACE);
+		foreach ($files as $file) { 
+    		$reg ='/'. $this->doc->claimNumber .'/';
+	      	if (preg_match($reg, $file)) {
+	      		preg_match('/(?<=docs\/).+/', $file, $matches);
+	      		count($matches) > 0 
+	      			? $docs->put($matches[0], $file)
+	      			: $docs->put($this->data->file_name, $file);
+	   		}
+	   	}
+		return $docs;
+	}
+
 	protected function getExternalFile()
 	{
+		$docs = collect();
 		//create a new http client
     	$client = new \GuzzleHttp\Client();
     	//create request object uses pdf link embedded in raw xml data for its uri..
@@ -270,7 +289,11 @@ trait GeneratesXmlClaim {
 		});
 		//wait for promise to resolve.
 		$promise->wait();
-		return  $this->generatePdfFilename($this->data->file_name);
+		// return  $this->generatePdfFilename($this->data->file_name);
+		// dd($this->data->file_name);
+		$docs->put((string)$this->data->file_name, $this->generatePdfFilename($this->data->file_name));
+		// dd($docs);
+		return $docs;
 	}
 
 	protected function generatePdfFilename ($filename)
