@@ -71,7 +71,7 @@ class XactClaimXml {
 	public function save()
 	{
 		$path = $this->createSavePath();
-		\File::makeDirectory($this->createSavePath(), $mode = 0777, $recursive = true, $force = true);
+		// \File::makeDirectory($this->createSavePath(), $mode = 0777, $recursive = true, $force = true);
 		$this->document->save($path.'XACTDOC.XML');
 	}
 

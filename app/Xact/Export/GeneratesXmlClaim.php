@@ -189,10 +189,10 @@ trait GeneratesXmlClaim {
 
 	protected function addAttachments()
 	{
-		if (!is_dir(storage_path('fnol_xml').'/'.$this->doc->claimNumber))
-		{
-			mkdir(storage_path('fnol_xml').'/'.$this->doc->claimNumber);
-		} 
+		// if (!is_dir(storage_path('fnol_xml').'/'.$this->doc->claimNumber))
+		// {
+			
+		// } 
 		$this->doc->createXmlNode('attachments', 'rootNode');
 		$this->doc->createXmlNode('extFiles', 'rootNode');
 		$this->doc->carrier == 'CIGP' 
@@ -215,7 +215,7 @@ trait GeneratesXmlClaim {
 			$this->doc->addAttribute('fileName', $key, 'extFile');
 			$num++;
 	   	};
-
+	   	$this->doc->save();
 	   	$this->zipClaim($docs->toArray());
 	   	
 	}
@@ -224,6 +224,7 @@ trait GeneratesXmlClaim {
 	{
 		$zip = new \ZipArchive();
 		$path = storage_path('fnol_xml').'/'.$this->doc->claimNumber.'/';
+		// dd($path);
 		if ($zip->open($path.$this->doc->claimNumber.'.XML', \ZIPARCHIVE::CREATE | \ZIPARCHIVE::OVERWRITE) == true) 
 		{
 			$zip->addFile($path.'XACTDOC.XML', 'XACTDOC.XML');
@@ -231,7 +232,8 @@ trait GeneratesXmlClaim {
 			{
 		   		$zip->addFile($path.$key, $key);
 			}
-			// dd($zip);
+			// dd($zip)
+			// dd($zip->filename);
 			$zip->close();
 		    echo 'ok'; 
 		} 
@@ -247,6 +249,7 @@ trait GeneratesXmlClaim {
 		//if we have a claim folder we should have the claim doc there.
 		if (is_dir(storage_path('fnol_xml').'/'.$this->doc->claimNumber)) 
 		{
+			// var_dump('path exists.');
 			$path = storage_path('fnol_xml').'/'.$this->doc->claimNumber.'/';
 			$files = glob($path.'*.{pdf}', GLOB_BRACE);
 			foreach ($files as $file) { 
@@ -254,6 +257,8 @@ trait GeneratesXmlClaim {
 			}
 			// dd($docs);
 			if ($docs->count() > 0) return $docs;
+		} else {
+			mkdir(storage_path('fnol_xml').'/'.$this->doc->claimNumber);
 		}
 		//check default location for files.
 		$files = glob($path.'*.{pdf}', GLOB_BRACE);
