@@ -1,7 +1,7 @@
 require('./bootstrap');
 
 import Vue from 'vue';
-import Chart from 'chart.js';
+// import Chart from 'chart.js';
 import search from './components/Search.vue';
 import roleSwitcher from './components/RoleSwitcher.vue';
 import support from './components/Support.vue';

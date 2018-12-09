@@ -40,7 +40,6 @@ const Profile = new Vue({
 	},
 	mounted() {
 		this.user = window.userData;
-		// this.user.avatar.path = '';
 	},
 	data() {
 		return {
@@ -49,6 +48,7 @@ const Profile = new Vue({
 			showAvatarButton: false,
 			addingAvatar: false,
 			imgLoaded: false,
+			google: {}
 		}
 	},
 	computed: {

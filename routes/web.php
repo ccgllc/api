@@ -16,7 +16,6 @@ Route::get('/', function () {
     return redirect('register');
 });
 
-
 Route::get('oauth/login', function(){
 	return Socialite::driver('facebook')->redirect();
 });

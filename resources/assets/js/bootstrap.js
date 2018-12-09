@@ -31,6 +31,7 @@ window.bootstrap = function () {
 	var originalFunction = console.error;
 	console.error = function() {
 	  var args = Array.prototype.slice.call(arguments);
+	  console.log(args[0]);
 	  if(args[0]) {
 	  	window.axios.post('/api/admin/client-error', args[0].response).then(response => {
 	  		console.log(args[0].response.status);
