@@ -10,7 +10,7 @@
 		<p>For best results always use an <a href="https://browsehappy.com/">up-to-date browser</a>.</p><br>
 
 		<h2 style="font-size: 1.5em;">Troubleshooting</h2>
-		<p>If you're having trouble registering please <a href="mailto: support@claimconsultantgroup.com">contact us</a>. Be sure to include your operating system and browser version, with the subject "Help Registering".</p><br>
+		<p>If you're having trouble registering please <a href="mailto: support@ccgops.net?subject=Help Registering">contact us</a>. Be sure to include your operating system and browser version, with the subject "Help Registering".</p><br>
 		<p>Most issues can be fixed by signing out, and signing back in. <br>(<strong>Note: Closing a tab or window will not sign you out</strong>)</p><br>
 		<ul>
 			<li>Hover over your name (menu icon on mobile) in the dark blue bar at the top of the page.</li>
@@ -18,7 +18,7 @@
 			<li>This should redirect you to login screen. If you see the registration page click the link at the bottom that says login.</li>
 			<li>Authenticate using your email and password and try again.</li>
 		</ul><br>
-		<p>If none of the above solved your issue, you'll need to <a href="mailto: support@claimconsultantgroup.com">contact us</a> to better serve you.</p><br>
+		<p>If none of the above solved your issue, you'll need to <a href="mailto: support@ccgops.net?subject=Help Registering">contact us</a> to better serve you.</p><br>
 		<button class="button is-info has-text-centered" @click="toggleSupport">Got it</button>
 	  </div>
 	  <button class="modal-close is-large" aria-label="close" @click="toggleSupport"></button>
