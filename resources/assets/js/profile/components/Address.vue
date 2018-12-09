@@ -8,6 +8,20 @@
 			<form @submit.prevent="submit" @keydown="address.errors.clear($event.target.name)">
 				<div class="field" v-show="editing" style="margin-top: -5px;">
 					<div class="control has-icons-left">
+						<span class="icon is-small is-left">
+							<i @click="close" class="fa fa-times" style="cursor:pointer;"></i>
+						</span>
+						<input 
+							type="text" 
+							class="input" 
+							 id="address"
+							style="border: none; border-bottom: 1px solid #ccc; background: transparent; box-shadow: none;" 
+							@keyup.enter="toggleEditing"
+						>
+					</div>
+				</div>
+				<!-- <div class="field" v-show="editing" style="margin-top: -5px;">
+					<div class="control has-icons-left">
 						<span class="icon is-small is-left" >
 					      <i @click="close" class="fa fa-times" style="cursor:pointer;"></i>
 					    </span>
@@ -69,7 +83,7 @@
 						>
 					</div>
 					<span class="help is-danger" v-if="address.errors.has('zip')" v-text="address.errors.get('zip')"></span>
-				</div>
+				</div> -->
 			</form>
 			<span v-if="!editing" @dblclick.prevent="toggleEditing" @mouseover="showEdit = true" @mouseleave="showEdit = false; copyText='copy'" style="cursor:pointer">
 				{{ address.street }} <br>
@@ -100,19 +114,31 @@
 	export default {
 		name: 'Address',
 		mounted() {
-			this.input = document.getElementById('street-input')
+			// this.input = document.getElementById('street-input');
 			this.address.street = window.userData.profile.street;
 			this.address.city = window.userData.profile.city;
 			this.address.state = window.userData.profile.state;
 			this.address.zip = window.userData.profile.zip;
-			this.address.api_token = window.userData.api_token;
+			// this.address.api_token = window.userData.api_token;
 			this.userId = window.userData.id;
+			this.address.place_id = window.userData.place_id;
+			this.address.lat = window.userData.lat;
+			this.address.lng = window.userData.lng;
+			this.address.formatted_address = window.formatted_address;
+			console.log(window.google);
+			this.geocoder = new window.google.maps.Geocoder();
+			this.autocomplete = new window.google.maps.places.Autocomplete(
+	            (document.getElementById('address')),
+	            	{types: ['geocode']}
+	        );
+	        this.autocomplete.addListener('place_changed', this.setAddressFields);
 		},
 		data() {
 			return {
 				editing: false,
 				showEdit: false,
 				copyText: 'copy',
+				geocoder: {},
 				input: {},
 				currentValue: '',
 				userId: '',
@@ -121,7 +147,20 @@
 					city: '',
 					state: '',
 					zip: '',
-				})
+					place_id: '',
+					lat: '',
+					lng: '',
+					formatted_address: ''
+				}),
+				autocomplete: {},
+				componentForm: {
+			        street_number: 'short_name',
+			        route: 'long_name',
+			        locality: 'long_name',
+			        administrative_area_level_1: 'short_name',
+			        country: 'long_name',
+			        postal_code: 'short_name'
+		      	}
 			}
 		},
 		computed: {
@@ -145,6 +184,10 @@
 							this.address.city = response['city'];
 							this.address.state = response['state'];
 							this.address.zip = response['zip'];
+							this.address.place_id = response['place_id'];
+							this.address.lat = response['lat'];
+							this.address.lng = response['lng'];
+							this.address.formatted_address = response['formatted_address'];
 							// this.address.api_token = window.userData.api_token;
 						}).catch(error => {
 							console.log(error)
@@ -164,6 +207,38 @@
 				this.editing = !this.editing;
 				return this.editing === false ? this.submit() : null;
 				// this.input.focus();
+			},
+			setAddressFields() {
+				let place = this.autocomplete.getPlace();
+				console.log(place);
+				for (let i = 0; i < place.address_components.length; i++) {
+		          let addressType = place.address_components[i].types[0];
+
+		          if (this.componentForm[addressType]) {
+		          	switch (addressType){
+		          		case 'street_number' : 
+		          			this.address.street = place.address_components[i][this.componentForm[addressType]];
+		          			break;
+	          			case 'route' : 
+	          				this.address.street += ' ' + place.address_components[i][this.componentForm[addressType]];
+	          				break;
+          				case 'locality' :
+          					this.address.city = place.address_components[i][this.componentForm[addressType]];
+          					break;
+      					case 'administrative_area_level_1' :
+      						this.address.state = place.address_components[i][this.componentForm[addressType]];
+      						break;
+  						case 'postal_code' :
+  							this.address.zip = place.address_components[i][this.componentForm[addressType]];
+		          	}
+		          }
+		        }
+		        this.address.lat = place.geometry.location.lat();
+		        this.address.lng = place.geometry.location.lng();
+		        this.address.formatted_address = place.formatted_address;
+		        this.address.place_id = place.place_id;
+		        this.submit();
+		        // this.toggleEditing();
 			},
 			copyToClipboard() {
 				this.createEmptyTextArea();
