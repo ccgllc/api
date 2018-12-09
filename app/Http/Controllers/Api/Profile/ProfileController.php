@@ -67,7 +67,11 @@ class ProfileController extends Controller {
         	'street' => 'required|max:255',
         	'city'  => 'required|max:255',
         	'state' => 'required',
-        	'zip'  => 'required|max:5'
+        	'zip'  => 'required|max:5',
+        	'formatted_address' => '',
+        	'place_id' => '',
+        	'lat' => '',
+        	'lng' => '',
    		]);	
 
    		$this->getUser($id)->profile()->update($valid);
