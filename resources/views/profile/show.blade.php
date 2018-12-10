@@ -35,7 +35,7 @@
 
 @section('scripts')
 	<script 
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJ2-Na1yIv_0zOlDuTbrizwya-5HcL1C0&libraries=places">
+      src="{{ env('GOOGLE_MAPS_API_KEY') }}">
     </script>
 	<script>window.userData = {!! $user->toJson() !!};</script>
 	<script src="{{ mix('js/profile.js') }}"></script>
