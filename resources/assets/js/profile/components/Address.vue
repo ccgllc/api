@@ -5,7 +5,7 @@
 		</div>
 
 		<div class="column is-10">
-			<form @submit.prevent="submit" @keydown="address.errors.clear($event.target.name)">
+			<form @submit.prevent="submit" @keydown="location.errors.clear($event.target.name)">
 				<div class="field" v-show="editing" style="margin-top: -5px;">
 					<div class="control has-icons-left">
 						<span class="icon is-small is-left">
@@ -14,9 +14,10 @@
 						<input 
 							type="text" 
 							class="input" 
-							 id="address"
+							 id="location"
 							style="border: none; border-bottom: 1px solid #ccc; background: transparent; box-shadow: none;" 
 							@keyup.enter="toggleEditing"
+							autocomplete="off" 
 						>
 					</div>
 				</div>
@@ -86,8 +87,8 @@
 				</div> -->
 			</form>
 			<span v-if="!editing" @dblclick.prevent="toggleEditing" @mouseover="showEdit = true" @mouseleave="showEdit = false; copyText='copy'" style="cursor:pointer">
-				{{ address.street }} <br>
-				{{ address.city }} {{ address.state }}, {{ address.zip }}
+				{{ location.street }} <br>
+				{{ location.city }} {{ location.state }}, {{ location.zip }}
 				&nbsp;
 				<span v-show="showEdit">
 				<a 
@@ -115,20 +116,20 @@
 		name: 'Address',
 		mounted() {
 			// this.input = document.getElementById('street-input');
-			this.address.street = window.userData.profile.street;
-			this.address.city = window.userData.profile.city;
-			this.address.state = window.userData.profile.state;
-			this.address.zip = window.userData.profile.zip;
-			// this.address.api_token = window.userData.api_token;
+			this.location.street = window.userData.profile.street;
+			this.location.city = window.userData.profile.city;
+			this.location.state = window.userData.profile.state;
+			this.location.zip = window.userData.profile.zip;
+			// this.location.api_token = window.userData.api_token;
 			this.userId = window.userData.id;
-			this.address.place_id = window.userData.place_id;
-			this.address.lat = window.userData.lat;
-			this.address.lng = window.userData.lng;
-			this.address.formatted_address = window.formatted_address;
-			console.log(window.google);
+			this.location.place_id = window.userData.place_id;
+			this.location.lat = window.userData.lat;
+			this.location.lng = window.userData.lng;
+			this.location.formatted_address = window.userData.formatted_address;
+			// console.log(window.google);
 			this.geocoder = new window.google.maps.Geocoder();
 			this.autocomplete = new window.google.maps.places.Autocomplete(
-	            (document.getElementById('address')),
+	            (document.getElementById('location')),
 	            	{types: ['geocode']}
 	        );
 	        this.autocomplete.addListener('place_changed', this.setAddressFields);
@@ -142,7 +143,7 @@
 				input: {},
 				currentValue: '',
 				userId: '',
-				address: new Form({
+				location: new Form({
 					street: '',
 					city: '',
 					state: '',
@@ -165,10 +166,10 @@
 		},
 		computed: {
 			submitable() {
-				return this.address.street === "" ||
-					this.address.city === '' ||
-					this.address.state === '' ||
-					this.address.zip === ''
+				return this.location.street === "" ||
+					this.location.city === '' ||
+					this.location.state === '' ||
+					this.location.zip === ''
 					? false 
 					: true;
 			}
@@ -177,27 +178,27 @@
 			// submit newly edited 
 			submit() {
 				if (this.submitable) {
-					this.address.put('/api/user/' + this.userId + '/address', false)
+					this.location.put('/api/user/' + this.userId + '/address', false)
 						.then(response => {
 							console.log(response);
-							this.address.street = response['street'];
-							this.address.city = response['city'];
-							this.address.state = response['state'];
-							this.address.zip = response['zip'];
-							this.address.place_id = response['place_id'];
-							this.address.lat = response['lat'];
-							this.address.lng = response['lng'];
-							this.address.formatted_address = response['formatted_address'];
-							// this.address.api_token = window.userData.api_token;
+							this.location.street = response['street'];
+							this.location.city = response['city'];
+							this.location.state = response['state'];
+							this.location.zip = response['zip'];
+							this.location.place_id = response['place_id'];
+							this.location.lat = response['lat'];
+							this.location.lng = response['lng'];
+							this.location.formatted_address = response['formatted_address'];
+							// this.location.api_token = window.userData.api_token;
 						}).catch(error => {
 							console.log(error)
 						});
 				}else{
 					this.edit = false;
-					this.address.street = window.userData.profile.street;
-					this.address.city = window.userData.profile.city;
-					this.address.state = window.userData.profile.state;
-					this.address.zip = window.userData.profile.zip;
+					this.location.street = window.userData.profile.street;
+					this.location.city = window.userData.profile.city;
+					this.location.state = window.userData.profile.state;
+					this.location.zip = window.userData.profile.zip;
 				}
 			},
 			close() {
@@ -217,26 +218,26 @@
 		          if (this.componentForm[addressType]) {
 		          	switch (addressType){
 		          		case 'street_number' : 
-		          			this.address.street = place.address_components[i][this.componentForm[addressType]];
+		          			this.location.street = place.address_components[i][this.componentForm[addressType]];
 		          			break;
 	          			case 'route' : 
-	          				this.address.street += ' ' + place.address_components[i][this.componentForm[addressType]];
+	          				this.location.street += ' ' + place.address_components[i][this.componentForm[addressType]];
 	          				break;
           				case 'locality' :
-          					this.address.city = place.address_components[i][this.componentForm[addressType]];
+          					this.location.city = place.address_components[i][this.componentForm[addressType]];
           					break;
       					case 'administrative_area_level_1' :
-      						this.address.state = place.address_components[i][this.componentForm[addressType]];
+      						this.location.state = place.address_components[i][this.componentForm[addressType]];
       						break;
   						case 'postal_code' :
-  							this.address.zip = place.address_components[i][this.componentForm[addressType]];
+  							this.location.zip = place.address_components[i][this.componentForm[addressType]];
 		          	}
 		          }
 		        }
-		        this.address.lat = place.geometry.location.lat();
-		        this.address.lng = place.geometry.location.lng();
-		        this.address.formatted_address = place.formatted_address;
-		        this.address.place_id = place.place_id;
+		        this.location.lat = place.geometry.location.lat();
+		        this.location.lng = place.geometry.location.lng();
+		        this.location.formatted_address = place.formatted_address;
+		        this.location.place_id = place.place_id;
 		        this.submit();
 		        // this.toggleEditing();
 			},
@@ -257,7 +258,7 @@
 			  	textArea.style.outline = 'none';
 			  	textArea.style.boxShadow = 'none';
 			  	textArea.style.background = 'transparent';
-			  	textArea.value = this.address.street + " " + this.address.city + " " + this.address.state + ", " + this.address.zip;
+			  	textArea.value = this.location.street + " " + this.location.city + " " + this.location.state + ", " + this.location.zip;
 			  	document.body.appendChild(textArea);
 			  	textArea.select();
 			}
