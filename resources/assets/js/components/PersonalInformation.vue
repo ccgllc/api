@@ -5,9 +5,9 @@
 		<hr>
 
 		<div class="field" v-if="autocomplete">
-			<label class="label">Address:</label>
+			<label class="label">Location:</label>
 			<div class="control control has-icons-left">
-		    	<input class="input" id="street" type="text"> <!-- v-model="appData.personalInfo.street" -->
+		    	<input class="input" id="location" type="text" autocomplete="off"> <!-- v-model="appData.personalInfo.street" -->
 		    	<span class="icon is-small is-left">
 			      <i class="fa fa-home"></i>
 			    </span>
@@ -232,7 +232,7 @@
 				this.currentYear = today.getFullYear();
 				this.geocoder = new google.maps.Geocoder();
 				this.autocomplete = new google.maps.places.Autocomplete(
-		            (document.getElementById('street')),
+		            (document.getElementById('location')),
 		            	{types: ['geocode']}
 		        );
 		        // When the user selects an address from the dropdown, populate the address
