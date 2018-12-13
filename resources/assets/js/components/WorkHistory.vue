@@ -274,9 +274,10 @@
 			submit () {
 				this.appData.workHistory.post('/api/user/work-history', false)
 					.then((response) => {
-						console.log(response.data)
 						this.$router.push({ path: '/certifications' });
-				});
+					}).catch(error => {
+						return window.axios.post('/api/admin/client-error', error);
+					});
 			},
 			updateTotal(data) {
 				this.btnState ? this.btnState = false : null;

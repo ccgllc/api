@@ -57,25 +57,28 @@
 				form: new Form({
 					email: "",
 					password: "",
-                    remember: false
+          remember: false
 				})
 			}
 		},
 		methods: {
 			async submit () {
-               let response = await this.login();
-               console.log(response);
-               this.setToken(response.token);
-               await bootstrap();
-			   return window.location.href = response.destination;
+        let response = await this.login();
+        // console.log(response);
 			},
-            login() {
-                return this.form.post('/login');
-            },
-            setToken(token){
-                let storage = window.localStorage;
-                storage.setItem('token', token);
-            }
+      login() {
+        return this.form.post('/login').then(response => {
+          this.setToken(response.token);
+          bootstrap();
+          return window.location.href = response.destination;
+        }).catch(error => {
+           return window.axios.post('/api/admin/client-error', error);
+        });
+      },
+      setToken(token){
+        let storage = window.localStorage;
+        storage.setItem('token', token);
+      }
 		}
 	}
 </script>

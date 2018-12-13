@@ -7,11 +7,11 @@
 		<div class="field" v-if="autocomplete">
 			<label class="label">Location:</label>
 			<div class="control control has-icons-left">
-		    	<input class="input" id="location" type="text" autocomplete="off"> <!-- v-model="appData.personalInfo.street" -->
+		    	<input class="input" id="location" type="text" autocomplete="off">
 		    	<span class="icon is-small is-left">
 			      <i class="fa fa-home"></i>
 			    </span>
-			    <span class="help is-danger" v-if="appData.personalInfo.errors.has('street')" v-text="appData.personalInfo.errors.get('street')"></span>
+			    <span class="help is-danger" v-if="requiredFieldsBlank">Valid address is required</span>
 	  		</div>
 		</div>
 
@@ -209,18 +209,17 @@
 					return true;
 				}
 				return false;
-			}
+			},
 		},
 		methods: {
 			submit () {
 				if (!this.requiredFieldsBlank) {
 					this.appData.personalInfo.post('/api/user/personal-information', false)
 						.then(response => {
-							console.log(response.data)
 							this.$router.push({ path: '/work-history' })
 						}).catch(error => {
 							this.btnState = false;
-							console.error(error);
+							return window.axios.post('/api/admin/client-error', error);
 						});
 				}
 			},

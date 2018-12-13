@@ -106,6 +106,7 @@
 						this.$router.push({ path: '/complete' });
 					}).catch(error => {
 						this.btnState = false;
+						return window.axios.post('/api/admin/client-error', error);
 					});
 			},
 			processFile(files) {
