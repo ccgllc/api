@@ -86,7 +86,7 @@
 								.then(response => {
 									return window.location = '/profile';
 								}).catch(error => {
-									console.error(error);
+									return window.axios.post('/api/admin/client-error', error);
 								});
 			},
 			getData() {
