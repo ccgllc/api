@@ -83,6 +83,7 @@ export default class Form {
                 .catch(error => {
                     console.error(error);
                     this.onFail(error.response.data.errors);
+                    // return window.axios.post('/api/admin/client-error', error);
                     reject(error.response.data.errors); 
                 });
         });

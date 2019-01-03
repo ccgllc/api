@@ -169,7 +169,8 @@
 						}
 						return this.cancel();
 					}).catch(error => {
-					// console.error(error);
+						console.error(error);
+						return window.axios.post('/api/admin/client-error', error);
 					});
 			},
 			setup(data) {

@@ -7,7 +7,7 @@
 					<div class="card-content">
 						<div class="content">
 							<span class="icon has-text-info"><i class="fa fa-certificate"></i></span>
-							{{ cert.type }}
+							{{ cert.type }} <small style="font-weight: 700; font-size: .75em;" v-if="cert.expiration">&nbsp;(exp&nbsp;{{ cert.expiration }})</small>
 							<span 
 								class="is-pulled-right is-tooltip-danger tooltip is-tooltip-left" 
 								:data-tooltip="'Delete ' + cert.type"
@@ -95,10 +95,13 @@
 								<div class="select is-fullwidth">
 								  <select v-model="form.type">
 								    <option value="">Select</option>
-								   <option v-for="cert in certificationTypes" :value="cert.name">{{ cert.label }}</option>
+								   <option v-for="cert in certificationTypes" :value="cert">{{ cert.label }}</option>
 								  </select>
 								</div>
-								  <span class="help is-danger" v-if="form.errors.has('type')" v-text="form.errors.get('type')"></span>
+									<expiration v-show="form.type && form.type.expiration !== false" :certification="form.type" @date-changed="updateExpiration">
+								  		<small>Provide date of {{ form.type.name }} expiration </small>
+								  	</expiration>
+								    <span class="help is-danger" v-if="form.errors.has('type.name')" v-text="form.errors.get('type.name')"></span>
 							</div>
 						</div>
 
@@ -118,8 +121,12 @@
 
 <script>
 	import Form from '../structur/src/form/Form';
+	import expiration from '../components/Expiration.vue';
 	export default {
 		name: 'Certifications',
+		components: {
+			expiration,
+		},
 		mounted(){
 			this.certifications = window.userData.certifications;
 			this.softwareExperiences = window.userData.software_experiences;
@@ -129,23 +136,23 @@
 			return {
 				type: '',
 				form: new Form({
-					type: '',
+					type: {},
 				}),
 				userId: '',
 				creatingNew: false,
 				certifications: [],
 				softwareExperiences: [],
 				certificationTypes: [
-					{ name: 'AIC', label: 'AIC' },
-					{ name: 'CPCU', label: 'CPCU' },
-					{ name: 'TWIA/TFPA', label: 'TWIA / TFPA' },
-					{ name: 'NFIP', label: 'NFIP' },
-					{ name: 'HAAG', label: 'HAAG' },
-					{ name: 'IIRC', label: 'IIRC' },
-					{ name: 'rope/harness', label: 'Rope & Harness' },
-					{ name: 'Earthquake', label: 'Earthquake' },
-					{ name: 'Umpire', label: 'Umpire' },
-					{ name: 'Appraiser', label: 'Appraiser' },
+					{ name: 'AIC', label: 'AIC', expiration: false },
+					{ name: 'CPCU', label: 'CPCU', expiration: false },
+					{ name: 'TWIA/TFPA', label: 'TWIA / TFPA', expiration: 1 },
+					{ name: 'NFIP', label: 'NFIP', expiration: 1 },
+					{ name: 'HAAG', label: 'HAAG', expiration: false },
+					{ name: 'IIRC', label: 'IIRC', expiration: false },
+					{ name: 'rope/harness', label: 'Rope & Harness', expiration: false },
+					{ name: 'Earthquake', label: 'Earthquake', expiration: 1 },
+					{ name: 'Umpire', label: 'Umpire', expiration: false },
+					{ name: 'Appraiser', label: 'Appraiser', expiration: false },
 				],
 				experienceTypes: [
 					{ name: 'xactimate', label: 'Xactimate' },
@@ -168,6 +175,7 @@
 								return this.creatingNew = false;
 							}).catch(error => {
 								console.error(error);
+								return window.axios.post('/api/admin/client-error', error);
 							})
 			},
 			remove(obj, uri) {
@@ -185,6 +193,14 @@
 							}).catch(error => {
 								console.error(error);
 							})
+			},
+			updateExpiration(cert) {
+				console.log(cert);
+				// let certifications = this.form.type.filter(c => c.name == cert.name);
+				// let idx = this.certifications.indexOf(certifications[0]);
+				// if (this.certificationIsSelected(cert))
+				return this.form.type.expiration = cert.month + '/' + cert.year;
+				// let match = this.certs.certifications.filter(certification => certification == cert.name);
 			},
 			clearForm() {
 				return this.form.type = '';

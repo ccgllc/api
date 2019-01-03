@@ -84,6 +84,7 @@
 							this.form.xactnet_address = response;
 						}).catch(error => {
 							console.log(error)
+							return window.axios.post('/api/admin/client-error', error);
 						});
 				}else{
 					this.edit = false;

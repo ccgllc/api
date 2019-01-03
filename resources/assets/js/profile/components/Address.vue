@@ -191,7 +191,8 @@
 							this.location.formatted_address = response['formatted_address'];
 							// this.location.api_token = window.userData.api_token;
 						}).catch(error => {
-							console.log(error)
+							console.log(error);
+							return window.axios.post('/api/admin/client-error', error);
 						});
 				}else{
 					this.edit = false;

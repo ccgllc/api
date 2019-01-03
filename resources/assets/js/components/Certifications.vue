@@ -5,8 +5,11 @@
 				<h2 class="subtitle has-text-primary"><strong>Certifications</strong></h2><hr>
 				<span class="help is-danger" v-if="appData.certifications.errors.has('certifications')" v-text="appData.certifications.errors.get('certifications')"></span>
 				<div class="field" v-for="cert in certificationTypes">
-				  <input type="checkbox" class="is-checkbox is-circle" :value="cert.name" :id="cert.name" :name="cert.name" v-model="appData.certifications.certifications">
+				  <input type="checkbox" class="is-checkbox is-circle" @change="toggleCertification(cert)" :value="cert" :id="cert.name" :name="cert.name">
 				  <label :for="cert.name" v-text="cert.label"></label>
+				  <expiration v-if="certificationIsSelected(cert) && cert.expiration !== false" :certification="cert" @date-changed="updateExpiration">
+				  	<small>Provide date of {{ cert.name }} expiration </small>
+				  </expiration>
 				</div>
 			</div>
 
@@ -62,29 +65,35 @@
 </template>
 <script>
 	import appData from '../data/appData.js';
-
+	import expiration from './Expiration.vue';
 	export default {
 		name: 'Certifications',
 		mounted() {
 			this.setupView();
 		},
+		components: {
+			expiration
+		},
 		data() {
 			return {
 				appData,
 				btnState: false,
+				certs: '',
 				filename: '',
+				toRemove: {},
+				currentYear: '',
 				certificationTypes: [
 					// { name: 'none', label: 'None' },
-					{ name: 'AIC', label: 'AIC' },
-					{ name: 'CPCU', label: 'CPCU' },
-					{ name: 'TWIA/TFPA', label: 'TWIA / TFPA' },
-					{ name: 'NFIP', label: 'NFIP' },
-					{ name: 'HAAG', label: 'HAAG' },
-					{ name: 'IIRC', label: 'IIRC' },
-					{ name: 'rope/harness', label: 'Rope & Harness' },
-					{ name: 'Earthquake', label: 'Earthquake' },
-					{ name: 'Umpire', label: 'Umpire' },
-					{ name: 'Appraiser', label: 'Appraiser' },
+					{ name: 'AIC', label: 'AIC', expiration: false },
+					{ name: 'CPCU', label: 'CPCU', expiration: false },
+					{ name: 'TWIA/TFPA', label: 'TWIA / TFPA', expiration: 1 },
+					{ name: 'NFIP', label: 'NFIP', expiration: 1 },
+					{ name: 'HAAG', label: 'HAAG', expiration: false },
+					{ name: 'IIRC', label: 'IIRC', expiration: false },
+					{ name: 'rope/harness', label: 'Rope & Harness', expiration: false },
+					{ name: 'Earthquake', label: 'Earthquake', expiration: 1 },
+					{ name: 'Umpire', label: 'Umpire', expiration: false },
+					{ name: 'Appraiser', label: 'Appraiser', expiration: false },
 				],
 				softwares: [
 					{ name: 'xactimate', label: 'Xactimate' },
@@ -115,10 +124,36 @@
 					this.appData.certifications.resume = files[0];
 				}
 			},
+			toggleCertification(cert) {
+				if (this.certificationIsSelected(cert)) {
+					let idx = this.appData.certifications.certifications.indexOf(cert);
+					if (cert.expiration !== false) this.removeExpiration(idx);
+					return this.appData.certifications.certifications.splice(idx, 1);
+				}
+				return this.appData.certifications.certifications.push(cert);
+			},
+			certificationIsSelected(cert) {
+				let selected = this.appData.certifications.certifications.filter(
+					(certification) => certification == cert
+				);
+				return selected.length > 0 ? true : false;
+			},
+			updateExpiration(cert) {
+				console.log(cert);
+				let certifications = this.appData.certifications.certifications.filter(c => c.name == cert.name);
+				let idx = this.appData.certifications.certifications.indexOf(certifications[0]);
+				// if (this.certificationIsSelected(cert))
+				this.appData.certifications.certifications[idx].expiration = cert.month + '/' + cert.year;
+				// let match = this.certs.certifications.filter(certification => certification == cert.name);
+			},
+			removeExpiration(idx){
+				return this.appData.certifications.expirations.splice(idx, 1);
+			},
 			setupView() {
 				this.appData.text.title = "Industry Certifications";
 				this.appData.text.subtitle = "Step Three - Tell us what you're certified to do";
 				this.appData.progress = 3;
+				this.appData.certifications = this.appData.certifications;
 			}
 		}
 	}
