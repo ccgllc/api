@@ -7,6 +7,7 @@ use CCG\Document;
 use CCG\SoftwareExperience;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class ValidateCertification extends FormRequest
 {
@@ -59,7 +60,13 @@ class ValidateCertification extends FormRequest
         {
            foreach($this->certifications as $cert)
             {
-                Certification::create(['type' => $cert, 'user_id' => $this->user_id]);
+                $certData = [];
+                $certification = json_decode($cert);
+                $certData['type'] = $certification->name;
+                $certData['user_id'] = $this->user_id;
+                if ($certification->expiration) 
+                    $certData['expiration'] = $this->setDate($certification->expiration);
+                Certification::create($certData); 
             } 
         }
     }
@@ -90,5 +97,15 @@ class ValidateCertification extends FormRequest
         $doc->path = $path;
         $doc->user_id = $this->user()->id;
         return $doc->save();
+    }
+
+    public function setDate($date)
+    {
+        $dt = Carbon::now();
+        preg_match('/\d{2}/', $date, $month);
+        preg_match('/\d{4}/', $date, $year);
+        return $dt->year($year[0])->month($month[0])
+                    ->endOfMonth()
+                    ->toDateString();
     }
 }

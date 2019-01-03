@@ -165,7 +165,8 @@
 						return this.creatingNewLicense = false;
 					})
 					.catch(error => {
-						console.log(error);
+						console.error(error);
+						return window.axios.post('/api/admin/client-error', error);
 					})
 			},
 			remove(license) {

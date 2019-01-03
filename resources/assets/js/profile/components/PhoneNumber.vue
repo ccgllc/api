@@ -85,7 +85,8 @@
 							this.form.phone = response;
 							// this.phoneNumber.api_token = window.userData.api_token;
 						}).catch(error => {
-							console.log(error)
+							console.error(error);
+							return window.axios.post('/api/admin/client-error', error);
 						});
 				}else{
 					this.edit = false;

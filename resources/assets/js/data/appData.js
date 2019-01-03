@@ -56,6 +56,7 @@ export default {
 	}),
 	certifications: new FormWithFiles({
 		certifications: [],
+		expirations: [],
 		software: [],
 		resume: {}
 	}),

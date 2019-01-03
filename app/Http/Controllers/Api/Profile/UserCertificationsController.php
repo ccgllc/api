@@ -16,6 +16,7 @@ class UserCertificationsController extends Controller {
 
 	public function store(Validate $request, $id)
 	{
+		// dd($request->validated());
 		$request->merge(['user_id' => $id]);
 		$user = User::findOrFail($id);
 		return $request->createCertification($user);

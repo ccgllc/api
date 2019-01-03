@@ -4,6 +4,7 @@ namespace CCG\Http\Requests;
 
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
+use Carbon\Carbon;
 
 class ValidateUserCertification extends FormRequest
 {
@@ -24,28 +25,40 @@ class ValidateUserCertification extends FormRequest
      */
     public function rules()
     {
+
         return [
-            'type' => ['required',
-                            Rule::unique('certifications')->where(function ($query) {
-                                $query->where([
-                                    ['type', '=', $this->type],
-                                    ['user_id', '=', $this->user()->id]
-                               ]);
-                        })
-                      ]
+            // 'type' => 'required',
+            'type.name' => Rule::unique('certifications', 'type')->where(function ($query) {
+                return $query->where('user_id', $this->user()->id);
+            }),
+            'type.expiration' => 'required_unless:type.expiration,false'
         ];
     }
 
     public function messages()
-{
-    return [
-        // 'type.required' => 'A title is required',
-        'type.unique'  => 'You already have this certification',
-    ];
-}
+    {
+        return [
+            // 'type.required' => 'A title is required',
+            'type.name.unique'  => 'You already have this certification',
+        ];
+    }
 
     public function createCertification($user)
     {
-        return \CCG\Certification::create($this->all());
+        return \CCG\Certification::create([
+           'type' => $this->type['name'], 
+           'expiration' => $this->type['expiration'] ? $this->setDate() : null, 
+           'user_id' => $this['user_id']
+        ]);
+    }
+
+    public function setDate()
+    {
+        $dt = Carbon::now();
+        preg_match('/\d{2}/', $this->type['expiration'], $month);
+        preg_match('/\d{4}/', $this->type['expiration'], $year);
+        return $dt->year($year[0])->month($month[0])
+                                    ->endOfMonth()
+                                    ->toDateString();
     }
 }
