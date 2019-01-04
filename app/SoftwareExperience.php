@@ -17,4 +17,14 @@ class SoftwareExperience extends Model
     {
     	return $this->belongsTo(CCG\User::class);
     }
+
+     public function setTypeAttribute($value)
+    {
+    	$this->attributes['type'] = ucwords(str_replace('"', '', $value));
+    }
+
+    public function getTypeAttribute($value)
+    {
+    	return ucwords(str_replace('"', '', $value));
+    }
 }

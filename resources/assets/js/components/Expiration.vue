@@ -1,9 +1,9 @@
 <template>
-	<div>
+	<div style="width: 100%; padding-bottom: 10%;">
 	<div style="width: 100%; margin-top: 5%; margin-bottom: 5%;">
 		<slot></slot>
 	</div>
-	<div class="columns" style="height: 70px;">
+	<div class="columns is-mobile">
 		<div class="column is-4">
 			<div class="field">
 				<!-- <label class="label"><small>Exp. Mo:</small></label> -->
@@ -29,7 +29,7 @@
 				</div>  
 			</div>
 		</div>
-		<br><br><br><br>
+		<br><br>
 	</div>
 	</div>
 </template>
