@@ -7,7 +7,7 @@
 				<div class="field" v-for="cert in certificationTypes">
 				  <input type="checkbox" class="is-checkbox is-circle" @change="toggleCertification(cert)" :value="cert" :id="cert.name" :name="cert.name">
 				  <label :for="cert.name" v-text="cert.label"></label>
-				  <expiration v-if="certificationIsSelected(cert) && cert.expiration !== false" :certification="cert" @date-changed="updateExpiration">
+				  <expiration v-show="certificationIsSelected(cert) && cert.expiration !== false" :certification="cert" @date-changed="updateExpiration">
 				  	<small>Provide date of {{ cert.name }} expiration </small>
 				  </expiration>
 				</div>
