@@ -10,46 +10,101 @@
 			<div class="column is-10" id="user">
 				<h1 class="title hr-title">{{ 'Manage ' . $status }}</h1>
 				<h2 class="subtitle">Update and make changes to system users</h2>
-				<label for="claim-location" class="label">Claim Location</label>
-				<input type="text" id="claim-location" class="input" @focus="geolocate">
+				{{-- <label for="claim-location" class="label">Claim Location</label> --}}
+				{{-- <input type="text" id="claim-location" class="input" @focus="geolocate"> --}}
 
-				<div id="map" style="width: 100%; height: 200px;"></div><br>
+				{{-- <div id="map" style="width: 100%; height: 200px;"></div><br> --}}
 
-					<div class="dropdown is-hoverable" v-if="selected.length == 0">
-					  <div class="dropdown-trigger">
-					    <button class="button" aria-haspopup="true" aria-controls="states">
-					      <span>Users By Location</span>
-					      <span class="icon is-small">
-					        <i class="fa fa-angle-down" aria-hidden="true"></i>
-					      </span>
-					    </button>
-					  </div>
-					  <div class="dropdown-menu" id="states" role="menu">
-					    <div class="dropdown-content">
-					      <a class="dropdown-item" v-for="state in states" :href="'/users/location/' + state.abbr">
-					        @{{ state.name }}
-					      </a>
-					    </div>
-					  </div>
+			
+				<button class="button is-primary" @click='showFilters = !showFilters'>
+					<i class="fa fa-filter" aria-hidden="true"></i>
+				</button>
+
+				<button class="button is-gray" @click='showColumns = !showColumns'>
+					<i class="fa fa-columns" aria-hidden="true"></i>
+				</button><br><br>
+
+				<div v-if="showFilters" style="width: 100%; padding: 1em; background: #ddd;">
+					<div class="columns">
+						<div class="column">
+							{{-- <label class="label">State Of Residence</label> --}}
+							<div class="select">
+						  		<select>
+						  			<option value="0">State of residence</option>
+							      	<option class="dropdown-item" v-for="state in states">
+							        	@{{ state.name }}
+							        </option>
+						        </select>
+							</div>				
+						</div>
+
+					<div class="column">
+						{{-- <label class="label">License State</label> --}}
+						<div class="select">
+					  		<select>
+					  			<option value="0">License</option>
+						      	<option class="dropdown-item" v-for="state in states">
+						        @{{ state.name }}
+						      </option>
+					        </select>
+						</div>						
+					</div> {{-- end column --}}
+
+					<div class="column">
+						{{-- <div class="label">Certification</div> --}}
+						<div class="select">
+							<select v-model="filters.certification">
+								<option value="0">Select A Certification</option>
+								<option v-for="cert in certifications" :value="cert.name">@{{ cert.name }}</option>
+							</select>
+						</div>
 					</div>
-					<div class="dropdown is-hoverable" v-if="selected.length == 0">
-					  <div class="dropdown-trigger">
-					    <button class="button" aria-haspopup="true" aria-controls="certifications">
-					      <span>Users By Certification</span>
-					      <span class="icon is-small">
-					        <i class="fa fa-angle-down" aria-hidden="true"></i>
-					      </span>
-					    </button>
-					  </div>
-					  <div class="dropdown-menu" id="certifications" role="menu">
-					    <div class="dropdown-content">
-					      <a class="dropdown-item" v-for="certification in certifications" :href="'/users/certifications/' + certification.name">
-					        @{{ certification.label }}
-					      </a>
-					    </div>
-					  </div>
+
+					<div class="column">
+						{{-- <div class="label">Software:</div> --}}
+						<div class="select">
+							<select v-model="filters.software">
+								<option value="0">Select software</option>
+								<option v-for="s in software" value="s.name">@{{ s.name }}</option>
+							</select>
+						</div>
 					</div>
-					<br><br>
+				</div>
+
+				{{-- <div class="columns">
+					<div class="column">
+						<div class="field">
+						  <input id="includeXactnetAddress" type="checkbox" name="includeXactnetAddress" class="switch is-rounded">
+						  <label for="includeXactnetAddress">Include incomplete</label>
+						</div>
+					</div>
+				</div> --}}
+
+				</div>
+
+				<div class="modal" v-bind:class="{ 'is-active': showColumns }">
+					<div class="modal-background" style="background: rgba(0, 0, 0, .75)"></div>
+					<div class="modal-card">
+					    <header class="modal-card-head">
+					      <p class="modal-card-title">Display Columns</p>
+					      <button class="delete" aria-label="close" @click="showColumns = false"></button>
+					    </header>
+				    	<section class="modal-card-body" style="background: #fff;">
+				    		<div class="select">
+				    			<select @change="addColumn()" v-model="selectedColumn" :disabled="availableColumns.length < 1">
+				    				<option value="0">Add Column</option>
+				    				<option v-for="item in availableColumns" :value="item" v-text="item.label"></option>
+				    			</select>
+				    		</div><br><br>
+				    		<div class="tags">
+								<span class="tag is-primary" v-for="column in activeColumns">@{{ column.label }} <button class="delete" v-if="column.removable" @click="removeColumn(column)"></button></span>
+							</div>
+				    	</section>
+				    	 <footer class="modal-card-foot">
+					      	<button class="button is-success" @click="showColumns = false">Ok</button>
+					    </footer>
+					  </div>
+				    </div>
 										 
 					
 					<div class="field is-grouped" v-show="selected.length > 0">
@@ -71,15 +126,12 @@
 					    </a>
 					  </p>
 					  <p class="control">
-					  	<div class="button is-success" @click="exportToCsv(filename, userData.users)">
+					  	<div class="button is-success" @click="exportToCsv(filename, activeColumns)">
 					  		<span class="icon is-small"><i class="fa fa-download"></i></span>
 					  		&nbsp; Export To Csv
 					  	</div>
 					  </p>
 					</div>
-
-
-
 
 				<table class="table is-striped is-fullwidth" style="background: transparent">
 					<thead>
@@ -88,9 +140,7 @@
 								<input v-model="allSelected" type="checkbox" @change="selectAll" id="selectAll" name="selectAll" class="is-checkbox is-circle is-small">
 			 					<label for="selectAll">&nbsp;</label>
 			 				</th>
-							<th>Name</th>
-							<th>Email</th>
-							<th>Status</th>
+							<th v-for="column in activeColumns" v-text="column.label"></th>
 							<th>Actions</th>
 						</tr>
 					</thead>
@@ -100,13 +150,11 @@
 								<input type="checkbox" v-model="selected" :value="user.name" :id="user.id" :name="user.id" class="is-checkbox is-circle is-small has-user">
 			 					<label :for="user.id">&nbsp;</label>
 			 				</td>
-							<td><a :href="'/users/' + user.id" v-text='user.name'></a></td>
-							<td v-text='user.email'></td>
-							<td v-text="user.status"></td>
+							<td v-for="column in activeColumns" v-text="parseColumnData(user, column)"></td>
 							<td>
 								<div class="dropdown" @click="toggleMenu(user.email)">
 								  <div class="dropdown-trigger">
-					       		    <button class="button is-small" aria-haspopup="true" aria-controls="dropdown-menu" >
+					       		    <button class="button is-small" aria-haspopup="true" aria-controls="dropdown-menu">
 							    		<span class="icon is-small">
 									       	<i class="fa fa-th-list" aria-hidden="true"></i>
 							     	  	</span>
@@ -134,9 +182,9 @@
 										</div>
 									</div><!--end dropdown -->
 								</td>
-							</tr>
-						</tbody>
-					</table>
+						</tr>
+					</tbody>
+				</table>
 					
 					{{ method_exists($users, 'links') ? $users->links() : null }}
 

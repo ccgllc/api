@@ -340,14 +340,20 @@ h1.profile-title {
 	font-size: 1rem;
 }
 
+input .select-input {
+	margin: 5px;
+}
+
 .menu {
-	width: 100%; 
+	.is-global-search {
+		top: 64px;
+		left: 15px;
+	}
+	position: absolute;
+	z-index: 1000;
+	// width: 100%; 
 	border: 1px solid #ccc; 
 	background: $white;
-	position: absolute;
-	top: 64px;
-	left: 15px;
-	z-index: 1000;
 	li.selected {
 		color: $light-gray;
 		background: $primary-bright;

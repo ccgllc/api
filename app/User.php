@@ -32,7 +32,7 @@ class User extends Authenticatable
         'password', 'remember_token', 'api_token', 'verification_token'
     ];
 
-     protected $appends = ['distance'];
+     protected $appends = ['distance', 'date_string'];
 
 
     public function getCreatedAtAttribute($value)
@@ -152,6 +152,11 @@ class User extends Authenticatable
           'xp' => 0,
           'value' => 0
         ];
+    }
+
+    public function getDateStringAttribute()
+    {
+        return $this->attributes['date_string'] =  \Carbon\Carbon::parse($this->attributes['created_at'])->toFormattedDateString();
     }
 
     /**
