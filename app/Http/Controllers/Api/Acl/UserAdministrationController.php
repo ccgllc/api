@@ -2,12 +2,23 @@
 
 namespace CCG\Http\Controllers\Api\Acl;
 
+// use CCG\AdjusterLicense;
 use CCG\Http\Controllers\Controller;
+use CCG\ModelFilters\UserFilters;
 use CCG\User;
 use Illuminate\Http\Request;
 
 class UserAdministrationController extends Controller
 {
+    public function filter(UserFilters $filters)
+    {
+        $users = User::filter($filters)
+                    ->with('adjusterLicenses', 'certifications', 'workHistory', 'softwareExperiences', 'profile')
+                    ->get();
+
+        return $users;
+    }
+
     public function getAll()
     {
     	return User::exclude('api_token')->get();
@@ -15,7 +26,6 @@ class UserAdministrationController extends Controller
 
     public function destroyUsers(\Illuminate\Http\Request $request)
     {
-        // return $request->users;
         return User::destroy($request->users);
     }
 

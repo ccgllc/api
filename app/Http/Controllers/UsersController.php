@@ -23,7 +23,7 @@ class UsersController extends Controller
     public function index(Request $request)
     {
         if ($request->has('status')) {
-            $users =  User::status($request->status)->recent()->paginate(15);
+            $users =  User::status($request->status)->recent()->paginate(36);
             $status = ucwords($request->status).'s';
         }
         else {

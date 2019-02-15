@@ -4,83 +4,125 @@
 
 @section('content')
 		<div class="columns is-gapless">
-			<div class="column is-1">
-				
-			</div>
-			<div class="column is-10" id="user">
-				<h1 class="title hr-title">{{ 'Manage ' . $status }}</h1>
+			<div class="column" id="user">
+				<h1 class="title hr-title">Users (@{{ userData.users.length }})</h1>
 				<h2 class="subtitle">Update and make changes to system users</h2>
-				{{-- <label for="claim-location" class="label">Claim Location</label> --}}
-				{{-- <input type="text" id="claim-location" class="input" @focus="geolocate"> --}}
 
-				{{-- <div id="map" style="width: 100%; height: 200px;"></div><br> --}}
-
-			
-				<button class="button is-primary" @click='showFilters = !showFilters'>
-					<i class="fa fa-filter" aria-hidden="true"></i>
+				<button class="button" :class="{ 'is-light': showFilters, 'is-dark': !showFilters }" @click='showFilters = !showFilters'>
+					<i v-if="showFilters != true" class="fa fa-filter" aria-hidden="true"></i>
+					<i v-if="showFilters != false" class="delete" aria-hidden="true"></i>
 				</button>
 
-				<button class="button is-gray" @click='showColumns = !showColumns'>
+				<button class="button is-dark" @click='showColumns = !showColumns'>
 					<i class="fa fa-columns" aria-hidden="true"></i>
-				</button><br><br>
+				</button>
 
-				<div v-if="showFilters" style="width: 100%; padding: 1em; background: #ddd;">
+				<div class="dropdown is-hoverable">
+				  <div class="dropdown-trigger">
+	       		    <button class="button is-primary" aria-haspopup="true" aria-controls="dropdown-menu">
+	       		    	<span>Saved Filters</span>
+					    <span class="icon is-small">
+					      	<i class="fa fa-caret-down" aria-hidden="true"></i>
+				     	</span>
+				    </button>
+				  </div>
+				  <div class="dropdown-menu" role="menu">
+				  	<div class="dropdown-content">
+					    <a href="" class="dropdown-item">Coming Soon!</a>
+					</div>
+				  </div>
+				</div><!--end dropdown -->
+
+				<br>
+
+				<div v-if="showFilters" style="width: 100%; padding: 1em;">
 					<div class="columns">
-						<div class="column">
-							{{-- <label class="label">State Of Residence</label> --}}
-							<div class="select">
-						  		<select>
-						  			<option value="0">State of residence</option>
-							      	<option class="dropdown-item" v-for="state in states">
-							        	@{{ state.name }}
-							        </option>
+
+						<div class="column is-2">
+							<filterable-dropdown v-bind:list="states" v-on:selected="updateFilters" model="licenseState" property="abbr" placeholder-text="state">
+								<template v-slot:label>License State</template>
+							</filterable-dropdown>
+
+							<filterable-dropdown v-bind:list="states" v-on:selected="updateFilters" model="state" property="abbr" placeholder-text="state">
+								<template v-slot:label>State Of Residence</template>
+							</filterable-dropdown>
+
+							<label class="label">Date Ranges</label>
+							<div class="select is-full-width">
+						  		<select v-model="selectedRange" @change="setRangeDates()">
+						  			<option value="0">Select A Date</option>
+							      	<option class="dropdown-item" :value="dateRange" v-for="dateRange in dateRanges">@{{ dateRange.name }}</option>
 						        </select>
-							</div>				
+							</div>		
 						</div>
 
-					<div class="column">
-						{{-- <label class="label">License State</label> --}}
-						<div class="select">
-					  		<select>
-					  			<option value="0">License</option>
-						      	<option class="dropdown-item" v-for="state in states">
-						        @{{ state.name }}
-						      </option>
-					        </select>
-						</div>						
-					</div> {{-- end column --}}
+						<div class="column is-2">
+							<filterable-dropdown v-bind:list="certifications" v-on:selected="updateFilters" model="certification" property="name" placeholder-text="certification">
+								<template v-slot:label>Certification</template>
+							</filterable-dropdown>
 
-					<div class="column">
-						{{-- <div class="label">Certification</div> --}}
-						<div class="select">
-							<select v-model="filters.certification">
-								<option value="0">Select A Certification</option>
-								<option v-for="cert in certifications" :value="cert.name">@{{ cert.name }}</option>
-							</select>
+							<filterable-dropdown v-bind:list="workHistory" v-on:selected="updateFilters" model="workHistory" property="name" placeholder-text="Select A Work History">
+								<template v-slot:label>Work History</template>
+							</filterable-dropdown>
+
+							<filterable-dropdown v-bind:list="software" v-on:selected="updateFilters" model="software" property="name" placeholder-text="software">
+								<template v-slot:label>Software</template>
+							</filterable-dropdown>
+						</div>
+
+					</div>	
+
+
+				<div class="columns">
+
+
+					<div class="column is-2">
+						<div class="field">
+						  <label class="label">Start Date</label>
+						  <div class="control has-icons-right">
+						    <input class="input" type="text" v-model="filters.startDate" :placeholder="'example ' + getDateString()">
+						    <span class="icon is-small is-medium is-right">
+							    <i class="fa fa-calendar"></i>
+						  	</span>
+						  </div>
+						  {{-- <p class="help">This is a help text</p> --}}
+						</div>
+					</div>
+					<div class="column is-2">
+						<div class="field">
+						  <label class="label">End Date</label>
+						  <div class="control has-icons-right">
+						    <input class="input" type="text" v-model="filters.endDate" :placeholder="'example ' + getDateString()">
+						    <span class="icon is-small is-medium is-right">
+							    <i class="fa fa-calendar"></i>
+						  	</span>
+						  </div>
+						  {{-- <p class="help">This is a help text</p> --}}
 						</div>
 					</div>
 
-					<div class="column">
-						{{-- <div class="label">Software:</div> --}}
-						<div class="select">
-							<select v-model="filters.software">
-								<option value="0">Select software</option>
-								<option v-for="s in software" value="s.name">@{{ s.name }}</option>
-							</select>
-						</div>
-					</div>
 				</div>
 
 				{{-- <div class="columns">
 					<div class="column">
 						<div class="field">
-						  <input id="includeXactnetAddress" type="checkbox" name="includeXactnetAddress" class="switch is-rounded">
-						  <label for="includeXactnetAddress">Include incomplete</label>
+						  <input id="applied" v-model="filters.applied" type="checkbox" name="applied" class="switch is-small is-rounded">
+						  <label for="applied">only show users with incomplete applications</label>
+						</div>
+						<div class="field">
+						  <input id="applied" v-model="filters.applied" type="checkbox" name="applied" :value="1" class="switch is-small is-rounded">
+						  <label for="applied">Only show users with completed applications.</label>
 						</div>
 					</div>
 				</div> --}}
 
+				<div class="columns">
+					<div class="column">
+						<button class="button is-dark" @click="getUsers()">Filter Users</button>
+					</div>
 				</div>
+
+			</div> <br>
 
 				<div class="modal" v-bind:class="{ 'is-active': showColumns }">
 					<div class="modal-background" style="background: rgba(0, 0, 0, .75)"></div>
@@ -109,7 +151,7 @@
 					
 					<div class="field is-grouped" v-show="selected.length > 0">
 					<p class="control">
-					    <a class="button" @click="selected = []; allSelected = false;">
+					    <a class="button" @click="uncheckAll()">
 					      Cancel
 					    </a>
 					  </p>
@@ -120,20 +162,20 @@
 					    </a>
 					  </p>
 					  <p class="control">
-					    <a class="button is-danger" @click="deleteSelected">
+					    <a class="button is-danger" @click="deleteSelected" disabled>
 					    	<span class="icon is-small"><i class="fa fa-trash"></i></span>
 					      	&nbsp; Delete Selected
 					    </a>
 					  </p>
 					  <p class="control">
-					  	<div class="button is-success" @click="exportToCsv(filename, activeColumns)">
+					  	<div class="button is-success" @click="exportToCsv(filename, selected)">
 					  		<span class="icon is-small"><i class="fa fa-download"></i></span>
 					  		&nbsp; Export To Csv
 					  	</div>
 					  </p>
 					</div>
 
-				<table class="table is-striped is-fullwidth" style="background: transparent">
+				<table class="table is-striped is-fullwidth" v-if="userData.users.length" style="background: transparent">
 					<thead>
 						<tr>
 							<th>
@@ -147,7 +189,7 @@
 					<tbody>
 						<tr v-for="user in userData.users" :key="user.id">
 							<td>
-								<input type="checkbox" v-model="selected" :value="user.name" :id="user.id" :name="user.id" class="is-checkbox is-circle is-small has-user">
+								<input type="checkbox" v-model="selected" :value="parseRow(user)" :id="user.id" :name="user.id" class="is-checkbox is-circle is-small has-user">
 			 					<label :for="user.id">&nbsp;</label>
 			 				</td>
 							<td v-for="column in activeColumns" v-text="parseColumnData(user, column)"></td>
@@ -185,8 +227,10 @@
 						</tr>
 					</tbody>
 				</table>
+
+				<p v-if="userData.users.length == 0">No results</p>
 					
-					{{ method_exists($users, 'links') ? $users->links() : null }}
+					{{-- {{ method_exists($users, 'links') ? $users->links() : null }} --}}
 
 			</div>
 		</div>

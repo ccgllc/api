@@ -4,62 +4,49 @@ import userData from './data/userData.js';
 import states from './data/states.js';
 import certifications from './data/certifications.js';
 import software from './data/software.js';
-
-Vue.component('search', search);
+import workHistory from './data/workHistory.js';
+import filterableDropdown from './structur/src/components/SearchableDropdown.vue';
+import availableColumns from './data/availableColumns.js';
+import { DateTime } from "luxon";
+// Vue.component('search', search);
 
 let app = new Vue({
 	name: 'User Administration',
 	el: '#user',
+	components: {
+		filterableDropdown,
+	},
 	data: {
+		date: {},
 		userData,
 		states,
 		certifications,
 		software,
+		workHistory,
+		availableColumns,
 		showColumns: false,
 		filteredStates: states,
 		selectedState: 0,
 		showFilters: true,
 		selected: [],
 		allSelected: false,
+		dateRanges: [],
+		selectedRange: 0,
 		filters: {
+			startDate: '',
+			endDate: '',
 			certification: 0,
 			state: 0,
-			license: 0,
+			licenseState: '',
 			software: 0,
+			experience: false,
+			workHistory: '',
+			applied: 0
 		},
 		selectedColumn: 0,
-		availableColumns: [
-			{ label: 'Relative Date', property: 'created_at', model: 'user',  removable: true },
-			{ label: 'Email', property: 'email', model: 'user', removable: true},
-			{ label: 'Xactnet Address', property: 'xactnet_address', model: 'profile', removable: true},
-			{ label: 'Address', property: 'formatted_address', model: 'profile', removable: true},
-			{ label: 'Street', property: 'street', model: 'profile', removable: true},
-			{ label: 'City', property: 'city', model: 'profile', removable: true},
-			{ label: 'State', property: 'state', model: 'profile', removable: true},
-			{ label: 'zip', property: 'zip', model: 'profile', removable: true},
-			{ label: 'Phone', property: 'phone', model: 'profile', removable: true},
-			{ label: 'Software', property:'type', model:'software_experiences', removable: true },
-			{ label: 'Res. Exp (mo)', property: 'residential_experience', model: 'work_history',  removable: true},
-			{ label: 'Res. Claims', property: 'residential_claims', model: 'work_history',  removable: true},
-			{ label: 'Com. Exp (mo)', property: 'commercial_experience', model: 'work_history',  removable: true},
-			{ label: 'Com. Claims', property: 'commercial_claims', model: 'work_history',  removable: true},
-			{ label: 'Auto Exp (mo)', property: 'auto_experience', model: 'work_history',  removable: true},
-			{ label: 'Auto Claims', property: 'auto_claims', model: 'work_history',  removable: true},
-			{ label: 'Inland Marine Exp', property: 'inland_marine_experience', model: 'work_history',  removable: true},
-			{ label: 'Inland Marine Claims', property: 'inland_marine_claims', model: 'work_history',  removable: true},
-			{ label: 'Casulty Exp', property: 'casualty_experience', model: 'work_history',  removable: true},
-			{ label: 'Casulty Claims', property: 'casualty_claims', model: 'work_history',  removable: true},
-			{ label: 'Large Loss Exp', property: 'large_loss_experience', model: 'work_history',  removable: true},
-			{ label: 'Large Loss Claims', property: 'large_loss_claims', model: 'work_history',  removable: true},
-			{ label: 'Environmental Exp', property: 'environmental_experience', model: 'work_history',  removable: true},
-			{ label: 'Environmental Claims', property: 'environmental_claims', model: 'work_history',  removable: true},
-			{ label: 'Flood Exp', property: 'flood_experience', model: 'work_history',  removable: true},
-			{ label: 'Flood Claims', property: 'flood_claims', model: 'work_history',  removable: true},	
-			{ label: 'Earthquake Exp', property: 'earthquake_experience', model: 'work_history',  removable: true},
-			{ label: 'Earthquake Claims', property: 'earthquake_claims', model: 'work_history',  removable: true},
-		],
 		activeColumns: [
 			{ label: 'Name', property: 'name', model: 'user', removable: false },
+			{ label: 'Email', property: 'email', model: 'user', removable: true},
 			{ label: 'Licenses', property: 'license_state', model: 'adjuster_licenses', removable: true },
 			{ label: 'Certifications', property: 'type', model: 'certifications',  removable: true },
 			{ label: 'Sign Up Date', property: 'date_string', model: 'user', removable: true},
@@ -69,6 +56,7 @@ let app = new Vue({
 			uri: {
 				prefix: 'api',
 				resource: 'users',
+				params: []
 			},
 			current_page: 0,
 		}),
@@ -85,6 +73,40 @@ let app = new Vue({
 				? this.userData.users = window.users.data
 				: 'Users in list'
 		},
+		month() {
+			return this.date.month;
+		},
+		day() {
+			return this.date.day;
+		},
+		year() {
+			return this.date.year;
+		},
+		today() {
+			return this.month + '/' +  this.day + '/' + this.year; 
+		},
+		getUrl() {
+			return this.getQueryString;
+		},
+		activeFilters() {
+			let active = {};
+			let self = this;
+			for (let prop in self.filters) {
+				if(self.filters[prop])
+			 		active[prop] = self.filters[prop];
+			}
+			return active;
+		},
+		getQueryString() {
+			let self = this;
+			let str = '?';
+			for (let prop in self.activeFilters) {
+				self.activeFilters[prop] !== true 
+					? str += prop + '=' + self.activeFilters[prop] + '&'
+					: str += prop + '&';
+			}
+			return str;
+		}
 	},
 	mounted() {
 		// const _home = this.home;
@@ -107,7 +129,9 @@ let app = new Vue({
   //       // When the user selects an address from the dropdown, populate the address
   //       // fields in the form.
   //   	this.autocomplete.addListener('place_changed', () => { this.setHome() });
-
+  		// this.filters.endDate = 
+  		this.date = DateTime.local();
+  		this.setupDates();
         this.current_page = window.users.current_page;
         return window.users.data 
         	? this.userData.users = window.users.data 
@@ -132,11 +156,17 @@ let app = new Vue({
 				? menu.style.display = 'block' 
 				: menu.style.display = 'none';
 		},
+		updateFilters(payload) {
+			this.filters[payload.model] = payload.selection;
+		},
 		getUsers(){
-			this.userService.get('all').then(response => { 
-				this.userData.users = response
+			let self = this;
+			this.userService.get(this.getUrl).then(response => { 
+				console.log(response);
+				// window.users = [];
+				self.userData.users = response
 			}).catch(error => {
-				console.log(error)
+				console.error(error)
 			});
 		},
 		getXp(history) {
@@ -151,8 +181,16 @@ let app = new Vue({
 			}
 			return xp;
 		},
+		parseRow(user) {
+			let row = [];
+			for (let column in this.activeColumns) {
+				let result = this.parseColumnData(user, this.activeColumns[column])
+				// result = result.replace(',', '\\,').toString();
+				row.push(result);
+			};
+			return row;
+		},
 		parseColumnData(user, column) {
-			if ( column.model == '' ) return;
  			if (column.model == 'user') {
 				return user[column.property];
 			}
@@ -164,7 +202,7 @@ let app = new Vue({
 			}
 			let str = '';
 			for (let property in user[column.model]) {
-				str+= user[column.model][property][column.property] + ', ';
+				str+= user[column.model][property][column.property] + ' ';
 			}
 			return str;
 		},
@@ -182,7 +220,7 @@ let app = new Vue({
 		select(user) {
 			console.log(user.name);
 		},
-		selectAll(evt) {
+		selectAll() {
 			let checkboxes = document.getElementsByClassName('has-user');
 			if (this.allSelected) {
 				for (let checkbox in checkboxes) {
@@ -200,6 +238,11 @@ let app = new Vue({
 					}
 				}
 			}
+		},
+		uncheckAll(){
+			// this.selected = []; 
+			this.allSelected = false;
+			return this.selectAll();
 		},
 		deleteUser(user) {
 			window.axios.delete('/api/users/' + user.id).then(response => {
@@ -225,36 +268,33 @@ let app = new Vue({
 			return string.charAt(0).toUpperCase() + string.slice(1);
 		},
 		exportToCsv: function(filename, rows) {
-
-       		var processRow = function (row) {
-       			// console.log(row);
-       			var finalVal = '';
-       			Object.keys(row).forEach(function(key){
-       				if (rows.indexOf(row) == 0) {
-       					// console.log(key);
-       				 	key === 'distance' 
-       				 		? finalVal += '"' + key + '"' + '\n' 
-       				 		: finalVal += '"' + key + '"' + ',';
-       				}
-       			});
-       			Object.keys(row).forEach(function(key){
-       				var innerValue = row[key] === null ? 'n/a' : row[key].toString();
-   	 				var result = innerValue.replace(/"/g, '""');
-                    // result = '"' + result + '"';
-                    key == 'id' ? finalVal : finalVal += ','; 
-                	finalVal += result;
-       			});
-				// console.log(finalVal);
-            	return finalVal + '\n';
-    		};
-
-        	var csvFile = '';
+        	let csvFile = this.createCsvHeader();
         	for (var i = 0; i < rows.length; i++) {
-            	csvFile += processRow(rows[i]);
+            	csvFile += this.processRow(rows[i]);
        		}
-
         	var blob = new Blob([csvFile], { type: 'text/csv;charset=utf-8;' });
-    		if (navigator.msSaveBlob) { // IE 10+
+    		return this.downloadCsv(blob, filename);
+    	},
+    	processRow(row) {
+   			let rowData = '';
+        	return rowData += row + '\n';
+		},
+		createCsvHeader() {
+			let csvFile = '';
+        	let count = 0;
+   			for (let column in this.activeColumns) {
+   				count ++;
+   				csvFile += this.activeColumns[column]['label'];
+   				if (count < this.activeColumns.length)
+   				{
+   					csvFile += ', ';
+   				}
+   			}
+   			csvFile += '\n';
+   			return csvFile;
+		},
+		downloadCsv(blob, filename) {
+			if (navigator.msSaveBlob) { // IE 10+
           	  navigator.msSaveBlob(blob, filename);
         	} else {
             	var link = document.createElement("a");
@@ -269,6 +309,49 @@ let app = new Vue({
 	                document.body.removeChild(link);
 	            }
         	}
-    	}
+		},
+		setupDates() {
+			let thirtyDatys = { 
+				name: 'Last 30 Days', 
+				startDate:  (this.month - 1) + '/' + this.day + '/' + this.year, 
+				endDate: this.today 
+			}
+			this.dateRanges.push(thirtyDatys);
+			
+			let yearToDate = { 
+				name: 'Year To Date', 
+				startDate: '1/1/' + this.year,
+				endDate: this.today 
+			}
+			this.dateRanges.push(yearToDate);
+
+			let twelveMonths = { 
+				name: 'Last 12 Months', 
+				startDate:   this.month + '/' +  this.day + '/' + (+this.year - 1),
+				endDate: this.today 
+			}
+			this.dateRanges.push(twelveMonths);
+
+			let lastYear = { 
+				name: 'Last Year', 
+				startDate:  '1/1/' + (+this.year - 1),
+				endDate: '12/31/' + (+this.year - 1) 
+			}
+			this.dateRanges.push(lastYear);
+
+			let lastWeek = { 
+				name: 'Last Week', 
+				startDate:  this.date.minus({days:7}).toLocaleString(DateTime.DATE_SHORT),
+				endDate: this.getDateString(),
+			}
+			this.dateRanges.push(lastWeek);
+		},
+		setRangeDates() {
+			this.filters.startDate = this.selectedRange.startDate;
+			return this.filters.endDate = this.selectedRange.endDate;
+		},
+		getDateString() {
+			return this.date.toLocaleString(DateTime.DATE_SHORT);
+		}
 	}
 });

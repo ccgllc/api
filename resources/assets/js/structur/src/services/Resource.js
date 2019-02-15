@@ -5,7 +5,8 @@ export default class Resource {
 		this.config = config;
 	}
 
-	get(endpoint) {
+	get(endpoint, data) {
+		if (data) this.config.data = data;
 		return this.request('get', endpoint);
 	}
 
@@ -49,13 +50,13 @@ export default class Resource {
 
 	getResource() {
 		return this.config.uri.resource != '' 
-			? this.config.uri.resource + '/' 
+			? this.config.uri.resource 
 			: ''; //throw 'you must provide a resource.';
 	}
 
 	getParams() {
 		return this.config.uri.params.length > 0 
-			? this.config.uri.params[0].id + '/' 
+			? '?' + this.config.uri.params[0].id + '/' 
 			: '';
 	}
 

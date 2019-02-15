@@ -18,5 +18,4 @@ export default {
 	flood_claims: "none",
 	earthquake_experience: "none",
 	earthquake_claims: "none",
-	api_token: ''
 }
