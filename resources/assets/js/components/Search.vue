@@ -7,7 +7,7 @@
 					    <input v-model="search.query" class="input is-search" type="text" @input="dynamicSearch($event)" @keydown="detectKeyboardAction($event)" placeholder="Search claims, users" style="position: relative;">
 					</div>
 				</form>
-				<div class="menu" v-if="results.length > 0">
+				<div class="menu is-global-search" v-if="results.length > 0">
 					<ul class="menu-list">
 						<li v-for="result in results" style="list-style: none;" v-bind:class="{selected: isSelected == result.id }">
 							<a :href="'/' + search.scope + '/' + result.id"><strong>{{ result.claim_number || result.name  }}</strong> • <span style="overflow: hidden;">{{ result.insured }}</span></a> 

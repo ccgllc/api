@@ -23,14 +23,17 @@ class UsersController extends Controller
     public function index(Request $request)
     {
         if ($request->has('status')) {
-            $users =  User::status($request->status)->orderBy('created_at', 'desc')->paginate(15);
+            $users =  User::status($request->status)->recent()->paginate(36);
             $status = ucwords($request->status).'s';
         }
         else {
-            $users = User::orderBy('created_at', 'desc')->paginate(15);
+            $users = User::recent()->paginate(36);
             $status = 'Users';
-            $users->load('roles', 'profile');
-        // }
+            $users->load('roles', 'profile', 'certifications', 'workHistory', 'adjusterLicenses', 'softwareExperiences');
+            // $users->each(function($user){
+            //     dd($user->workHistory);
+            //     // $user->xp = $user->workHistory->sum();
+            // });
             return view('user.admin', compact('users', 'status'));
          }
     }
@@ -117,7 +120,7 @@ class UsersController extends Controller
      */
     public function status($status)
     {
-        $users =  User::status($status)->orderBy('created_at', 'desc')->paginate(15);
+        $users =  User::status($status)->recent()->paginate(15);
         $status = ucwords($status);
         return view('user.admin', compact('users', 'status'));
     }

@@ -2,13 +2,14 @@
 
 namespace CCG;
 
+use CCG\ModelFilters\QueryFilter;
+use CCG\Notifications\ResetPassword;
 use CCG\Role;
 use CCG\Traits\Excludable;
+use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Auth\Passwords\CanResetPassword;
-use CCG\Notifications\ResetPassword;
 
 class User extends Authenticatable
 {
@@ -32,7 +33,7 @@ class User extends Authenticatable
         'password', 'remember_token', 'api_token', 'verification_token'
     ];
 
-     protected $appends = ['distance'];
+     protected $appends = ['distance', 'date_string'];
 
 
     public function getCreatedAtAttribute($value)
@@ -154,6 +155,11 @@ class User extends Authenticatable
         ];
     }
 
+    public function getDateStringAttribute()
+    {
+        return $this->attributes['date_string'] =  \Carbon\Carbon::parse($this->attributes['created_at'])->toDateString();
+    }
+
     /**
      * Scope a query to only include only users with
      * an employment status of applicant.
@@ -176,6 +182,19 @@ class User extends Authenticatable
     {
         return $query->orderBy('created_at', 'desc');
     }
+
+    /**
+     * Scope a query to only include only users with
+     * an employment status of applicant.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeFilter($query, QueryFilter $filters)
+    {
+        return $filters->apply($query);
+    }
+
 
     public function sendPasswordResetNotification($token)
   {
