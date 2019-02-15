@@ -7,7 +7,8 @@
 
 // Bulma
 @import "node_modules/bulma/bulma.sass";
-@import "resources/assets/sass/bulma-steps.sass";
+@import "node_modules/bulma-o-steps/bulma-steps.sass";
+// @import "./bulma-steps.min.css";
 @import "resources/assets/sass/bulma-switch.sass";
 @import "resources/assets/sass/bulma-check-radio.sass";
 @import "resources/assets/sass/tooltip.sass";
