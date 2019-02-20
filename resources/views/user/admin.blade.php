@@ -207,6 +207,7 @@
 								  </div>
 								  <div class="dropdown-menu" :id="user.email" role="menu" style="display:none">
 								  	<div class="dropdown-content" @pointerleave="toggleMenu(user.email)">
+								  		 <a :href="'/users/'+ user.id" class="dropdown-item">View Profile</a>
 									    <a :href="'/users/'+ user.id + '/roles'" class="dropdown-item">Manage Roles</a>
 									    <a href="#" class="dropdown-item">Suspend Account</a>								   
 									    <a href="#" class="dropdown-item">Send Message</a>
