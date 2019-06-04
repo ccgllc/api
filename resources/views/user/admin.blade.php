@@ -6,7 +6,7 @@
 		<div class="columns is-gapless">
 			<div class="column" id="user">
 				<h1 class="title hr-title">Users (@{{ userData.users.length }})</h1>
-				<h2 class="subtitle">Update and make changes to system users</h2>
+				<h2 class="subtitle">Update and filter system users</h2>
 
 				<button class="button" :class="{ 'is-light': showFilters, 'is-dark': !showFilters }" @click='showFilters = !showFilters'>
 					<i v-if="showFilters != true" class="fa fa-filter" aria-hidden="true"></i>
@@ -194,7 +194,7 @@
 			 				</td>
 							<td v-for="column in activeColumns" v-text="parseColumnData(user, column)"></td>
 							<td>
-								<div class="dropdown" @click="toggleMenu(user.email)">
+								<div class="dropdown is-right" @click="toggleMenu(user.email)">
 								  <div class="dropdown-trigger">
 					       		    <button class="button is-small" aria-haspopup="true" aria-controls="dropdown-menu">
 							    		<span class="icon is-small">
@@ -208,9 +208,9 @@
 								  <div class="dropdown-menu" :id="user.email" role="menu" style="display:none">
 								  	<div class="dropdown-content" @pointerleave="toggleMenu(user.email)">
 								  		 <a :href="'/users/'+ user.id" class="dropdown-item">View Profile</a>
-									    <a :href="'/users/'+ user.id + '/roles'" class="dropdown-item">Manage Roles</a>
-									    <a href="#" class="dropdown-item">Suspend Account</a>								   
-									    <a href="#" class="dropdown-item">Send Message</a>
+									    {{-- <a :href="'/users/'+ user.id + '/roles'" class="dropdown-item">Manage Roles</a> --}}
+									    {{-- <a href="#" class="dropdown-item">Suspend Account</a> --}}
+									    {{-- <a href="#" class="dropdown-item">Send Message</a> --}}
 									    <hr class="dropdown-divider">
 									      	<div class="level">
 										      	<div class="level-item">
