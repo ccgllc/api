@@ -49,7 +49,7 @@ Route::namespace('Api\Profile')
 });
 
 Route::namespace('Api\Acl')
-	// ->middleware('auth:api')
+	->middleware('auth:api')
 	->group(function (){
 		Route::get('users', 'UserAdministrationController@filter');
 		Route::get('users/all', 'UserAdministrationController@getAll');
@@ -57,6 +57,9 @@ Route::namespace('Api\Acl')
 		Route::delete('users/{id}', 'UserAdministrationController@destroy');
 		Route::get('user/{id}/roles', 'UserAdministrationController@getRoles');
 		Route::put('user/{id}/roles', 'UserAdministrationController@syncRoles');
+		Route::put('user/{id}/available', 'UserAdministrationController@toggleAvailability');
+		Route::put('user/{id}/priority', 'UserAdministrationController@updatePriority');
+		Route::put('user/{id}/notes', 'UserAdministrationController@updateNotes');
 		Route::post('role','RolesController@create');
 		Route::delete('role/{id}', 'RolesController@destroy');
 });
