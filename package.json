@@ -34,7 +34,7 @@
     },
     "dependencies": {
         "babel-polyfill": "^6.26.0",
-        "bulma": "^0.7.2",
+        "bulma": "^0.7.4",
         "bulma-badge": "^1.0.1",
         "bulma-o-steps": "^1.0.9",
         "bulma-pageloader": "^1.0.1",
