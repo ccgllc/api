@@ -7,7 +7,11 @@ import Licenses from './Licenses';
 import Documents from './Documents';
 import Certifications from './Certifications';
 import WorkHistory from './WorkHistory';
-import profileNavigation from './ProfileNavigation'
+import profileNavigation from './ProfileNavigation';
+import availability from './Availability';
+import Form from '../structur/src/form/Form';
+import editableTextCard from './components/EditableTextCard';
+import roleManager from './components/UserRoleManager';
 
 
 Vue.use(VueRouter);
@@ -37,9 +41,14 @@ const Profile = new Vue({
 	router,
 	components: {
 		profileNavigation,
+		availability,
+		roleManager,
+		priority: editableTextCard,
+		notes: editableTextCard,
 	},
 	mounted() {
 		this.user = window.userData;
+		this.roles = window.roles;
 	},
 	data() {
 		return {
@@ -48,7 +57,8 @@ const Profile = new Vue({
 			showAvatarButton: false,
 			addingAvatar: false,
 			imgLoaded: false,
-			google: {}
+			google: {},
+			roles: []
 		}
 	},
 	computed: {
@@ -78,6 +88,18 @@ const Profile = new Vue({
 		toggleAvatarButton() {
 			return this.showAvatarButton = !this.showAvatarButton;
 		},
+		updateAvailability(availability){
+			return this.user.available = availability;
+		},
+		updatePriority(priority){
+			return this.user.priority = priority;
+		},
+		updateNotes(note) {
+			return this.user.notes = note;
+		},
+		updateRoles(roles){
+			this.user.roles = roles;
+		}
 		// avatarPath() {
 		// 	if (this.userHasAvatar) {
 		// 		return this.user.avatar.path;
