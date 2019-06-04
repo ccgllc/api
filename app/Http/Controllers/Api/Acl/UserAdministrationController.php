@@ -44,7 +44,30 @@ class UserAdministrationController extends Controller
         //todo add validation here.
     	$user = User::findOrFail($id);
     	// dd($request->all());
-    	$user->roles()->sync($request->all());
+    	$user->roles()->toggle($request->all());
     	return $user->roles->toJson();
+    }
+
+    public function toggleAvailability(Request $request, $id)
+    {
+        // dd('route');
+        $user = User::findOrFail($id);
+        $user->available = $request->available;
+        $user->save();
+        return $user->available;
+    }
+    public function updatePriority(Request $request, $id) 
+    {
+        $user = User::findOrFail($id);
+        $user->priority = $request->input('text');
+        $user->save();
+       return response($user->priority, 200);
+    }
+    public function updateNotes(Request $request, $id) 
+    {
+        $user = User::findOrFail($id);
+        $user->notes = $request->input('text');
+        $user->save();
+        return response($user->notes, 200);
     }
 }
