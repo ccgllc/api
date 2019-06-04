@@ -339,12 +339,12 @@
 			         	 icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
 			         	 title: data.name,
 			          	// icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
-			          	map: this.map
+			          	 map: this.map
 			        });
 
 			        let infowindow = new google.maps.InfoWindow({
 			          content: `
-			          	<h1>${data.name}</h1>
+			          	<a style="position:relative; top:-1rem; margin-left:.5rem;" href="/users/${data.id}" target="_blank"><h1>${data.name}</h1></a>
 			          `
 			        });
 
