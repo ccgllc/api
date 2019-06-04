@@ -12,11 +12,12 @@
 	    					Edit
 		    			</span>
 				    		<img 
+				    			id="avatar"
 				    			v-if="userHasAvatar"
 				    			:src="user.avatar.path"
 				    			:alt="user.name"
 				    			@click="addingAvatar = true"
-				    			style="border-radius: 256px; border: 10px solid #ccc; cursor: pointer;"
+				    			style=""
 			    			>
 				    		<span class="icon is-extra-large" @click="addingAvatar = true" v-else>
 				    			<i class="fa fa-12x fa-user-circle-o"></i>
@@ -25,13 +26,16 @@
 		    		
 		    		{{-- <br> --}}
 		    		<div class="current-status">
-		    			<h4>Current Status</h4>
-		    			<h2>Available</h2>
+		    			<h4>My Status</h4>
+		    			<availability :is-available="user.available" :user-id="user.id" v-on:availability-changed="updateAvailability"></availability>
 		    		</div>
 		    	</div>
 		    	<div class="column is-9">
-			    	<h1>{{ $user->name }}</h1>
-			    	<h3>{{ $user->role }}</h3>
+			    	<h1 style="margin-top: 0;">{{ $user->name  }}</h1>
+			    	<span class="tag is-info is-rounded">{{ ucfirst($user->status) }}</span>
+		    		{{-- @if($user->role)
+		    			<span class="tag is-rounded is-dark">{{ ucfirst($user->role) }}</span>
+	    			@endif --}}
 			      	
 			      	<div class="card-section">
 			      		<h4><i class="fa fa-map-marker" aria-hidden="true"></i> &nbsp;My Location</h4>
