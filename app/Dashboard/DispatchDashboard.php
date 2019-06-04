@@ -33,21 +33,28 @@ class DispatchDashboard
 	public function getAdjusters()
 	{
 		//$role = Role::with(['users', 'users.profile'])->whereName('adjuster')->first();
-		$profiles = Profile::with('user','user.profile', 'user.workHistory', 'user.adjusterLicenses', 'user.certifications', 'user.avatar')
-							->whereNotNull('city')
-							->whereNotNull('state')
-							->whereNotNull('street')
-							->get();
+		$adjusters = User::whereHas('adjusterLicenses')->whereHas('profile', function($query) {
+			$query->whereNotNull('city');
+			$query->whereNotNull('street');
+			$query->whereNotNull('state');
+		})->get();
 
-		$adjusters = $profiles->map(function($profile) {
-			return $profile->user;
-		});
+		$adjusters->load('profile', 'workHistory', 'adjusterLicenses', 'certifications', 'avatar');
+		
+		return array_values($adjusters->toArray());
+		// $profiles = Profile::with('user','user.profile', 'user.workHistory', 'user.adjusterLicenses', 'user.certifications', 'user.avatar')
+		// 					->whereNotNull('city')
+		// 					->whereNotNull('state')
+		// 					->whereNotNull('street')
+		// 					->get();
 
-		$list = $adjusters->filter(function($user, $key) {
-			return $user->adjusterLicenses->count();
-		});
+		// $adjusters = $profiles->map(function($profile) {
+		// 	return $profile->user;
+		// });
 
-		return array_values($list->toArray());
+		// $list = $adjusters->filter(function($user, $key) {
+		// 	return $user->adjusterLicenses->count();
+		// });
 	}
 
 	public function getClaims()
