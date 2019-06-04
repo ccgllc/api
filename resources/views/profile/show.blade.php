@@ -9,7 +9,7 @@
 	<div class="columns is-gapless" id="profile">
 
 	<div class="options column is-1 has-text-centered">
-		{{-- @include('partials.user.options') --}}
+		 {{-- @include('partials.user.options') --}}
 	 </div>
 
     <div class="column is-10">
@@ -20,7 +20,9 @@
 			</div>
 
 			<div class="column is-3">
-				
+				@if(auth()->user()->hasRole('administrator'))
+					@include('partials.user.info')
+				@endif
 			</div>
 		</div>
 		<div class="columns" style="margin-top: 4rem;">
@@ -37,6 +39,9 @@
 	<script 
       src="{{ env('GOOGLE_MAPS_API_KEY') }}">
     </script>
-	<script>window.userData = {!! $user->toJson() !!};</script>
+	<script>
+		window.userData = {!! $user->toJson() !!};
+		window.roles = {!! $roles->toJson() !!};
+	</script>
 	<script src="{{ mix('js/profile.js') }}"></script>
 @endsection
