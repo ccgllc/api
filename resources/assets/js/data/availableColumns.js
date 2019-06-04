@@ -1,7 +1,8 @@
 export default [
 	{ label: 'Relative Date', property: 'created_at', model: 'user',  removable: true },
 	{ label: 'Xactnet Address', property: 'xactnet_address', model: 'profile', removable: true},
-	// { label: 'Address', property: 'formatted_address', model: 'profile', removable: true},
+	{ label: 'Priority', property: 'priority', model: 'user', removable: true},
+	{ label: 'Notes', property: 'notes', model: 'user', removable: true},
 	{ label: 'Street', property: 'street', model: 'profile', removable: true},
 	{ label: 'City', property: 'city', model: 'profile', removable: true},
 	{ label: 'State', property: 'state', model: 'profile', removable: true},
