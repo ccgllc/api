@@ -1,7 +1,7 @@
 <template>
 	 <div class="navbar-item">
         <div class="field">
-            <div class="select">
+            <div id="role-switcher" class="select">
               <select @change="switchRole" v-model="role" style="background-color: #4A5268; color: #7683a2; border-color:#48526a;">
                 <option value="0">Act As...</option>
                 <option value="administrator">Admin</option>
