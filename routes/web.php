@@ -79,5 +79,5 @@ Route::resource('roles', 'RolesController');
 Auth::routes();
 
 Route::get('/profile', 'ProfileController@index')->name('profile');
-Route::get('/profile/{id}', 'ProfileController@show')->middleware('admin');
+// Route::get('/profile/{id}', 'ProfileController@show')->middleware('admin');
 Route::get('/home', 'HomeController@index')->name('home');
