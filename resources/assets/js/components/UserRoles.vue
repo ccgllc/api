@@ -5,7 +5,7 @@
 				<tr v-for="role in roles">
 					<td style="width: 5%">
 						<div class="field">
-							<input type="checkbox" class="is-checkbox is-circle" @click="sync()" v-model="userRoles" :name="role.name" :id="role.name" :value="role.id">
+							<input type="checkbox" class="is-checkbox is-circle" @change="sync()" v-model="userRoles" :name="role.name" :id="role.name" :value="role.id">
 							<label :for="role.name">{{role.name | capitalize}}</label>
 						</div>
 					</td>
@@ -27,7 +27,7 @@
 				user: new Resource({
 					uri: {
 						prefix: 'api',
-						resource: 'user',
+						resource: 'user/',
 						params: [
 							{ id: window.userId }
 						]
@@ -48,14 +48,14 @@
 		},
 		methods: {
 			sync() {
-				this.$nextTick(() => {
+				// this.$nextTick(() => {
 					this.user.put('roles', this.userRoles).then(response => {
 					// this.userRoles = response;
 					console.log(response);
 					}).catch(error => {
 						console.log(error)
 					});
-				})
+				// })
 				
 			},
 			get() {
