@@ -21,6 +21,11 @@
 
 @import "resources/assets/sass/dashboard/dashboard.sass";
 
+.is-secondary {
+	background: $secondary;
+	color: #fefefe;
+	border-color: darken($secondary, 3%);
+}
 
 .columns.is-gapless:not(:last-child) {
     margin-bottom: 0;
@@ -218,6 +223,7 @@ html {
 .is-ccg {
 	background: $primary-bright; //#439BD1;
 	color: #fafafa;
+	justify-content: center;
 }
 
 
@@ -238,6 +244,16 @@ h1.hr-title {
 	// margin-top: 5rem;
 }
 
+#avatar{
+	@media (max-width: 800px) { 
+		width: 200px;
+		height: 200px;
+	}
+	border-radius: 256px; 
+	border: 10px solid #ccc; 
+	cursor: pointer;
+}
+
 //Card 
 .card {
 	border: 1px solid $white;
@@ -254,6 +270,9 @@ h1.hr-title {
 		margin-top: 0;
 	}
 	&.is-user{
+		@media (max-width: 800px) { 
+			margin-top: 0;
+		}
 		margin-top: 5rem;
 	}
 	.current-status {
@@ -703,4 +722,8 @@ a.is-menu-button:hover{
 	strong {
 		color: #7683a2;
 	}
+}
+
+#role-switcher.select:not(.is-multiple):not(.is-loading)::after {
+	border-color: #363636; 
 }
