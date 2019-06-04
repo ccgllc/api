@@ -21,7 +21,7 @@
 		<p>If none of the above solved your issue, you'll need to <a href="mailto: support@ccgops.net?subject=Help Registering">contact us</a> to better serve you.</p><br>
 		<button class="button is-info has-text-centered" @click="toggleSupport">Got it</button>
 	  </div>
-	  <button class="modal-close is-large" aria-label="close" @click="toggleSupport"></button>
+	  <!-- <button class="modal-close is-large is-ccg" aria-label="close" @click="toggleSupport"></button> -->
 	</div>
 </template>
 
