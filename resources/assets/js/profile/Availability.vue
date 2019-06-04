@@ -3,12 +3,13 @@
 </template>
 
 <script>
+	import Form from '../structur/src/form/Form';
 	export default {
 		name: 'Availability',
-		props: ['isAvailable'],
+		props: ['isAvailable', 'userId'],
 		data() {
 			return {
-				//
+				availability: new Form({ available: 0 }),
 			}
 		},
 		computed: {
@@ -18,9 +19,10 @@
 		},
 		methods: {
 			setAvailability() {
-				let data = {available: 0};
-				this.isAvailable === 0 ? data.available = 1 : data.available = 0;
-				this.$emit('availability-changed', data.available);
+				this.isAvailable === 0 ? this.availability.available = 1 : this.availability.available = 0;
+				this.availability.put('/api/user/' + this.userId + '/available').then(response => {
+					this.$emit('availability-changed', response);
+				});
 			},
 		}
 
