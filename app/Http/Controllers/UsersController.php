@@ -4,6 +4,7 @@ namespace CCG\Http\Controllers;
 
 use CCG\Auth\ConfirmsEmails;
 use CCG\Certification;
+use CCG\Role;
 use CCG\User;
 use Illuminate\Http\Request;
 
@@ -108,8 +109,9 @@ class UsersController extends Controller
         $user = User::findOrFail($id)->load([
             'roles', 'profile', 'adjusterLicenses', 'documents', 'workHistory', 'certifications', 'softwareExperiences', 'avatar'
         ]);
+        $roles = Role::all();
         $user->role = $this->prepareRolesForDisplay($user->roles);
-        return view('profile.show', compact('user'));
+        return view('profile.show', compact('user', 'roles'));
     }
 
      /**
