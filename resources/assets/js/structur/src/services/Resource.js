@@ -56,7 +56,7 @@ export default class Resource {
 
 	getParams() {
 		return this.config.uri.params.length > 0 
-			? '?' + this.config.uri.params[0].id + '/' 
+			?  this.config.uri.params[0].id + '/' 
 			: '';
 	}
 
