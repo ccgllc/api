@@ -189,9 +189,6 @@
 			}
 		},
 		computed: {
-			// address() {
-			// 	return `https://maps.googleapis.com/maps/api/geocode/json?address=${this.number}+${this.street}+${this.city}+${this.state}&key=AIzaSyAJ2-Na1yIv_0zOlDuTbrizwya-5HcL1C0`;
-			// },
 			origin() {
 				if(this.selectedClaims.length) {
 					let loc = this.selectedClaims[0].claim_data.client.addresses[1];
