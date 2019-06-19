@@ -2,7 +2,7 @@
 <div class="card" style="margin-top: 1rem;">
 	<div class="card-content">
 	    <div class="content">
-	    	<div class="columns">
+	    	<div class="columns is-mobile">
 	    		<div class="column is-10" style="padding-top: 0; padding-bottom: 0;">
 		    		<h3 style="font-weight: 700"><slot></slot></h3>
 	    		</div>

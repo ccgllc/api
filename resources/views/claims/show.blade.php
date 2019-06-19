@@ -24,7 +24,7 @@
         var claim = {!! json_encode($claim) !!};
         var user = {!! json_encode($user) !!};
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJ2-Na1yIv_0zOlDuTbrizwya-5HcL1C0&libraries=places"></script>
+    <script src="{{ env('GOOGLE_MAPS_API_KEY') }}"></script>
     <script src="{{ mix('/js/claim.js') }}"></script>
 
 @endsection

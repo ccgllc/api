@@ -1,7 +1,6 @@
 <template>
-	<div class="roles" style="margin-top: 5rem;">
+	<div class="roles">
 		<span style="font-weight:700; "><slot></slot></span>
-		&nbsp;
 			<span
 				@click="showAll = !showAll"
 				:data-tooltip="tooltipText"

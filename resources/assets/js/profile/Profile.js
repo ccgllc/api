@@ -12,6 +12,7 @@ import availability from './Availability';
 import Form from '../structur/src/form/Form';
 import editableTextCard from './components/EditableTextCard';
 import roleManager from './components/UserRoleManager';
+import statusManager from './components/StatusManager';
 
 
 Vue.use(VueRouter);
@@ -43,6 +44,7 @@ const Profile = new Vue({
 		profileNavigation,
 		availability,
 		roleManager,
+		statusManager,
 		priority: editableTextCard,
 		notes: editableTextCard,
 	},
@@ -58,7 +60,7 @@ const Profile = new Vue({
 			addingAvatar: false,
 			imgLoaded: false,
 			google: {},
-			roles: []
+			roles: [],
 		}
 	},
 	computed: {
@@ -99,6 +101,9 @@ const Profile = new Vue({
 		},
 		updateRoles(roles){
 			this.user.roles = roles;
+		},
+		updateStatus(status){
+			return this.user.status = status;
 		}
 		// avatarPath() {
 		// 	if (this.userHasAvatar) {
