@@ -1,4 +1,4 @@
-<div class="card is-user">
+<div class="card">
 	<div class="card-content">
 	    <div class="content">
 	    	<div class="columns">
@@ -31,11 +31,25 @@
 		    		</div>
 		    	</div>
 		    	<div class="column is-9">
-			    	<h1 style="margin-top: 0;">{{ $user->name  }}</h1>
-			    	<span class="tag is-info is-rounded">{{ ucfirst($user->status) }}</span>
-		    		{{-- @if($user->role)
-		    			<span class="tag is-rounded is-dark">{{ ucfirst($user->role) }}</span>
-	    			@endif --}}
+		    		<h1 style="margin-top: 0;">{{ $user->name  }}</h1>
+
+		    		@if(auth()->user()->hasRole('administrator'))
+						{{-- If current authenticated user is an admin show editable status controls --}}
+				    	<status-manager 
+				    		:user-id="{{ $user->id }}" 
+				    		:status="user.status"
+				    		v-on:status-changed="updateStatus"
+			    		>
+			    			
+			    		</status-manager>
+
+					@else
+						{{-- if the profile-user has roles, show the one last assigned. --}}
+						@if($user->roles->count())
+		    			    <span class="tag is-rounded is-info">{{ ucfirst($user->roles->last()->label) }}</span>
+		    			@endif
+
+					@endif
 			      	
 			      	<div class="card-section">
 			      		<h4><i class="fa fa-map-marker" aria-hidden="true"></i> &nbsp;My Location</h4>
