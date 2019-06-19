@@ -60,6 +60,7 @@ Route::namespace('Api\Acl')
 		Route::put('user/{id}/available', 'UserAdministrationController@toggleAvailability');
 		Route::put('user/{id}/priority', 'UserAdministrationController@updatePriority');
 		Route::put('user/{id}/notes', 'UserAdministrationController@updateNotes');
+		Route::put('user/{id}/status', 'UserAdministrationController@updateStatus');
 		Route::post('role','RolesController@create');
 		Route::delete('role/{id}', 'RolesController@destroy');
 });
