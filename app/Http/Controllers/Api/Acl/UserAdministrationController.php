@@ -70,4 +70,11 @@ class UserAdministrationController extends Controller
         $user->save();
         return response($user->notes, 200);
     }
+    public function updateStatus(Request $request, $id) 
+    {
+        $user = User::findOrFail($id);
+        $user->status = $request->input('status');
+        $user->save();
+        return response($user->status, 200);
+    }
 }
