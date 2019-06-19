@@ -1,5 +1,5 @@
 <template>
-	<button class="button is-normal is-rounded"  v-bind:class="{ 'is-secondary': isAvailable, 'is-danger': !isAvailable }" style="margin-top: .5rem;" @click="setAvailability"><i class="fa" v-bind:class="{'fa-check': isAvailable, 'fa-times': !isAvailable}" style="margin-right: .5rem;"></i> {{text}}</button>
+	<button class="button is-small is-rounded"  v-bind:class="{ 'is-secondary': isAvailable, 'is-danger': !isAvailable }" style="margin-top: .5rem;" @click="setAvailability"><i class="fa" v-bind:class="{'fa-check': isAvailable, 'fa-times': !isAvailable}" style="margin-right: .5rem;"></i> {{text}}</button>
 </template>
 
 <script>
