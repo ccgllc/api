@@ -27,16 +27,17 @@
             <a class="navbar-item" href="{{ route('register') }}">Register</a>
           @else
             <div class="navbar-item has-dropdown is-hoverable">
-              <a class="navbar-link is-active" href="/profile">
+              <a class="navbar-link" href="/profile">
                 @if(isset(Auth::user()->avatar))
                 <img 
+                  class="avatar"
                   src="{{ Auth::user()->avatar->path }}" 
                   alt="{{ Auth::user()->name}}" 
-                  height="32px" width="32px"
-                  style="border-radius: 30px; border: 1px solid #ccc; cursor: pointer; margin-right: 1em;"
+                  height="auto" width="auto"
+                  style="width: 1.75rem; height: 1.75rem; border-radius: 1.75rem; border: 1px solid #ccc; cursor: pointer; margin-right: 1rem;"
                   >
                 @endif
-                  <span style="width: 100%;">{{ Auth::user()->name }}</span>
+                  <span id="username" style="width: 100%">{{ Auth::user()->name }}</span>
               </a>
               <div class="navbar-dropdown is-right">
                 @if(Auth::user()->applied)<a href="/profile" class="navbar-item">My Profile</a>@endif
