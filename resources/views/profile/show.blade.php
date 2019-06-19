@@ -6,13 +6,12 @@
 
 @section('content')
 
-	<div class="columns is-gapless" id="profile">
-
-	<div class="options column is-1 has-text-centered">
+	<div class="columns" id="profile">
+	{{-- <div class="options column is-1 has-text-centered"> --}}
 		 {{-- @include('partials.user.options') --}}
-	 </div>
+	 {{-- </div> --}}
 
-    <div class="column is-10">
+    <div class="column is-10 is-offset-1">
 		<div class="columns">
 
 			<div class="column is-9">
@@ -25,7 +24,7 @@
 				@endif
 			</div>
 		</div>
-		<div class="columns" style="margin-top: 4rem;">
+		<div class="columns" style="margin-top: 1rem;">
 			<div class="column is-12">
 				<profile-navigation></profile-navigation>
 				<router-view></router-view>
