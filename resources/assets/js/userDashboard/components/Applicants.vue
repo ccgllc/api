@@ -12,7 +12,7 @@
 			    	<div class="card is-stacked" v-for="applicant in applicants">
 			    		<div class="card-content">
 			    			<div class="content">
-			    				<h3><a :href="'/profile/' + applicant.id">{{applicant.name}}</a></h3>
+			    				<h3><a :href="'/users/' + applicant.id">{{applicant.name}}</a></h3>
 			    				<!-- <p><strong>3 years 7 months</strong> total experience, <strong>320</strong> Total Claims</p> -->
 			    			</div>
 			    		</div>
