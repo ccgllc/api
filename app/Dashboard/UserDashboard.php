@@ -6,8 +6,7 @@ use CCG\Dashboard\Chart;
 use CCG\Role;
 use CCG\User;
 
-class HrDashboard 
-{
+class UserDashboard {
 	public $newHires;
 	public $candidates;
 	public $applicants;
@@ -20,6 +19,7 @@ class HrDashboard
 	public $noHireCount;
 	public $candidateCount;
 	public $newHireCount;
+	public $sates;
 
 	public function __construct()
 	{
@@ -28,12 +28,14 @@ class HrDashboard
 		$this->candidates = $this->getUsers('candidate', 4);
 		$this->applicants = $this->getUsers('applicant', 4);
 		$this->roles = $this->getRoles();
+		$this->states = $this->getUserStateCounts();
 		$this->setCounts();
+		// dd($this);
 	}
 
 	protected function getUsers($status, $quanity)
 	{
-		return User::recent()->status($status)->get()->take(4)->all();
+		return User::recent()->status($status)->get()->take($quanity)->all();
 	}
 
 	protected function getRoles()
@@ -55,6 +57,27 @@ class HrDashboard
 		$this->applicantCount = $this->getUserTypeCounts('applicant');
 		$this->candidateCount = $this->getUserTypeCounts('candidate');
 		$this->newHireCount = $this->getUserTypeCounts('new-hire');
+	}
+
+	protected function getUserStateCounts()
+	{
+		$states = [ 'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'DC', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 
+	    	'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'
+		];
+
+		$stateCounts = [];
+
+		foreach ($states as $state) {
+			$profiles = \CCG\Profile::with('user')->whereState($state)->get();
+			$s  = new \stdClass();
+			$count = 0;
+			if ($count = $profiles->count()) {
+				$s->label = $state;
+				$s->count = $count;
+				$stateCounts[] = $s;
+			}
+		}
+		return $stateCounts;
 	}
 
 	protected function getUserTypeCounts($status)

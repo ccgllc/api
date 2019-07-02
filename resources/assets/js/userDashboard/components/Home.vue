@@ -4,7 +4,7 @@
 			
 		</div>
 		<div class="column is-10">
-			<h1 class="title hr-title">HR Dashboard</h1>
+			<h1 class="title hr-title">Users Dashboard</h1>
 
 			<dashboard-navigation></dashboard-navigation>
 			
@@ -20,8 +20,8 @@
 			<user-counts></user-counts>
 
 			<div class="columns">	
-				
-				<new-hires></new-hires>
+				<!-- <new-hires></new-hires> -->
+				<state-overview></state-overview>
 				<candidates></candidates>
 				<applicants></applicants>
 
@@ -39,6 +39,7 @@
 	import newHires from './NewHires.vue';
 	import candidates from './Candidates.vue';
 	import applicants from './Applicants.vue';
+	import stateOverview from './StateOverview.vue';
 	export default {
 		name: 'Home',
 		components: {
@@ -48,7 +49,8 @@
 			userCounts,
 			newHires,
 			candidates,
-			applicants
+			applicants,
+			stateOverview
 		},
 		mounted() {
 			this.newHires = window.dashboardData.newHires;
@@ -57,6 +59,7 @@
 			this.candidateCount = window.dashboardData.candidateCount;
 			this.applicants = window.dashboardData.applicants;
 			this.applicantCount = window.dashboardData.applicantCount;
+			this.states = window.dashboardData.states;
 		},
 		data() {
 			return dashboardData;

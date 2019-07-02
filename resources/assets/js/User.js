@@ -25,9 +25,10 @@ let app = new Vue({
 		workHistory,
 		availableColumns,
 		showColumns: false,
+		showAllWorkHistory: false,
 		filteredStates: states,
 		selectedState: 0,
-		showFilters: true,
+		showFilters: false,
 		selected: [],
 		allSelected: false,
 		dateRanges: [],
@@ -72,6 +73,9 @@ let app = new Vue({
 			return this.userData.users.length == 0 
 				? this.userData.users = window.users.data
 				: 'Users in list'
+		},
+		userCount() {
+			return '(' + this.userData.users.length + ')';
 		},
 		month() {
 			return this.date.month;
@@ -212,10 +216,26 @@ let app = new Vue({
 			return this.activeColumns.splice(idx, 1);
 		},
 		addColumn(){
-			let idx = this.availableColumns.indexOf(this.selectedColumn);
-			this.availableColumns.splice(idx, 1);
+			let idx = this.availableColumns.indexOf(this.selectedColumn)
 			this.activeColumns.push(this.selectedColumn);
+			this.availableColumns.splice(idx, 1);
 			return this.selectedColumn = 0;
+		},
+		toggleAllWorkHistory() {
+			this.showAllWorkHistory = !this.showAllWorkHistory
+			this.showAllWorkHistory
+				? this.getAllWorkHistory() 
+				: this.removeAllWorkHistory();
+		},
+		getAllWorkHistory() {
+			let self = this;
+			let history = this.availableColumns.filter(item => item.model === 'work_history');
+			history.forEach(item => self.addColumn(self.selectedColumn = item));
+		},
+		removeAllWorkHistory() {
+			let self = this;
+			let history = this.activeColumns.filter(item => item.model === 'work_history');
+			history.forEach(item => self.removeColumn(item));
 		},
 		select(user) {
 			console.log(user.name);
