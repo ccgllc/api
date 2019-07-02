@@ -29,24 +29,27 @@ class UsersController extends Controller
         }
         else {
             $users = User::recent()->paginate(36);
-            $status = 'Users';
             $users->load('roles', 'profile', 'certifications', 'workHistory', 'adjusterLicenses', 'softwareExperiences');
             // $users->each(function($user){
             //     dd($user->workHistory);
             //     // $user->xp = $user->workHistory->sum();
             // });
-            return view('user.admin', compact('users', 'status'));
+            return view('user.admin', compact('users'));
          }
     }
 
     public function location($location)
     {
-        $profiles = \CCG\Profile::state($location)->get();
-        $users = $profiles->map(function ($profile, $key){
-            return $profile->user;
-        });
-        $status = ucwords($location. ' users');
-        return view('user.admin', compact('users', 'status'));
+        // $profiles = \CCG\Profile::state($location)->get();
+        // $users = $profiles->map(function ($profile, $key){
+        //     return $profile->user;
+        // });
+        $users = \CCG\User::whereHas('profile', function($query) use ($location) {
+            $query->where('state', $location);
+        })->get();
+        $users->load('roles', 'profile', 'certifications', 'workHistory', 'adjusterLicenses', 'softwareExperiences');
+        $state = ucwords($location);
+        return view('user.admin', compact('users', 'state'));
     }
 
      public function certifications($certification)
@@ -122,7 +125,8 @@ class UsersController extends Controller
      */
     public function status($status)
     {
-        $users =  User::status($status)->recent()->paginate(15);
+        $users =  User::status($status)->recent()->get();
+        $users->load('roles', 'profile', 'adjusterLicenses', 'workHistory', 'certifications', 'softwareExperiences');
         $status = ucwords($status);
         return view('user.admin', compact('users', 'status'));
     }

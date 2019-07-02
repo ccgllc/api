@@ -1,7 +1,7 @@
 <template>
 	<div class="columns" style="margin: 3rem 0 3rem 0;">
 		<div class="column">
-			<div class="card" @click="view('?page=1')" style="cursor: pointer">
+			<div class="card" style="cursor: pointer">
 				<div class="card-content has-text-centered">
 					<span class="count is-total">{{ data.total }}</span><br>
 					<span class="type">Total</span>
@@ -61,7 +61,7 @@
 		},
 		methods: {
 			view(status) {
-				return window.location = '/users' + status;
+				return window.location = '/users/status/' + status;
 			}
 		}
 	}

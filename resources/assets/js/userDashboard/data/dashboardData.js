@@ -7,4 +7,5 @@ export default {
 	candidates: [],
 	applicantCount: 0,
 	applicants: [],
+	states: []
 }

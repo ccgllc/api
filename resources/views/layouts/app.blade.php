@@ -26,6 +26,15 @@
         
         @include('partials.top-bar')
 
+        {{-- <div class="columns" style="margin: .25rem .25rem 0 .25rem;">
+            <div class="column is-10 is-offset-1">
+                <div class="notification is-info">
+                    <button class="delete"></button>
+                      <strong>One or more of your licenses are out of date!</strong> You must have valid, up-to-date licenses to receive claim assignments, please update your info ASAP!
+                </div>
+            </div>
+        </div> --}}
+
         <div class="columns is-gapless app-content">
             <div class="column">
                 <div class="section is-main">

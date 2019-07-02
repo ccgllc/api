@@ -5,7 +5,11 @@
 @section('content')
 		<div class="columns is-gapless">
 			<div class="column" id="user">
-				<h1 class="title hr-title">Users (@{{ userData.users.length }})</h1>
+				<h1 class="title hr-title">
+					@if (isset($status)) {{ $status}} : @endif
+					Users  
+					@if(isset($state)) From {{ $state }} @endif 
+					<span v-text="userCount" style="font-weight:700"></span></h1>
 				<h2 class="subtitle">Update and filter system users</h2>
 
 				<button class="button" :class="{ 'is-light': showFilters, 'is-dark': !showFilters }" @click='showFilters = !showFilters'>
@@ -39,6 +43,38 @@
 					<div class="columns">
 
 						<div class="column is-2">
+							<div class="field" style="margin-top: 1em; margin-bottom: 1em;">
+								<label class="label">Date Ranges</label>
+								<div class="select is-full-width">
+							  		<select v-model="selectedRange" v-on:change="setRangeDates()">
+							  			<option value="0">Select A Date</option>
+								      	<option class="dropdown-item" :value="dateRange" v-for="dateRange in dateRanges">@{{ dateRange.name }}</option>
+							        </select>
+								</div>		
+							</div>
+							<div class="field" >
+							  <label class="label">Start Date</label>
+							  <div class="control has-icons-right">
+							    <input class="input" type="text" v-model="filters.startDate" :placeholder="'example ' + getDateString()">
+							    <span class="icon is-small is-medium is-right">
+								    <i class="fa fa-calendar"></i>
+							  	</span>
+							  </div>
+							  {{-- <p class="help">This is a help text</p> --}}
+							</div>
+							<div class="field" style="margin-top: 1em; margin-bottom: 1em;">
+							  <label class="label">End Date</label>
+							  <div class="control has-icons-right">
+							    <input class="input" type="text" v-model="filters.endDate" :placeholder="'example ' + getDateString()">
+							    <span class="icon is-small is-medium is-right">
+								    <i class="fa fa-calendar"></i>
+							  	</span>
+							  </div>
+							  {{-- <p class="help">This is a help text</p> --}}
+							</div>
+					    </div>
+
+						<div class="column is-2">
 							<filterable-dropdown v-bind:list="states" v-on:selected="updateFilters" model="licenseState" property="abbr" placeholder-text="state">
 								<template v-slot:label>License State</template>
 							</filterable-dropdown>
@@ -47,13 +83,7 @@
 								<template v-slot:label>State Of Residence</template>
 							</filterable-dropdown>
 
-							<label class="label">Date Ranges</label>
-							<div class="select is-full-width">
-						  		<select v-model="selectedRange" @change="setRangeDates()">
-						  			<option value="0">Select A Date</option>
-							      	<option class="dropdown-item" :value="dateRange" v-for="dateRange in dateRanges">@{{ dateRange.name }}</option>
-						        </select>
-							</div>		
+							
 						</div>
 
 						<div class="column is-2">
@@ -71,37 +101,6 @@
 						</div>
 
 					</div>	
-
-
-				<div class="columns">
-
-
-					<div class="column is-2">
-						<div class="field">
-						  <label class="label">Start Date</label>
-						  <div class="control has-icons-right">
-						    <input class="input" type="text" v-model="filters.startDate" :placeholder="'example ' + getDateString()">
-						    <span class="icon is-small is-medium is-right">
-							    <i class="fa fa-calendar"></i>
-						  	</span>
-						  </div>
-						  {{-- <p class="help">This is a help text</p> --}}
-						</div>
-					</div>
-					<div class="column is-2">
-						<div class="field">
-						  <label class="label">End Date</label>
-						  <div class="control has-icons-right">
-						    <input class="input" type="text" v-model="filters.endDate" :placeholder="'example ' + getDateString()">
-						    <span class="icon is-small is-medium is-right">
-							    <i class="fa fa-calendar"></i>
-						  	</span>
-						  </div>
-						  {{-- <p class="help">This is a help text</p> --}}
-						</div>
-					</div>
-
-				</div>
 
 				{{-- <div class="columns">
 					<div class="column">
@@ -138,6 +137,10 @@
 				    				<option v-for="item in availableColumns" :value="item" v-text="item.label"></option>
 				    			</select>
 				    		</div><br><br>
+				    		<div class="field">
+							  <input id="applied" @change="toggleAllWorkHistory" type="checkbox" name="applied" class="switch is-small is-rounded">
+							  <label for="applied">Include All Work History</label>
+							</div><br>
 				    		<div class="tags">
 								<span class="tag is-primary" v-for="column in activeColumns">@{{ column.label }} <button class="delete" v-if="column.removable" @click="removeColumn(column)"></button></span>
 							</div>
@@ -183,7 +186,7 @@
 			 					<label for="selectAll">&nbsp;</label>
 			 				</th>
 							<th v-for="column in activeColumns" v-text="column.label"></th>
-							<th>Actions</th>
+							{{-- <th>Actions</th> --}}
 						</tr>
 					</thead>
 					<tbody>
@@ -192,8 +195,16 @@
 								<input type="checkbox" v-model="selected" :value="parseRow(user)" :id="user.id" :name="user.id" class="is-checkbox is-circle is-small has-user">
 			 					<label :for="user.id">&nbsp;</label>
 			 				</td>
-							<td v-for="column in activeColumns" v-text="parseColumnData(user, column)"></td>
-							<td>
+			 				
+							<td v-for="column in activeColumns">
+								<a v-if="!column.removable" :href="/users/+ user.id" target="_blank">
+									<span v-text="parseColumnData(user, column)"></span>
+								</a>
+								<span v-else>
+									<span v-text="parseColumnData(user, column)"></span>
+								</span>
+							</td>
+							{{-- <td>
 								<div class="dropdown is-right" @click="toggleMenu(user.email)">
 								  <div class="dropdown-trigger">
 					       		    <button class="button is-small" aria-haspopup="true" aria-controls="dropdown-menu">
@@ -208,9 +219,9 @@
 								  <div class="dropdown-menu" :id="user.email" role="menu" style="display:none">
 								  	<div class="dropdown-content" @pointerleave="toggleMenu(user.email)">
 								  		 <a :href="'/users/'+ user.id" class="dropdown-item">View Profile</a>
-									    {{-- <a :href="'/users/'+ user.id + '/roles'" class="dropdown-item">Manage Roles</a> --}}
-									    {{-- <a href="#" class="dropdown-item">Suspend Account</a> --}}
-									    {{-- <a href="#" class="dropdown-item">Send Message</a> --}}
+									   <a :href="'/users/'+ user.id + '/roles'" class="dropdown-item">Manage Roles</a>
+									   <a href="#" class="dropdown-item">Suspend Account</a>
+									   <a href="#" class="dropdown-item">Send Message</a>
 									    <hr class="dropdown-divider">
 									      	<div class="level">
 										      	<div class="level-item">
@@ -223,8 +234,8 @@
 												</div>
 										    </div>
 										</div>
-									</div><!--end dropdown -->
-								</td>
+									</div>
+								</td> --}}
 						</tr>
 					</tbody>
 				</table>
@@ -242,8 +253,8 @@
 	<script>
 		window.users = {!! $users->toJson() !!}
 	</script>
-	<script
+	{{-- <script
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJ2-Na1yIv_0zOlDuTbrizwya-5HcL1C0&libraries=places">
-    </script>
+    </script> --}}
 	<script src="{{ mix('/js/user.js') }}"></script>
 @endsection
