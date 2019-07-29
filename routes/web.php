@@ -46,11 +46,11 @@ route::get('apply', function(Illuminate\Http\Request $request){
 	return view('apply', compact('user'));//->withCookie($cookie);
 })->middleware('auth');
 
-
 Route::get('/claims/import/xml', 'ImportXmlClaimController@show');
 Route::post('/claims/import/xml', 'ImportXmlClaimController@import');
 Route::post('/claims/import/xml/webhook', 'ImportXmlClaimController@import');
 Route::post('/claims/import/xml/webhook/test', 'ImportXmlClaimController@testImport');
+
 // FOR CIG parsed claims.
 // Route::post('/claims/import/xml/webhook', 'ImportXmlClaimController@import');
 // Route::post('/claims/import/xml/webhook/test', 'ImportXmlClaimController@testImport');
@@ -64,79 +64,13 @@ Route::resource('claims/status', 'ClaimStatusController');
 Route::get('dashboard', 'DashboardController@show');
 Route::get('users/dashboard', 'UserDashboardController@show');
 
-// Route::get('users/states', function(Illuminate\Http\Request $request){
-// 	$states = [
-// 	    'AL',
-// 	    'AK',
-// 	    'AZ',
-// 	    'AR',
-// 	    'CA',
-// 	    'CO',
-// 	    'CT',
-// 	    'DE',
-// 	    'DC',
-// 	    'FL',
-// 	    'GA', 
-// 	    'HI', 
-// 	    'ID',
-// 	    'IL', 
-// 	    'IN', 
-// 	    'IA',
-// 	    'KS',
-// 	    'KY',
-// 	    'LA',
-// 	    'ME',
-// 	    'MD',
-// 	    'MA',
-// 	    'MI',  
-// 	    'MN', 
-// 	    'MS',  
-// 	    'MO',  
-// 	    'MT',  
-// 	    'NE',  
-// 	    'NV',  
-// 	    'NH',
-// 	    'NJ',
-// 	    'NM',
-// 	    'NY',
-// 	    'NC',
-// 	    'ND',
-// 	    'OH',
-// 	    'OK',
-// 	    'OR',
-// 	    'PA',
-// 	    'RI',
-// 	    'SC',
-// 	    'SD',
-// 	    'TN',
-// 	    'TX',
-// 	    'UT',
-// 	    'VT',
-// 	    'VA',
-// 	    'WA',
-// 	    'WV',
-// 	    'WI',
-// 	    'WY',
-// 	];
-// 	foreach ($states as $state) {
-// 		$profiles = CCG\Profile::with('user')->whereState($state)->get();
-// 		echo $state . ': (' . $profiles->count() . ') <br>';
-// 	}
-// 	// $profiles = CCG\Profile::with('user')->whereState('NC')->get();
-// 	// foreach($profiles as $profile) {
-// 	// 	echo $profile['user']['name'] . ' : ' . $profile->id . '<br>';
-// 	// }
-// });
-
 Route::resource('users', 'UsersController');
 Route::get('users/status/{status}', 'UsersController@status');
 Route::get('users/location/{state}', 'UsersController@location');
 Route::get('users/certifications/{certification}', 'UsersController@certifications');
-// Route::get('users/{status}', 'UsersController@status');
 Route::resource('users/{id}/documents', 'UserDocumentsController');
 Route::resource('users/{id}/roles', 'UserRolesController');
 Route::get('users/verify/{token}', 'UsersController@verifyAccount');
-
 
 Route::resource('roles', 'RolesController');
 
