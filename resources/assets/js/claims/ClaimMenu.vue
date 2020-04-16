@@ -42,7 +42,7 @@
 					<div class="column">
 						<h3 class="main-menu-title is-hidden-mobile">&nbsp;</h3>
 						<hr class="dropdown-divider">
-						<a href="#" class="is-menu-button dropdown-item"><span class="icon has-text-info is-small"> <i class="fa fa-money"></i> </span> Submit an Estimate</a>
+						<a href="#" class="is-menu-button dropdown-item" @click="setStatusType(statusesList[6])"><span class="icon has-text-info is-small"> <i class="fa fa-money"></i> </span> Submit an Estimate</a>
 						<hr class="dropdown-divider">
 						<a href="#" class="is-menu-button dropdown-item"><span class="icon has-text-info is-small"><i class="fa fa-usd"></i> </span> Issue an Estimate Correction</a>
 			    		<hr class="dropdown-divider">

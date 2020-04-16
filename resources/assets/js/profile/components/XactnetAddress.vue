@@ -1,70 +1,72 @@
 <template>
-	<div class="columns" style="margin-top: 1rem;">
-		<div class="column is-2">
-			<p><strong>Xactnet Address</strong>:</p>
-		</div>
-
-		<div class="column is-10">
-			<form @submit.prevent="submit" @keydown="form.errors.clear($event.target.name)">
-				<div class="field" v-show="editing" style="margin-top: -5px;">
-					<div class="control has-icons-left">
-						<span class="icon is-small is-left" style="cursor:pointer">
-					      <i class="fa fa-times"></i>
-					    </span>
-						<input 
-							id="xactnet-address-input"
-							type="text"
-							class="input"
-							style="border: none; border-bottom: 1px solid #ccc; background: transparent; box-shadow: none;" 
-							v-model="form.xactnet_address"
-							@keyup.enter="toggleEditing"
-						>
-					</div>
-					<span class="help is-danger" v-if="form.errors.has('value')" v-text="form.errors.get('value')"></span>
+	<div class="columns">
+	<div class="column is-4">
+		<form @submit.prevent="submit" @keydown="errors.clear($event.target.name)">
+			<div class="field" v-show="editing" style="margin-top: -5px;">
+				<div class="control has-icons-left">
+					<span class="icon is-small is-left" style="pointer-events: auto;">
+				      <i class="fa fa-times" @click="toggleEditing" style="cursor:pointer;"></i>
+				    </span>
+					<input 
+						type="text"
+						class="input"
+						style="border: none; border-bottom: 1px solid #ccc; background: transparent; box-shadow: none;" 
+						v-model="editedXactnetAddress.address"
+						@keyup.enter="toggleEditing"
+						@keyup.escape="toggleEditing"
+					>
 				</div>
-			</form>
-			<span v-if="!editing && form.xactnet_address === null" class="button is-text" @click="toggleEditing" style="cursor:pointer">add</span>
-			<span v-if="!editing" @dblclick.prevent="toggleEditing" @mouseover="showEdit = true" @mouseleave="showEdit = false; copyText='copy'" style="cursor:pointer">
-				{{ form.xactnet_address }} 
-				&nbsp;
-				<span v-show="showEdit">
-				<a 
-					@click.prevent="copyToClipboard"
-					v-if="!editing"
-					v-text="copyText"
-				>
-				</a>
-				&nbsp;|&nbsp; 
-				<a 
-					@click.prevent="toggleEditing"
-					v-if="!editing"
-				>
-					edit
-				</a>
-				</span>
+				<span class="help is-danger" v-if="errors.has('xactnet_address')" v-text="errors.get('xactnet_address')"></span>
+				<span class="help is-danger" v-if="errors.has('current_xactnet_address')" v-text="errors.get('current_xactnet_address')"></span>
+			</div>
+		</form>
+		<span v-model="xactnetAddress" v-if="!editing" @dblclick.prevent="toggleEditing" @mouseover="toggleOptions(true)" @mouseleave="toggleOptions(false)" style="cursor:pointer">
+			{{ xactnetAddress.address }} 
+			&nbsp;
+			<span v-show="showOptions">
+			<a 
+				@click.prevent="toggleEditing"
+				v-if="!editing"
+			>
+				<span class="icon is-small has-text-dark"><span class="fa fa-pencil"></span></span>
+			</a>
+			&nbsp;|&nbsp; 
+			<a 
+				@click.prevent="deleteAddress(xactnetAddress.id)"
+				v-if="!editing"
+			>
+				<span class="icon is-small has-text-danger"><span class="fa fa-trash-o"></span></span>
+			</a>
+			&nbsp;|&nbsp;
+			<a 
+				@click.prevent="copyToClipboard"
+				v-if="!editing"
+			>
+				<span class="icon is-small has-text-secondary"><span class="fa fa-copy"></span></span>
+			</a>
 			</span>
-		</div>
-	</div>
+		</span>
+	</div>	
+</div>
 </template>
 
 <script>
 	import Form from "../../structur/src/form/Form.js";
 	export default {
 		name: 'XactnetAddress',
+		props: ['xactnetAddress', 'errors', 'updateError'],
 		mounted() {
-			//find our input field
-			this.input = document.getElementById('xactnet-address-input')
-			this.form.xactnet_address = window.userData.profile.xactnet_address;
 			this.userId = window.userData.id;
 		},
 		data() {
 			return {
 				userId: '',
-				form: new Form ({
-					xactnet_address: '',
-				}),
+				editedXactnetAddress: {
+					address: this.xactnetAddress.address,
+					id: this.xactnetAddress.id
+				},
 				editing: false,
-				showEdit: false,
+				showOptions: false,
 				copyText: 'copy',
 				input: {},
 			}
@@ -75,25 +77,21 @@
 			}
 		},
 		methods: {
-			// submit newly edited 
 			submit() {
-				if (this.submitable) {
-					this.form.put('/api/user/' + this.userId + '/xactnet_address', false)
-						.then(response => {
-							console.log(response);
-							this.form.xactnet_address = response;
-						}).catch(error => {
-							console.log(error)
-							return window.axios.post('/api/admin/client-error', error);
-						});
-				}else{
-					this.edit = false;
-					return this.xactnet_address.value = window.userData.profile.xactnet_address;
-				}
+				return this.$emit('xactnet-address-edited', [this.editedXactnetAddress, this.xactnetAddress]);
+			},
+			deleteAddress(id) {
+				return this.$emit('xactnet-address-deleted', id);
 			},
 			toggleEditing() {
 				this.editing = !this.editing;
-				this.input.focus();
+				if (this.editing == false && this.errors.any()) this.editing = true;
+			},
+			toggleOptions(show) {
+				return this.showOptions = show;
+			},
+			focusInput() {
+				return this.editing ? this.input.focus() : null;
 			},
 			copyToClipboard() {
 				this.createEmptyTextArea();
@@ -112,7 +110,7 @@
 			  	textArea.style.outline = 'none';
 			  	textArea.style.boxShadow = 'none';
 			  	textArea.style.background = 'transparent';
-			  	textArea.value = this.xactnet_address.value;
+			  	textArea.value = this.xactnetAddress.address;
 			  	document.body.appendChild(textArea);
 			  	textArea.select();
 			}

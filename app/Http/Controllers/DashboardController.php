@@ -11,15 +11,20 @@ class DashboardController extends Controller
 {
 	public function __construct()
 	{
-		$this->middleware(['auth', 'dashboard']);
+		// $this->middleware(['auth', 'dashboard']);
 	}
 
     public function show(Request $request)
     {
        // $user = Auth::onceUsingId(20);
-        if ($request->user()->role) {
-            $data = $this->getDashboardData($request->user()->role);
-            $view = 'dashboard.'.$request->user()->role;
+        $user = User::find(677);
+          // dd($user);
+        // $user->load('claims', 'claims.invoices');
+        // dd($user);
+        // $user = $request->user();
+        if ($user->role) {
+            $data = $this->getDashboardData($user);
+            $view = 'dashboard.'.$user->role;
             return view($view, compact('data'));
         }
         else {
@@ -28,11 +33,15 @@ class DashboardController extends Controller
        	
     }
 
-    protected function getDashboardData($role)
+    protected function getDashboardData($user)
     {
-    	$type = ucwords($role);
+    	$type = ucwords($user->role);
     	$dashboard = '\CCG\Dashboard\\' . $type . 'Dashboard';
-    	$d =  new $dashboard;
+        if($type == 'Adjuster') {
+            $d = new $dashboard($user);
+        } else {
+            $d =  new $dashboard;
+        }
     	return $d;
     }
 }

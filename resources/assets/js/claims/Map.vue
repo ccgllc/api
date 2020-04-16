@@ -16,8 +16,9 @@
 			return claimData;
 		},
 		created() {
-			this.home.lat = parseFloat(this.claim.claim_data.client.addresses[1].latitude);
-			this.home.lng = parseFloat(this.claim.claim_data.client.addresses[1].longitude);
+			// this.home.lat = this.findCoords();
+			// this.home.lng = parseFloat(this.claim.claim_data.client.addresses[1].longitude);
+			this.findCoords();
 		},
 		mounted() {
 			this.bounds = new google.maps.LatLngBounds();
@@ -37,6 +38,13 @@
 	     //    // When the user selects an address from the dropdown, populate the address
 	     //    // fields in the form.
 	    	// this.autocomplete.addListener('place_changed', () => { this.setHome() });
+		},
+		methods: {
+			findCoords() {
+				let address = this.claim.claim_data.client.addresses.find(address => address.latitude != null && address.longitude != null);
+				this.home.lat = +address.latitude;
+				this.home.lng = +address.longitude;
+			}
 		}
 	}
 </script>

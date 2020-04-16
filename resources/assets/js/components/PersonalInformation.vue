@@ -156,6 +156,7 @@
 					<label class="label">Xactnet Address</label>
 					<div class="control">
 				    	<input v-model="appData.personalInfo.xactnet_address" class="input" type="text">
+				    	<span class="help is-danger" v-if="appData.personalInfo.errors.has('xactnet_address')" v-text="appData.personalInfo.errors.get('xactnet_address')"></span>
 			  		</div>
 				</div>
 			</div>

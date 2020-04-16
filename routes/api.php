@@ -29,6 +29,8 @@ Route::namespace('Api\Profile')
 		Route::patch('user/{id}/status', 'ProfileController@status');
 		Route::patch('user/{id}/referral', 'ProfileController@referral');
 		Route::put('user/{id}/xactnet_address', 'ProfileController@xactnetAddress');
+		Route::patch('user/{id}/xactnet_address', 'ProfileController@updateXactnetAddress');
+		Route::delete('/xactnet_address/{id}', 'ProfileController@deleteXactnetAddress');
 		Route::put('user/{id}/phone', 'ProfileController@phone');
 		Route::put('user/{id}/email', 'ProfileController@email');
 		Route::put('user/{id}/address', 'ProfileController@address');
@@ -67,11 +69,11 @@ Route::namespace('Api\Acl')
 
 Route::namespace('Api\Claims')
 	// ->middleware('auth:api')
-	->prefix('claims/{claim_id}/')
 	->group(function() {
-		Route::resource('assignments', 'AssignmentsController');
-		Route::resource('estimates', 'EstimatesController');
-		Route::resource('statuses', 'StatusesController');
+		Route::apiResource('claims/{claim_id}/assignments', 'AssignmentController');
+		Route::apiResource('claims/{claim_id}/estimates', 'EstimateController');
+		Route::apiResource('claims/{claim_id}/statuses', 'StatusController');
+		Route::apiResource('claims/{claim_id}/invoices', 'InvoiceController');
 	});
 
 Route::post('/admin/client-error', function(Request $request){

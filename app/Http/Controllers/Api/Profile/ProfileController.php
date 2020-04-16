@@ -3,10 +3,13 @@
 namespace CCG\Http\Controllers\Api\Profile;
 
 use CCG\Avatar;
+use CCG\Claims\Claim;
+use \CCG\Events\XactnetAddress\XactnetAddressCreated;
 use CCG\Http\Controllers\Controller;
 use CCG\Profile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use \CCG\XactnetAddress;
 
 class ProfileController extends Controller {
 
@@ -31,12 +34,47 @@ class ProfileController extends Controller {
 	public function xactnetAddress(Request $request, $id)
 	{
 		$valid = $request->validate([
-        	'xactnet_address' => 'required|max:255',
-   		]);	
-   		
-   		$this->getUser($id)->profile()->update($valid);
+        	'xactnet_address' => 'required|max:255|unique:xactnet_addresses,address',
+        ]);	
 
-   		return $valid['xactnet_address'];
+   		$user = $this->getUser($id);
+   		$xactnetAddress = $user->xactnetAddresses()->create([
+   			'address' => $valid['xactnet_address'], 'primary' => 1
+   		]);
+
+   		event(new XactnetAddressCreated($xactnetAddress));
+
+   		return $xactnetAddress;
+	}
+
+	public function updateXactnetAddress(Request $request, $id)
+	{
+		$valid = $request->validate([
+        	'xactnet_address' => ['required', 'max:255', 'unique:xactnet_addresses,address'],
+        	'current_xactnet_address' => [ 'required',
+	        	function($attribute, $value, $fail) {
+		            if (Claim::assignee($value)->exists()) {
+		                return $fail("This Xactnet address is not editable.");
+		            }
+		        }
+	    	]
+        ]);	
+        
+   		$xactnetAddress = XactnetAddress::find($request['id']);
+   		$xactnetAddress->update(['address' => $valid['xactnet_address']]);
+   		return $xactnetAddress;
+	}
+
+	public function deleteXactnetAddress(Request $request, $id)
+	{
+		$xactnetAddress = XactnetAddress::find($id);
+		if (Claim::assignee($xactnetAddress->address)->doesntExist()) {
+			$xactnetAddress->delete($id);
+			 return response('success', 200);
+		}
+		else {
+			 return response('Couldn\'t delete', 422);
+		}
 	}
 
 	public function phone(Request $request, $id)

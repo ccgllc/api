@@ -1,10 +1,10 @@
 <template>
-	<div class="modal" :class="{ 'is-active': show, 'is-solid': solid }">
+	<div class="modal" :class="{ 'is-active': show, 'is-solid': solid }" style="position: fixed;">
 	  <div class="modal-background"></div>
 		<div class="modal-content">
-			<section class="">
+		
 				<slot></slot>
-			</section>
+			<!-- <button class="modal-close is-large" aria-label="close"></button> -->
 		</div>
 	</div>
 </template>

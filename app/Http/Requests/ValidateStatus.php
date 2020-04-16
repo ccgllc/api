@@ -29,6 +29,7 @@ class ValidateStatus extends FormRequest
             'date' => 'required',
             'time' => 'required',
             'type' => 'required',
+            'value' => 'required_if:type,value',
             'claim_number' => 'required'
         ];
     }

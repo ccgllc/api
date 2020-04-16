@@ -27,13 +27,13 @@
 				<div class="timeline">
 
 			  	<div class="timeline-item" v-for="status in claim.statuses">
-				  	<div class="timeline-marker is-image is-32x32" v-if="status.user">
+				  	<div class="timeline-marker is-image is-32x32" v-if="status.hasOwnProperty(user)">
 				      <a :href="'/users/' + status.user.id"><img :src="status.user.avatar.path" :alt="status.user.name"></a>
 				    </div>
 				    <div class="timeline-marker is-secondary" v-else></div>
 				  	<div class="timeline-content">
 				      <p class="heading" v-text="status.date"></p>
-				      <p><strong v-text="status.name"></strong>  <br> <span v-if="status.user" v-text="status.user.name + ' (' + status.user.roles[0].label +')'"></span> <span v-text="'System'" v-else></span></p>
+				      <p><strong v-text="status.name"></strong>  <br> <span v-if="status.user" v-text="status.user.name"></span> <span v-text="'System'" v-else></span> <span v-if="status.value"><br><span v-text="status.value"></span></span></p>
 				    </div>
 				</div>
 		
@@ -56,6 +56,9 @@
 		name: 'Timeline',
 		mounted() {
 			//console.log(this.user);
+		},
+		computed: {
+
 		},
 		data() {
 			return claimData;

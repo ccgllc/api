@@ -378,11 +378,14 @@ h1.hr-title {
 }
 
 .icon.is-standard {
-	width: 9rem;
-	height: 9rem;
+	// width: 9rem;
+	// height: 9rem;
 	color: $gray;
 	i.fa.fa-9x{
-		font-size: 9em;
+		font-size: 9rem;
+	}
+	i.fa.fa-8x{
+		font-size: 8rem;
 	}
 }
 
@@ -667,8 +670,8 @@ a.is-menu-button:hover{
 }
 
 .assignments{
-	padding-left: 3rem;
-	padding-right: 3rem;
+	// padding-left: 3rem;
+	// padding-right: 3rem;
 	@media all and (max-width: 1920px){
 		padding-left: 4rem;
 		padding-right: 4rem;
@@ -683,6 +686,10 @@ a.is-menu-button:hover{
 }
 // Modal form
 .modal.is-solid {
+	
+	.modal-background {
+		// position: static;
+	}
 	.modal-content {
 		label {
 			color: $less-dark;
@@ -700,6 +707,9 @@ a.is-menu-button:hover{
 		}
 		.control.has-icons-left .icon, .control.has-icons-right .icon {
 			color: $less-dark;
+		}
+		.select:not(.is-multiple):not(.is-loading)::after {
+			border-color: $dark-border;
 		}
 		.select:not(.is-multiple):not(.is-loading):hover::after {
 			border-color: $less-dark;

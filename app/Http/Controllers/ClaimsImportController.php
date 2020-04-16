@@ -3,7 +3,7 @@
 namespace CCG\Http\Controllers;
 
 use CCG\Xact\XactClaimImport;
-use CCG\Claims\CreateClaimFromImport;
+use CCG\Claims\ManagesImportedClaims;
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\response;
 use Illuminate\Http\Request;
@@ -11,7 +11,7 @@ use \Event;
 
 class ClaimsImportController extends Controller
 {
-	use CreateClaimFromImport;
+	use ManagesImportedClaims;
 
 	/**
 	 * Check our request for the xact-key and either proceed or abort.
@@ -35,7 +35,7 @@ class ClaimsImportController extends Controller
     	$claim = new XactClaimImport($this->receivedClaimData());
     	// dd($claim);
         // 2. Create New Claim From Parsed XML.
-        $newClaim = $this->persistClaimData($claim);
+        $newClaim = $this->saveClaim($claim);
         dd($newClaim); /// REMOVE FOR PRODUCTION.
         // 3. Return the success XML Response to Xactanalysis.
         $success = file_get_contents(storage_path('XmlResponses/XactSuccess.xml'));

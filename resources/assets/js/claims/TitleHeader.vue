@@ -10,7 +10,7 @@
 							</span>{{ claim.claim_number }}
 						</span>
 					<span class="divider" style="color: #439BD1">|</span>
-					<span class="carrier"> {{ claim.carrier.label }}</span>
+					<span class="carrier"> {{ claim.carrier.name }}</span>
 				</h1>
 			</span>
 
@@ -19,7 +19,7 @@
 				<h1 class="title" style="margin-bottom: -.25rem;">
 					<span class="claim-number">{{ claim.claim_number }}</span>
 				</h1>
-				<h3 style="font-size: 1.5em; margin: 0;">{{ claim.carrier.label }} </h3>
+				<h3 style="font-size: 1.5em; margin: 0;">{{ claim.carrier.name }} </h3>
 			</div> 
 		</div>
 	</div>

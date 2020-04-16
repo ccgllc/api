@@ -3,18 +3,21 @@
 		<div class="column">
 			<div class="tabs is-left">
 			  <ul>
-			    <li class="is-active">
-			      <a>
+			  <!--   <li class=""> -->
+			      <router-link to="/" tag="li" exact>
+			      	<a>
 			        <span class="icon is-small"><i class="fa fa-map-marker" aria-hidden="true"></i></span>
 			        <span>Claim Data</span>
-			      </a>
-			    </li>
-			    <li>
-			      <a>
+			    	</a>
+			      </router-link>
+			    <!-- </li> -->
+			   
+			      <router-link to="/billing" tag="li">
+			      	<a>
 			        <span class="icon is-small"><i class="fa fa-calculator" aria-hidden="true"></i></span>
 			        <span>Billing</span>
-			      </a>
-			    </li>
+			        </a>
+			      </router-link>
 			     <li>
 			      <a>
 			        <span class="icon is-small"><i class="fa fa-file-text-o" aria-hidden="true"></i></span>

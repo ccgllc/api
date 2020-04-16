@@ -110,7 +110,7 @@ class UsersController extends Controller
     public function show($id)
     {
         $user = User::findOrFail($id)->load([
-            'roles', 'profile', 'adjusterLicenses', 'documents', 'workHistory', 'certifications', 'softwareExperiences', 'avatar'
+            'roles', 'profile', 'xactnetAddresses', 'adjusterLicenses', 'documents', 'workHistory', 'certifications', 'softwareExperiences', 'avatar'
         ]);
         $roles = Role::all();
         $user->role = $this->prepareRolesForDisplay($user->roles);

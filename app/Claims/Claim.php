@@ -21,7 +21,7 @@ class Claim extends Model
         return $d->format('m/d/Y');
     }
 
-    public function getDateReceivedAttribute($date) 
+    public function getDateReceivedAttribute($date)
     {
        $d = Carbon::parse($date);
         return $d->format('m/d/Y');
@@ -54,7 +54,7 @@ class Claim extends Model
 
     public function invoices()
     {
-        return $this->hasMany(\CCG\Invoice::class);
+        return $this->hasMany(\CCG\Accounting\Invoice::class);
     }
 
     public function payments()
@@ -79,12 +79,34 @@ class Claim extends Model
 
     public function carrier()
     {
-        return $this->belongsTo(\CCG\Carrier::class, 'carrier_id', 'id');
+        return $this->belongsTo(\CCG\Carrier\Carrier::class, 'carrier_id', 'id');
     }
+
+    public function currentAdjuster()
+    {
+        return $this->assignments()->currentAdjuster();
+    }
+
+    public function scopeAssignee($query, $assignee)
+    {
+        return $query->where('assignee', $assignee);
+    }
+
+    public function scopeUnassignable($query)
+    {
+        return $query->where('assignable', 0);
+    }
+
+    public function scopeAssignable($query)
+    {
+        return $query->where('assignable', 1);
+    }
+
+
 
     // public function adjuster()
     // {
-    //     return $this->belongsTo(\CCG\User::class, 'adjuster_id', 'id');
+    //     return $this->hasManyTrough(\CCG\Ass::class, \CCG\Claims\Assignment::class, 'user_id', );
     // }
 
     //  public function reviewer()

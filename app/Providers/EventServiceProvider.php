@@ -20,9 +20,24 @@ class EventServiceProvider extends ServiceProvider
             'CCG\Listeners\SendAccountVerificationEmail', 
         ],
          'CCG\Events\ClaimImported' => [
+            'CCG\Listeners\AssignAdjuster',
             'CCG\Listeners\CreateDefaultClaimStatus',
-            'CCG\Listeners\CreateClaimTags'
+            'CCG\Listeners\CreateClaimTags',
         ],
+        'CCG\Events\ClaimReassigned' => [
+            'CCG\Listeners\UnassignCurrentAdjuster',
+            'CCG\Listeners\CreateReassignmentClaimStatus',
+            'CCG\Listeners\ReassignClaim',
+        ],
+        'CCG\Events\Claim\ClaimAssigned' => [
+            'CCG\Listeners\Claim\AssignClaim',
+        ],
+        'CCG\Events\XactnetAddress\XactnetAddressCreated' => [
+            'CCG\Listeners\XactnetAddress\AssignExistingClaims',
+        ],
+        //  'CCG\Events\Claim\EstimateCreated' => [
+        //     'CCG\Listeners\Claim\CreateEstimateStatus',
+        // ],  
         // 'CCG\Events\ClaimWasReceived' => [
         //     'CCG\Listeners\CreateClaimInvoice'
         // ],

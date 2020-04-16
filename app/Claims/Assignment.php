@@ -2,6 +2,8 @@
 
 namespace CCG\Claims;
 
+use CCG\Claims\Claim;
+use CCG\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -13,11 +15,22 @@ class Assignment extends Model
 
  	public function claim()
  	{
- 		return $this->belongsTo(CCG\Claims\Claim::class);
+ 		return $this->belongsTo(Claim::class);
  	}
 
  	public function user()
  	{
- 		return $this->belongsTo(CCG\User::class);
+ 		return $this->belongsTo(User::class);
  	}
+
+ 	public function scopeCurrentAdjuster($query)
+ 	{
+ 		return $query->where([['type',  '=', 'adjuster'], ['active', '=',  '1']])->first();
+ 	}
+
+ 	// public function scopeLatest($query)
+ 	// {
+ 	// 	return $query->max('updated_at');
+ 	// }
+
 }

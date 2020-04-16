@@ -12,6 +12,7 @@
 // 	return response()->download($file, 'Brandon Hamm.docx', ['Content-Type: application/pdf']);
 // });
 
+
 Route::get('/', function () {
     return redirect('register');
 });
@@ -46,6 +47,8 @@ route::get('apply', function(Illuminate\Http\Request $request){
 	return view('apply', compact('user'));//->withCookie($cookie);
 })->middleware('auth');
 
+
+
 Route::get('/claims/import/xml', 'ImportXmlClaimController@show');
 Route::post('/claims/import/xml', 'ImportXmlClaimController@import');
 Route::post('/claims/import/xml/webhook', 'ImportXmlClaimController@import');
@@ -73,6 +76,8 @@ Route::resource('users/{id}/roles', 'UserRolesController');
 Route::get('users/verify/{token}', 'UsersController@verifyAccount');
 
 Route::resource('roles', 'RolesController');
+
+Route::resource('invoices', 'InvoiceController');
 
 Auth::routes();
 

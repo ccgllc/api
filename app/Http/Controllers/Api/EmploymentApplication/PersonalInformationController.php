@@ -19,6 +19,8 @@ class PersonalInformationController extends Controller
     	}
 
     	$license = $request->createAdjusterLicense();
+        $xactnetAddress = $request->createXactnetAddress();
+        
     	return response('Information Saved', 200)
                   ->header('Content-Type', 'text/plain');
     }

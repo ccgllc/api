@@ -49,6 +49,7 @@ class GetClaimsFromXact extends Command
     public function handle()
     {
         $this->sftp = $this->connectToFtp();
+        // $this->sftp = $this->connectToTestFtp();
         $this->sftp->chdir('OUT');
         $files = collect($this->sftp->rawlist())->sortByDesc('mtime');
         $transferable = $files->where('mtime', '>', cache('xactTimeMarker')->timestamp);
@@ -59,6 +60,6 @@ class GetClaimsFromXact extends Command
         });
         Cache::forever('xactTimeMarker', Carbon::createFromTimeStamp($transferable->max('mtime')));
          $this->info($transferable->count().' files transferred.');
-        eval(\Psy\sh());
+        // eval(\Psy\sh());
     }
 }

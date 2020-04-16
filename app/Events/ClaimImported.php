@@ -4,6 +4,7 @@ namespace CCG\Events;
 
 use CCG\Claims\Claim;
 use CCG\Events\Event;
+use CCG\User;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Queue\SerializesModels;
 
@@ -18,9 +19,10 @@ class ClaimImported extends Event
      *
      * @return void
      */
-    public function __construct(Claim $claim)
+    public function __construct(Claim $claim, $user)
     {
         $this->claim = $claim;
+        $this->user = $user;
     }
 
     /**

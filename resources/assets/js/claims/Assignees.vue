@@ -1,7 +1,7 @@
 <template>
-	<div class="columns is-mobile assignments" style="text-align: center;">
+	<div class="columns is-mobile assignments" style="text-align: center; padding-top: 3rem;">
 		<div class="column is-half assignment">
-			<a @mouseup="$emit('status-set', statusesList[1]); $emit('new-status-toggle');">
+			<a @mouseup="$emit('status-set', getAssignmentStatus()); $emit('new-status-toggle');">
 				<img 
 	    			v-if="adjuster.avatar"
 	    			:src="adjuster.avatar.path"
@@ -11,12 +11,15 @@
 	    			width="100%"
 	    			height="auto"
     			>
-    			<span class="icon is-standard" style="padding: 3em;" v-else>
-    				<i class="fa fa-9x fa-user-circle-o"></i>
+    			<span class="icon is-standard" v-else>
+    				<i class="fa fa-8x fa-user-circle-o"></i>
     			</span>
     		</a>
-    		<h3 style="color: #aaa; overflow:hidden;">{{ adjuster.name || 'Not Assigned' }}</h3>
-    		<h4 style="color: #bbb; font-size: 1em; color: #439BD1; margin-top: -.25em; font-weight: 700;">Adjuster</h4>
+    		<h3 style="color: #439BD1; padding-top: 1rem; overflow:hidden; font-size: .8em; font-weight: 700;">
+    			<a v-if="hasAdjuster" :href="'/users/' + claim.adjuster.id"> {{ claim.adjuster.name }}</a>
+				<span v-else>Unassignable</span>
+			</h3>
+    		<h4 style="color: #aaa; margin-top: -.25em;">Adjuster</h4>
 		</div><!--  end column -->
 		<div class="column is-half assignment">
 			<a @mouseup="$emit('status-set', statusesList[2]); $emit('new-status-toggle');">
@@ -29,11 +32,11 @@
 	    			height="auto"
     			>
     			<span class="icon is-standard" v-else>
-    				<i class="fa fa-9x fa-user-circle-o"></i>
+    				<i class="fa fa-8x fa-user-circle-o"></i>
     			</span>
     		</a>
-			<h3 style="color: #aaa; overflow:hidden;">{{ reviewer.name || "Not Assigned" }}</h3> 
-			<div style="color: #bbb; font-size: 1em; color: #64C6A3; margin-top: -.25em; font-weight: 700;">Reviewer</div>
+			<h3 style="color: #64C6A3;padding-top: 1rem; overflow:hidden; font-size: .8em; font-weight: 700;">{{ reviewer.name || "Not Assigned" }}</h3>
+			<div style="font-size: 1em; color: #aaa; margin-top: -.25em;">Reviewer</div>
 		</div><!--  end column -->	
 	</div>
 </template>
@@ -43,12 +46,20 @@
 		name: 'Assignees',
 		mounted() {
 			//console.log(this.user);
+			// this.adjuster = claim.
+		},
+		computed: {
+			hasAdjuster() {
+				return this.claim.hasOwnProperty('adjuster') ? true : false;
+			}
 		},
 		data() {
 			return claimData;
 		},
-		computed: {
-
+		methods: {
+			getAssignmentStatus(){
+			 	return this.hasAdjuster ? this.statusesList[3] : this.statusesList[1];
+			}
 		}
 	}
 </script>

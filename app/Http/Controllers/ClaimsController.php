@@ -81,25 +81,20 @@ class ClaimsController extends Controller {
 	{
 		$claim = Claim::whereId($id)->with([
 			'statuses' => function($query){
-		 		$query->orderBy('created_at', 'desc');
+		 		$query->orderBy('id', 'desc');
 		 	},
 		 	'tags' => function($query) {
 		 		$query->orderBy('created_at', 'asc');
 		 	},
-            'statuses.user.avatar', 'statuses.user.roles', 'carrier', 'assignments', 'estimates',  //'invoices.payments.check.deposit','invoices.supplements', 'reviewer', 'adjuster', 'carrier'
-		])->first();
+            'statuses.user.avatar', 'statuses.user.roles', 'carrier.feeSchedules', 'assignments', 'estimates', 'invoices',  //'invoices.payments.check.deposit','invoices.supplements', 'reviewer', 'adjuster', 'carrier'
+		])->firstOrFail();
 		// $claim->statuses->load('user.avatar');
 		// dd($claim);
 		$user = $request->user();
-		// $adjuster = 
-		// return Claim::find($id);
-		// $claim = Claim::findOrFail($id)->load('carrier');
-		// dd(json_encode($claim->claim_data));
-		// dd($claim);
-		// $user = User::find(87); //15
-		// $user->load('avatar');
-		// $reviewer = User::find(13); //17
-		// $reviewer->load('avatar');
+		if ($claim->currentAdjuster()->count()) {
+			$claim->adjuster = $claim->currentAdjuster()->user->load('avatar');
+		}
+		// dd($claim->carrier->feeSchedules);
 		return view('claims.show', compact('claim', 'user'));
 	}
 

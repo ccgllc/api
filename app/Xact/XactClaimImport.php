@@ -44,6 +44,7 @@ class XactClaimImport extends XmlImporter {
         // get our cliam specific data ie claim numbers, transaction id's etc.
         $this->claimNumber     = $json->ADM->COVERAGE_LOSS->{'@attributes'}->claimNumber;
         $this->transactionId   = $json->XACTNET_INFO->{'@attributes'}->transactionId;
+        $this->assignee        = $json->XACTNET_INFO->{'@attributes'}->recipientsXNAddress; 
         $this->carrierName     = $this->getCarrierName($json);
         $this->insured         = ucwords(strtolower($this->client->name));
         $this->typeOfLoss      = $json->ADM->COVERAGE_LOSS->TOL->{'@attributes'}->desc ?? 'not provided';
@@ -77,7 +78,6 @@ class XactClaimImport extends XmlImporter {
         //because there is one other place we might be able to dicern 
         //wether or not this claims is commercial.
         
-
         // make sure full xml info is not returned.
         // $this->saveXmlFile($this->transactionId);
         unset($this->xmlObj, $this->rawXml);

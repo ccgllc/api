@@ -2,14 +2,14 @@
 
 namespace CCG\Console\Commands;
 
-use CCG\Claims\CreateClaimFromImport;
+use CCG\Claims\ManagesImportedClaims;
 use CCG\Xact\XactClaimImport;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
 class BatchClaimImporter extends Command
 {
-    use CreateClaimFromImport;
+    use ManagesImportedClaims;
 
     /**
      * The name and signature of the console command.
@@ -25,12 +25,13 @@ class BatchClaimImporter extends Command
      */
     protected $description = 'Batch import transferred XML claim data';
 
-     /**
-     * Files array to loop through.
+    /**
+     * The current count of files processed.
      *
-     * @var array
+     * @var string
      */
-    protected $files;
+    protected $idx;
+
 
     /**
      * Create a new command instance.
@@ -40,6 +41,7 @@ class BatchClaimImporter extends Command
     public function __construct()
     {
         parent::__construct();
+        $this->idx = 0;
     }
 
     /**
@@ -49,27 +51,26 @@ class BatchClaimImporter extends Command
      */
     public function handle()
     {
-        if ($this->confirm('Do you wish to continue? [y|N]')) {
-            // $this->info('Importing...');
-            $idx = 0;
-            $files = glob(storage_path('fnol_xml/in/*.{XML}'), GLOB_BRACE);
-            $bar = $this->output->createProgressBar(count($files));
-            foreach($files as $file)
-            {
-                // var_dump($file);
-                $data = file_get_contents($file);
-                $claim = new XactClaimImport($data);
-                // var_dump($claim->transactionId);
-                if(DB::table('claims')->where('transaction_id', $claim->transactionId)->doesntExist())
-                {
-                    $this->persistClaimData($claim);
-                    // $this->saveJsonFile($claim->claim_data);
-                    $idx += 1;
-                }
-                //unlink($file);
-                $bar->advance();
+        $files = $this->getFiles();
+        $bar = $this->output->createProgressBar(count($files));
+
+        foreach($files as $file) {
+            $this->setClaim(new XactClaimImport(file_get_contents($file)));
+
+            if ($this->isNewClaim()) {
+                $this->createClaim();
+                $this->idx += 1;
+            } else if ($this->isExistingClaim()) {
+                $this->isReassignment() ? $this->ReassignClaim() : $this->updateClaim();
+                $this->idx += 1;
             }
-            $this->info(" $idx claims imported.");
+
+            $bar->advance();
         }
+        $this->info(" $this->idx claims imported.");
+    }
+    protected function getFiles()
+    {
+        return glob(storage_path('fnol_xml/in/*.{XML}'), GLOB_BRACE);
     }
 }

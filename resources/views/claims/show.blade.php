@@ -11,12 +11,28 @@
     {{-- <div class="column is-1"></div> --}}
     <div class="column">
         <div id="claim">
-            <claim></claim>
-        </div> 
+            <div class="columns">
+                <div id="left-side" class="column is-9">
+                    <title-header></title-header>
+                    <claim-menu @status-set="setStatus" @new-status-toggle="toggleCreatingNewStatus"></claim-menu>
+                    <claim-nav></claim-nav>
+                    <router-view></router-view>
+                </div>  
+
+                <div  id="right-side" class="column is-3">
+                    <assignees @status-set="setStatus" @new-status-toggle="toggleCreatingNewStatus"></assignees>
+                    <timeline></timeline>
+                </div>
+            </div>
+
+            <new-status 
+                @new-status-toggle="toggleCreatingNewStatus()"
+            >   
+            </new-status>
+
+        </div>
     </div>
 </div>
-    
-
 @endsection
 
 @section('scripts')

@@ -1,10 +1,10 @@
 <template>	
 	<modal :show="creatingNewStatus" :solid="true">
 		<form @submit.prevent="submit">
-		<button @click.prevent="$emit('new-status-toggle')" class="modal-close is-large" aria-label="close"></button>
+		<!-- <button @click.prevent="$emit('new-status-toggle')" class="modal-close is-large" aria-label="close"></button> -->
 		<h3 class="subtitle has-text-info has-text-weight-light">Claim# {{ claim.claim_number }}</h3>
 		<h1 class="title" style="color: #efefef">{{ newStatus.name }}</h1>
-		<hr style="background: #485269">
+		<hr style="background: #485269"> 
 		
 	<!-- 	<div class="columns">
 			<div class="column"> -->
@@ -59,12 +59,20 @@
 				</div>
 			<!-- </div> -->
 
+			<div class="field" v-show="newStatus.type == 'value'">
+				<label class="label" for="another">Value:</label>
+				<div class="control has-icons-left">
+			    	<input v-model="newStatus.value" class="input" type="text" placeholder="$1000.00">
+			    	<span class="icon is-small is-left">
+				      <i class="fa fa-clock-o"></i>
+				    </span>
+				    <span class="help is-danger" v-if="newStatus.errors.has('value')" v-text="newStatus.errors.get('value')"></span>
+	  			</div>
+			</div>
 		<!-- </div> -->
 
-		
-		
 		<div class="field" style="margin-top: 1em;">
-		  <input id="switchRoundedInfo" type="checkbox" name="switchRoundedInfo" class="switch is-small is-rounded is-info" checked="checked">
+		  <input id="switchRoundedInfo" type="checkbox" name="switchRoundedInfo" class="switch is-small is-rounded is-info" :checked="false" :disabled="true">
 		  <label for="switchRoundedInfo">Export to third parties</label>
 		</div>
 
@@ -106,7 +114,7 @@
 			getTodaysDate() {
 				let today = new Date();
 				this.newStatus.date =   (today.getMonth()+1) + '/' + today.getDate() + '/'+ today.getFullYear();
-				this.newStatus.time = today.toTimeString().replace(/(GMT-\d{1,}\s{1,}\S[A-z]{1,}\S)/g, '').trim();
+				this.newStatus.time = today.toTimeString().replace(/(GMT-\d{1,}\s{1,}\S[A-z]{1,}.{1,})/g, '').trim();
 			},
 			// toggleNewStatus() {
 			// 	// this.getTodaysDate();

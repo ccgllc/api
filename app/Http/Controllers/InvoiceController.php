@@ -2,14 +2,10 @@
 
 namespace CCG\Http\Controllers;
 
-use CCG\Carrier;
+use Barryvdh\DomPDF\PDF;
 use CCG\Http\Controllers\Controller;
-use CCG\Http\Requests\PersistInvoiceForm;
-use CCG\Invoice;
-use CCG\User;
+use CCG\Accounting\Invoice;
 use Illuminate\Http\Request;
-use Illuminate\Http\Requests;
-use CCG\Xact\InvoiceImport;
 
 class InvoiceController extends Controller 
 {
@@ -36,7 +32,10 @@ class InvoiceController extends Controller
      */
     public function show($id)
     {
-        return Invoice::whereCarrierId($id)->get();
+        $invoice = Invoice::with('claim')->findOrFail($id);
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadView('pdfs.invoice', ['invoice' => $invoice]);
+        return $pdf->stream('claim-'.$invoice->claim->claim_number.'-invoice.pdf');
     }
 
     /**

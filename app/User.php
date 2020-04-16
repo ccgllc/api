@@ -96,6 +96,11 @@ class User extends Authenticatable
         return $this->hasOne(Profile::class);
     }
 
+    public function xactnetAddresses()
+    {
+        return $this->hasMany(\CCG\XactnetAddress::class);
+    }
+
     public function workHistory()
     {
         return $this->hasOne(\CCG\WorkHistory::class);
@@ -126,11 +131,6 @@ class User extends Authenticatable
         return $this->hasOne(\CCG\Avatar::class);
     }
 
-    public function claims()
-    {
-        return $this->hasManyThrough(\CCG\Claims\Claim::class, \CCG\Claims\Assignment::class);
-    }
-
     public function claimStatuses()
     {
       return $this->hasMany(\CCG\Claims\ClaimStatus::class);
@@ -143,8 +143,13 @@ class User extends Authenticatable
 
      public function assignments()
     {
-      return $this->hasMany(\CCG\Claims\Assignmment::class);
+      return $this->hasMany(\CCG\Claims\Assignment::class);
     }
+
+    // public function claims()
+    // {
+    //   return $this->hasManyTrough(\CCG\Claim)
+    // }
 
     public function getDistanceAttribute()
     {
@@ -170,6 +175,13 @@ class User extends Authenticatable
     public function scopeStatus($query, $status)
     {
         return $query->where('status', $status);
+    }
+
+    public function scopeClaims()
+    {
+      // return $this->hasManyThrough(\CCG\Claims\Claim::class, \CCG\Claims\Assignment::class);
+      return $this->assignments->load('claim')->pluck('claim');
+      // return $assignments-;
     }
 
       /**

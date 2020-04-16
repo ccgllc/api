@@ -1,7 +1,7 @@
 <template>
 	<div id="personal-information">
 		<h1 class="profile-title">Personal Information</h1>
-		<xactnet-address></xactnet-address>
+		<xactnet-addresses></xactnet-addresses>
 		<phone-number></phone-number>
 		<email-address></email-address>
 		<mailing-address></mailing-address>
@@ -9,7 +9,7 @@
 </template>
 
 <script>
-	import xactnetAddress from './components/XactnetAddress.vue';
+	import xactnetAddresses from './components/XactnetAddresses.vue';
 	import phoneNumber from './components/PhoneNumber.vue';
 	import emailAddress from './components/EmailAddress.vue';
 	import mailingAddress from './components/Address.vue';
@@ -17,7 +17,7 @@
 	export default {
 		name: 'PersonalInformation',
 		components: {
-			xactnetAddress,
+			xactnetAddresses,
 			phoneNumber,
 			emailAddress,
 			mailingAddress
