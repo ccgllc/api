@@ -1,6 +1,8 @@
 <?php
 
+use CCG\Mail\CallToAction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 /*
 |--------------------------------------------------------------------------
@@ -90,4 +92,11 @@ Route::post('search', function(Request $request){
 	return CCG\Claims\Claim::where('claim_number', 'like', "%$query%")
 							->orWhere('insured', 'like', "%$query%")->take(10)->get();
 	
+});
+
+Route::post('call-to-action/email', function(Request $request){
+	Log::info($request->all());
+	Mail::to('info@claimconsultantgroup.com')->send(new CallToAction($request->all()));
+   // return json_encode($request->body);
+   // return response('success', 200);
 });
