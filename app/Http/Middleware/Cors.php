@@ -15,8 +15,10 @@ class Cors
      */
     public function handle($request, Closure $next)
     {
+        if (method_exists($request, 'header')) {
+          $request->header('Access-Control-Allow-Origin', '*')
+          $request->header('Access-Control-Allow-Headers', 'X-REQUESTED-WITH, Content-Type');
+        }
         return $next($request)
-            ->header('Access-Control-Allow-Origin', '*')
-            ->header('Access-Control-Allow-Headers', 'X-REQUESTED-WITH, Content-Type');
     }
 }
