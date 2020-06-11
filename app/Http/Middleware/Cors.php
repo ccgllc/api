@@ -19,6 +19,6 @@ class Cors
           $request->header('Access-Control-Allow-Origin', '*');
           $request->header('Access-Control-Allow-Headers', 'X-REQUESTED-WITH, Content-Type');
         }
-        return $next($request)
+        return $next($request);
     }
 }
