@@ -204,8 +204,20 @@ let app = new Vue({
 			if(column.model == 'work_history' && user[column.model] !== null) {
 				return user[column.model][column.property];
 			}
+			// if(column.model == 'certifications' && user[column.model] !== null) {
+			// 	// console.log(column.model);
+			// 	return user[column.model][column.property];
+			// }
 			let str = '';
 			for (let property in user[column.model]) {
+				// console.log([column.model]);
+				if (column.model == 'certifications') {
+					str+= user[column.model][property][column.property];
+					if (user[column.model][property].hasOwnProperty('expiration') && user[column.model][property]['expiration'] !== null ) {
+						str += ' (exp.' + user[column.model][property]['expiration'] + ') ';
+					}
+					return str;
+				}
 				str+= user[column.model][property][column.property] + ' ';
 			}
 			return str;
