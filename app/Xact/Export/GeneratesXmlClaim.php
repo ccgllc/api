@@ -13,10 +13,12 @@ trait GeneratesXmlClaim {
 
 	public function createXml($data)
 	{
-		$this->data = $data;
+		$this->data = $data->document;
+		// dd($this->data->file_name);
 		$this->doc = new XactClaimXml();
 		$this->doc->carrier = $this->getCarrier();
 		$this->doc->claimNumber = $this->getClaimNumber();
+		// dd($this->getClaimNumber());
 		$this->doc->pdfLink = $this->data->media_link_original;
 		$this->buildXactnetInfo();
 		$this->buildProjectInfo();
@@ -199,6 +201,8 @@ trait GeneratesXmlClaim {
 			? $docs = $this->getClaimDocs()
 			: $docs = $this->getExternalFile();
 	   	$num = 1;
+	   	// dd($this->doc->claimNumber);
+	   	mkdir(storage_path('fnol_xml') .'/'. $this->doc->claimNumber .'/');
 	   	foreach($docs->toArray() as $key => $doc) {
 	   		rename($doc, storage_path('fnol_xml').'/'. $this->doc->claimNumber .'/' . $key);
 	   		$this->doc->createXmlNode('attachment', 'attachments');
@@ -282,7 +286,7 @@ trait GeneratesXmlClaim {
     	//create request object uses pdf link embedded in raw xml data for its uri..
     	$request = new \GuzzleHttp\Psr7\Request('GET', $this->doc->pdfLink);
     	// open a new (empty) pdf file
-    	$file = fopen($this->generatePdfFilename($this->data->file_name), "w+");
+    	$file = fopen($this->generatePdfFilename((string)$this->data->file_name), "w+");
     	// create async http request
 		$promise = $client->sendAsync($request)->then(function ($response) use ($file) {
 		    // write request body (pdf data) into our $file
@@ -296,7 +300,7 @@ trait GeneratesXmlClaim {
 		$promise->wait();
 		// return  $this->generatePdfFilename($this->data->file_name);
 		// dd($this->data->file_name);
-		$docs->put((string)$this->data->file_name, $this->generatePdfFilename($this->data->file_name));
+		$docs->put((string)$this->data->file_name, $this->generatePdfFilename((string)$this->data->file_name));
 		// dd($docs);
 		return $docs;
 	}
@@ -489,7 +493,7 @@ trait GeneratesXmlClaim {
 	{
 		return $this->doc->carrier == 'CIGP' 
 			 ? $this->getClaimNumberFromFilename() 
-			 : $this->data->claim_number;
+			 : (string)$this->data->claim_number;
 	}
 	protected function getClaimNumberFromFilename()
 	{
