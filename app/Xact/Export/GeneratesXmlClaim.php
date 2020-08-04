@@ -13,8 +13,8 @@ trait GeneratesXmlClaim {
 
 	public function createXml($data)
 	{
-		$this->data = $data->document;
-		// dd($this->data->file_name);
+		$this->data = $data;
+		// dd((string)$this->data->reported_date->formatted);
 		$this->doc = new XactClaimXml();
 		$this->doc->carrier = $this->getCarrier();
 		$this->doc->claimNumber = $this->getClaimNumber();
@@ -202,7 +202,9 @@ trait GeneratesXmlClaim {
 			: $docs = $this->getExternalFile();
 	   	$num = 1;
 	   	// dd($this->doc->claimNumber);
-	   	mkdir(storage_path('fnol_xml') .'/'. $this->doc->claimNumber .'/');
+	   	if (!is_dir(storage_path('fnol_xml') .'/'. $this->doc->claimNumber .'/')) {
+	   		mkdir(storage_path('fnol_xml') .'/'. $this->doc->claimNumber .'/');
+	   	}
 	   	foreach($docs->toArray() as $key => $doc) {
 	   		rename($doc, storage_path('fnol_xml').'/'. $this->doc->claimNumber .'/' . $key);
 	   		$this->doc->createXmlNode('attachment', 'attachments');
