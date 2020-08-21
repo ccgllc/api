@@ -51,7 +51,7 @@ class RemoveUsersByEmailFromCsv extends Command
 
         foreach($emails->toArray() as $email) {
           $user = User::where('email', '=', $email)->first();
-          $user ? var_dump($user->name) : $notFound->push($email);
+          $user ? $user->delete() : $notFound->push($email);
         }
 
         $this->info($emails->count() - $notFound->count().' of '.$emails->count(). " accounts(s) removed.");
