@@ -1,45 +1,20 @@
 <template>
 	<div id="Licenses">
+		<button @click="creatingNewLicense = !creatingNewLicense;" class="button is-info">{{ buttonText}}</button><br><br>
 		<div class="columns is-multiline">
-		<div class="column is-half" v-for="license in adjusterLicenses" :key="license.id">
-		<div class="card">
-			<header class="card-header">
-			    <p class="card-header-title">
-			     {{license.license_state}} Adjusting License
-			    </p>
-			    <a @click="remove(license)" class="card-header-icon is-danger" aria-label="Delete">
-			      <span class="icon">
-			        <i class="fa fa-close" aria-hidden="true"></i>
-			      </span>
-			    </a>
-		 	</header>
-		 	<div class="card-content">
-		 		<div class="content">
-		 			<div class="columns">
-						<div class="column is-3">
-							<p><strong>License #</strong>:</p>
-						</div>
-
-						<div class="column is-3">
-							<p>{{ license.license_number }}</p>
-						</div>
-
-						<div class="column is-3">
-							<p><strong>Expiration</strong>:</p>
-						</div>
-
-						<div class="column is-3">
-							<p>{{ license.expiration_month }} / {{license.expiration_year}}</p>
-						</div>
-					</div><!-- end columns -->
-				</div><!-- end content -->
-	 		</div><!-- end card content --> 
-	 	</div><!-- end card -->
-	 	</div>
+			<License 
+				v-for="license in adjusterLicenses" 
+				:key="license.id" 
+				:license="license" 
+				:states="states" 
+				:months="months" 
+				:currentYear="currentYear"
+				@update='update'
+				@remove="remove"
+			>
+			</License>
 	 	</div>
 		<br>
-		<button @click="creatingNewLicense = !creatingNewLicense;" class="button is-info">{{ buttonText}}</button>
-		
 
 		<div class="modal" v-bind:class="{ 'is-active': creatingNewLicense }">
 			<div class="modal-background"></div>
@@ -120,14 +95,14 @@
 </template>
 
 <script>
-	import license from './components/license.vue';
+	import License from './components/License.vue';
 	import Form from '../structur/src/form/Form.js';
 	import states from '../data/states.js';
 	import months from '../data/months.js';
 	export default {
 		name: 'Licenses',
 		components: {
-			license,
+			License,
 		},
 		mounted() {
 			this.adjusterLicenses = window.userData.adjuster_licenses;
@@ -169,8 +144,19 @@
 						return window.axios.post('/api/admin/client-error', error);
 					})
 			},
+			update(license) {
+				// alert('updating...')
+				window.axios.patch('/api/user/' + this.userId + '/license/' + license.id, license)
+					.then(response => {
+						let current = this.adjusterLicenses.find(adjusterLicense => adjusterLicense.id === license.id)
+						let index = this.adjusterLicenses.indexOf(current);
+						return this.adjusterLicenses.splice(index, 1, response.data);
+					})
+					.catch(error => {
+						console.log(error);
+				})
+			},
 			remove(license) {
-				if (confirm('Are you sure? This action cannot be undone..')) {
 				window.axios.delete('/api/user/' + this.userId + '/license/' + license.id)
 					.then(response => {
 						console.log(response);
@@ -179,8 +165,7 @@
 					})
 					.catch(error => {
 						console.log(error);
-					})
-				}
+				})
 			}
 		}
 	}

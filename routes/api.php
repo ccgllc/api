@@ -36,6 +36,7 @@ Route::namespace('Api\Profile')
 		Route::put('user/{id}/address', 'ProfileController@address');
 		Route::post('user/{id}/license', 'ProfileController@license');
 		Route::delete('user/{id}/license/{licenseId}', 'ProfileController@destroyLicense');
+		Route::patch('user/{id}/license/{licenseId}', 'ProfileController@updateLicense');
 		Route::post('user/{id}/avatar/', 'ProfileController@createAvatar');
 		Route::delete('user/avatar/{id}', 'ProfileController@destroyAvatar');
 		 //temporary and only for batch updating exisitng profile data 

@@ -122,6 +122,25 @@ class ProfileController extends Controller {
 
 	}
 
+	public function updateLicense(Request $request, $id, $licenseId)
+	{
+		// return $request->all();
+		$valid = $request->validate([
+			'license_number' => 'required',
+			'expiration_month' => 'required|numeric',
+			'expiration_year' => 'required|numeric'
+		]);
+
+		// $user = $this->getUser($id);
+
+		$license = \CCG\AdjusterLicense::find($licenseId);
+
+		$license->update($valid);
+
+		return $license;
+
+	}
+
 	public function destroyLicense(Request $request, $id, $licenseId)
 	{
 		return \CCG\AdjusterLicense::destroy($licenseId);
