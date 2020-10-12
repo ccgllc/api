@@ -38,6 +38,7 @@ export default [
 	    { abbr: 'OK', name: 'Oklahoma' },
 	    { abbr: 'OR', name: 'Oregon' },
 	    { abbr: 'PA', name: 'Pennsylvania' },
+	    { abbr: 'PR', name: 'Puerto Rico' },
 	    { abbr: 'RI', name: 'Rhode Island' },
 	    { abbr: 'SC', name:'South Carolina' },
 	    { abbr: 'SD', name: 'South Dakota' },
