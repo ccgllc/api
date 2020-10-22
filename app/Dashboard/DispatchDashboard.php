@@ -33,7 +33,8 @@ class DispatchDashboard
 	public function getAdjusters()
 	{
 		//$role = Role::with(['users', 'users.profile'])->whereName('adjuster')->first();
-		$adjusters = User::whereHas('adjusterLicenses')->whereHas('profile', function($query) {
+		//whereHas('adjusterLicenses')->
+		$adjusters = User::whereHas('profile', function($query) {
 			$query->whereNotNull('city');
 			$query->whereNotNull('street');
 			$query->whereNotNull('state');
