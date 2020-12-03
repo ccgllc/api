@@ -185,7 +185,7 @@ class User extends Authenticatable
 
     /**
      * Scope a query to only include only users with
-     * an employment status of applicant.
+     * filter matches in query string ex. "http://localhost/users?status=active"
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
      * @return \Illuminate\Database\Eloquent\Builder
