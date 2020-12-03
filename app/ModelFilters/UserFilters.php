@@ -63,6 +63,11 @@ class UserFilters extends QueryFilter {
 	 	return $this->builder->whereHas('workHistory', function($query) use($val) {
 	 		$query->where($val, '>', 0);
 	 	});
+	}
+
+	public function status($val = null)
+	{
+	 	return $this->builder->where('status', $val);
 	}	
 
 	public function applied($applied = null)
