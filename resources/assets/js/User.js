@@ -5,6 +5,7 @@ import states from './data/states.js';
 import certifications from './data/certifications.js';
 import software from './data/software.js';
 import workHistory from './data/workHistory.js';
+import userStatuses from './data/userStatuses.js';
 import filterableDropdown from './structur/src/components/SearchableDropdown.vue';
 import availableColumns from './data/availableColumns.js';
 import { DateTime } from "luxon";
@@ -23,6 +24,7 @@ let app = new Vue({
 		certifications,
 		software,
 		workHistory,
+		userStatuses,
 		availableColumns,
 		showColumns: false,
 		showAllWorkHistory: false,
@@ -42,7 +44,8 @@ let app = new Vue({
 			software: 0,
 			experience: false,
 			workHistory: '',
-			applied: 0
+			applied: 0,
+			status: '',
 		},
 		selectedColumn: 0,
 		activeColumns: [
