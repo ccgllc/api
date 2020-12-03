@@ -13,7 +13,7 @@ class UserAdministrationController extends Controller
     public function filter(UserFilters $filters)
     {
         $users = User::filter($filters)
-                    ->with('adjusterLicenses', 'certifications', 'workHistory', 'softwareExperiences', 'profile')
+                    ->with('adjusterLicenses', 'certifications', 'workHistory', 'softwareExperiences', 'profile', 'avatar')
                     ->get();
 
         return $users;
