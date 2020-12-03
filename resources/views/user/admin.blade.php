@@ -100,6 +100,12 @@
 							</filterable-dropdown>
 						</div>
 
+						<div class="column is-2">
+								<filterable-dropdown v-bind:list="userStatuses" v-on:selected="updateFilters" model="status" property="name" placeholder-text="User Status">
+								<template v-slot:label>User Status</template>
+							</filterable-dropdown>
+						</div>
+
 					</div>	
 
 				{{-- <div class="columns">
