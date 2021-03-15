@@ -5,6 +5,7 @@ import states from './data/states.js';
 import certifications from './data/certifications.js';
 import software from './data/software.js';
 import workHistory from './data/workHistory.js';
+import userStatuses from './data/userStatuses.js';
 import filterableDropdown from './structur/src/components/SearchableDropdown.vue';
 import availableColumns from './data/availableColumns.js';
 import { DateTime } from "luxon";
@@ -23,6 +24,7 @@ let app = new Vue({
 		certifications,
 		software,
 		workHistory,
+		userStatuses,
 		availableColumns,
 		showColumns: false,
 		showAllWorkHistory: false,
@@ -42,7 +44,8 @@ let app = new Vue({
 			software: 0,
 			experience: false,
 			workHistory: '',
-			applied: 0
+			applied: 0,
+			status: '',
 		},
 		selectedColumn: 0,
 		activeColumns: [
@@ -204,8 +207,20 @@ let app = new Vue({
 			if(column.model == 'work_history' && user[column.model] !== null) {
 				return user[column.model][column.property];
 			}
+			// if(column.model == 'certifications' && user[column.model] !== null) {
+			// 	// console.log(column.model);
+			// 	return user[column.model][column.property];
+			// }
 			let str = '';
 			for (let property in user[column.model]) {
+				// console.log([column.model]);
+				if (column.model == 'certifications') {
+					str+= user[column.model][property][column.property];
+					if (user[column.model][property].hasOwnProperty('expiration') && user[column.model][property]['expiration'] !== null ) {
+						str += ' (exp.' + user[column.model][property]['expiration'] + ') ';
+					}
+					return str;
+				}
 				str+= user[column.model][property][column.property] + ' ';
 			}
 			return str;

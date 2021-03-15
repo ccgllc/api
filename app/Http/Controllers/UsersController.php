@@ -29,7 +29,7 @@ class UsersController extends Controller
         }
         else {
             $users = User::recent()->paginate(36);
-            $users->load('roles', 'profile', 'certifications', 'workHistory', 'adjusterLicenses', 'softwareExperiences');
+            $users->load('roles', 'profile', 'certifications', 'workHistory', 'adjusterLicenses', 'softwareExperiences', 'avatar');
             // $users->each(function($user){
             //     dd($user->workHistory);
             //     // $user->xp = $user->workHistory->sum();

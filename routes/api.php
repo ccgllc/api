@@ -1,6 +1,8 @@
 <?php
 
+use CCG\Mail\CallToAction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +38,7 @@ Route::namespace('Api\Profile')
 		Route::put('user/{id}/address', 'ProfileController@address');
 		Route::post('user/{id}/license', 'ProfileController@license');
 		Route::delete('user/{id}/license/{licenseId}', 'ProfileController@destroyLicense');
+		Route::patch('user/{id}/license/{licenseId}', 'ProfileController@updateLicense');
 		Route::post('user/{id}/avatar/', 'ProfileController@createAvatar');
 		Route::delete('user/avatar/{id}', 'ProfileController@destroyAvatar');
 		 //temporary and only for batch updating exisitng profile data 
@@ -93,4 +96,11 @@ Route::post('search', function(Request $request){
 	return CCG\Claims\Claim::where('claim_number', 'like', "%$query%")
 							->orWhere('insured', 'like', "%$query%")->take(10)->get();
 	
+});
+
+Route::post('call-to-action/email', function(Request $request){
+	Log::info($request->all());
+	Mail::to('info@claimconsultantgroup.com')->send(new CallToAction($request->all()));
+   // return json_encode($request->body);
+   // return response('success', 200);
 });

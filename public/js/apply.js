@@ -5722,6 +5722,9 @@ __webpack_require__.r(__webpack_exports__);
   abbr: 'PA',
   name: 'Pennsylvania'
 }, {
+  abbr: 'PR',
+  name: 'Puerto Rico'
+}, {
   abbr: 'RI',
   name: 'Rhode Island'
 }, {

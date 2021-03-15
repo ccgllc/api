@@ -673,35 +673,10 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _components_license_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/license.vue */ "./resources/assets/js/profile/components/license.vue");
+/* harmony import */ var _components_License_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/License.vue */ "./resources/assets/js/profile/components/License.vue");
 /* harmony import */ var _structur_src_form_Form_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../structur/src/form/Form.js */ "./resources/assets/js/structur/src/form/Form.js");
 /* harmony import */ var _data_states_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../data/states.js */ "./resources/assets/js/data/states.js");
 /* harmony import */ var _data_months_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../data/months.js */ "./resources/assets/js/data/months.js");
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -805,7 +780,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Licenses',
   components: {
-    license: _components_license_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+    License: _components_License_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   mounted: function mounted() {
     this.adjusterLicenses = window.userData.adjuster_licenses;
@@ -849,20 +824,34 @@ __webpack_require__.r(__webpack_exports__);
         return window.axios.post('/api/admin/client-error', error);
       });
     },
-    remove: function remove(license) {
+    update: function update(license) {
       var _this2 = this;
 
-      if (confirm('Are you sure? This action cannot be undone..')) {
-        window.axios["delete"]('/api/user/' + this.userId + '/license/' + license.id).then(function (response) {
-          console.log(response);
-
-          var index = _this2.adjusterLicenses.indexOf(license);
-
-          return _this2.adjusterLicenses.splice(index, 1);
-        })["catch"](function (error) {
-          console.log(error);
+      // alert('updating...')
+      window.axios.patch('/api/user/' + this.userId + '/license/' + license.id, license).then(function (response) {
+        var current = _this2.adjusterLicenses.find(function (adjusterLicense) {
+          return adjusterLicense.id === license.id;
         });
-      }
+
+        var index = _this2.adjusterLicenses.indexOf(current);
+
+        return _this2.adjusterLicenses.splice(index, 1, response.data);
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    remove: function remove(license) {
+      var _this3 = this;
+
+      window.axios["delete"]('/api/user/' + this.userId + '/license/' + license.id).then(function (response) {
+        console.log(response);
+
+        var index = _this3.adjusterLicenses.indexOf(license);
+
+        return _this3.adjusterLicenses.splice(index, 1);
+      })["catch"](function (error) {
+        console.log(error);
+      });
     }
   }
 });
@@ -1751,6 +1740,136 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/profile/components/License.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/profile/components/License.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'License',
+  props: ['license', 'months', 'states', 'currentYear'],
+  data: function data() {
+    return {
+      editing: false,
+      editedLicense: {
+        id: '',
+        license_number: '',
+        expiration_month: '',
+        expiration_year: ''
+      }
+    };
+  },
+  mounted: function mounted() {
+    this.resetLicense();
+  },
+  methods: {
+    edit: function edit() {
+      this.editing === false ? this.editing = true : this.resetLicense();
+      this.$emit('edit');
+    },
+    update: function update() {
+      this.$emit('update', this.editedLicense);
+      this.editing = false;
+    },
+    remove: function remove() {
+      confirm('Are you sure? This cannot be undone') ? this.$emit('remove', this.license) : false; //
+    },
+    resetLicense: function resetLicense() {
+      this.editedLicense.id = this.license.id;
+      this.editedLicense.license_number = this.license.license_number;
+      this.editedLicense.expiration_month = this.license.expiration_month;
+      this.editedLicense.expiration_year = this.license.expiration_year;
+      this.editing = false;
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/profile/components/PhoneNumber.vue?vue&type=script&lang=js&":
 /*!*************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/profile/components/PhoneNumber.vue?vue&type=script&lang=js& ***!
@@ -2318,26 +2437,6 @@ __webpack_require__.r(__webpack_exports__);
       return this.editing = !this.editing;
     }
   }
-});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/profile/components/license.vue?vue&type=script&lang=js&":
-/*!*********************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/profile/components/license.vue?vue&type=script&lang=js& ***!
-  \*********************************************************************************************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-/* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'License',
-  mounted: function mounted() {}
 });
 
 /***/ }),
@@ -6318,67 +6417,6 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { attrs: { id: "Licenses" } }, [
     _c(
-      "div",
-      { staticClass: "columns is-multiline" },
-      _vm._l(_vm.adjusterLicenses, function(license) {
-        return _c("div", { key: license.id, staticClass: "column is-half" }, [
-          _c("div", { staticClass: "card" }, [
-            _c("header", { staticClass: "card-header" }, [
-              _c("p", { staticClass: "card-header-title" }, [
-                _vm._v(
-                  "\n\t\t     " +
-                    _vm._s(license.license_state) +
-                    " Adjusting License\n\t\t    "
-                )
-              ]),
-              _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass: "card-header-icon is-danger",
-                  attrs: { "aria-label": "Delete" },
-                  on: {
-                    click: function($event) {
-                      return _vm.remove(license)
-                    }
-                  }
-                },
-                [_vm._m(0, true)]
-              )
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "card-content" }, [
-              _c("div", { staticClass: "content" }, [
-                _c("div", { staticClass: "columns" }, [
-                  _vm._m(1, true),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "column is-3" }, [
-                    _c("p", [_vm._v(_vm._s(license.license_number))])
-                  ]),
-                  _vm._v(" "),
-                  _vm._m(2, true),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "column is-3" }, [
-                    _c("p", [
-                      _vm._v(
-                        _vm._s(license.expiration_month) +
-                          " / " +
-                          _vm._s(license.expiration_year)
-                      )
-                    ])
-                  ])
-                ])
-              ])
-            ])
-          ])
-        ])
-      }),
-      0
-    ),
-    _vm._v(" "),
-    _c("br"),
-    _vm._v(" "),
-    _c(
       "button",
       {
         staticClass: "button is-info",
@@ -6390,6 +6428,28 @@ var render = function() {
       },
       [_vm._v(_vm._s(_vm.buttonText))]
     ),
+    _c("br"),
+    _c("br"),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "columns is-multiline" },
+      _vm._l(_vm.adjusterLicenses, function(license) {
+        return _c("License", {
+          key: license.id,
+          attrs: {
+            license: license,
+            states: _vm.states,
+            months: _vm.months,
+            currentYear: _vm.currentYear
+          },
+          on: { update: _vm.update, remove: _vm.remove }
+        })
+      }),
+      1
+    ),
+    _vm._v(" "),
+    _c("br"),
     _vm._v(" "),
     _c(
       "div",
@@ -6541,7 +6601,7 @@ var render = function() {
                               }
                             }),
                             _vm._v(" "),
-                            _vm._m(3),
+                            _vm._m(0),
                             _vm._v(" "),
                             _vm.newLicense.errors.has("license_number")
                               ? _c("span", {
@@ -6733,30 +6793,6 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "icon" }, [
-      _c("i", { staticClass: "fa fa-close", attrs: { "aria-hidden": "true" } })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "column is-3" }, [
-      _c("p", [_c("strong", [_vm._v("License #")]), _vm._v(":")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "column is-3" }, [
-      _c("p", [_c("strong", [_vm._v("Expiration")]), _vm._v(":")])
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -7952,6 +7988,294 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/profile/components/License.vue?vue&type=template&id=3e6aae00&":
+/*!*************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/profile/components/License.vue?vue&type=template&id=3e6aae00& ***!
+  \*************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "column is-half" }, [
+    _c("div", { staticClass: "card" }, [
+      _c("header", { staticClass: "card-header" }, [
+        _c("p", { staticClass: "card-header-title" }, [
+          _vm._v(
+            "\n\t\t\t     " +
+              _vm._s(_vm.license.license_state) +
+              " Adjusting License\n\t\t\t    "
+          )
+        ]),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "card-header-icon",
+            class: {
+              "has-text-grey": _vm.editing,
+              "has-background-grey-dark": _vm.editing
+            },
+            attrs: { "aria-label": "edit" },
+            on: {
+              click: function($event) {
+                return _vm.edit()
+              }
+            }
+          },
+          [
+            _c("span", { staticClass: "icon" }, [
+              _c("i", {
+                staticClass: "fa",
+                class: { "fa-edit": !_vm.editing, "fa-close": _vm.editing },
+                attrs: { "aria-hidden": "true" }
+              })
+            ])
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "card-content" }, [
+        _c("div", { staticClass: "content" }, [
+          _c("div", { staticClass: "columns is-multiline is-mobile" }, [
+            _c("div", { staticClass: "column is-6" }, [
+              !_vm.editing
+                ? _c("p", [
+                    _c("strong", [_vm._v("License #:")]),
+                    _vm._v(" " + _vm._s(_vm.license.license_number))
+                  ])
+                : _c("div", { staticClass: "field" }, [
+                    _c("label", { staticClass: "label" }, [
+                      _vm._v("License #")
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "control" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.editedLicense.license_number,
+                            expression: "editedLicense.license_number"
+                          }
+                        ],
+                        staticClass: "input",
+                        attrs: { type: "text", name: "license_number" },
+                        domProps: { value: _vm.editedLicense.license_number },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.editedLicense,
+                              "license_number",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ])
+                  ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "column is-6" }, [
+              !_vm.editing
+                ? _c("p", [
+                    _c("strong", [_vm._v("Expires:")]),
+                    _vm._v(
+                      " " +
+                        _vm._s(_vm.license.expiration_month) +
+                        " / " +
+                        _vm._s(_vm.license.expiration_year)
+                    )
+                  ])
+                : _c("div", { staticClass: "columns" }, [
+                    _c("div", { staticClass: "column" }, [
+                      _c("div", { staticClass: "field" }, [
+                        _c(
+                          "label",
+                          { staticClass: "label", attrs: { for: "month" } },
+                          [_vm._v("Month")]
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "control" }, [
+                          _c("div", { staticClass: "select is-fullwidth" }, [
+                            _c(
+                              "select",
+                              {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.editedLicense.expiration_month,
+                                    expression: "editedLicense.expiration_month"
+                                  }
+                                ],
+                                attrs: {
+                                  type: "text",
+                                  name: "expiration_month"
+                                },
+                                on: {
+                                  change: function($event) {
+                                    var $$selectedVal = Array.prototype.filter
+                                      .call($event.target.options, function(o) {
+                                        return o.selected
+                                      })
+                                      .map(function(o) {
+                                        var val =
+                                          "_value" in o ? o._value : o.value
+                                        return val
+                                      })
+                                    _vm.$set(
+                                      _vm.editedLicense,
+                                      "expiration_month",
+                                      $event.target.multiple
+                                        ? $$selectedVal
+                                        : $$selectedVal[0]
+                                    )
+                                  }
+                                }
+                              },
+                              _vm._l(_vm.months, function(month) {
+                                return _c(
+                                  "option",
+                                  { domProps: { value: month.abbr } },
+                                  [_vm._v(_vm._s(month.abbr))]
+                                )
+                              }),
+                              0
+                            )
+                          ])
+                        ])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "column" }, [
+                      _c("div", { staticClass: "field" }, [
+                        _c(
+                          "label",
+                          { staticClass: "label", attrs: { for: "month" } },
+                          [_vm._v("Year")]
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "control" }, [
+                          _c("div", { staticClass: "select is-fullwidth" }, [
+                            _c(
+                              "select",
+                              {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.editedLicense.expiration_year,
+                                    expression: "editedLicense.expiration_year"
+                                  }
+                                ],
+                                attrs: {
+                                  type: "text",
+                                  name: "expiration_year"
+                                },
+                                on: {
+                                  change: function($event) {
+                                    var $$selectedVal = Array.prototype.filter
+                                      .call($event.target.options, function(o) {
+                                        return o.selected
+                                      })
+                                      .map(function(o) {
+                                        var val =
+                                          "_value" in o ? o._value : o.value
+                                        return val
+                                      })
+                                    _vm.$set(
+                                      _vm.editedLicense,
+                                      "expiration_year",
+                                      $event.target.multiple
+                                        ? $$selectedVal
+                                        : $$selectedVal[0]
+                                    )
+                                  }
+                                }
+                              },
+                              _vm._l(10, function(n) {
+                                return _c(
+                                  "option",
+                                  {
+                                    domProps: { value: _vm.currentYear + n - 1 }
+                                  },
+                                  [_vm._v(_vm._s(_vm.currentYear + n - 1))]
+                                )
+                              }),
+                              0
+                            )
+                          ])
+                        ])
+                      ])
+                    ])
+                  ])
+            ]),
+            _vm._v(" "),
+            _vm.editing
+              ? _c("div", { staticClass: "column is-12" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "button is-info",
+                      on: {
+                        click: function($event) {
+                          return _vm.update()
+                        }
+                      }
+                    },
+                    [_vm._v("Save")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "button is-danger",
+                      on: {
+                        click: function($event) {
+                          return _vm.remove()
+                        }
+                      }
+                    },
+                    [_vm._v("Delete")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "button",
+                      on: {
+                        click: function($event) {
+                          _vm.editing = false
+                        }
+                      }
+                    },
+                    [_vm._v("Cancel")]
+                  )
+                ])
+              : _vm._e()
+          ])
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/profile/components/PhoneNumber.vue?vue&type=template&id=80638ed4&":
 /*!*****************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/profile/components/PhoneNumber.vue?vue&type=template&id=80638ed4& ***!
@@ -8786,30 +9110,6 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/profile/components/license.vue?vue&type=template&id=7d610120&":
-/*!*************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/profile/components/license.vue?vue&type=template&id=7d610120& ***!
-  \*************************************************************************************************************************************************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div")
-}
-var staticRenderFns = []
-render._withStripped = true
-
-
-
-/***/ }),
-
 /***/ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js":
 /*!********************************************************************!*\
   !*** ./node_modules/vue-loader/lib/runtime/componentNormalizer.js ***!
@@ -9352,6 +9652,9 @@ __webpack_require__.r(__webpack_exports__);
 }, {
   abbr: 'PA',
   name: 'Pennsylvania'
+}, {
+  abbr: 'PR',
+  name: 'Puerto Rico'
 }, {
   abbr: 'RI',
   name: 'Rhode Island'
@@ -10220,6 +10523,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/assets/js/profile/components/License.vue":
+/*!************************************************************!*\
+  !*** ./resources/assets/js/profile/components/License.vue ***!
+  \************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _License_vue_vue_type_template_id_3e6aae00___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./License.vue?vue&type=template&id=3e6aae00& */ "./resources/assets/js/profile/components/License.vue?vue&type=template&id=3e6aae00&");
+/* harmony import */ var _License_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./License.vue?vue&type=script&lang=js& */ "./resources/assets/js/profile/components/License.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _License_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _License_vue_vue_type_template_id_3e6aae00___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _License_vue_vue_type_template_id_3e6aae00___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/assets/js/profile/components/License.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/assets/js/profile/components/License.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************!*\
+  !*** ./resources/assets/js/profile/components/License.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_License_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./License.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/profile/components/License.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_License_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/assets/js/profile/components/License.vue?vue&type=template&id=3e6aae00&":
+/*!*******************************************************************************************!*\
+  !*** ./resources/assets/js/profile/components/License.vue?vue&type=template&id=3e6aae00& ***!
+  \*******************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_License_vue_vue_type_template_id_3e6aae00___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./License.vue?vue&type=template&id=3e6aae00& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/profile/components/License.vue?vue&type=template&id=3e6aae00&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_License_vue_vue_type_template_id_3e6aae00___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_License_vue_vue_type_template_id_3e6aae00___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/assets/js/profile/components/PhoneNumber.vue":
 /*!****************************************************************!*\
   !*** ./resources/assets/js/profile/components/PhoneNumber.vue ***!
@@ -10578,75 +10950,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_XactnetAddresses_vue_vue_type_template_id_b50f0620___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_XactnetAddresses_vue_vue_type_template_id_b50f0620___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
-
-
-
-/***/ }),
-
-/***/ "./resources/assets/js/profile/components/license.vue":
-/*!************************************************************!*\
-  !*** ./resources/assets/js/profile/components/license.vue ***!
-  \************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _license_vue_vue_type_template_id_7d610120___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./license.vue?vue&type=template&id=7d610120& */ "./resources/assets/js/profile/components/license.vue?vue&type=template&id=7d610120&");
-/* harmony import */ var _license_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./license.vue?vue&type=script&lang=js& */ "./resources/assets/js/profile/components/license.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
-
-
-
-
-/* normalize component */
-
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _license_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _license_vue_vue_type_template_id_7d610120___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _license_vue_vue_type_template_id_7d610120___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "resources/assets/js/profile/components/license.vue"
-/* harmony default export */ __webpack_exports__["default"] = (component.exports);
-
-/***/ }),
-
-/***/ "./resources/assets/js/profile/components/license.vue?vue&type=script&lang=js&":
-/*!*************************************************************************************!*\
-  !*** ./resources/assets/js/profile/components/license.vue?vue&type=script&lang=js& ***!
-  \*************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_license_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./license.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/profile/components/license.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_license_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
-
-/***/ }),
-
-/***/ "./resources/assets/js/profile/components/license.vue?vue&type=template&id=7d610120&":
-/*!*******************************************************************************************!*\
-  !*** ./resources/assets/js/profile/components/license.vue?vue&type=template&id=7d610120& ***!
-  \*******************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_license_vue_vue_type_template_id_7d610120___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./license.vue?vue&type=template&id=7d610120& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/profile/components/license.vue?vue&type=template&id=7d610120&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_license_vue_vue_type_template_id_7d610120___WEBPACK_IMPORTED_MODULE_0__["render"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_license_vue_vue_type_template_id_7d610120___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

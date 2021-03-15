@@ -1,10 +1,9 @@
 <?php
-
 // use Laravel\Socialite\Facades\Socialite;
 
 // Route::get('/mailable', function () {
-//     $user = App\User::find(107);
-//     return new App\Mail\AccountVerification($user);
+//     $user = CCG\User::find(1);
+//     return new CCG\Mail\AccountVerification($user);
 // });
 // Route::get('/file', function(){
 // 	// dd(Storage::url('hr/user_documents/file.docx'));

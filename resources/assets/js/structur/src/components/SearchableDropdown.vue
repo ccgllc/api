@@ -52,6 +52,7 @@
 			filteredList() {
 				var self = this;
 				if(!Array.isArray(self.list)){
+					console.log('not an array');
 					let list = [];
 					for (let prop in self.list) {
 						list.push({ name: prop });
@@ -64,8 +65,9 @@
 				
 				return self.list.filter(item => {
 					let prop = item[self.property].toLowerCase();
-		        	return prop.indexOf(self.query.toLowerCase()) !== -1
-		    	});
+        	return prop.indexOf(self.query.toLowerCase()) !== -1
+	    	});
+
 			},
 			active() {
 				return this.filteredList.length > 0  && this.isFocused ? true : false;

@@ -197,7 +197,7 @@ class User extends Authenticatable
 
     /**
      * Scope a query to only include only users with
-     * an employment status of applicant.
+     * filter matches in query string ex. "http://localhost/users?status=active"
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
      * @return \Illuminate\Database\Eloquent\Builder
@@ -211,5 +211,10 @@ class User extends Authenticatable
     public function sendPasswordResetNotification($token)
   {
       $this->notify(new ResetPassword($token));
+  }
+
+  public function verificationLink()
+  {
+    return url("users/verify/$this->verification_token");
   }
 }

@@ -404,7 +404,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
             lat: +data.profile.lat,
             lng: +data.profile.lng
           },
-          icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+          icon: data.adjuster_licenses.length > 0 ? 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png' : 'http://maps.google.com/mapfiles/ms/icons/orange-dot.png',
           title: data.name,
           // icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
           map: this.map

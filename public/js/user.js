@@ -63,6 +63,7 @@ __webpack_require__.r(__webpack_exports__);
       var self = this;
 
       if (!Array.isArray(self.list)) {
+        console.log('not an array');
         var list = [];
 
         for (var prop in self.list) {
@@ -10220,6 +10221,16 @@ __webpack_require__.r(__webpack_exports__);
   property: 'applied',
   model: 'user',
   removable: true
+}, {
+  label: 'Desk Exp (mo)',
+  property: 'desk_experience',
+  model: 'work_history',
+  removable: true
+}, {
+  label: 'User Status',
+  property: 'status',
+  model: 'user',
+  removable: true
 }]);
 
 /***/ }),
@@ -10436,6 +10447,9 @@ __webpack_require__.r(__webpack_exports__);
   abbr: 'PA',
   name: 'Pennsylvania'
 }, {
+  abbr: 'PR',
+  name: 'Puerto Rico'
+}, {
   abbr: 'RI',
   name: 'Rhode Island'
 }, {
@@ -10487,6 +10501,31 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   users: []
 });
+
+/***/ }),
+
+/***/ "./resources/assets/js/data/userStatuses.js":
+/*!**************************************************!*\
+  !*** ./resources/assets/js/data/userStatuses.js ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ([{
+  name: 'applicant',
+  label: 'Applicant'
+}, {
+  name: 'active',
+  label: 'Active'
+}, {
+  name: 'inactive',
+  label: 'Inactive'
+}, {
+  name: 'no-hire',
+  label: 'No Hire'
+}]);
 
 /***/ }),
 
@@ -10726,11 +10765,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _data_certifications_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./data/certifications.js */ "./resources/assets/js/data/certifications.js");
 /* harmony import */ var _data_software_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./data/software.js */ "./resources/assets/js/data/software.js");
 /* harmony import */ var _data_workHistory_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./data/workHistory.js */ "./resources/assets/js/data/workHistory.js");
-/* harmony import */ var _structur_src_components_SearchableDropdown_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./structur/src/components/SearchableDropdown.vue */ "./resources/assets/js/structur/src/components/SearchableDropdown.vue");
-/* harmony import */ var _data_availableColumns_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./data/availableColumns.js */ "./resources/assets/js/data/availableColumns.js");
-/* harmony import */ var luxon__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! luxon */ "./node_modules/luxon/build/cjs-browser/luxon.js");
-/* harmony import */ var luxon__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(luxon__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var _data_userStatuses_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./data/userStatuses.js */ "./resources/assets/js/data/userStatuses.js");
+/* harmony import */ var _structur_src_components_SearchableDropdown_vue__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./structur/src/components/SearchableDropdown.vue */ "./resources/assets/js/structur/src/components/SearchableDropdown.vue");
+/* harmony import */ var _data_availableColumns_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./data/availableColumns.js */ "./resources/assets/js/data/availableColumns.js");
+/* harmony import */ var luxon__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! luxon */ "./node_modules/luxon/build/cjs-browser/luxon.js");
+/* harmony import */ var luxon__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(luxon__WEBPACK_IMPORTED_MODULE_10__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 
 
 
@@ -10747,7 +10788,7 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   name: 'User Administration',
   el: '#user',
   components: {
-    filterableDropdown: _structur_src_components_SearchableDropdown_vue__WEBPACK_IMPORTED_MODULE_7__["default"]
+    filterableDropdown: _structur_src_components_SearchableDropdown_vue__WEBPACK_IMPORTED_MODULE_8__["default"]
   },
   data: {
     date: {},
@@ -10756,7 +10797,8 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
     certifications: _data_certifications_js__WEBPACK_IMPORTED_MODULE_4__["default"],
     software: _data_software_js__WEBPACK_IMPORTED_MODULE_5__["default"],
     workHistory: _data_workHistory_js__WEBPACK_IMPORTED_MODULE_6__["default"],
-    availableColumns: _data_availableColumns_js__WEBPACK_IMPORTED_MODULE_8__["default"],
+    userStatuses: _data_userStatuses_js__WEBPACK_IMPORTED_MODULE_7__["default"],
+    availableColumns: _data_availableColumns_js__WEBPACK_IMPORTED_MODULE_9__["default"],
     showColumns: false,
     showAllWorkHistory: false,
     filteredStates: _data_states_js__WEBPACK_IMPORTED_MODULE_3__["default"],
@@ -10775,7 +10817,8 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
       software: 0,
       experience: false,
       workHistory: '',
-      applied: 0
+      applied: 0,
+      status: ''
     },
     selectedColumn: 0,
     activeColumns: [{
@@ -10887,7 +10930,7 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
     //       // fields in the form.
     //   	this.autocomplete.addListener('place_changed', () => { this.setHome() });
     // this.filters.endDate = 
-    this.date = luxon__WEBPACK_IMPORTED_MODULE_9__["DateTime"].local();
+    this.date = luxon__WEBPACK_IMPORTED_MODULE_10__["DateTime"].local();
     this.setupDates();
     this.current_page = window.users.current_page;
     return window.users.data ? this.userData.users = window.users.data : this.userData.users = window.users;
@@ -10962,11 +11005,26 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
 
       if (column.model == 'work_history' && user[column.model] !== null) {
         return user[column.model][column.property];
-      }
+      } // if(column.model == 'certifications' && user[column.model] !== null) {
+      // 	// console.log(column.model);
+      // 	return user[column.model][column.property];
+      // }
+
 
       var str = '';
 
       for (var property in user[column.model]) {
+        // console.log([column.model]);
+        if (column.model == 'certifications') {
+          str += user[column.model][property][column.property];
+
+          if (user[column.model][property].hasOwnProperty('expiration') && user[column.model][property]['expiration'] !== null) {
+            str += ' (exp.' + user[column.model][property]['expiration'] + ') ';
+          }
+
+          return str;
+        }
+
         str += user[column.model][property][column.property] + ' ';
       }
 
@@ -11149,7 +11207,7 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
         name: 'Last Week',
         startDate: this.date.minus({
           days: 7
-        }).toLocaleString(luxon__WEBPACK_IMPORTED_MODULE_9__["DateTime"].DATE_SHORT),
+        }).toLocaleString(luxon__WEBPACK_IMPORTED_MODULE_10__["DateTime"].DATE_SHORT),
         endDate: this.getDateString()
       };
       this.dateRanges.push(lastWeek);
@@ -11159,7 +11217,7 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
       return this.filters.endDate = this.selectedRange.endDate;
     },
     getDateString: function getDateString() {
-      return this.date.toLocaleString(luxon__WEBPACK_IMPORTED_MODULE_9__["DateTime"].DATE_SHORT);
+      return this.date.toLocaleString(luxon__WEBPACK_IMPORTED_MODULE_10__["DateTime"].DATE_SHORT);
     }
   }
 });

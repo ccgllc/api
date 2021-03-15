@@ -100,6 +100,12 @@
 							</filterable-dropdown>
 						</div>
 
+						<div class="column is-2">
+								<filterable-dropdown v-bind:list="userStatuses" v-on:selected="updateFilters" model="status" property="name" placeholder-text="User Status">
+								<template v-slot:label>User Status</template>
+							</filterable-dropdown>
+						</div>
+
 					</div>	
 
 				{{-- <div class="columns">
@@ -191,14 +197,16 @@
 					</thead>
 					<tbody>
 						<tr v-for="user in userData.users" :key="user.id">
-							<td>
+							<td style="vertical-align: middle;">
 								<input type="checkbox" v-model="selected" :value="parseRow(user)" :id="user.id" :name="user.id" class="is-checkbox is-circle is-small has-user">
 			 					<label :for="user.id">&nbsp;</label>
 			 				</td>
 			 				
-							<td v-for="column in activeColumns">
-								<a v-if="!column.removable" :href="/users/+ user.id" target="_blank">
-									<span v-text="parseColumnData(user, column)"></span>
+							<td v-for="column in activeColumns" style="margin-top: .5rem; vertical-align: middle;">
+								<a v-if="!column.removable" :href="/users/+ user.id" target="_blank" style="display: flex; flex-direction: row; align-items: center;">
+									<img v-if="user.avatar" style="border-radius: 512px; border: 3px solid #343b4d; width:2em; height:2em;" :src="user.avatar.path" :alt="user.name" width="100%" height="100%">
+									<span v-else style="padding-right: 1em; width:2em; height:2em;"><i class="fa fa-user-circle-o fa-2x has-text-dark"></i></span>
+									<span v-text="parseColumnData(user, column)" style="font-weight: 700; margin-left: 1em;"></span>
 								</a>
 								<span v-else>
 									<span v-text="parseColumnData(user, column)"></span>
@@ -253,8 +261,5 @@
 	<script>
 		window.users = {!! $users->toJson() !!}
 	</script>
-	{{-- <script
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJ2-Na1yIv_0zOlDuTbrizwya-5HcL1C0&libraries=places">
-    </script> --}}
 	<script src="{{ mix('/js/user.js') }}"></script>
 @endsection

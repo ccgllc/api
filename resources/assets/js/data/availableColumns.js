@@ -28,4 +28,6 @@ export default [
 	{ label: 'Earthquake Exp', property: 'earthquake_experience', model: 'work_history',  removable: true},
 	{ label: 'Earthquake Claims', property: 'earthquake_claims', model: 'work_history',  removable: true},
 	{ label: 'Applied ?', property: 'applied', model: 'user',  removable: true },
+	{ label: 'Desk Exp (mo)', property: 'desk_experience', model: 'work_history',  removable: true },
+	{ label: 'User Status', property: 'status', model: 'user',  removable: true },
 ]
