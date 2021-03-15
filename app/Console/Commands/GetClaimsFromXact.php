@@ -92,8 +92,8 @@ class GetClaimsFromXact extends Command
     protected function setFtpDirectory()
     {
        return $this->statuses 
-            ? '/OUT/Status/'
-            : '/OUT/FNOL/';
+            ? '/ClaimDeck/Status/'
+            : '/ClaimDeck/FNOL/';
     }
 
     protected function updateMarker($transferable)

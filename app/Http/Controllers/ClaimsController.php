@@ -31,13 +31,13 @@ class ClaimsController extends Controller {
 		if (!$request->ajax()){
 			// auth()->loginUsingId(5);
 			$superAdmin = auth()->user();
-		   $claims = Claim::with('statuses', 'assignments.user')->get();
+		   $claims = Claim::with('statuses', 'assignments.user')->take(100)->get();
 		   // dd(json_decode($claim->claim_data));
 			// dd($superAdmin);
 			return view('claims.dashboard', compact('superAdmin', 'claims'));
 		}
 
-		return Claim::with('statuses', 'assignments.user')->orderBy('date_received', 'desc')->get();
+		return Claim::with('statuses', 'assignments.user')->orderBy('date_received', 'desc')->take(100)->get();
 
 	}
 
