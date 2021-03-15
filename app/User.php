@@ -177,10 +177,16 @@ class User extends Authenticatable
         return $query->where('status', $status);
     }
 
+    // public function claims()
+    // {
+    //   return $this->hasManyThrough(\CCG\Claims\Claim::class, \CCG\Claims\Assignment::class);
+    // }
+
     public function scopeClaims()
     {
       // return $this->hasManyThrough(\CCG\Claims\Claim::class, \CCG\Claims\Assignment::class);
-      return $this->assignments->load('claim')->pluck('claim');
+      return $this->assignments->load('claim.carrier')->pluck('claim');
+      // $
       // return $assignments-;
     }
 
