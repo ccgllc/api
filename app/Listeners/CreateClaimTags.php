@@ -88,9 +88,11 @@ class CreateClaimTags
     protected function parseLocationData($data)
     {
         //add an item to the props collection to parse further.
-        $props = collect(['city', 'state', 'zip']);
-        $props->each(function($item, $key) use ($data) {
+        if (isset($data->client->addresses[1])) {
+            $props = collect(['city', 'state', 'zip']);
+            $props->each(function($item, $key) use ($data) {
             return $this->addTag($data->client->addresses[1]->{$item});
         });
+        }
     }
 }

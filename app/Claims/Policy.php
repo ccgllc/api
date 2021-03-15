@@ -34,11 +34,11 @@ class Policy extends Model
 
     public static function store($policyInfo, $claimId)
     {
-    	$policyData['claim_id'] = $claimId;
+    	$policyInfo['claim_id'] = $claimId;
     	foreach($policyInfo as $key => $value)
     	{
-    		$policyData["$key"] = $value;
+    		$policyInfo["$key"] = $value;
     	}
-    	return self::create($policyData);
+    	return self::create($policyInfo);
     }
 }

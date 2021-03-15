@@ -57,12 +57,18 @@ class BatchClaimImporter extends Command
         foreach($files as $file) {
             $this->setClaim(new XactClaimImport(file_get_contents($file)));
 
-            if ($this->isNewClaim()) {
+            if ($this->isNewClaim()) 
+            {
                 $this->createClaim();
                 $this->idx += 1;
-            } else if ($this->isExistingClaim()) {
-                $this->isReassignment() ? $this->ReassignClaim() : $this->updateClaim();
-                $this->idx += 1;
+            } 
+            else if ($this->isExistingClaim()) 
+            {                
+                if ($this->isReassignment()) $this->reassignClaim();
+
+                if ($this->hasUniqueTransactionId()) $this->updateClaim(); 
+                
+               if ($this->isReassignment() || $this->hasUniqueTransactionId()) $this->idx += 1;
             }
 
             $bar->advance();

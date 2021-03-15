@@ -14,6 +14,7 @@ class Address
 
     public function __construct($data)
     {
+        // dd($data);
         $this->type = $this->setType($data);
         $this->street = $this->setStreet($data);
         $this->city = $this->setCity($data);

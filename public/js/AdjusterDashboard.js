@@ -161,7 +161,11 @@ __webpack_require__.r(__webpack_exports__);
       var today = new Date();
       this.newStatus.date = today.getMonth() + 1 + '/' + today.getDate() + '/' + today.getFullYear();
       this.newStatus.time = today.toTimeString().replace(/(GMT-\d{1,}\s{1,}\S[A-z]{1,}.{1,})/g, '').trim();
-    }
+    } // toggleNewStatus() {
+    // 	// this.getTodaysDate();
+    // 	return this.creatingNewStatus = !this.creatingNewStatus;
+    // },
+
   },
   computed: {// accessContact() {
     // 	return claim.claim_data.accessContact.name
@@ -1442,7 +1446,12 @@ function normalizeComponent (
     options._ssrRegister = hook
   } else if (injectStyles) {
     hook = shadowMode
-      ? function () { injectStyles.call(this, this.$root.$options.shadowRoot) }
+      ? function () {
+        injectStyles.call(
+          this,
+          (options.functional ? this.parent : this).$root.$options.shadowRoot
+        )
+      }
       : injectStyles
   }
 
@@ -1451,7 +1460,7 @@ function normalizeComponent (
       // for template-only hot-reload because in that case the render fn doesn't
       // go through the normalizer
       options._injectStyles = hook
-      // register for functioal component in vue file
+      // register for functional component in vue file
       var originalRender = options.render
       options.render = function renderWithStyleInjection (h, context) {
         hook.call(context)
@@ -1680,6 +1689,11 @@ __webpack_require__.r(__webpack_exports__);
   reviewer: {},
   bounds: {},
   map: {},
+  geocoder: {},
+  autocomplete: {},
+  autocompleteResults: [],
+  selectedAutocompleteResult: 0,
+  directions: {},
   marker: {},
   home: {
     lat: 30.2702208,
@@ -1795,7 +1809,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return AmountLineItem; });
 /* harmony import */ var _LineItem__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./LineItem */ "./resources/assets/js/claims/invoice/LineItem.js");
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -1803,29 +1817,33 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 
-var AmountLineItem =
-/*#__PURE__*/
-function (_LineItem) {
+
+var AmountLineItem = /*#__PURE__*/function (_LineItem) {
   _inherits(AmountLineItem, _LineItem);
+
+  var _super = _createSuper(AmountLineItem);
 
   function AmountLineItem(data) {
     var _this;
 
     _classCallCheck(this, AmountLineItem);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(AmountLineItem).call(this, data));
+    _this = _super.call(this, data);
 
     _this.calculate();
 
@@ -1846,6 +1864,55 @@ function (_LineItem) {
 
 /***/ }),
 
+/***/ "./resources/assets/js/claims/invoice/HourlyRateLineItem.js":
+/*!******************************************************************!*\
+  !*** ./resources/assets/js/claims/invoice/HourlyRateLineItem.js ***!
+  \******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return HourlyRateLineItem; });
+/* harmony import */ var _QuantifiableLineItem__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./QuantifiableLineItem */ "./resources/assets/js/claims/invoice/QuantifiableLineItem.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+var HourlyRateLineItem = /*#__PURE__*/function (_QuantifiableLineItem) {
+  _inherits(HourlyRateLineItem, _QuantifiableLineItem);
+
+  var _super = _createSuper(HourlyRateLineItem);
+
+  function HourlyRateLineItem() {
+    _classCallCheck(this, HourlyRateLineItem);
+
+    return _super.apply(this, arguments);
+  }
+
+  return HourlyRateLineItem;
+}(_QuantifiableLineItem__WEBPACK_IMPORTED_MODULE_0__["default"]);
+
+
+
+/***/ }),
+
 /***/ "./resources/assets/js/claims/invoice/Invoice.js":
 /*!*******************************************************!*\
   !*** ./resources/assets/js/claims/invoice/Invoice.js ***!
@@ -1859,6 +1926,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ServiceFeeLineItem__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ServiceFeeLineItem */ "./resources/assets/js/claims/invoice/ServiceFeeLineItem.js");
 /* harmony import */ var _QuantifiableLineItem__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./QuantifiableLineItem */ "./resources/assets/js/claims/invoice/QuantifiableLineItem.js");
 /* harmony import */ var _AmountLineItem__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AmountLineItem */ "./resources/assets/js/claims/invoice/AmountLineItem.js");
+/* harmony import */ var _HourlyRateLineItem__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./HourlyRateLineItem */ "./resources/assets/js/claims/invoice/HourlyRateLineItem.js");
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -1867,26 +1941,35 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 
 
+
  // import Form from '../../structur/src/form/Form.js';
 
-var Invoice =
-/*#__PURE__*/
-function () {
+var Invoice = /*#__PURE__*/function () {
   function Invoice(data) {
     _classCallCheck(this, Invoice);
 
+    // console.log(data['taxRate']);
     this.lineItems = [];
-    this.userId = window.user.id;
+    this.userId = window.user ? window.user.id : 0;
     this.subTotal = 0;
-    this.tax = 0;
+    this.tax = 0; // the amount of the tax calculations...
+
+    this.taxRate = 0;
     this.total = 0;
     this.carrier = {};
     this.options = {
       mcm: false,
       cwop: false,
-      show: true
+      show: true,
+      taxable: false
     };
     this.feeSchedule = {};
+
+    for (var property in data) {
+      this[property] = data[property];
+    }
+
+    console.log(this.taxRate);
   }
   /**
    * Method gathering data to save invoice.
@@ -1898,28 +1981,19 @@ function () {
     key: "data",
     value: function data() {
       var data = {};
-      var _iteratorNormalCompletion = true;
-      var _didIteratorError = false;
-      var _iteratorError = undefined;
+
+      var _iterator = _createForOfIteratorHelper(this.getInvoiceProperties()),
+          _step;
 
       try {
-        for (var _iterator = this.getInvoiceProperties()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
           var property = _step.value;
           data[property] = this[property];
         }
       } catch (err) {
-        _didIteratorError = true;
-        _iteratorError = err;
+        _iterator.e(err);
       } finally {
-        try {
-          if (!_iteratorNormalCompletion && _iterator["return"] != null) {
-            _iterator["return"]();
-          }
-        } finally {
-          if (_didIteratorError) {
-            throw _iteratorError;
-          }
-        }
+        _iterator.f();
       }
 
       return data;
@@ -1939,7 +2013,27 @@ function () {
       this.lineItems.forEach(function (lineItem) {
         _this.subTotal = parseFloat(_this.subTotal) + parseFloat(lineItem.total);
       });
+      this.tax = this.calculateTax();
       return this.total = (this.subTotal + this.tax).toFixed(2);
+    }
+  }, {
+    key: "calculateTax",
+    value: function calculateTax() {
+      var _this2 = this;
+
+      var taxable = this.getTaxableLineItems();
+      var tax = 0;
+      taxable.forEach(function (item) {
+        return tax += +(+item.total * +_this2.taxRate);
+      });
+      return +tax;
+    }
+  }, {
+    key: "getTaxableLineItems",
+    value: function getTaxableLineItems() {
+      return this.lineItems.filter(function (item) {
+        return item.taxable === true;
+      });
     }
     /**
      * Method for creating instance of {ServiceFeeLineItem}, and adding it to {this.lineItems}.
@@ -1963,10 +2057,10 @@ function () {
   }, {
     key: "createAdjusterExpenseLineItems",
     value: function createAdjusterExpenseLineItems(expenses) {
-      var _this2 = this;
+      var _this3 = this;
 
       expenses.forEach(function (expense) {
-        return expense.type === "AmountLineItem" ? _this2.addLineItem(new _AmountLineItem__WEBPACK_IMPORTED_MODULE_2__["default"](expense)) : _this2.addLineItem(new _QuantifiableLineItem__WEBPACK_IMPORTED_MODULE_1__["default"](expense));
+        return expense.type === "AmountLineItem" ? _this3.addLineItem(new _AmountLineItem__WEBPACK_IMPORTED_MODULE_2__["default"](expense)) : expense.type === 'HourlyRateLineItem' ? _this3.addLineItem(new _HourlyRateLineItem__WEBPACK_IMPORTED_MODULE_3__["default"](expense)) : _this3.addLineItem(new _QuantifiableLineItem__WEBPACK_IMPORTED_MODULE_1__["default"](expense));
       });
     }
     /**
@@ -2014,11 +2108,11 @@ function () {
   }, {
     key: "recalculateLineItems",
     value: function recalculateLineItems() {
-      var _this3 = this;
+      var _this4 = this;
 
       this.lineItems.forEach(function (lineItem) {
         // this.setFeeSchedule()
-        lineItem.feeSchedule = _this3.feeSchedule;
+        lineItem.feeSchedule = _this4.feeSchedule;
         lineItem.calculate();
       });
       return this.calculate();
@@ -2050,7 +2144,13 @@ function () {
     value: function hasMultipleHourlyRates() {
       //check if our hourly prop is an array
       return Array.isArray(this.feeSchedule.hourly) ? true : false;
-    }
+    } // setTaxRate(rate) {
+    // 	return this.taxRate = rate;
+    // }
+    // getTaxRate() {
+    // 	return this.taxRate;
+    // }
+
     /**
      * Method for getting mileage rate from current feeSchedule.
      * @return String.
@@ -2083,48 +2183,48 @@ function () {
   }, {
     key: "getInvoiceProperties",
     value: function getInvoiceProperties() {
-      return ['total', 'subTotal', 'feeSchedule', 'options', 'tax', 'lineItems', 'userId'];
+      return ['total', 'subTotal', 'feeSchedule', 'options', 'tax', 'taxRate', 'lineItems', 'userId'];
     } // Getters & Setters...//
 
   }, {
     key: "subTotal",
-    set: function set(data) {
-      this._subTotal = data;
-    },
     get: function get() {
       return this._subTotal;
+    },
+    set: function set(data) {
+      this._subTotal = data;
     }
   }, {
     key: "total",
-    set: function set(data) {
-      this._total = data;
-    },
     get: function get() {
       return this._total;
+    },
+    set: function set(data) {
+      this._total = data;
     }
   }, {
     key: "carrier",
-    set: function set(data) {
-      this._carrier = data;
-    },
     get: function get() {
       return this._carrier;
+    },
+    set: function set(data) {
+      this._carrier = data;
     }
   }, {
     key: "feeSchedule",
-    set: function set(data) {
-      this._feeSchedule = data;
-    },
     get: function get() {
       return this._feeSchedule;
+    },
+    set: function set(data) {
+      this._feeSchedule = data;
     }
   }, {
     key: "show",
-    set: function set(data) {
-      this._show = data;
-    },
     get: function get() {
       return this._show;
+    },
+    set: function set(data) {
+      this._show = data;
     }
   }]);
 
@@ -2151,9 +2251,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var LineItem =
-/*#__PURE__*/
-function () {
+var LineItem = /*#__PURE__*/function () {
   function LineItem(data) {
     _classCallCheck(this, LineItem);
 
@@ -2170,11 +2268,11 @@ function () {
     }
   }, {
     key: "feeSchedule",
-    set: function set(data) {
-      return this._feeSchedule = data;
-    },
     get: function get() {
       return this._feeSchedule;
+    },
+    set: function set(data) {
+      return this._feeSchedule = data;
     }
   }]);
 
@@ -2196,7 +2294,7 @@ function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return QuantifiableLineItem; });
 /* harmony import */ var _LineItem__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./LineItem */ "./resources/assets/js/claims/invoice/LineItem.js");
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -2204,29 +2302,45 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 
-var QuantifiableLineItem =
-/*#__PURE__*/
-function (_LineItem) {
+
+var QuantifiableLineItem = /*#__PURE__*/function (_LineItem) {
   _inherits(QuantifiableLineItem, _LineItem);
+
+  var _super = _createSuper(QuantifiableLineItem);
 
   function QuantifiableLineItem(data) {
     var _this;
 
     _classCallCheck(this, QuantifiableLineItem);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(QuantifiableLineItem).call(this, data));
+    _this = _super.call(this, data);
+    _this.type = 'QuantifiableLineItem';
+    _this.description = '';
+    _this.quantity = 0;
+    _this.rate = 0;
+    _this.minimum = 0;
+    _this.total = 0;
+    _this.taxable = false;
+    _this.fullyReimbursable = false;
+
+    for (var property in data) {
+      _this[property] = data[property];
+    }
 
     _this.calculate();
 
@@ -2283,15 +2397,21 @@ function (_LineItem) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ServiceFeeLineItem; });
 /* harmony import */ var _LineItem__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./LineItem */ "./resources/assets/js/claims/invoice/LineItem.js");
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
 
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -2299,29 +2419,33 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 
-var ServiceFeeLineItem =
-/*#__PURE__*/
-function (_LineItem) {
+
+var ServiceFeeLineItem = /*#__PURE__*/function (_LineItem) {
   _inherits(ServiceFeeLineItem, _LineItem);
+
+  var _super = _createSuper(ServiceFeeLineItem);
 
   function ServiceFeeLineItem(data) {
     var _this;
 
     _classCallCheck(this, ServiceFeeLineItem);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(ServiceFeeLineItem).call(this, data));
+    _this = _super.call(this, data);
 
     _this.calculate();
 
@@ -2332,7 +2456,8 @@ function (_LineItem) {
     key: "calculate",
     value: function calculate() {
       //reset the total each time so the total isn't ammended each time called..
-      this.total = 0;
+      this.total = 0; // this.description = this.setDescription();
+
       return this.total = this.getFeeScheduleTier(this.amount);
     }
   }, {
@@ -2350,39 +2475,48 @@ function (_LineItem) {
   }, {
     key: "getNumericTier",
     value: function getNumericTier(amount) {
-      //normalize an amount value as parseFloat will interpret
+      //normalize an grossloss value as parseFloat will interpret
       //comas (,) as decimals causing issues during calculation.
       amount = parseFloat(String(amount).replace(/,/g, '')); // loop through tiers to calulate service fee.
 
-      var _iteratorNormalCompletion = true;
-      var _didIteratorError = false;
-      var _iteratorError = undefined;
+      var _iterator = _createForOfIteratorHelper(this.getNumericTiers()),
+          _step;
 
       try {
-        for (var _iterator = this.getNumericTiers()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
           var tier = _step.value;
 
           if (tier >= amount) {
-            return amount > 0 ? parseFloat(+this.feeSchedule[tier]).toFixed(2) : 0 .toFixed(2); // if the amount is greater than the highest tier, 
-            // service fee is 0.00 -- bill @ T&E rate
-          } else if (this.highestTier() < amount) {
-            return 0 .toFixed(2);
-          }
+            return amount > 0 ? parseFloat(+this.feeSchedule[tier]).toFixed(2) : 0 .toFixed(2);
+          } // if the amount is greater than the highest tier, 
+          else if (this.highestTier() < amount) {
+              // here we are determining if the highest tier is a % of gross loss, if so,
+              // we calculate that. Otherwise, it's T&E only so we return 0.
+              return this.isTierPercentageOfGrossLoss(this.highestTier()) ? this.calculatePercentageOfGrossLoss(this.highestTier(), amount) : 0 .toFixed(2);
+            }
         }
       } catch (err) {
-        _didIteratorError = true;
-        _iteratorError = err;
+        _iterator.e(err);
       } finally {
-        try {
-          if (!_iteratorNormalCompletion && _iterator["return"] != null) {
-            _iterator["return"]();
-          }
-        } finally {
-          if (_didIteratorError) {
-            throw _iteratorError;
-          }
-        }
+        _iterator.f();
       }
+    }
+  }, {
+    key: "calculatePercentageOfGrossLoss",
+    value: function calculatePercentageOfGrossLoss(tier, amount) {
+      // this.description += ' (Billed at % of Gross Loss)';
+      return (amount * +this.feeSchedule[tier]).toFixed(2);
+    }
+  }, {
+    key: "isTierPercentageOfGrossLoss",
+    value: function isTierPercentageOfGrossLoss(tier) {
+      return +this.feeSchedule[tier] < 1 && +this.feeSchedule[tier] > 0 ? true : false;
+    }
+  }, {
+    key: "setDescription",
+    value: function setDescription() {// return this.isServiceFeePercentageOfGrossLoss() 
+      // 		? this.description = `Service Fee (Billed @ ${+this.feeSchedule[this.highestTier()] * 100} % of Gross Loss)` 
+      // 		: this.description = 'Service Fee';
     }
   }, {
     key: "getNonNumericTier",
@@ -2408,6 +2542,7 @@ function (_LineItem) {
   }, {
     key: "highestTier",
     value: function highestTier() {
+      //console.log(Math.max(...this.getNumericTiers()))
       return Math.max.apply(Math, _toConsumableArray(this.getNumericTiers()));
     }
   }, {
@@ -2456,7 +2591,7 @@ __webpack_require__.r(__webpack_exports__);
     total: 0
   },
   hours: {
-    type: 'QuantifiableLineItem',
+    type: 'HourlyRateLineItem',
     description: 'Time & Expense Hours',
     quantity: 0,
     rate: 0,
@@ -2472,7 +2607,11 @@ __webpack_require__.r(__webpack_exports__);
     minimum: 0,
     total: 0,
     taxable: false,
-    fullyReimbursable: true
+    fullyReimbursable: true,
+    locations: {
+      start: '',
+      loss: ''
+    }
   },
   reimbursable: {
     type: 'AmountLineItem',
@@ -2523,6 +2662,14 @@ __webpack_require__.r(__webpack_exports__);
   description: 'Difference In Tiers',
   taxable: true,
   fullyReimbursable: false
+}, {
+  name: 'Hourly Rate Line Item',
+  type: 'HourlyRateLineItem',
+  quantitiy: 0,
+  rate: 0,
+  description: 'Hourly Rate Line Item',
+  taxable: true,
+  fullyReimbursable: false
 }, //{name: 'Less Previous Invoice', type: 'AmountLineItem', amount: 0, description: 'Less Previous Invoice Total'},
 {
   name: 'MCM',
@@ -2532,7 +2679,8 @@ __webpack_require__.r(__webpack_exports__);
   total: 0,
   taxable: true,
   fullyReimbursable: false
-}]);
+} // {name: 'Supplement', type: 'supplement', amount: 0, description: 'Supplement'},
+]);
 
 /***/ }),
 
@@ -2557,7 +2705,10 @@ var routes = [{
   path: '/',
   name: "home",
   component: _components_Home_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
-}];
+} // { path: '/licenses', name: "licenses", component: Licenses },
+// { path: '/certifications', component: Certifications },
+// { path: '/complete', component: Complete }
+];
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   routes: routes,
   linkActiveClass: 'is-active'
@@ -2764,9 +2915,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var Errors =
-/*#__PURE__*/
-function () {
+var Errors = /*#__PURE__*/function () {
   /**
      * Create a new Errors instance.
      */
@@ -2864,9 +3013,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 
 
-var Form =
-/*#__PURE__*/
-function () {
+var Form = /*#__PURE__*/function () {
   function Form(data) {
     _classCallCheck(this, Form);
 

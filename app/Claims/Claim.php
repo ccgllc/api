@@ -52,6 +52,11 @@ class Claim extends Model
         return !! $data->intersect($this->tags)->count();
     }
 
+    public function transactionIds()
+    {
+        return $this->hasMany(\CCG\Claims\TransactionId::class);
+    }
+
     public function invoices()
     {
         return $this->hasMany(\CCG\Accounting\Invoice::class);

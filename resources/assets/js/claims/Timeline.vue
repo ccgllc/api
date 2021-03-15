@@ -32,7 +32,7 @@
 				    </div>
 				    <div class="timeline-marker is-secondary" v-else></div>
 				  	<div class="timeline-content">
-				      <p class="heading" v-text="status.date"></p>
+				      <p class="heading" v-text="status.date + ' • ' + status.time"></p>
 				      <p><strong v-text="status.name"></strong>  <br> <span v-if="status.user" v-text="status.user.name"></span> <span v-text="'System'" v-else></span> <span v-if="status.value"><br><span v-text="status.value"></span></span></p>
 				    </div>
 				</div>

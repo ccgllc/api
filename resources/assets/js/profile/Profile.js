@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Croppa from 'vue-croppa';
 
+import Dashboard from './Dashboard';
 import PersonalInformation from './PersonalInformation';
 import Licenses from './Licenses';
 import Documents from './Documents';
@@ -19,7 +20,8 @@ Vue.use(VueRouter);
 Vue.use(Croppa, { componentName: 'avatar-cropper' });
 
 const routes = [
-	{ path: '/', name: "home", component: PersonalInformation },
+	{ path: '/', name: "home", component: Dashboard },
+	{ path: '/personal-info', name: "personalInfo", component: PersonalInformation },
 	{ path: '/licenses', name: "licenses", component: Licenses },
 	{ path: '/documents', name: 'documents', component: Documents },
 	{ path: '/work-history', name: "workHistory", component: WorkHistory },

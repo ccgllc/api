@@ -3,53 +3,84 @@
 namespace CCG\Xact;
 
 use CCG\Claims\Claim;
+use CCG\Claims\TransactionId;
 use CCG\Xact\XmlImporter;
+use CCG\XactnetAddress;
 
 class XactClaimStatusImport extends XmlImporter{ 
 
+    protected $xml;
     protected $orig_transaction_id;
     protected $transaction_id;
     protected $xact_net_address;
-    protected $status_stype;
+    protected $status_type;
+    protected $type;
     protected $name;
     protected $role;
     protected $status_time;
     protected $claim_number;
+    protected $claim;
+
+    public function __construct($xml)
+    {
+        $this->xml = $this->loadString($xml);
+        $this->parse();
+    }
 
 	public function parse()
 	{
         //save the incoming xml for reference.
-        $this->saveXMLFile('newstatus.xml');
-		 // transform our SimpleXMLObj into JSON Representaion.
-        $json = json_encode($this->getXmlObj(), JSON_PRETTY_PRINT);
-        $json = json_decode($json);
-       
-        return collect([
-        	'transaction_id'     => $this->getTransactionId($json),
-            'orig_transaction_id' => $this->getOriginalTransactionId($json),
-            'xactNetAddress'     => $this->getXactNetAddress($json), 
-        	'status_type'        => $this->getStatusType($json),
-            'name'               => $this->getName($json),
-            'role'               => $this->getRole($json),
-        	'status_time'        => $this->getStatusTime($json), 
-        	'claim_number'       => $this->getClaimNumber($json),
-            'claim_id'           => $this->findClaim($this->determineTransactionId()),
-    	]);
+        // $this->saveXMLFile($this->getTransactionId'.xml');
+		// transform our SimpleXMLObj into JSON Representaion.
+        $json = $this->convertXmlToJson();
+
+        return $this->setStatusData($json);
 	}
+
+    public function setStatusData($json)
+    {
+        $this->transaction_id      = $this->getTransactionId($json);
+        $this->orig_transaction_id = $this->getOriginalTransactionId($json);
+        $this->xact_net_address    = $this->getXactNetAddress($json); 
+        $this->status_type         = $this->getStatusType($json);
+        $this->name                = $this->getName($json);
+        $this->role                = $this->getRole($json);
+        $this->status_time         = $this->getStatusTime($json); 
+        $this->claim_number        = $this->getClaimNumber($json);
+        $this->claim               = $this->findClaim();
+        $this->user                = $this->findUser();
+
+        return $this;
+    }
+
     /**
-    * Find Claim by imported transaction id.
+    * Find Claim by imported claim number.
     *
     */
-    private function findClaim($transactionId)
+    protected function findClaim()
     {
-        $claim = Claim::where('transaction_id', $transactionId)->firstOrFail();
-        return $claim->id;
+        $claim = Claim::whereClaimNumber($this->claim_number)->first();
+
+        return $claim 
+            ? $this->setProperty('claim', $claim)
+            : $this->setProperty('claim', (object)['id' => 0]);
     }
+
+    protected function findUser()
+    {
+        $address = XactnetAddress::whereAddress($this->xact_net_address)->first();
+        $address ? $user = $address->user : $user = false;
+
+        return $user
+            ? $this->setProperty('user', $user)
+            : $this->setProperty('user', (object)['id' => 0]);
+    }
+
      /**
     * determine which transaction id to search by.
     *
     */
-    private function determineTransactionId()
+    protected function determineTransactionId()
     {
         if ($this->orig_transaction_id !== null)
         {
@@ -116,6 +147,16 @@ class XactClaimStatusImport extends XmlImporter{
         {
             return $this->claim_number = $status->ADM->TYPESOFLOSS->TYPEOFLOSS->{'@attributes'}->claimNumber;
         }
+    }
+
+    public function getProperty($prop)
+    {
+        return $this->{$prop};
+    }
+
+    public function setProperty($prop, $data)
+    {
+        return $this->{$prop} = $data;
     }
 
 }

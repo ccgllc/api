@@ -31,13 +31,13 @@ class ClaimsController extends Controller {
 		if (!$request->ajax()){
 			// auth()->loginUsingId(5);
 			$superAdmin = auth()->user();
-		   $claims = Claim::all();
+		   $claims = Claim::with('statuses', 'assignments.user')->get();
 		   // dd(json_decode($claim->claim_data));
 			// dd($superAdmin);
 			return view('claims.dashboard', compact('superAdmin', 'claims'));
 		}
 
-		return Claim::orderBy('date_received', 'desc')->get();
+		return Claim::with('statuses', 'assignments.user')->orderBy('date_received', 'desc')->get();
 
 	}
 
@@ -81,12 +81,15 @@ class ClaimsController extends Controller {
 	{
 		$claim = Claim::whereId($id)->with([
 			'statuses' => function($query){
-		 		$query->orderBy('id', 'desc');
+		 		$query->orderBy('time', 'desc');
 		 	},
 		 	'tags' => function($query) {
 		 		$query->orderBy('created_at', 'asc');
 		 	},
-            'statuses.user.avatar', 'statuses.user.roles', 'carrier.feeSchedules', 'assignments', 'estimates', 'invoices',  //'invoices.payments.check.deposit','invoices.supplements', 'reviewer', 'adjuster', 'carrier'
+		 	'assignments' => function ($query) {
+		 		$query->orderBy('created_at', 'asc');
+		 	},
+      'statuses.user.avatar', 'statuses.user.roles', 'carrier.feeSchedules', 'assignments.user.avatar', 'estimates', 'invoices',  //'invoices.payments.check.deposit','invoices.supplements', 'reviewer', 'adjuster', 'carrier'
 		])->firstOrFail();
 		// $claim->statuses->load('user.avatar');
 		// dd($claim);

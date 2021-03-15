@@ -34,7 +34,9 @@ class Policy
 
     protected function setCoverageInfoData($data)
     {
-         $this->setPoilcyData($data, 'COVERAGE_INFO');
+        if (isset($data->{'COVERAGE_INFO'})) {
+            $this->setPoilcyData($data, 'COVERAGE_INFO');
+        }
     }
 
     protected function setPoilcyData($data, $type)

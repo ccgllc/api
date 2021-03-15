@@ -3,6 +3,12 @@
 	  <ul>
 	      <router-link :to="{name: 'home'}" tag="li" exact>
 	        <a>
+	        	<span class="icon is-small"><i class="fa fa-dashboard"></i></span>
+	        	<span>Dashboard</span>
+	    	</a>
+	      </router-link>
+	      <router-link :to="{name: 'personalInfo'}" tag="li" exact>
+	        <a>
 	        	<span class="icon is-small"><i class="fa fa-user-circle-o"></i></span>
 	        	<span>Personal Info</span>
 	    	</a>

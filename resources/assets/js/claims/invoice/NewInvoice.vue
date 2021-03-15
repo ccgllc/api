@@ -17,12 +17,32 @@
 			return claimData
 		},
 		mounted() {
-			//
+			let address = this.getLossAddress(); 
+			// this.isTaxableState(address.state)
+
 		},
 		methods: {
-			createInvoice() {
-				this.newInvoice = new Invoice()
-				this.post();
+			async createInvoice() {
+				let rate;
+				const state = this.getLossAddress().state;
+				
+				if (this.isTaxable(state)) {
+					state === 'TX' 
+						? rate = .0625 
+						: rate = await this.getTaxRate(this.getLossAddress());
+				}	else {
+					rate = 0;
+				}
+
+				this.newInvoice = new Invoice({
+					taxRate: rate
+				})
+
+				await this.post();
+
+				// return new Promise(resolve => {
+				// 	resolve('resolved');
+				// })
 			},
 			setInvoiceData(invoice) {
 				this.newInvoice.total = parseFloat(this.newInvoice.total)
@@ -30,6 +50,9 @@
 				this.newInvoice.id = invoice.id
 				this.newInvoice.carrier = this.claim.carrier
 				this.newInvoice.feeSchedule = this.claim.carrier.fee_schedules[0].data
+				// this.newInvoice.getTaxRate();
+				// console.log();
+				
 				// console.log(this.newInvoice.feeSchedule)
 				this.setLineItemMinimums()
 				this.setLineItemRates()
@@ -64,8 +87,43 @@
 					})
 					.catch(error => console.error(error))
 			},
+			isTaxable(state) {
+				let st = this.taxableStates().find(state => state);
+				let taxable = this.claim.carrier.fee_schedules[0].data.taxable 
+				return st !== undefined && taxable ? true : false;
+			},
+			taxableStates() {
+				return ['TX', 'NM'];
+			},
+		  getTaxRate(lossLocation) {
+			  let rate;
+				const request = {
+					method: 'POST',
+					url: 'https://sales-tax-calculator.p.rapidapi.com/rates',
+					headers:{
+						"content-type": "application/json", 
+						"x-rapidapi-key": "a29b750334mshc27f715175b14e7p15c95bjsnbc1e065bb876", 
+						"x-rapidapi-host": "sales-tax-calculator.p.rapidapi.com",
+						"useQueryString": true
+					},
+					data: {
+						"city": lossLocation.city,
+						"state": lossLocation.state,
+						"street": lossLocation.street,
+						"zip": lossLocation.zip
+					}
+				};
+
+				return window.axios.request(request).then(response => {
+					return (parseFloat(response.data.tax_rate) / 100)
+				}).catch(error=>alert(error));
+			},
 			getRoute() {
 				return '/api/claims/' + this.claim.id + '/invoices/';
+			},
+			getLossAddress() {
+				let property = this.claim.claim_data.client.addresses.find(a => a.type === 'Property');
+				return property !== undefined ? property : this.claim.claim_data.client.addresses.find(a => a.type === 'Home');
 			},
 			adjusterExpenses() {
 				return [

@@ -2,8 +2,9 @@
 
 namespace CCG\Claims;
 
-use CCG\Carrier;
+use CCG\Carrier\Carrier;
 use CCG\Claims\Claim;
+use CCG\Claims\TransactionId;
 use CCG\Events\ClaimImported;
 use CCG\Events\ClaimReassigned;
 use CCG\Xact\XactClaimImport;
@@ -24,13 +25,20 @@ trait ManagesImportedClaims {
     {
         $newClaim = Claim::create($this->generateClaimData($this->claim));
         Event::fire(new ClaimImported($newClaim, $this->adjuster));
-        // var_dump('creating...');
     }
 
      private function updateClaim()
     {
         $existingClaim = Claim::where('claim_number', $this->claim->claimNumber)->first();
         $existingClaim->update($this->generateClaimData());
+
+        if($this->hasUniqueTransactionId()) {
+            TransactionId::create([
+                'transaction_id' => $this->claim->transactionId,
+                'claim_id' => $existingClaim->id,
+            ]);
+        }
+        
         // Event::fire(new ClaimImportUpdated($existingClaim));
         // var_dump('updating...');
         return $existingClaim;
@@ -38,9 +46,7 @@ trait ManagesImportedClaims {
 
     private function reassignClaim()
     {
-        // var_dump($this->claim->claimNumber. ' - Reassignment');
         $existingClaim = $this->updateClaim();
-        // var_dump('reassinging...');
         Event::fire(new ClaimReassigned($existingClaim, $this->adjuster));
     }
 
@@ -111,7 +117,8 @@ trait ManagesImportedClaims {
      */
     protected function hasUniqueTransactionId()
     {
-        return Claim::where('transaction_id', $this->claim->transactionId)->exists() ? false : true;
+        return TransactionId::where('transaction_id', $this->claim->transactionId)->exists() ? false : true;
+        //return Claim::where('transaction_id', $this->claim->transactionId)->exists() ? false : true;
     }
 
      /**
@@ -127,13 +134,14 @@ trait ManagesImportedClaims {
      * determine carrier in our system..
      * @return int
      */
-    private function mapCarrier($label)
+    private function mapCarrier($data)
     {
-        $label === 'Capital Insurance Group' ? $label = 'CIGP' : $label;
-        $label === 'TWIA - Claim Consultant Group' ? $label = 'TWIA' : $label;
-        $label === 'TFPA - Claim Consultant Group' ? $label = 'TFPA' : $label;
+        // $label === 'Capital Insurance Group' ? $label = 'CIGP' : $label;
+        // $label === 'TWIA - Claim Consultant Group' ? $label = 'TWIA' : $label;
+        // $label === 'TFPA - Claim Consultant Group' ? $label = 'TFPA' : $label;
         // var_dump($label);
-    	$this->carrier = Carrier::where('label', $label)->firstOrFail();
+        is_numeric($data) ? $column = 'xact_carrier_id': $column = 'label';
+    	$this->carrier = Carrier::where($column, $data)->firstOrFail();
     	return $this->carrier->id;
     }
 

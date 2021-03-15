@@ -3,11 +3,11 @@
 		<div class="column is-half assignment">
 			<a @mouseup="$emit('status-set', getAssignmentStatus()); $emit('new-status-toggle');">
 				<img 
-	    			v-if="adjuster.avatar"
-	    			:src="adjuster.avatar.path"
-	    			:alt="adjuster.name"
+	    			v-if="claim.adjuster.avatar"
+	    			:src="claim.adjuster.avatar.path"
+	    			:alt="claim.adjuster.name"
 	    			@click="addingAvatar = true"
-	    			style="border-radius: 356px; border: 10px solid #439BD1; cursor: pointer;"
+	    			style="border-radius: 356px; border: 10px solid #343b4c; cursor: pointer;"
 	    			width="100%"
 	    			height="auto"
     			>
@@ -21,7 +21,7 @@
 			</h3>
     		<h4 style="color: #aaa; margin-top: -.25em;">Adjuster</h4>
 		</div><!--  end column -->
-		<div class="column is-half assignment">
+		<!-- <div class="column is-half assignment">
 			<a @mouseup="$emit('status-set', statusesList[2]); $emit('new-status-toggle');">
 				<img 
 	    			v-if="reviewer.avatar"
@@ -37,7 +37,7 @@
     		</a>
 			<h3 style="color: #64C6A3;padding-top: 1rem; overflow:hidden; font-size: .8em; font-weight: 700;">{{ reviewer.name || "Not Assigned" }}</h3>
 			<div style="font-size: 1em; color: #aaa; margin-top: -.25em;">Reviewer</div>
-		</div><!--  end column -->	
+		</div> end column -->
 	</div>
 </template>
 <script>

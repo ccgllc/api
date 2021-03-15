@@ -9,6 +9,7 @@ export default class ServiceFeeLineItem extends LineItem {
 	calculate() {
 		//reset the total each time so the total isn't ammended each time called..
 		this.total = 0
+		// this.description = this.setDescription();
 		return this.total = this.getFeeScheduleTier(this.amount)
 
 	}
@@ -26,7 +27,7 @@ export default class ServiceFeeLineItem extends LineItem {
 	}
 
 	getNumericTier(amount){
-		//normalize an amount value as parseFloat will interpret
+		//normalize an grossloss value as parseFloat will interpret
 		//comas (,) as decimals causing issues during calculation.
 		amount = parseFloat(String(amount).replace(/,/g, ''))
 
@@ -36,13 +37,32 @@ export default class ServiceFeeLineItem extends LineItem {
 				return amount > 0 
 					? parseFloat(+this.feeSchedule[tier]).toFixed(2)
 					: (0).toFixed(2)
+			} 
 			// if the amount is greater than the highest tier, 
-			// service fee is 0.00 -- bill @ T&E rate
-			}
 			 else if (this.highestTier() < amount ) {
-				return (0).toFixed(2)
+				// here we are determining if the highest tier is a % of gross loss, if so,
+				// we calculate that. Otherwise, it's T&E only so we return 0.
+				return this.isTierPercentageOfGrossLoss(this.highestTier()) 
+							? this.calculatePercentageOfGrossLoss(this.highestTier(), amount) 
+							: (0).toFixed(2)
 			}
 		}
+	}
+
+	calculatePercentageOfGrossLoss(tier, amount){
+		// this.description += ' (Billed at % of Gross Loss)';
+		return (amount * +this.feeSchedule[tier]).toFixed(2);
+	}
+
+	isTierPercentageOfGrossLoss(tier){
+		return +this.feeSchedule[tier] < 1 && +this.feeSchedule[tier] > 0
+						? true : false;
+	}
+
+	setDescription() {
+		// return this.isServiceFeePercentageOfGrossLoss() 
+		// 		? this.description = `Service Fee (Billed @ ${+this.feeSchedule[this.highestTier()] * 100} % of Gross Loss)` 
+		// 		: this.description = 'Service Fee';
 	}
 
 	getNonNumericTier(amount) {
@@ -51,7 +71,7 @@ export default class ServiceFeeLineItem extends LineItem {
 		// otherwise just return 0
 		return this.feeSchedule[amount]
 			? parseFloat(+this.feeSchedule[amount]).toFixed(2)
-			:  (0).toFixed(2);
+			: (0).toFixed(2);
 	}
 
 	getNumericTiers() {
@@ -61,6 +81,7 @@ export default class ServiceFeeLineItem extends LineItem {
 	}
 
 	highestTier(){
+		//console.log(Math.max(...this.getNumericTiers()))
 		return Math.max(...this.getNumericTiers())
 	}
 

@@ -60,4 +60,14 @@ abstract class XmlImporter {
     public function getxml(){
         return $this->xml;
     }
+
+     /**
+     * @param $xml
+     * @return mixed
+     */
+    protected function convertXmlToJson()
+    {
+        $data = json_encode($this->getXmlObj(), JSON_PRETTY_PRINT);
+        return json_decode($data);
+    }
 }

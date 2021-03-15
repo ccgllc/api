@@ -3,6 +3,7 @@
 namespace CCG\Listeners;
 
 use CCG\Claims\Assignment;
+use CCG\Claims\ClaimStatus;
 use CCG\Events\ClaimImported;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -34,6 +35,6 @@ class AssignAdjuster
                 'claim_id' => $event->claim->id,
                 'active' => 1,
             ]);
-        }
+        } 
     }
 }

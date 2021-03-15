@@ -38,6 +38,7 @@
 					@remove-line-item="removeLineItem"
 					@invoice-deleted="remove"
 					@toggle-estimate="createEstimate"
+					@toggle-taxable="update"
 					@fee-schedule-changed="updateFeeSchedule"
 				> <!-- :carrier="claim.carrier" -->
 				</invoice-options>
@@ -63,8 +64,9 @@
 
 					<div class="level-right">
 						<span style="padding-right: 2em;">Sub Total: <span v-text="invoice.subTotal"></span></span>
-			       		<strong>Total: <span v-text="'$' + invoice.total"></span></strong>
-			       	</div>
+						<span v-if="invoice.feeSchedule.taxable" style="padding-right: 2em;">Tax <small>({{(invoice.taxRate) * 100}}%):</small> <span v-text="invoice.tax"></span></span>
+			      <strong>Total: <span v-text="'$' + invoice.total"></span></strong>
+	       	</div>
 				</div>
 				
 			</div>
@@ -79,6 +81,7 @@
 	import Invoice from './Invoice.js'
 	import lineItem from './LineItem.vue';
 	import QuantifiableLineItem from './QuantifiableLineItem'
+	import HourlyRateLineItem from './HourlyRateLineItem'
 	import ServiceFeeLineItem from './ServiceFeeLineItem'
 	import AmountLineItem from './AmountLineItem'
 	import DifferenceInTiersLineItem from './DifferenceInTiersLineItem'
@@ -137,9 +140,11 @@
 				return this.update()
 			},
 			buildInvoice() {
-				let invoice = new Invoice()
-				invoice.id = this.invoice.id
-				invoice.carrier = this.carrier
+				let invoice = new Invoice({
+					id: this.invoice.id,
+					carrier: this.carrier,
+				})
+				
 			    this.sync(this.assignInvoiceProperties(invoice))
 			},
 			assignInvoiceProperties(invoice){
@@ -172,6 +177,12 @@
 						break
 					case 'QuantifiableLineItem' : 
 						return new QuantifiableLineItem(lineItem)
+						break
+					case 'HourlyRateLineItem' :
+						if (this.invoice instanceof Invoice) {
+							lineItem.rate = this.invoice.getHourlyRate();
+						}
+						return new HourlyRateLineItem(lineItem)
 						break
 					case 'AmountLineItem' :
 						return new AmountLineItem(lineItem)

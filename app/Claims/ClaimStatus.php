@@ -39,12 +39,16 @@ class ClaimStatus extends Model
     public function getDateAttribute($query)
     {
     	$date = Carbon::parse($query);
+        $date->addHours(7);
+        $date->tz = 'America/Chicago';
     	return $date->toFormattedDateString();
     }
 
     public function getTimeAttribute($query)
     {
     	$time = Carbon::parse($query);
+        //$time->tz = 'America/Chicago';
+        $time->addHours(7);
         $time->tz = 'America/Chicago';
     	return $time->toTimeString();
     }

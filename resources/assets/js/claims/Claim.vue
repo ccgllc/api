@@ -1,10 +1,12 @@
 <template>
 	<div>
 	<!-- <alert v-if="hasAlert" :message="alert.message" :type="alert.type" @click="confirmingAlert = !confirmingAlert"></alert> -->
-		<claim-map></claim-map>
-		<tags></tags>
-		<claim-stats :claim-id="claim.id" :user-id="user.id" :estimates="claim.estimates"></claim-stats>
-		<contacts></contacts>
+		<div class="" style="width: 100%;">
+			<contacts></contacts>
+			<!-- <claim-map></claim-map> -->
+		<!-- <tags></tags> -->
+		</div>
+		<!-- <claim-stats :claim-id="claim.id" :user-id="user.id" :estimates="claim.estimates"></claim-stats> -->
 		<description></description>
 	    <claim-info></claim-info>
     </div>
@@ -12,7 +14,7 @@
 
 <script>
 	import claimData from './claimData.js';
-	import claimMap from './Map.vue';
+	// import claimMap from './Map.vue';
 	import claimStats from './ClaimStats.vue';
 	import tags from './Tags.vue';
 	import contacts from './Contacts.vue';
@@ -22,7 +24,7 @@
 	export default {
 		name: 'Claim',
 		components: {
-			claimMap,
+			//claimMap,
 			claimStats,
 			tags,
 			contacts,

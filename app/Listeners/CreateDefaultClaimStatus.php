@@ -60,7 +60,7 @@ class CreateDefaultClaimStatus
 
         return [
             'name' => $this->getStatusName(),
-            'value' => '',  
+            'value' => $claim->assignee,  
             'type' => $this->getStatusType(),
             'date' => $this->date->toDateString(),
             'transaction_id' => $claim->transaction_id,

@@ -42,13 +42,13 @@
               <div class="navbar-dropdown is-right">
                 @if(Auth::user()->applied)<a href="/profile" class="navbar-item">My Profile</a>@endif
                 @if (Auth::user()->hasRole('administrator'))
-                  <a href="/dashboard" class="navbar-item">My Dashboard</a>
+                  <a href="/dashboard/#" class="navbar-item">My Dashboard</a>
                   <hr class="dropdown-divider">
-                  <a href="/claims" class="navbar-item">Claims</a>
+                  <a href="/claims/#" class="navbar-item">Claims</a>
                   <hr class="dropdown-divider">
-                  <a href="/users/dashboard" class="navbar-item">Users Dashboard</a>
-                  <a href="/users" class="navbar-item">Filter Users</a>
-                  <a href="/roles" class="navbar-item">Manage Roles</a>
+                  <a href="/users/dashboard/#" class="navbar-item">Users Dashboard</a>
+                  <a href="/users/#" class="navbar-item">Filter Users</a>
+                  <a href="/roles/#" class="navbar-item">Manage Roles</a>
                 @endif
                  <hr class="dropdown-divider">
                  <a @click="showSupport = !showSupport" class="navbar-item">Support</a>

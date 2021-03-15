@@ -1,5 +1,776 @@
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([["/js/claim"],{
 
+/***/ "./node_modules/@babel/runtime/node_modules/regenerator-runtime/runtime.js":
+/*!*********************************************************************************!*\
+  !*** ./node_modules/@babel/runtime/node_modules/regenerator-runtime/runtime.js ***!
+  \*********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/**
+ * Copyright (c) 2014-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+var runtime = (function (exports) {
+  "use strict";
+
+  var Op = Object.prototype;
+  var hasOwn = Op.hasOwnProperty;
+  var undefined; // More compressible than void 0.
+  var $Symbol = typeof Symbol === "function" ? Symbol : {};
+  var iteratorSymbol = $Symbol.iterator || "@@iterator";
+  var asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator";
+  var toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
+
+  function define(obj, key, value) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+    return obj[key];
+  }
+  try {
+    // IE 8 has a broken Object.defineProperty that only works on DOM objects.
+    define({}, "");
+  } catch (err) {
+    define = function(obj, key, value) {
+      return obj[key] = value;
+    };
+  }
+
+  function wrap(innerFn, outerFn, self, tryLocsList) {
+    // If outerFn provided and outerFn.prototype is a Generator, then outerFn.prototype instanceof Generator.
+    var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator;
+    var generator = Object.create(protoGenerator.prototype);
+    var context = new Context(tryLocsList || []);
+
+    // The ._invoke method unifies the implementations of the .next,
+    // .throw, and .return methods.
+    generator._invoke = makeInvokeMethod(innerFn, self, context);
+
+    return generator;
+  }
+  exports.wrap = wrap;
+
+  // Try/catch helper to minimize deoptimizations. Returns a completion
+  // record like context.tryEntries[i].completion. This interface could
+  // have been (and was previously) designed to take a closure to be
+  // invoked without arguments, but in all the cases we care about we
+  // already have an existing method we want to call, so there's no need
+  // to create a new function object. We can even get away with assuming
+  // the method takes exactly one argument, since that happens to be true
+  // in every case, so we don't have to touch the arguments object. The
+  // only additional allocation required is the completion record, which
+  // has a stable shape and so hopefully should be cheap to allocate.
+  function tryCatch(fn, obj, arg) {
+    try {
+      return { type: "normal", arg: fn.call(obj, arg) };
+    } catch (err) {
+      return { type: "throw", arg: err };
+    }
+  }
+
+  var GenStateSuspendedStart = "suspendedStart";
+  var GenStateSuspendedYield = "suspendedYield";
+  var GenStateExecuting = "executing";
+  var GenStateCompleted = "completed";
+
+  // Returning this object from the innerFn has the same effect as
+  // breaking out of the dispatch switch statement.
+  var ContinueSentinel = {};
+
+  // Dummy constructor functions that we use as the .constructor and
+  // .constructor.prototype properties for functions that return Generator
+  // objects. For full spec compliance, you may wish to configure your
+  // minifier not to mangle the names of these two functions.
+  function Generator() {}
+  function GeneratorFunction() {}
+  function GeneratorFunctionPrototype() {}
+
+  // This is a polyfill for %IteratorPrototype% for environments that
+  // don't natively support it.
+  var IteratorPrototype = {};
+  IteratorPrototype[iteratorSymbol] = function () {
+    return this;
+  };
+
+  var getProto = Object.getPrototypeOf;
+  var NativeIteratorPrototype = getProto && getProto(getProto(values([])));
+  if (NativeIteratorPrototype &&
+      NativeIteratorPrototype !== Op &&
+      hasOwn.call(NativeIteratorPrototype, iteratorSymbol)) {
+    // This environment has a native %IteratorPrototype%; use it instead
+    // of the polyfill.
+    IteratorPrototype = NativeIteratorPrototype;
+  }
+
+  var Gp = GeneratorFunctionPrototype.prototype =
+    Generator.prototype = Object.create(IteratorPrototype);
+  GeneratorFunction.prototype = Gp.constructor = GeneratorFunctionPrototype;
+  GeneratorFunctionPrototype.constructor = GeneratorFunction;
+  GeneratorFunction.displayName = define(
+    GeneratorFunctionPrototype,
+    toStringTagSymbol,
+    "GeneratorFunction"
+  );
+
+  // Helper for defining the .next, .throw, and .return methods of the
+  // Iterator interface in terms of a single ._invoke method.
+  function defineIteratorMethods(prototype) {
+    ["next", "throw", "return"].forEach(function(method) {
+      define(prototype, method, function(arg) {
+        return this._invoke(method, arg);
+      });
+    });
+  }
+
+  exports.isGeneratorFunction = function(genFun) {
+    var ctor = typeof genFun === "function" && genFun.constructor;
+    return ctor
+      ? ctor === GeneratorFunction ||
+        // For the native GeneratorFunction constructor, the best we can
+        // do is to check its .name property.
+        (ctor.displayName || ctor.name) === "GeneratorFunction"
+      : false;
+  };
+
+  exports.mark = function(genFun) {
+    if (Object.setPrototypeOf) {
+      Object.setPrototypeOf(genFun, GeneratorFunctionPrototype);
+    } else {
+      genFun.__proto__ = GeneratorFunctionPrototype;
+      define(genFun, toStringTagSymbol, "GeneratorFunction");
+    }
+    genFun.prototype = Object.create(Gp);
+    return genFun;
+  };
+
+  // Within the body of any async function, `await x` is transformed to
+  // `yield regeneratorRuntime.awrap(x)`, so that the runtime can test
+  // `hasOwn.call(value, "__await")` to determine if the yielded value is
+  // meant to be awaited.
+  exports.awrap = function(arg) {
+    return { __await: arg };
+  };
+
+  function AsyncIterator(generator, PromiseImpl) {
+    function invoke(method, arg, resolve, reject) {
+      var record = tryCatch(generator[method], generator, arg);
+      if (record.type === "throw") {
+        reject(record.arg);
+      } else {
+        var result = record.arg;
+        var value = result.value;
+        if (value &&
+            typeof value === "object" &&
+            hasOwn.call(value, "__await")) {
+          return PromiseImpl.resolve(value.__await).then(function(value) {
+            invoke("next", value, resolve, reject);
+          }, function(err) {
+            invoke("throw", err, resolve, reject);
+          });
+        }
+
+        return PromiseImpl.resolve(value).then(function(unwrapped) {
+          // When a yielded Promise is resolved, its final value becomes
+          // the .value of the Promise<{value,done}> result for the
+          // current iteration.
+          result.value = unwrapped;
+          resolve(result);
+        }, function(error) {
+          // If a rejected Promise was yielded, throw the rejection back
+          // into the async generator function so it can be handled there.
+          return invoke("throw", error, resolve, reject);
+        });
+      }
+    }
+
+    var previousPromise;
+
+    function enqueue(method, arg) {
+      function callInvokeWithMethodAndArg() {
+        return new PromiseImpl(function(resolve, reject) {
+          invoke(method, arg, resolve, reject);
+        });
+      }
+
+      return previousPromise =
+        // If enqueue has been called before, then we want to wait until
+        // all previous Promises have been resolved before calling invoke,
+        // so that results are always delivered in the correct order. If
+        // enqueue has not been called before, then it is important to
+        // call invoke immediately, without waiting on a callback to fire,
+        // so that the async generator function has the opportunity to do
+        // any necessary setup in a predictable way. This predictability
+        // is why the Promise constructor synchronously invokes its
+        // executor callback, and why async functions synchronously
+        // execute code before the first await. Since we implement simple
+        // async functions in terms of async generators, it is especially
+        // important to get this right, even though it requires care.
+        previousPromise ? previousPromise.then(
+          callInvokeWithMethodAndArg,
+          // Avoid propagating failures to Promises returned by later
+          // invocations of the iterator.
+          callInvokeWithMethodAndArg
+        ) : callInvokeWithMethodAndArg();
+    }
+
+    // Define the unified helper method that is used to implement .next,
+    // .throw, and .return (see defineIteratorMethods).
+    this._invoke = enqueue;
+  }
+
+  defineIteratorMethods(AsyncIterator.prototype);
+  AsyncIterator.prototype[asyncIteratorSymbol] = function () {
+    return this;
+  };
+  exports.AsyncIterator = AsyncIterator;
+
+  // Note that simple async functions are implemented on top of
+  // AsyncIterator objects; they just return a Promise for the value of
+  // the final result produced by the iterator.
+  exports.async = function(innerFn, outerFn, self, tryLocsList, PromiseImpl) {
+    if (PromiseImpl === void 0) PromiseImpl = Promise;
+
+    var iter = new AsyncIterator(
+      wrap(innerFn, outerFn, self, tryLocsList),
+      PromiseImpl
+    );
+
+    return exports.isGeneratorFunction(outerFn)
+      ? iter // If outerFn is a generator, return the full iterator.
+      : iter.next().then(function(result) {
+          return result.done ? result.value : iter.next();
+        });
+  };
+
+  function makeInvokeMethod(innerFn, self, context) {
+    var state = GenStateSuspendedStart;
+
+    return function invoke(method, arg) {
+      if (state === GenStateExecuting) {
+        throw new Error("Generator is already running");
+      }
+
+      if (state === GenStateCompleted) {
+        if (method === "throw") {
+          throw arg;
+        }
+
+        // Be forgiving, per 25.3.3.3.3 of the spec:
+        // https://people.mozilla.org/~jorendorff/es6-draft.html#sec-generatorresume
+        return doneResult();
+      }
+
+      context.method = method;
+      context.arg = arg;
+
+      while (true) {
+        var delegate = context.delegate;
+        if (delegate) {
+          var delegateResult = maybeInvokeDelegate(delegate, context);
+          if (delegateResult) {
+            if (delegateResult === ContinueSentinel) continue;
+            return delegateResult;
+          }
+        }
+
+        if (context.method === "next") {
+          // Setting context._sent for legacy support of Babel's
+          // function.sent implementation.
+          context.sent = context._sent = context.arg;
+
+        } else if (context.method === "throw") {
+          if (state === GenStateSuspendedStart) {
+            state = GenStateCompleted;
+            throw context.arg;
+          }
+
+          context.dispatchException(context.arg);
+
+        } else if (context.method === "return") {
+          context.abrupt("return", context.arg);
+        }
+
+        state = GenStateExecuting;
+
+        var record = tryCatch(innerFn, self, context);
+        if (record.type === "normal") {
+          // If an exception is thrown from innerFn, we leave state ===
+          // GenStateExecuting and loop back for another invocation.
+          state = context.done
+            ? GenStateCompleted
+            : GenStateSuspendedYield;
+
+          if (record.arg === ContinueSentinel) {
+            continue;
+          }
+
+          return {
+            value: record.arg,
+            done: context.done
+          };
+
+        } else if (record.type === "throw") {
+          state = GenStateCompleted;
+          // Dispatch the exception by looping back around to the
+          // context.dispatchException(context.arg) call above.
+          context.method = "throw";
+          context.arg = record.arg;
+        }
+      }
+    };
+  }
+
+  // Call delegate.iterator[context.method](context.arg) and handle the
+  // result, either by returning a { value, done } result from the
+  // delegate iterator, or by modifying context.method and context.arg,
+  // setting context.delegate to null, and returning the ContinueSentinel.
+  function maybeInvokeDelegate(delegate, context) {
+    var method = delegate.iterator[context.method];
+    if (method === undefined) {
+      // A .throw or .return when the delegate iterator has no .throw
+      // method always terminates the yield* loop.
+      context.delegate = null;
+
+      if (context.method === "throw") {
+        // Note: ["return"] must be used for ES3 parsing compatibility.
+        if (delegate.iterator["return"]) {
+          // If the delegate iterator has a return method, give it a
+          // chance to clean up.
+          context.method = "return";
+          context.arg = undefined;
+          maybeInvokeDelegate(delegate, context);
+
+          if (context.method === "throw") {
+            // If maybeInvokeDelegate(context) changed context.method from
+            // "return" to "throw", let that override the TypeError below.
+            return ContinueSentinel;
+          }
+        }
+
+        context.method = "throw";
+        context.arg = new TypeError(
+          "The iterator does not provide a 'throw' method");
+      }
+
+      return ContinueSentinel;
+    }
+
+    var record = tryCatch(method, delegate.iterator, context.arg);
+
+    if (record.type === "throw") {
+      context.method = "throw";
+      context.arg = record.arg;
+      context.delegate = null;
+      return ContinueSentinel;
+    }
+
+    var info = record.arg;
+
+    if (! info) {
+      context.method = "throw";
+      context.arg = new TypeError("iterator result is not an object");
+      context.delegate = null;
+      return ContinueSentinel;
+    }
+
+    if (info.done) {
+      // Assign the result of the finished delegate to the temporary
+      // variable specified by delegate.resultName (see delegateYield).
+      context[delegate.resultName] = info.value;
+
+      // Resume execution at the desired location (see delegateYield).
+      context.next = delegate.nextLoc;
+
+      // If context.method was "throw" but the delegate handled the
+      // exception, let the outer generator proceed normally. If
+      // context.method was "next", forget context.arg since it has been
+      // "consumed" by the delegate iterator. If context.method was
+      // "return", allow the original .return call to continue in the
+      // outer generator.
+      if (context.method !== "return") {
+        context.method = "next";
+        context.arg = undefined;
+      }
+
+    } else {
+      // Re-yield the result returned by the delegate method.
+      return info;
+    }
+
+    // The delegate iterator is finished, so forget it and continue with
+    // the outer generator.
+    context.delegate = null;
+    return ContinueSentinel;
+  }
+
+  // Define Generator.prototype.{next,throw,return} in terms of the
+  // unified ._invoke helper method.
+  defineIteratorMethods(Gp);
+
+  define(Gp, toStringTagSymbol, "Generator");
+
+  // A Generator should always return itself as the iterator object when the
+  // @@iterator function is called on it. Some browsers' implementations of the
+  // iterator prototype chain incorrectly implement this, causing the Generator
+  // object to not be returned from this call. This ensures that doesn't happen.
+  // See https://github.com/facebook/regenerator/issues/274 for more details.
+  Gp[iteratorSymbol] = function() {
+    return this;
+  };
+
+  Gp.toString = function() {
+    return "[object Generator]";
+  };
+
+  function pushTryEntry(locs) {
+    var entry = { tryLoc: locs[0] };
+
+    if (1 in locs) {
+      entry.catchLoc = locs[1];
+    }
+
+    if (2 in locs) {
+      entry.finallyLoc = locs[2];
+      entry.afterLoc = locs[3];
+    }
+
+    this.tryEntries.push(entry);
+  }
+
+  function resetTryEntry(entry) {
+    var record = entry.completion || {};
+    record.type = "normal";
+    delete record.arg;
+    entry.completion = record;
+  }
+
+  function Context(tryLocsList) {
+    // The root entry object (effectively a try statement without a catch
+    // or a finally block) gives us a place to store values thrown from
+    // locations where there is no enclosing try statement.
+    this.tryEntries = [{ tryLoc: "root" }];
+    tryLocsList.forEach(pushTryEntry, this);
+    this.reset(true);
+  }
+
+  exports.keys = function(object) {
+    var keys = [];
+    for (var key in object) {
+      keys.push(key);
+    }
+    keys.reverse();
+
+    // Rather than returning an object with a next method, we keep
+    // things simple and return the next function itself.
+    return function next() {
+      while (keys.length) {
+        var key = keys.pop();
+        if (key in object) {
+          next.value = key;
+          next.done = false;
+          return next;
+        }
+      }
+
+      // To avoid creating an additional object, we just hang the .value
+      // and .done properties off the next function object itself. This
+      // also ensures that the minifier will not anonymize the function.
+      next.done = true;
+      return next;
+    };
+  };
+
+  function values(iterable) {
+    if (iterable) {
+      var iteratorMethod = iterable[iteratorSymbol];
+      if (iteratorMethod) {
+        return iteratorMethod.call(iterable);
+      }
+
+      if (typeof iterable.next === "function") {
+        return iterable;
+      }
+
+      if (!isNaN(iterable.length)) {
+        var i = -1, next = function next() {
+          while (++i < iterable.length) {
+            if (hasOwn.call(iterable, i)) {
+              next.value = iterable[i];
+              next.done = false;
+              return next;
+            }
+          }
+
+          next.value = undefined;
+          next.done = true;
+
+          return next;
+        };
+
+        return next.next = next;
+      }
+    }
+
+    // Return an iterator with no values.
+    return { next: doneResult };
+  }
+  exports.values = values;
+
+  function doneResult() {
+    return { value: undefined, done: true };
+  }
+
+  Context.prototype = {
+    constructor: Context,
+
+    reset: function(skipTempReset) {
+      this.prev = 0;
+      this.next = 0;
+      // Resetting context._sent for legacy support of Babel's
+      // function.sent implementation.
+      this.sent = this._sent = undefined;
+      this.done = false;
+      this.delegate = null;
+
+      this.method = "next";
+      this.arg = undefined;
+
+      this.tryEntries.forEach(resetTryEntry);
+
+      if (!skipTempReset) {
+        for (var name in this) {
+          // Not sure about the optimal order of these conditions:
+          if (name.charAt(0) === "t" &&
+              hasOwn.call(this, name) &&
+              !isNaN(+name.slice(1))) {
+            this[name] = undefined;
+          }
+        }
+      }
+    },
+
+    stop: function() {
+      this.done = true;
+
+      var rootEntry = this.tryEntries[0];
+      var rootRecord = rootEntry.completion;
+      if (rootRecord.type === "throw") {
+        throw rootRecord.arg;
+      }
+
+      return this.rval;
+    },
+
+    dispatchException: function(exception) {
+      if (this.done) {
+        throw exception;
+      }
+
+      var context = this;
+      function handle(loc, caught) {
+        record.type = "throw";
+        record.arg = exception;
+        context.next = loc;
+
+        if (caught) {
+          // If the dispatched exception was caught by a catch block,
+          // then let that catch block handle the exception normally.
+          context.method = "next";
+          context.arg = undefined;
+        }
+
+        return !! caught;
+      }
+
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        var record = entry.completion;
+
+        if (entry.tryLoc === "root") {
+          // Exception thrown outside of any try block that could handle
+          // it, so set the completion value of the entire function to
+          // throw the exception.
+          return handle("end");
+        }
+
+        if (entry.tryLoc <= this.prev) {
+          var hasCatch = hasOwn.call(entry, "catchLoc");
+          var hasFinally = hasOwn.call(entry, "finallyLoc");
+
+          if (hasCatch && hasFinally) {
+            if (this.prev < entry.catchLoc) {
+              return handle(entry.catchLoc, true);
+            } else if (this.prev < entry.finallyLoc) {
+              return handle(entry.finallyLoc);
+            }
+
+          } else if (hasCatch) {
+            if (this.prev < entry.catchLoc) {
+              return handle(entry.catchLoc, true);
+            }
+
+          } else if (hasFinally) {
+            if (this.prev < entry.finallyLoc) {
+              return handle(entry.finallyLoc);
+            }
+
+          } else {
+            throw new Error("try statement without catch or finally");
+          }
+        }
+      }
+    },
+
+    abrupt: function(type, arg) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.tryLoc <= this.prev &&
+            hasOwn.call(entry, "finallyLoc") &&
+            this.prev < entry.finallyLoc) {
+          var finallyEntry = entry;
+          break;
+        }
+      }
+
+      if (finallyEntry &&
+          (type === "break" ||
+           type === "continue") &&
+          finallyEntry.tryLoc <= arg &&
+          arg <= finallyEntry.finallyLoc) {
+        // Ignore the finally entry if control is not jumping to a
+        // location outside the try/catch block.
+        finallyEntry = null;
+      }
+
+      var record = finallyEntry ? finallyEntry.completion : {};
+      record.type = type;
+      record.arg = arg;
+
+      if (finallyEntry) {
+        this.method = "next";
+        this.next = finallyEntry.finallyLoc;
+        return ContinueSentinel;
+      }
+
+      return this.complete(record);
+    },
+
+    complete: function(record, afterLoc) {
+      if (record.type === "throw") {
+        throw record.arg;
+      }
+
+      if (record.type === "break" ||
+          record.type === "continue") {
+        this.next = record.arg;
+      } else if (record.type === "return") {
+        this.rval = this.arg = record.arg;
+        this.method = "return";
+        this.next = "end";
+      } else if (record.type === "normal" && afterLoc) {
+        this.next = afterLoc;
+      }
+
+      return ContinueSentinel;
+    },
+
+    finish: function(finallyLoc) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.finallyLoc === finallyLoc) {
+          this.complete(entry.completion, entry.afterLoc);
+          resetTryEntry(entry);
+          return ContinueSentinel;
+        }
+      }
+    },
+
+    "catch": function(tryLoc) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.tryLoc === tryLoc) {
+          var record = entry.completion;
+          if (record.type === "throw") {
+            var thrown = record.arg;
+            resetTryEntry(entry);
+          }
+          return thrown;
+        }
+      }
+
+      // The context.catch method must only be called with a location
+      // argument that corresponds to a known catch block.
+      throw new Error("illegal catch attempt");
+    },
+
+    delegateYield: function(iterable, resultName, nextLoc) {
+      this.delegate = {
+        iterator: values(iterable),
+        resultName: resultName,
+        nextLoc: nextLoc
+      };
+
+      if (this.method === "next") {
+        // Deliberately forget the last sent value so that we don't
+        // accidentally pass it on to the delegate.
+        this.arg = undefined;
+      }
+
+      return ContinueSentinel;
+    }
+  };
+
+  // Regardless of whether this script is executing as a CommonJS module
+  // or not, return the runtime object so that we can declare the variable
+  // regeneratorRuntime in the outer scope, which allows this module to be
+  // injected easily by `bin/regenerator --include-runtime script.js`.
+  return exports;
+
+}(
+  // If this script is executing as a CommonJS module, use module.exports
+  // as the regeneratorRuntime namespace. Otherwise create a new empty
+  // object. Either way, the resulting object will be used to initialize
+  // the regeneratorRuntime variable at the top of this file.
+   true ? module.exports : undefined
+));
+
+try {
+  regeneratorRuntime = runtime;
+} catch (accidentalStrictMode) {
+  // This module should not be running in strict mode, so the above
+  // assignment should always work unless something is misconfigured. Just
+  // in case runtime.js accidentally runs in strict mode, we can escape
+  // strict mode using a global Function call. This could conceivably fail
+  // if a Content Security Policy forbids using Function, but in that case
+  // the proper solution is to fix the accidental strict mode problem. If
+  // you've misconfigured your bundler to force strict mode and applied a
+  // CSP to forbid Function, and you're not willing to fix either of those
+  // problems, please detail your unique predicament in a GitHub issue.
+  Function("r", "regeneratorRuntime = r")(runtime);
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/regenerator/index.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/@babel/runtime/regenerator/index.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! regenerator-runtime */ "./node_modules/@babel/runtime/node_modules/regenerator-runtime/runtime.js");
+
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/Dropdown.vue?vue&type=script&lang=js&":
 /*!***************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/Dropdown.vue?vue&type=script&lang=js& ***!
@@ -221,12 +992,11 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _claimData_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./claimData.js */ "./resources/assets/js/claims/claimData.js");
-/* harmony import */ var _Map_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Map.vue */ "./resources/assets/js/claims/Map.vue");
-/* harmony import */ var _ClaimStats_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ClaimStats.vue */ "./resources/assets/js/claims/ClaimStats.vue");
-/* harmony import */ var _Tags_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Tags.vue */ "./resources/assets/js/claims/Tags.vue");
-/* harmony import */ var _Contacts_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Contacts.vue */ "./resources/assets/js/claims/Contacts.vue");
-/* harmony import */ var _Description_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Description.vue */ "./resources/assets/js/claims/Description.vue");
-/* harmony import */ var _claimInfo_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./claimInfo.vue */ "./resources/assets/js/claims/claimInfo.vue");
+/* harmony import */ var _ClaimStats_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ClaimStats.vue */ "./resources/assets/js/claims/ClaimStats.vue");
+/* harmony import */ var _Tags_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Tags.vue */ "./resources/assets/js/claims/Tags.vue");
+/* harmony import */ var _Contacts_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Contacts.vue */ "./resources/assets/js/claims/Contacts.vue");
+/* harmony import */ var _Description_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Description.vue */ "./resources/assets/js/claims/Description.vue");
+/* harmony import */ var _claimInfo_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./claimInfo.vue */ "./resources/assets/js/claims/claimInfo.vue");
 //
 //
 //
@@ -239,7 +1009,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-
+//
+//
+ // import claimMap from './Map.vue';
 
 
 
@@ -249,12 +1021,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Claim',
   components: {
-    claimMap: _Map_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
-    claimStats: _ClaimStats_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
-    tags: _Tags_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
-    contacts: _Contacts_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
-    description: _Description_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
-    claimInfo: _claimInfo_vue__WEBPACK_IMPORTED_MODULE_6__["default"]
+    //claimMap,
+    claimStats: _ClaimStats_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+    tags: _Tags_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
+    contacts: _Contacts_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
+    description: _Description_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
+    claimInfo: _claimInfo_vue__WEBPACK_IMPORTED_MODULE_5__["default"]
   },
   created: function created() {
     this.hasAlert = true;
@@ -608,6 +1380,13 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _claimData_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./claimData.js */ "./resources/assets/js/claims/claimData.js");
+/* harmony import */ var _Map_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Map.vue */ "./resources/assets/js/claims/Map.vue");
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -673,8 +1452,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Contacts',
+  components: {
+    claimMap: _Map_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
   data: function data() {
     return _claimData_js__WEBPACK_IMPORTED_MODULE_0__["default"];
   },
@@ -839,22 +1622,81 @@ __webpack_require__.r(__webpack_exports__);
     this.marker = new google.maps.Marker({
       position: this.home,
       map: this.map
-    }); //    this.autocomplete = new google.maps.places.Autocomplete(
-    //         /* @type {!HTMLInputElement} */
-    //        (document.getElementById('claim-location')),
-    //        {types: ['geocode']}
-    //    );
-    //    // When the user selects an address from the dropdown, populate the address
-    //    // fields in the form.
-    // this.autocomplete.addListener('place_changed', () => { this.setHome() });
+    });
   },
   methods: {
     findCoords: function findCoords() {
-      var address = this.claim.claim_data.client.addresses.find(function (address) {
+      // cache addresses for syntactic sugar.
+      var addresses = this.claim.claim_data.client.addresses; // find the first client address with geometric data...
+
+      var address = addresses.find(function (address) {
         return address.latitude != null && address.longitude != null;
+      }); // if we dont have geometric data for any client address..
+
+      if (!address) {
+        // so we have to geocode it by an address string...
+        this.geocodeAddress(addresses);
+      } else {
+        // otherwise just set our coords to what we have in memory..
+        this.home.lat = +address.latitude;
+        this.home.lng = +address.longitude;
+      }
+    },
+    geocodeAddress: function geocodeAddress(addresses) {
+      var _this = this;
+
+      var address = addresses.find(function (address) {
+        return address.type == 'Property';
+      }); // if no property addresses found use whatever is first 
+      // and add it as the property address.
+
+      if (!address && addresses) {
+        address = addresses[0];
+        address.type = 'Property';
+        addresses.push(address);
+      } // otherwise instanitate Geocoder
+
+
+      var geocoder = new google.maps.Geocoder(); // address string for google api.
+
+      var addressString = "".concat(address.street, " ").concat(address.city, " ").concat(address.state, ", ").concat(address.zip); // geocode address string.
+
+      geocoder.geocode({
+        address: addressString
+      }, function (results, status) {
+        //remove marker
+        _this.marker.setMap(null); //reset bounds to result
+
+
+        _this.map.setCenter(results[0].geometry.location); //set location
+
+
+        _this.home.lat = results[0].geometry.location.lat();
+        _this.home.lng = results[0].geometry.location.lng(); //create new marker with results
+
+        _this.marker = new google.maps.Marker({
+          position: _this.home,
+          map: _this.map
+        }); // update state of local client address because its much easier 
+        // and cleaner to update all client addreseses in db. 
+
+        var idx = addresses.indexOf(address); // make a cords obj to merge with our exisitng address obj.
+
+        var cords = {
+          latitude: _this.home.lat,
+          longitude: _this.home.lng
+        }; // merge the cords object with our local address data.
+        // then replace the original address with cords. 
+        // This will be reactive in the view! 
+
+        addresses.splice(idx, 1, Object.assign(address, cords)); // persist modified client addresses to storage.
+
+        window.axios.put("/api/claims/".concat(_this.claim.id, "/geometry"), addresses).then(function (response) {
+          return console.log(response);
+        })["catch"](function (error) {
+          return console.error(error);
+        });
       });
-      this.home.lat = +address.latitude;
-      this.home.lng = +address.longitude;
     }
   }
 });
@@ -1119,7 +1961,11 @@ __webpack_require__.r(__webpack_exports__);
       var today = new Date();
       this.newStatus.date = today.getMonth() + 1 + '/' + today.getDate() + '/' + today.getFullYear();
       this.newStatus.time = today.toTimeString().replace(/(GMT-\d{1,}\s{1,}\S[A-z]{1,}.{1,})/g, '').trim();
-    }
+    } // toggleNewStatus() {
+    // 	// this.getTodaysDate();
+    // 	return this.creatingNewStatus = !this.creatingNewStatus;
+    // },
+
   },
   computed: {// accessContact() {
     // 	return claim.claim_data.accessContact.name
@@ -1425,9 +2271,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Invoice_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Invoice.js */ "./resources/assets/js/claims/invoice/Invoice.js");
 /* harmony import */ var _LineItem_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./LineItem.vue */ "./resources/assets/js/claims/invoice/LineItem.vue");
 /* harmony import */ var _QuantifiableLineItem__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./QuantifiableLineItem */ "./resources/assets/js/claims/invoice/QuantifiableLineItem.js");
-/* harmony import */ var _ServiceFeeLineItem__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./ServiceFeeLineItem */ "./resources/assets/js/claims/invoice/ServiceFeeLineItem.js");
-/* harmony import */ var _AmountLineItem__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./AmountLineItem */ "./resources/assets/js/claims/invoice/AmountLineItem.js");
-/* harmony import */ var _DifferenceInTiersLineItem__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./DifferenceInTiersLineItem */ "./resources/assets/js/claims/invoice/DifferenceInTiersLineItem.js");
+/* harmony import */ var _HourlyRateLineItem__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./HourlyRateLineItem */ "./resources/assets/js/claims/invoice/HourlyRateLineItem.js");
+/* harmony import */ var _ServiceFeeLineItem__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./ServiceFeeLineItem */ "./resources/assets/js/claims/invoice/ServiceFeeLineItem.js");
+/* harmony import */ var _AmountLineItem__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./AmountLineItem */ "./resources/assets/js/claims/invoice/AmountLineItem.js");
+/* harmony import */ var _DifferenceInTiersLineItem__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./DifferenceInTiersLineItem */ "./resources/assets/js/claims/invoice/DifferenceInTiersLineItem.js");
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 //
 //
 //
@@ -1502,6 +2355,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+
 
 
 
@@ -1566,9 +2422,10 @@ __webpack_require__.r(__webpack_exports__);
       return this.update();
     },
     buildInvoice: function buildInvoice() {
-      var invoice = new _Invoice_js__WEBPACK_IMPORTED_MODULE_3__["default"]();
-      invoice.id = this.invoice.id;
-      invoice.carrier = this.carrier;
+      var invoice = new _Invoice_js__WEBPACK_IMPORTED_MODULE_3__["default"]({
+        id: this.invoice.id,
+        carrier: this.carrier
+      });
       this.sync(this.assignInvoiceProperties(invoice));
     },
     assignInvoiceProperties: function assignInvoiceProperties(invoice) {
@@ -1580,28 +2437,19 @@ __webpack_require__.r(__webpack_exports__);
     },
     buildLineItems: function buildLineItems(lineItems) {
       var items = [];
-      var _iteratorNormalCompletion = true;
-      var _didIteratorError = false;
-      var _iteratorError = undefined;
+
+      var _iterator = _createForOfIteratorHelper(lineItems),
+          _step;
 
       try {
-        for (var _iterator = lineItems[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
           var _lineItem = _step.value;
           items.push(this.getlineItemType(_lineItem));
         }
       } catch (err) {
-        _didIteratorError = true;
-        _iteratorError = err;
+        _iterator.e(err);
       } finally {
-        try {
-          if (!_iteratorNormalCompletion && _iterator["return"] != null) {
-            _iterator["return"]();
-          }
-        } finally {
-          if (_didIteratorError) {
-            throw _iteratorError;
-          }
-        }
+        _iterator.f();
       }
 
       return items;
@@ -1615,19 +2463,27 @@ __webpack_require__.r(__webpack_exports__);
     getlineItemType: function getlineItemType(lineItem) {
       switch (lineItem.type) {
         case 'ServiceFeeLineItem':
-          return new _ServiceFeeLineItem__WEBPACK_IMPORTED_MODULE_6__["default"](lineItem);
+          return new _ServiceFeeLineItem__WEBPACK_IMPORTED_MODULE_7__["default"](lineItem);
           break;
 
         case 'QuantifiableLineItem':
           return new _QuantifiableLineItem__WEBPACK_IMPORTED_MODULE_5__["default"](lineItem);
           break;
 
+        case 'HourlyRateLineItem':
+          if (this.invoice instanceof _Invoice_js__WEBPACK_IMPORTED_MODULE_3__["default"]) {
+            lineItem.rate = this.invoice.getHourlyRate();
+          }
+
+          return new _HourlyRateLineItem__WEBPACK_IMPORTED_MODULE_6__["default"](lineItem);
+          break;
+
         case 'AmountLineItem':
-          return new _AmountLineItem__WEBPACK_IMPORTED_MODULE_7__["default"](lineItem);
+          return new _AmountLineItem__WEBPACK_IMPORTED_MODULE_8__["default"](lineItem);
           break;
 
         case 'DifferenceInTiersLineItem':
-          return new _DifferenceInTiersLineItem__WEBPACK_IMPORTED_MODULE_8__["default"](lineItem);
+          return new _DifferenceInTiersLineItem__WEBPACK_IMPORTED_MODULE_9__["default"](lineItem);
           break;
       }
     },
@@ -1758,6 +2614,9 @@ __webpack_require__.r(__webpack_exports__);
       });
       mcmItem.amount = this.invoice.feeSchedule['mcm'];
       return this.invoice.options.mcm ? this.addLineItem(mcmItem) : this.$emit('remove-line-item', mcmItem);
+    },
+    toggleTaxable: function toggleTaxable() {
+      return this.$emit('toggle-taxable');
     }
   }
 });
@@ -1951,6 +2810,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1962,10 +2833,71 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return _claimData__WEBPACK_IMPORTED_MODULE_1__["default"];
   },
+  mounted: function mounted() {
+    if (this.lineItem.locations) {
+      this.claim.claim_data.client.addresses ? this.lineItem.locations.loss = this.getLossCoords() : this.lineItem.locations.loss = '';
+      this.autocomplete = new google.maps.places.AutocompleteService();
+      this.directions = new google.maps.DirectionsService();
+    }
+  },
   methods: {
     updateTotal: function updateTotal(lineItem) {
       lineItem.calculate();
       return this.$emit('line-item-updated');
+    },
+    getAddress: function getAddress() {
+      // const input = document.getElementById("start-address")
+      var self = this;
+      if (this.lineItem.locations.start == '') this.autocompleteResults = [];
+
+      var displaySuggestions = function displaySuggestions(predictions, status) {
+        if (status != google.maps.places.PlacesServiceStatus.OK || !predictions) {
+          alert(status);
+          return;
+        }
+
+        self.autocompleteResults = predictions;
+      };
+
+      this.autocomplete.getQueryPredictions({
+        input: this.lineItem.locations.start
+      }, displaySuggestions);
+    },
+    setSelectedAutocompleteResult: function setSelectedAutocompleteResult(index) {
+      this.selectedAutocompleteResult = index;
+      return this.selectAddress();
+    },
+    getLossCoords: function getLossCoords() {
+      return this.claim.claim_data.client.addresses.find(function (address) {
+        return address.latitude && address.longitude;
+      });
+    },
+    selectAddress: function selectAddress() {
+      var _this = this;
+
+      this.lineItem.locations.start = this.autocompleteResults[this.selectedAutocompleteResult].description;
+      this.selectedAutocompleteResult = 0;
+      this.autocompleteResults = [];
+      this.directions.route({
+        origin: {
+          query: "".concat(this.lineItem.locations.start)
+        },
+        destination: {
+          query: "".concat(this.lineItem.locations.loss.latitude, ",").concat(this.lineItem.locations.loss.longitude)
+        },
+        travelMode: google.maps.TravelMode.DRIVING
+      }, function (response, status) {
+        if (status === "OK") {
+          //directionsRenderer.setDirections(response);
+          // console.log(response.routes[0].legs[0].distance.text.replaceAll(/\D/g, ''));
+          _this.lineItem.quantity = +response.routes[0].legs[0].distance.text.replaceAll(/\D/g, '');
+
+          _this.updateTotal(_this.lineItem);
+        } else {
+          console.error(status);
+          window.alert("Directions request failed due to " + status);
+        }
+      });
     },
     usesEstimates: function usesEstimates(lineItem) {
       return lineItem.type == 'ServiceFeeLineItem' || lineItem.type == 'DifferenceInTiersLineItem' ? true : false;
@@ -1987,8 +2919,16 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _claimData__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../claimData */ "./resources/assets/js/claims/claimData.js");
-/* harmony import */ var _Invoice__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Invoice */ "./resources/assets/js/claims/invoice/Invoice.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _claimData__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../claimData */ "./resources/assets/js/claims/claimData.js");
+/* harmony import */ var _Invoice__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Invoice */ "./resources/assets/js/claims/invoice/Invoice.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -2004,21 +2944,74 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'createInvoice',
   data: function data() {
-    return _claimData__WEBPACK_IMPORTED_MODULE_0__["default"];
+    return _claimData__WEBPACK_IMPORTED_MODULE_1__["default"];
   },
-  mounted: function mounted() {//
+  mounted: function mounted() {
+    var address = this.getLossAddress(); // this.isTaxableState(address.state)
   },
   methods: {
     createInvoice: function createInvoice() {
-      this.newInvoice = new _Invoice__WEBPACK_IMPORTED_MODULE_1__["default"]();
-      this.post();
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var rate, state;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                state = _this.getLossAddress().state;
+
+                if (!_this.isTaxable(state)) {
+                  _context.next = 11;
+                  break;
+                }
+
+                if (!(state === 'TX')) {
+                  _context.next = 6;
+                  break;
+                }
+
+                rate = .0625;
+                _context.next = 9;
+                break;
+
+              case 6:
+                _context.next = 8;
+                return _this.getTaxRate(_this.getLossAddress());
+
+              case 8:
+                rate = _context.sent;
+
+              case 9:
+                _context.next = 12;
+                break;
+
+              case 11:
+                rate = 0;
+
+              case 12:
+                _this.newInvoice = new _Invoice__WEBPACK_IMPORTED_MODULE_2__["default"]({
+                  taxRate: rate
+                });
+                _context.next = 15;
+                return _this.post();
+
+              case 15:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     },
     setInvoiceData: function setInvoiceData(invoice) {
       this.newInvoice.total = parseFloat(this.newInvoice.total);
       this.newInvoice.subTotal = parseFloat(this.newInvoice.subTotal);
       this.newInvoice.id = invoice.id;
       this.newInvoice.carrier = this.claim.carrier;
-      this.newInvoice.feeSchedule = this.claim.carrier.fee_schedules[0].data; // console.log(this.newInvoice.feeSchedule)
+      this.newInvoice.feeSchedule = this.claim.carrier.fee_schedules[0].data; // this.newInvoice.getTaxRate();
+      // console.log();
+      // console.log(this.newInvoice.feeSchedule)
 
       this.setLineItemMinimums();
       this.setLineItemRates();
@@ -2041,27 +3034,69 @@ __webpack_require__.r(__webpack_exports__);
       return this.creatingInvoice = !this.creatingInvoice;
     },
     update: function update() {
-      var _this = this;
+      var _this2 = this;
 
       window.axios.put(this.getRoute() + this.newInvoice.id, this.newInvoice.data()).then(function (response) {
-        return _this.claim.invoices.push(response.data);
+        return _this2.claim.invoices.push(response.data);
       })["catch"](function (error) {
         return console.error(error);
       });
     },
     post: function post() {
-      var _this2 = this;
+      var _this3 = this;
 
       window.axios.post(this.getRoute(), this.newInvoice.data()).then(function (response) {
-        _this2.setInvoiceData(response.data);
+        _this3.setInvoiceData(response.data);
 
-        _this2.update();
+        _this3.update();
       })["catch"](function (error) {
         return console.error(error);
       });
     },
+    isTaxable: function isTaxable(state) {
+      var st = this.taxableStates().find(function (state) {
+        return state;
+      });
+      var taxable = this.claim.carrier.fee_schedules[0].data.taxable;
+      return st !== undefined && taxable ? true : false;
+    },
+    taxableStates: function taxableStates() {
+      return ['TX', 'NM'];
+    },
+    getTaxRate: function getTaxRate(lossLocation) {
+      var rate;
+      var request = {
+        method: 'POST',
+        url: 'https://sales-tax-calculator.p.rapidapi.com/rates',
+        headers: {
+          "content-type": "application/json",
+          "x-rapidapi-key": "a29b750334mshc27f715175b14e7p15c95bjsnbc1e065bb876",
+          "x-rapidapi-host": "sales-tax-calculator.p.rapidapi.com",
+          "useQueryString": true
+        },
+        data: {
+          "city": lossLocation.city,
+          "state": lossLocation.state,
+          "street": lossLocation.street,
+          "zip": lossLocation.zip
+        }
+      };
+      return window.axios.request(request).then(function (response) {
+        return parseFloat(response.data.tax_rate) / 100;
+      })["catch"](function (error) {
+        return alert(error);
+      });
+    },
     getRoute: function getRoute() {
       return '/api/claims/' + this.claim.id + '/invoices/';
+    },
+    getLossAddress: function getLossAddress() {
+      var property = this.claim.claim_data.client.addresses.find(function (a) {
+        return a.type === 'Property';
+      });
+      return property !== undefined ? property : this.claim.claim_data.client.addresses.find(function (a) {
+        return a.type === 'Home';
+      });
     },
     adjusterExpenses: function adjusterExpenses() {
       return [this.defaultLineItems.photos, this.defaultLineItems.mileage, this.defaultLineItems.hours, this.defaultLineItems.reimbursable];
@@ -2257,7 +3292,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.box.is-line-item input.input {\n\tborder: none;\n\tborder-radius: 0;\n\tfont-weight: 700;\n\t/*background: #f8f7f7;*/\n\tbackground: #fff;\n\tfont-size: .95em;\n\tcolor: #343b4b;\n}\n.box.is-line-item input.input:hover {\n\tborder-bottom: 1px solid #f0f0f0;\n}\nlabel.label {\n\tcolor: #bbb;\n}\n.box .select select{\n\tborder: none;\n\t/*background: #f8f7f7;*/\n\tbackground: #fff;\n\tborder-bottom: 1px solid #f0f0f0;\n\tborder-radius: 0;\n\tfont-size: .95em;\n\theight: 2em;\n\tfont-weight: 700;\n}\n.select select:focus{\n\tborder: none;\n}\n.box.is-line-item {\n\t/*background: #;*/\n\tmargin: 0 0 .5em 0;\n\tpadding: .5em 1em .5em 1em;\n\tbackground-color: white;\n\tborder-radius: 6px;\n\tbox-shadow: 0 2px 5px rgba(10, 10, 10, 0.1), 0 0 0 0 rgba(10, 10, 10, 0.1);\n\tcolor: #343b4c;\n\tdisplay: block;\n\tmargin: 0 0 .9em 0;\n\tpadding: .5em 1em .5em 1em;\n}\n.box.is-line-item .card-content {\n\tpadding: .60rem;\n}\n.box.is-line-item .icon small {\n\tfont-size: .75em;\n}\nspan.icon.is-xsmall {\n\twidth: .75em;\n\theight: .75em;\n}\ntable thead tr th {\n\tfont-size: .6em;\n}\n", ""]);
+exports.push([module.i, "\n.is-line-item input.input {\n\tborder: none;\n\tborder-radius: 0;\n\tfont-weight: 700;\n\tbackground: #f8f7f7;\n\t/*background: #fff;*/\n\tfont-size: .85em;\n\tcolor: #343b4b;\n\tborder-radius: 6px;\n}\n.select:not(.is-multiple) {\n\theight: 100%;\n}\n.is-line-item input.input:hover {\n\tborder-bottom: 1px solid #f0f0f0;\n}\nlabel.label {\n\tcolor: #bbb;\n}\n.select select{\n\tborder: none;\n\tbackground: #f8f7f7;\n\t/*background: #fff;*/\n\t/*border-bottom: 1px solid #f0f0f0;*/\n\tborder-radius: 6px;\n\tfont-size: .85em;\n\t/*height: 2em;*/\n\tfont-weight: 700;\n}\n.select select:focus{\n\tborder: none;\n}\n.is-line-item {\n\tbackground: #eeeeee;\n\t/*margin: 0 0 .5em 0;\n\tpadding: .5em;*/\n\t/*background-color: white;*/\n\tborder-radius: 6px;\n\t/*box-shadow: 0 2px 5px rgba(10, 10, 10, 0.1), 0 0 0 0 rgba(10, 10, 10, 0.1);*/\n\tcolor: #343b4c;\n\tdisplay: block;\n\tmargin: 0 0 .5em 0;\n\tpadding: .5em;\n}\n.is-line-item .card-content {\n\tpadding: .60rem;\n}\n.is-line-item .icon small {\n\tfont-size: .75em;\n}\nspan.icon.is-xsmall {\n\twidth: .75em;\n\theight: .75em;\n}\ntable thead tr th {\n\tfont-size: .6em;\n}\n", ""]);
 
 // exports
 
@@ -3613,16 +4648,16 @@ var render = function() {
             }
           },
           [
-            _vm.adjuster.avatar
+            _vm.claim.adjuster.avatar
               ? _c("img", {
                   staticStyle: {
                     "border-radius": "356px",
-                    border: "10px solid #439BD1",
+                    border: "10px solid #343b4c",
                     cursor: "pointer"
                   },
                   attrs: {
-                    src: _vm.adjuster.avatar.path,
-                    alt: _vm.adjuster.name,
+                    src: _vm.claim.adjuster.avatar.path,
+                    alt: _vm.claim.adjuster.name,
                     width: "100%",
                     height: "auto"
                   },
@@ -3663,65 +4698,6 @@ var render = function() {
         _c("h4", { staticStyle: { color: "#aaa", "margin-top": "-.25em" } }, [
           _vm._v("Adjuster")
         ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "column is-half assignment" }, [
-        _c(
-          "a",
-          {
-            on: {
-              mouseup: function($event) {
-                _vm.$emit("status-set", _vm.statusesList[2])
-                _vm.$emit("new-status-toggle")
-              }
-            }
-          },
-          [
-            _vm.reviewer.avatar
-              ? _c("img", {
-                  staticStyle: {
-                    "border-radius": "256px",
-                    border: "10px solid #64C6A3",
-                    cursor: "pointer"
-                  },
-                  attrs: {
-                    src: _vm.reviewer.avatar.path,
-                    alt: _vm.reviewer.name,
-                    width: "100%",
-                    height: "auto"
-                  }
-                })
-              : _c("span", { staticClass: "icon is-standard" }, [
-                  _c("i", { staticClass: "fa fa-8x fa-user-circle-o" })
-                ])
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "h3",
-          {
-            staticStyle: {
-              color: "#64C6A3",
-              "padding-top": "1rem",
-              overflow: "hidden",
-              "font-size": ".8em",
-              "font-weight": "700"
-            }
-          },
-          [_vm._v(_vm._s(_vm.reviewer.name || "Not Assigned"))]
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          {
-            staticStyle: {
-              "font-size": "1em",
-              color: "#aaa",
-              "margin-top": "-.25em"
-            }
-          },
-          [_vm._v("Reviewer")]
-        )
       ])
     ]
   )
@@ -3799,19 +4775,7 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("claim-map"),
-      _vm._v(" "),
-      _c("tags"),
-      _vm._v(" "),
-      _c("claim-stats", {
-        attrs: {
-          "claim-id": _vm.claim.id,
-          "user-id": _vm.user.id,
-          estimates: _vm.claim.estimates
-        }
-      }),
-      _vm._v(" "),
-      _c("contacts"),
+      _c("div", { staticStyle: { width: "100%" } }, [_c("contacts")], 1),
       _vm._v(" "),
       _c("description"),
       _vm._v(" "),
@@ -4720,6 +5684,8 @@ var render = function() {
         _c("div", { staticClass: "card-content" }, [
           _c("div", { staticClass: "content" }, [
             _c("div", { staticClass: "columns" }, [
+              _c("div", { staticClass: "column is-4" }, [_c("claim-map")], 1),
+              _vm._v(" "),
               _c(
                 "div",
                 { staticClass: "column" },
@@ -5204,20 +6170,12 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", {
+    staticClass: "map is-flex is-flex-shrink-1",
+    attrs: { id: "map" }
+  })
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "columns" }, [
-      _c("div", { staticClass: "column" }, [
-        _c("div", { staticClass: "map", attrs: { id: "map" } })
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -5914,7 +6872,9 @@ var render = function() {
               _c("div", { staticClass: "timeline-content" }, [
                 _c("p", {
                   staticClass: "heading",
-                  domProps: { textContent: _vm._s(status.date) }
+                  domProps: {
+                    textContent: _vm._s(status.date + " • " + status.time)
+                  }
                 }),
                 _vm._v(" "),
                 _c("p", [
@@ -6393,6 +7353,7 @@ var render = function() {
                         "remove-line-item": _vm.removeLineItem,
                         "invoice-deleted": _vm.remove,
                         "toggle-estimate": _vm.createEstimate,
+                        "toggle-taxable": _vm.update,
                         "fee-schedule-changed": _vm.updateFeeSchedule
                       }
                     }),
@@ -6435,6 +7396,29 @@ var render = function() {
                               })
                             ]
                           ),
+                          _vm._v(" "),
+                          _vm.invoice.feeSchedule.taxable
+                            ? _c(
+                                "span",
+                                { staticStyle: { "padding-right": "2em" } },
+                                [
+                                  _vm._v("Tax "),
+                                  _c("small", [
+                                    _vm._v(
+                                      "(" +
+                                        _vm._s(_vm.invoice.taxRate * 100) +
+                                        "%):"
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("span", {
+                                    domProps: {
+                                      textContent: _vm._s(_vm.invoice.tax)
+                                    }
+                                  })
+                                ]
+                              )
+                            : _vm._e(),
                           _vm._v(" "),
                           _c("strong", [
                             _vm._v("Total: "),
@@ -6487,265 +7471,200 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    {
-      staticClass: "level",
-      staticStyle: {
-        padding: "1em",
-        background: "#e9e9e9",
-        "border-radius": ".5em"
-      }
-    },
-    [
-      _c("div", { staticClass: "level-left" }, [
-        _c(
-          "div",
-          { staticClass: "level-item" },
-          [
-            _c(
-              "dropdown",
-              {
-                attrs: {
-                  items: _vm.lineItemTypes,
-                  carrier: _vm.invoice.carrier,
-                  "event-name": "new-line-item",
-                  buttonStyle: "is-rounded is-small"
-                },
-                on: { "new-line-item": _vm.addLineItem }
+  return _c("div", { staticClass: "level", staticStyle: { padding: ".5em" } }, [
+    _c("div", { staticClass: "level-left" }, [
+      _c(
+        "div",
+        { staticClass: "level-item" },
+        [
+          _c(
+            "dropdown",
+            {
+              attrs: {
+                items: _vm.lineItemTypes,
+                carrier: _vm.invoice.carrier,
+                "event-name": "new-line-item",
+                buttonStyle: "is-rounded is-small is-secondary"
               },
-              [_vm._v("Add Line Item")]
-            )
-          ],
-          1
-        ),
-        _vm._v(" "),
+              on: { "new-line-item": _vm.addLineItem }
+            },
+            [_vm._v("Add Line Item")]
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "level-item" }, [
         _vm.invoice.carrier.label == "TWIA"
-          ? _c("div", { staticClass: "level-item" }, [
-              _c(
-                "div",
-                { staticClass: "field", staticStyle: { margin: "0 1em 0 0" } },
-                [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.invoice.options.mcm,
-                        expression: "invoice.options.mcm"
-                      }
-                    ],
-                    staticClass: "switch is-rounded is-small is-info",
-                    attrs: { id: "isMcm", type: "checkbox", name: "isMcm" },
-                    domProps: {
-                      checked: Array.isArray(_vm.invoice.options.mcm)
-                        ? _vm._i(_vm.invoice.options.mcm, null) > -1
-                        : _vm.invoice.options.mcm
-                    },
-                    on: {
-                      change: [
-                        function($event) {
-                          var $$a = _vm.invoice.options.mcm,
-                            $$el = $event.target,
-                            $$c = $$el.checked ? true : false
-                          if (Array.isArray($$a)) {
-                            var $$v = null,
-                              $$i = _vm._i($$a, $$v)
-                            if ($$el.checked) {
-                              $$i < 0 &&
-                                _vm.$set(
-                                  _vm.invoice.options,
-                                  "mcm",
-                                  $$a.concat([$$v])
-                                )
-                            } else {
-                              $$i > -1 &&
-                                _vm.$set(
-                                  _vm.invoice.options,
-                                  "mcm",
-                                  $$a.slice(0, $$i).concat($$a.slice($$i + 1))
-                                )
-                            }
-                          } else {
-                            _vm.$set(_vm.invoice.options, "mcm", $$c)
-                          }
-                        },
-                        _vm.toggleMcmLineItem
-                      ]
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("label", { attrs: { for: "isMcm" } }, [
-                    _vm._v("MCM Invoice")
-                  ])
-                ]
-              ),
-              _vm._v(" "),
-              _c("div", { staticClass: "field" }, [
+          ? _c(
+              "div",
+              { staticClass: "field", staticStyle: { margin: "0 1em 0 0" } },
+              [
                 _c("input", {
                   directives: [
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.invoice.options.taxable,
-                      expression: "invoice.options.taxable"
+                      value: _vm.invoice.options.mcm,
+                      expression: "invoice.options.mcm"
                     }
                   ],
                   staticClass: "switch is-rounded is-small is-info",
-                  attrs: { id: "Taxable", type: "checkbox", name: "Taxable" },
+                  attrs: { id: "isMcm", type: "checkbox", name: "isMcm" },
                   domProps: {
-                    checked: Array.isArray(_vm.invoice.options.taxable)
-                      ? _vm._i(_vm.invoice.options.taxable, null) > -1
-                      : _vm.invoice.options.taxable
+                    checked: Array.isArray(_vm.invoice.options.mcm)
+                      ? _vm._i(_vm.invoice.options.mcm, null) > -1
+                      : _vm.invoice.options.mcm
                   },
                   on: {
-                    change: function($event) {
-                      var $$a = _vm.invoice.options.taxable,
-                        $$el = $event.target,
-                        $$c = $$el.checked ? true : false
-                      if (Array.isArray($$a)) {
-                        var $$v = null,
-                          $$i = _vm._i($$a, $$v)
-                        if ($$el.checked) {
-                          $$i < 0 &&
-                            _vm.$set(
-                              _vm.invoice.options,
-                              "taxable",
-                              $$a.concat([$$v])
-                            )
+                    change: [
+                      function($event) {
+                        var $$a = _vm.invoice.options.mcm,
+                          $$el = $event.target,
+                          $$c = $$el.checked ? true : false
+                        if (Array.isArray($$a)) {
+                          var $$v = null,
+                            $$i = _vm._i($$a, $$v)
+                          if ($$el.checked) {
+                            $$i < 0 &&
+                              _vm.$set(
+                                _vm.invoice.options,
+                                "mcm",
+                                $$a.concat([$$v])
+                              )
+                          } else {
+                            $$i > -1 &&
+                              _vm.$set(
+                                _vm.invoice.options,
+                                "mcm",
+                                $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                              )
+                          }
                         } else {
-                          $$i > -1 &&
-                            _vm.$set(
-                              _vm.invoice.options,
-                              "taxable",
-                              $$a.slice(0, $$i).concat($$a.slice($$i + 1))
-                            )
+                          _vm.$set(_vm.invoice.options, "mcm", $$c)
                         }
-                      } else {
-                        _vm.$set(_vm.invoice.options, "taxable", $$c)
-                      }
-                    }
+                      },
+                      _vm.toggleMcmLineItem
+                    ]
                   }
                 }),
                 _vm._v(" "),
-                _c("label", { attrs: { for: "Taxable" } }, [_vm._v("Taxable")])
-              ])
-            ])
+                _c("label", { attrs: { for: "isMcm" } }, [_vm._v("MCM")])
+              ]
+            )
           : _vm._e()
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "level-right" }, [
-        _c("div", { staticClass: "level-item" }, [
-          _c("div", { staticClass: "field" }, [
-            _c("div", { staticClass: "control" }, [
-              _c("div", { staticClass: "select is-small is-rounded" }, [
-                _c(
-                  "select",
-                  {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.invoice.feeSchedule,
-                        expression: "invoice.feeSchedule"
-                      }
-                    ],
-                    staticStyle: { "font-size": "1em" },
-                    attrs: { id: "feeSchedule" },
-                    on: {
-                      change: [
-                        function($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function(o) {
-                              return o.selected
-                            })
-                            .map(function(o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.$set(
-                            _vm.invoice,
-                            "feeSchedule",
-                            $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          )
-                        },
-                        function($event) {
-                          return _vm.$emit("fee-schedule-changed")
-                        }
-                      ]
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "level-right" }, [
+      _c("div", { staticClass: "level-item" }, [
+        _c("div", { staticClass: "field" }, [
+          _c("div", { staticClass: "control" }, [
+            _c("div", { staticClass: "select is-small is-rounded" }, [
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.invoice.feeSchedule,
+                      expression: "invoice.feeSchedule"
                     }
-                  },
-                  [
-                    _c("option", { attrs: { value: "", disabled: "" } }, [
-                      _vm._v("Select Fee Schedule")
-                    ]),
-                    _vm._v(" "),
-                    _vm._l(_vm.invoice.carrier.fee_schedules, function(
-                      feeSchedule
-                    ) {
-                      return _c("option", {
-                        key: feeSchedule.id,
-                        domProps: {
-                          value: feeSchedule.data,
-                          textContent: _vm._s(
-                            feeSchedule.label + " Fee Schedule"
-                          )
-                        }
-                      })
-                    })
                   ],
-                  2
-                )
-              ])
+                  staticStyle: { "font-size": "1em" },
+                  attrs: { id: "feeSchedule" },
+                  on: {
+                    change: [
+                      function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.$set(
+                          _vm.invoice,
+                          "feeSchedule",
+                          $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        )
+                      },
+                      function($event) {
+                        return _vm.$emit("fee-schedule-changed")
+                      }
+                    ]
+                  }
+                },
+                [
+                  _c("option", { attrs: { value: "", disabled: "" } }, [
+                    _vm._v("Select Fee Schedule")
+                  ]),
+                  _vm._v(" "),
+                  _vm._l(_vm.invoice.carrier.fee_schedules, function(
+                    feeSchedule
+                  ) {
+                    return _c("option", {
+                      key: feeSchedule.id,
+                      domProps: {
+                        value: feeSchedule.data,
+                        textContent: _vm._s(feeSchedule.label + " Fee Schedule")
+                      }
+                    })
+                  })
+                ],
+                2
+              )
             ])
           ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "level-item" }, [
-          _c(
-            "button",
-            {
-              staticClass: "button is-rounded is-small",
-              on: {
-                click: function($event) {
-                  return _vm.$emit("toggle-estimate")
-                }
-              }
-            },
-            [_vm._m(0), _vm._v(" "), _c("span", [_vm._v("New Estimate")])]
-          )
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "level-item" }, [
-          _c(
-            "a",
-            {
-              staticClass: "button is-rounded is-small",
-              attrs: { href: "/invoices/" + _vm.invoice.id }
-            },
-            [_vm._m(1), _vm._v(" "), _c("span", [_vm._v("Preview")])]
-          )
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "level-item" }, [
-          _c(
-            "button",
-            {
-              staticClass: "button is-danger is-rounded is-small",
-              on: {
-                click: function($event) {
-                  return _vm.$emit("invoice-deleted")
-                }
-              }
-            },
-            [_vm._m(2)]
-          )
         ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "level-item" }, [
+        _c(
+          "button",
+          {
+            staticClass: "button is-rounded is-small",
+            on: {
+              click: function($event) {
+                return _vm.$emit("toggle-estimate")
+              }
+            }
+          },
+          [_vm._m(0), _vm._v(" "), _c("span", [_vm._v("New Estimate")])]
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "level-item" }, [
+        _c(
+          "a",
+          {
+            staticClass: "button is-rounded is-small",
+            attrs: { href: "/invoices/" + _vm.invoice.id }
+          },
+          [_vm._m(1), _vm._v(" "), _c("span", [_vm._v("Preview")])]
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "level-item" }, [
+        _c(
+          "button",
+          {
+            staticClass: "button is-danger is-rounded is-small",
+            on: {
+              click: function($event) {
+                return _vm.$emit("invoice-deleted")
+              }
+            }
+          },
+          [_vm._m(2)]
+        )
       ])
-    ]
-  )
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
@@ -6848,10 +7767,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    {
-      staticClass: "box is-line-item",
-      staticStyle: { "border-color": "#fff" }
-    },
+    { staticClass: "is-line-item", staticStyle: { "border-color": "#fff" } },
     [
       _c(
         "div",
@@ -6859,46 +7775,195 @@ var render = function() {
         [
           _c(
             "div",
-            { staticClass: "level-left", staticStyle: { width: "80%" } },
+            {
+              staticClass: "level-left is-mobile",
+              staticStyle: { width: "50%" }
+            },
             [
-              _c("div", { staticClass: "level-item" }, [
-                _c("div", { staticClass: "field" }, [
-                  _c("div", { staticClass: "control" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.lineItem.description,
-                          expression: "lineItem.description"
-                        }
-                      ],
-                      staticClass: "input is-fullwidth",
-                      attrs: { type: "text" },
-                      domProps: { value: _vm.lineItem.description },
-                      on: {
-                        change: function($event) {
-                          return _vm.updateTotal(_vm.lineItem)
-                        },
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(
-                            _vm.lineItem,
-                            "description",
-                            $event.target.value
-                          )
-                        }
+              _c(
+                "div",
+                { staticClass: "level-item", staticStyle: { width: "66%" } },
+                [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.lineItem.description,
+                        expression: "lineItem.description"
                       }
-                    })
-                  ])
-                ])
-              ]),
+                    ],
+                    staticClass: "input",
+                    attrs: { type: "text" },
+                    domProps: { value: _vm.lineItem.description },
+                    on: {
+                      change: function($event) {
+                        return _vm.updateTotal(_vm.lineItem)
+                      },
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.lineItem,
+                          "description",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  })
+                ]
+              ),
+              _vm._v(" "),
+              _vm.lineItem.has("locations")
+                ? _c(
+                    "div",
+                    {
+                      staticClass: "level-item is-flex",
+                      staticStyle: { width: "44%", position: "'relative'" }
+                    },
+                    [
+                      _c(
+                        "div",
+                        {
+                          staticClass: "control has-icons-left has-icons-right"
+                        },
+                        [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.lineItem.locations.start,
+                                expression: "lineItem.locations.start"
+                              }
+                            ],
+                            staticClass: "input",
+                            attrs: { id: "start-address", type: "text" },
+                            domProps: { value: _vm.lineItem.locations.start },
+                            on: {
+                              input: [
+                                function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.lineItem.locations,
+                                    "start",
+                                    $event.target.value
+                                  )
+                                },
+                                function($event) {
+                                  return _vm.getAddress()
+                                }
+                              ],
+                              keyup: [
+                                function($event) {
+                                  if (
+                                    !$event.type.indexOf("key") &&
+                                    _vm._k(
+                                      $event.keyCode,
+                                      "down",
+                                      40,
+                                      $event.key,
+                                      ["Down", "ArrowDown"]
+                                    )
+                                  ) {
+                                    return null
+                                  }
+                                  _vm.selectedAutocompleteResult < 4
+                                    ? _vm.selectedAutocompleteResult++
+                                    : (_vm.selectedAutocompleteResult = 0)
+                                },
+                                function($event) {
+                                  if (
+                                    !$event.type.indexOf("key") &&
+                                    _vm._k(
+                                      $event.keyCode,
+                                      "up",
+                                      38,
+                                      $event.key,
+                                      ["Up", "ArrowUp"]
+                                    )
+                                  ) {
+                                    return null
+                                  }
+                                  _vm.selectedAutocompleteResult > 0
+                                    ? _vm.selectedAutocompleteResult--
+                                    : (_vm.selectedAutocompleteResult = 0)
+                                },
+                                function($event) {
+                                  if (
+                                    !$event.type.indexOf("key") &&
+                                    _vm._k(
+                                      $event.keyCode,
+                                      "enter",
+                                      13,
+                                      $event.key,
+                                      "Enter"
+                                    )
+                                  ) {
+                                    return null
+                                  }
+                                  return _vm.selectAddress()
+                                }
+                              ]
+                            }
+                          }),
+                          _vm._v(" "),
+                          _vm._m(0),
+                          _vm._v(" "),
+                          _c(
+                            "aside",
+                            {
+                              staticClass: "menu",
+                              staticStyle: { "font-size": ".75em" }
+                            },
+                            [
+                              _c(
+                                "ul",
+                                { staticClass: "menu-list" },
+                                _vm._l(_vm.autocompleteResults, function(
+                                  result,
+                                  idx
+                                ) {
+                                  return _c("li", [
+                                    _c("a", {
+                                      class: {
+                                        "is-active":
+                                          idx == _vm.selectedAutocompleteResult
+                                      },
+                                      domProps: {
+                                        textContent: _vm._s(result.description)
+                                      },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.setSelectedAutocompleteResult(
+                                            idx
+                                          )
+                                        }
+                                      }
+                                    })
+                                  ])
+                                }),
+                                0
+                              )
+                            ]
+                          )
+                        ]
+                      )
+                    ]
+                  )
+                : _vm._e(),
               _vm._v(" "),
               _vm.lineItem.has("quantity")
-                ? _c("div", { staticClass: "level-item" }, [
-                    _c("div", { staticClass: "field" }, [
+                ? _c(
+                    "div",
+                    {
+                      staticClass: "level-item is-flex",
+                      staticStyle: { width: "20%" }
+                    },
+                    [
                       _c(
                         "div",
                         {
@@ -6934,19 +7999,24 @@ var render = function() {
                             }
                           }),
                           _vm._v(" "),
-                          _vm._m(0)
+                          _vm._m(1)
                         ]
                       )
-                    ])
-                  ])
+                    ]
+                  )
                 : _vm._e(),
               _vm._v(" "),
               _vm.lineItem.has("amount")
-                ? _c("div", { staticClass: "level-item" }, [
-                    _c("div", { staticClass: "field" }, [
+                ? _c(
+                    "div",
+                    {
+                      staticClass: "level-item",
+                      staticStyle: { "justify-content": "flex-start" }
+                    },
+                    [
                       _c("div", { staticClass: "control has-icons-left" }, [
                         _vm.usesEstimates(_vm.lineItem) && _vm.hasEstimates()
-                          ? _c("div", { staticClass: "select is-fullwidth" }, [
+                          ? _c("div", { staticClass: "select" }, [
                               _c(
                                 "select",
                                 {
@@ -6958,7 +8028,6 @@ var render = function() {
                                       expression: "lineItem.amount"
                                     }
                                   ],
-                                  staticStyle: { "font-size": "1em" },
                                   on: {
                                     change: [
                                       function($event) {
@@ -7006,14 +8075,15 @@ var render = function() {
                                 2
                               ),
                               _vm._v(" "),
-                              _vm._m(1)
+                              _vm._m(2)
                             ])
                           : _vm.usesEstimates(_vm.lineItem) &&
                             !_vm.hasEstimates()
                           ? _c(
                               "button",
                               {
-                                staticClass: "button is-small is-info",
+                                staticClass:
+                                  "button is-small is-info is-rounded",
                                 on: {
                                   click: function($event) {
                                     return _vm.$emit("toggle-estimate")
@@ -7035,13 +8105,15 @@ var render = function() {
                                     {
                                       name: "model",
                                       rawName: "v-model",
-                                      value: _vm.lineItem.amount,
-                                      expression: "lineItem.amount"
+                                      value: "$" + _vm.lineItem.amount,
+                                      expression: "'$' + lineItem.amount"
                                     }
                                   ],
                                   staticClass: "input",
                                   attrs: { type: "text" },
-                                  domProps: { value: _vm.lineItem.amount },
+                                  domProps: {
+                                    value: "$" + _vm.lineItem.amount
+                                  },
                                   on: {
                                     change: function($event) {
                                       return _vm.updateTotal(_vm.lineItem)
@@ -7051,7 +8123,7 @@ var render = function() {
                                         return
                                       }
                                       _vm.$set(
-                                        _vm.lineItem,
+                                        "$" + _vm.lineItem,
                                         "amount",
                                         $event.target.value
                                       )
@@ -7059,147 +8131,170 @@ var render = function() {
                                   }
                                 }),
                                 _vm._v(" "),
-                                _vm._m(2)
+                                _vm._m(3)
                               ]
                             )
                       ])
-                    ])
-                  ])
+                    ]
+                  )
                 : _vm._e(),
               _vm._v(" "),
               _vm.usesEstimates(_vm.lineItem) && _vm.lineItem.has("newAmount")
-                ? _c("div", { staticClass: "level-item" }, [
-                    _c("div", { staticClass: "field" }, [
-                      _c("div", { staticClass: "control has-icons-left" }, [
-                        _vm.hasEstimates()
-                          ? _c("div", { staticClass: "select is-fullwidth" }, [
-                              _c(
-                                "select",
-                                {
-                                  directives: [
+                ? _c(
+                    "div",
+                    {
+                      staticClass: "level-item",
+                      staticStyle: { "justify-content": "flex-start" }
+                    },
+                    [
+                      _c("div", { staticClass: "field" }, [
+                        _c("div", { staticClass: "control has-icons-left" }, [
+                          _vm.hasEstimates()
+                            ? _c(
+                                "div",
+                                { staticClass: "select is-fullwidth" },
+                                [
+                                  _c(
+                                    "select",
                                     {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.lineItem.newAmount,
-                                      expression: "lineItem.newAmount"
-                                    }
-                                  ],
-                                  staticStyle: { "font-size": "1em" },
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        var $$selectedVal = Array.prototype.filter
-                                          .call($event.target.options, function(
-                                            o
-                                          ) {
-                                            return o.selected
-                                          })
-                                          .map(function(o) {
-                                            var val =
-                                              "_value" in o ? o._value : o.value
-                                            return val
-                                          })
-                                        _vm.$set(
-                                          _vm.lineItem,
-                                          "newAmount",
-                                          $event.target.multiple
-                                            ? $$selectedVal
-                                            : $$selectedVal[0]
-                                        )
-                                      },
-                                      function($event) {
-                                        return _vm.updateTotal(_vm.lineItem)
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.lineItem.newAmount,
+                                          expression: "lineItem.newAmount"
+                                        }
+                                      ],
+                                      on: {
+                                        change: [
+                                          function($event) {
+                                            var $$selectedVal = Array.prototype.filter
+                                              .call(
+                                                $event.target.options,
+                                                function(o) {
+                                                  return o.selected
+                                                }
+                                              )
+                                              .map(function(o) {
+                                                var val =
+                                                  "_value" in o
+                                                    ? o._value
+                                                    : o.value
+                                                return val
+                                              })
+                                            _vm.$set(
+                                              _vm.lineItem,
+                                              "newAmount",
+                                              $event.target.multiple
+                                                ? $$selectedVal
+                                                : $$selectedVal[0]
+                                            )
+                                          },
+                                          function($event) {
+                                            return _vm.updateTotal(_vm.lineItem)
+                                          }
+                                        ]
                                       }
-                                    ]
+                                    },
+                                    [
+                                      _c(
+                                        "option",
+                                        { attrs: { value: "0", disabled: "" } },
+                                        [_vm._v("Select Estimate")]
+                                      ),
+                                      _vm._v(" "),
+                                      _vm._l(_vm.estimates, function(estimate) {
+                                        return _c("option", {
+                                          domProps: {
+                                            value: estimate.gross_loss,
+                                            textContent: _vm._s(
+                                              "$" + estimate.gross_loss
+                                            )
+                                          }
+                                        })
+                                      })
+                                    ],
+                                    2
+                                  ),
+                                  _vm._v(" "),
+                                  _vm._m(4)
+                                ]
+                              )
+                            : _vm.usesEstimates(_vm.lineItem) &&
+                              _vm.lineItem.newAmount &&
+                              !_vm.hasEstimates()
+                            ? _c(
+                                "button",
+                                {
+                                  staticClass: "button is-small is-info",
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.$emit("toggle-estimate")
+                                    }
                                   }
                                 },
                                 [
-                                  _c(
-                                    "option",
-                                    { attrs: { value: "0", disabled: "" } },
-                                    [_vm._v("Select Estimate")]
-                                  ),
+                                  _vm._v(
+                                    "\n\t\t  \t\t\t\t\t\tCreate Estimate\n\t\t  \t\t\t\t\t"
+                                  )
+                                ]
+                              )
+                            : _c(
+                                "div",
+                                { staticClass: "control has-icons-left" },
+                                [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.lineItem.amount,
+                                        expression: "lineItem.amount"
+                                      }
+                                    ],
+                                    staticClass: "input",
+                                    attrs: { type: "text" },
+                                    domProps: { value: _vm.lineItem.amount },
+                                    on: {
+                                      change: function($event) {
+                                        return _vm.updateTotal(_vm.lineItem)
+                                      },
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.lineItem,
+                                          "amount",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  }),
                                   _vm._v(" "),
-                                  _vm._l(_vm.estimates, function(estimate) {
-                                    return _c("option", {
-                                      domProps: {
-                                        value: estimate.gross_loss,
-                                        textContent: _vm._s(estimate.gross_loss)
-                                      }
-                                    })
-                                  })
-                                ],
-                                2
-                              ),
-                              _vm._v(" "),
-                              _vm._m(3)
-                            ])
-                          : _vm.usesEstimates(_vm.lineItem) &&
-                            _vm.lineItem.newAmount &&
-                            !_vm.hasEstimates()
-                          ? _c(
-                              "button",
-                              {
-                                staticClass: "button is-small is-info",
-                                on: {
-                                  click: function($event) {
-                                    return _vm.$emit("toggle-estimate")
-                                  }
-                                }
-                              },
-                              [
-                                _vm._v(
-                                  "\n\t\t  \t\t\t\t\t\tCreate Estimate\n\t\t  \t\t\t\t\t"
-                                )
-                              ]
-                            )
-                          : _c(
-                              "div",
-                              { staticClass: "control has-icons-left" },
-                              [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.lineItem.amount,
-                                      expression: "lineItem.amount"
-                                    }
-                                  ],
-                                  staticClass: "input",
-                                  attrs: { type: "text" },
-                                  domProps: { value: _vm.lineItem.amount },
-                                  on: {
-                                    change: function($event) {
-                                      return _vm.updateTotal(_vm.lineItem)
-                                    },
-                                    input: function($event) {
-                                      if ($event.target.composing) {
-                                        return
-                                      }
-                                      _vm.$set(
-                                        _vm.lineItem,
-                                        "amount",
-                                        $event.target.value
-                                      )
-                                    }
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _vm._m(4)
-                              ]
-                            )
+                                  _vm._m(5)
+                                ]
+                              )
+                        ])
                       ])
-                    ])
-                  ])
+                    ]
+                  )
                 : _vm._e(),
               _vm._v(" "),
               _vm.lineItem.has("rate")
-                ? _c("div", { staticClass: "level-item" }, [
-                    _c("div", { staticClass: "field" }, [
+                ? _c(
+                    "div",
+                    {
+                      staticClass: "level-item",
+                      staticStyle: {
+                        "justify-content": "flex-start",
+                        width: "20%"
+                      }
+                    },
+                    [
                       _c("div", { staticClass: "control has-icons-left" }, [
-                        _vm.invoice.hasMultipleHourlyRates() &&
-                        _vm.lineItem.description == "Time & Expense Hours"
+                        _vm.lineItem.type == "HourlyRateLineItem" &&
+                        _vm.invoice.hasMultipleHourlyRates()
                           ? _c("div", { staticClass: "select" }, [
                               _c(
                                 "select",
@@ -7212,7 +8307,6 @@ var render = function() {
                                       expression: "lineItem.rate"
                                     }
                                   ],
-                                  staticStyle: { "font-size": "1em" },
                                   on: {
                                     change: [
                                       function($event) {
@@ -7247,9 +8341,7 @@ var render = function() {
                                   return _c("option", {
                                     domProps: {
                                       value: rate.amount,
-                                      textContent: _vm._s(
-                                        rate.label + " @ " + rate.amount
-                                      )
+                                      textContent: _vm._s("$" + rate.amount)
                                     }
                                   })
                                 }),
@@ -7292,38 +8384,26 @@ var render = function() {
                               }
                             }),
                         _vm._v(" "),
-                        _vm._m(5)
+                        _vm._m(6)
                       ])
-                    ])
-                  ])
+                    ]
+                  )
                 : _vm._e()
             ]
           ),
           _vm._v(" "),
           _c("div", { staticClass: "level-right" }, [
-            _c(
-              "div",
-              {
-                staticClass: "level-item has-text-centered",
-                staticStyle: { "padding-right": ".75em" }
-              },
-              [
-                _c("div", { staticClass: "field" }, [
-                  _c("div", { staticClass: "control" }, [
-                    _c("span", {
-                      staticStyle: {
-                        "font-size": "1em",
-                        "font-weight": "700",
-                        color: "#45aaf0"
-                      },
-                      domProps: {
-                        textContent: _vm._s("$" + _vm.lineItem.total)
-                      }
-                    })
-                  ])
-                ])
-              ]
-            ),
+            _c("div", { staticClass: "level-item has-text-centered" }, [
+              _c("span", {
+                staticStyle: {
+                  "font-size": ".9em",
+                  "font-weight": "700",
+                  padding: ".5em .75em",
+                  color: "#343b4c"
+                },
+                domProps: { textContent: _vm._s("$" + _vm.lineItem.total) }
+              })
+            ]),
             _vm._v(" "),
             _c("div", { staticClass: "level-item" }, [
               _c("button", {
@@ -7342,6 +8422,14 @@ var render = function() {
   )
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "icon is-small is-left has-text-bold" }, [
+      _c("i", { staticClass: "fa fa-map-marker" })
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -7825,7 +8913,12 @@ function normalizeComponent (
     options._ssrRegister = hook
   } else if (injectStyles) {
     hook = shadowMode
-      ? function () { injectStyles.call(this, this.$root.$options.shadowRoot) }
+      ? function () {
+        injectStyles.call(
+          this,
+          (options.functional ? this.parent : this).$root.$options.shadowRoot
+        )
+      }
       : injectStyles
   }
 
@@ -7834,7 +8927,7 @@ function normalizeComponent (
       // for template-only hot-reload because in that case the render fn doesn't
       // go through the normalizer
       options._injectStyles = hook
-      // register for functioal component in vue file
+      // register for functional component in vue file
       var originalRender = options.render
       options.render = function renderWithStyleInjection (h, context) {
         hook.call(context)
@@ -8207,7 +9300,9 @@ var routes = [{
   path: '/billing',
   name: "billing",
   component: _Billing_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
-}];
+} // { path: '/certifications', component: Certifications },
+// { path: '/complete', component: Complete }
+];
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   routes: routes,
   linkActiveClass: 'is-active'
@@ -9188,6 +10283,11 @@ __webpack_require__.r(__webpack_exports__);
   reviewer: {},
   bounds: {},
   map: {},
+  geocoder: {},
+  autocomplete: {},
+  autocompleteResults: [],
+  selectedAutocompleteResult: 0,
+  directions: {},
   marker: {},
   home: {
     lat: 30.2702208,
@@ -9372,7 +10472,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return AmountLineItem; });
 /* harmony import */ var _LineItem__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./LineItem */ "./resources/assets/js/claims/invoice/LineItem.js");
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -9380,29 +10480,33 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 
-var AmountLineItem =
-/*#__PURE__*/
-function (_LineItem) {
+
+var AmountLineItem = /*#__PURE__*/function (_LineItem) {
   _inherits(AmountLineItem, _LineItem);
+
+  var _super = _createSuper(AmountLineItem);
 
   function AmountLineItem(data) {
     var _this;
 
     _classCallCheck(this, AmountLineItem);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(AmountLineItem).call(this, data));
+    _this = _super.call(this, data);
 
     _this.calculate();
 
@@ -9434,7 +10538,7 @@ function (_LineItem) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return DifferenceInTiersLineItem; });
 /* harmony import */ var _ServiceFeeLineItem__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ServiceFeeLineItem */ "./resources/assets/js/claims/invoice/ServiceFeeLineItem.js");
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -9442,29 +10546,33 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 
-var DifferenceInTiersLineItem =
-/*#__PURE__*/
-function (_ServiceFeeLineItem) {
+
+var DifferenceInTiersLineItem = /*#__PURE__*/function (_ServiceFeeLineItem) {
   _inherits(DifferenceInTiersLineItem, _ServiceFeeLineItem);
+
+  var _super = _createSuper(DifferenceInTiersLineItem);
 
   function DifferenceInTiersLineItem(data) {
     var _this;
 
     _classCallCheck(this, DifferenceInTiersLineItem);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(DifferenceInTiersLineItem).call(this, data));
+    _this = _super.call(this, data);
 
     _this.calculate();
 
@@ -9507,6 +10615,55 @@ function (_ServiceFeeLineItem) {
 
 /***/ }),
 
+/***/ "./resources/assets/js/claims/invoice/HourlyRateLineItem.js":
+/*!******************************************************************!*\
+  !*** ./resources/assets/js/claims/invoice/HourlyRateLineItem.js ***!
+  \******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return HourlyRateLineItem; });
+/* harmony import */ var _QuantifiableLineItem__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./QuantifiableLineItem */ "./resources/assets/js/claims/invoice/QuantifiableLineItem.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+var HourlyRateLineItem = /*#__PURE__*/function (_QuantifiableLineItem) {
+  _inherits(HourlyRateLineItem, _QuantifiableLineItem);
+
+  var _super = _createSuper(HourlyRateLineItem);
+
+  function HourlyRateLineItem() {
+    _classCallCheck(this, HourlyRateLineItem);
+
+    return _super.apply(this, arguments);
+  }
+
+  return HourlyRateLineItem;
+}(_QuantifiableLineItem__WEBPACK_IMPORTED_MODULE_0__["default"]);
+
+
+
+/***/ }),
+
 /***/ "./resources/assets/js/claims/invoice/Invoice.js":
 /*!*******************************************************!*\
   !*** ./resources/assets/js/claims/invoice/Invoice.js ***!
@@ -9520,6 +10677,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ServiceFeeLineItem__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ServiceFeeLineItem */ "./resources/assets/js/claims/invoice/ServiceFeeLineItem.js");
 /* harmony import */ var _QuantifiableLineItem__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./QuantifiableLineItem */ "./resources/assets/js/claims/invoice/QuantifiableLineItem.js");
 /* harmony import */ var _AmountLineItem__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AmountLineItem */ "./resources/assets/js/claims/invoice/AmountLineItem.js");
+/* harmony import */ var _HourlyRateLineItem__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./HourlyRateLineItem */ "./resources/assets/js/claims/invoice/HourlyRateLineItem.js");
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -9528,26 +10692,35 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 
 
+
  // import Form from '../../structur/src/form/Form.js';
 
-var Invoice =
-/*#__PURE__*/
-function () {
+var Invoice = /*#__PURE__*/function () {
   function Invoice(data) {
     _classCallCheck(this, Invoice);
 
+    // console.log(data['taxRate']);
     this.lineItems = [];
-    this.userId = window.user.id;
+    this.userId = window.user ? window.user.id : 0;
     this.subTotal = 0;
-    this.tax = 0;
+    this.tax = 0; // the amount of the tax calculations...
+
+    this.taxRate = 0;
     this.total = 0;
     this.carrier = {};
     this.options = {
       mcm: false,
       cwop: false,
-      show: true
+      show: true,
+      taxable: false
     };
     this.feeSchedule = {};
+
+    for (var property in data) {
+      this[property] = data[property];
+    }
+
+    console.log(this.taxRate);
   }
   /**
    * Method gathering data to save invoice.
@@ -9559,28 +10732,19 @@ function () {
     key: "data",
     value: function data() {
       var data = {};
-      var _iteratorNormalCompletion = true;
-      var _didIteratorError = false;
-      var _iteratorError = undefined;
+
+      var _iterator = _createForOfIteratorHelper(this.getInvoiceProperties()),
+          _step;
 
       try {
-        for (var _iterator = this.getInvoiceProperties()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
           var property = _step.value;
           data[property] = this[property];
         }
       } catch (err) {
-        _didIteratorError = true;
-        _iteratorError = err;
+        _iterator.e(err);
       } finally {
-        try {
-          if (!_iteratorNormalCompletion && _iterator["return"] != null) {
-            _iterator["return"]();
-          }
-        } finally {
-          if (_didIteratorError) {
-            throw _iteratorError;
-          }
-        }
+        _iterator.f();
       }
 
       return data;
@@ -9600,7 +10764,27 @@ function () {
       this.lineItems.forEach(function (lineItem) {
         _this.subTotal = parseFloat(_this.subTotal) + parseFloat(lineItem.total);
       });
+      this.tax = this.calculateTax();
       return this.total = (this.subTotal + this.tax).toFixed(2);
+    }
+  }, {
+    key: "calculateTax",
+    value: function calculateTax() {
+      var _this2 = this;
+
+      var taxable = this.getTaxableLineItems();
+      var tax = 0;
+      taxable.forEach(function (item) {
+        return tax += +(+item.total * +_this2.taxRate);
+      });
+      return +tax;
+    }
+  }, {
+    key: "getTaxableLineItems",
+    value: function getTaxableLineItems() {
+      return this.lineItems.filter(function (item) {
+        return item.taxable === true;
+      });
     }
     /**
      * Method for creating instance of {ServiceFeeLineItem}, and adding it to {this.lineItems}.
@@ -9624,10 +10808,10 @@ function () {
   }, {
     key: "createAdjusterExpenseLineItems",
     value: function createAdjusterExpenseLineItems(expenses) {
-      var _this2 = this;
+      var _this3 = this;
 
       expenses.forEach(function (expense) {
-        return expense.type === "AmountLineItem" ? _this2.addLineItem(new _AmountLineItem__WEBPACK_IMPORTED_MODULE_2__["default"](expense)) : _this2.addLineItem(new _QuantifiableLineItem__WEBPACK_IMPORTED_MODULE_1__["default"](expense));
+        return expense.type === "AmountLineItem" ? _this3.addLineItem(new _AmountLineItem__WEBPACK_IMPORTED_MODULE_2__["default"](expense)) : expense.type === 'HourlyRateLineItem' ? _this3.addLineItem(new _HourlyRateLineItem__WEBPACK_IMPORTED_MODULE_3__["default"](expense)) : _this3.addLineItem(new _QuantifiableLineItem__WEBPACK_IMPORTED_MODULE_1__["default"](expense));
       });
     }
     /**
@@ -9675,11 +10859,11 @@ function () {
   }, {
     key: "recalculateLineItems",
     value: function recalculateLineItems() {
-      var _this3 = this;
+      var _this4 = this;
 
       this.lineItems.forEach(function (lineItem) {
         // this.setFeeSchedule()
-        lineItem.feeSchedule = _this3.feeSchedule;
+        lineItem.feeSchedule = _this4.feeSchedule;
         lineItem.calculate();
       });
       return this.calculate();
@@ -9711,7 +10895,13 @@ function () {
     value: function hasMultipleHourlyRates() {
       //check if our hourly prop is an array
       return Array.isArray(this.feeSchedule.hourly) ? true : false;
-    }
+    } // setTaxRate(rate) {
+    // 	return this.taxRate = rate;
+    // }
+    // getTaxRate() {
+    // 	return this.taxRate;
+    // }
+
     /**
      * Method for getting mileage rate from current feeSchedule.
      * @return String.
@@ -9744,48 +10934,48 @@ function () {
   }, {
     key: "getInvoiceProperties",
     value: function getInvoiceProperties() {
-      return ['total', 'subTotal', 'feeSchedule', 'options', 'tax', 'lineItems', 'userId'];
+      return ['total', 'subTotal', 'feeSchedule', 'options', 'tax', 'taxRate', 'lineItems', 'userId'];
     } // Getters & Setters...//
 
   }, {
     key: "subTotal",
-    set: function set(data) {
-      this._subTotal = data;
-    },
     get: function get() {
       return this._subTotal;
+    },
+    set: function set(data) {
+      this._subTotal = data;
     }
   }, {
     key: "total",
-    set: function set(data) {
-      this._total = data;
-    },
     get: function get() {
       return this._total;
+    },
+    set: function set(data) {
+      this._total = data;
     }
   }, {
     key: "carrier",
-    set: function set(data) {
-      this._carrier = data;
-    },
     get: function get() {
       return this._carrier;
+    },
+    set: function set(data) {
+      this._carrier = data;
     }
   }, {
     key: "feeSchedule",
-    set: function set(data) {
-      this._feeSchedule = data;
-    },
     get: function get() {
       return this._feeSchedule;
+    },
+    set: function set(data) {
+      this._feeSchedule = data;
     }
   }, {
     key: "show",
-    set: function set(data) {
-      this._show = data;
-    },
     get: function get() {
       return this._show;
+    },
+    set: function set(data) {
+      this._show = data;
     }
   }]);
 
@@ -9929,8 +11119,8 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_InvoiceOptions_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/style-loader!../../../../../node_modules/css-loader??ref--6-1!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/src??ref--6-2!../../../../../node_modules/vue-loader/lib??vue-loader-options!./InvoiceOptions.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/claims/invoice/InvoiceOptions.vue?vue&type=style&index=0&lang=css&");
 /* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_InvoiceOptions_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_InvoiceOptions_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_InvoiceOptions_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_InvoiceOptions_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
- /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_InvoiceOptions_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_InvoiceOptions_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_InvoiceOptions_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+
 
 /***/ }),
 
@@ -10037,9 +11227,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var LineItem =
-/*#__PURE__*/
-function () {
+var LineItem = /*#__PURE__*/function () {
   function LineItem(data) {
     _classCallCheck(this, LineItem);
 
@@ -10056,11 +11244,11 @@ function () {
     }
   }, {
     key: "feeSchedule",
-    set: function set(data) {
-      return this._feeSchedule = data;
-    },
     get: function get() {
       return this._feeSchedule;
+    },
+    set: function set(data) {
+      return this._feeSchedule = data;
     }
   }]);
 
@@ -10135,8 +11323,8 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_LineItem_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/style-loader!../../../../../node_modules/css-loader??ref--6-1!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/src??ref--6-2!../../../../../node_modules/vue-loader/lib??vue-loader-options!./LineItem.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/claims/invoice/LineItem.vue?vue&type=style&index=0&lang=css&");
 /* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_LineItem_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_LineItem_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_LineItem_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_LineItem_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
- /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_LineItem_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_LineItem_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_LineItem_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+
 
 /***/ }),
 
@@ -10238,7 +11426,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return QuantifiableLineItem; });
 /* harmony import */ var _LineItem__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./LineItem */ "./resources/assets/js/claims/invoice/LineItem.js");
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -10246,29 +11434,45 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 
-var QuantifiableLineItem =
-/*#__PURE__*/
-function (_LineItem) {
+
+var QuantifiableLineItem = /*#__PURE__*/function (_LineItem) {
   _inherits(QuantifiableLineItem, _LineItem);
+
+  var _super = _createSuper(QuantifiableLineItem);
 
   function QuantifiableLineItem(data) {
     var _this;
 
     _classCallCheck(this, QuantifiableLineItem);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(QuantifiableLineItem).call(this, data));
+    _this = _super.call(this, data);
+    _this.type = 'QuantifiableLineItem';
+    _this.description = '';
+    _this.quantity = 0;
+    _this.rate = 0;
+    _this.minimum = 0;
+    _this.total = 0;
+    _this.taxable = false;
+    _this.fullyReimbursable = false;
+
+    for (var property in data) {
+      _this[property] = data[property];
+    }
 
     _this.calculate();
 
@@ -10378,8 +11582,8 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_QuickInvoice_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/style-loader!../../../../../node_modules/css-loader??ref--6-1!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/src??ref--6-2!../../../../../node_modules/vue-loader/lib??vue-loader-options!./QuickInvoice.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/claims/invoice/QuickInvoice.vue?vue&type=style&index=0&lang=css&");
 /* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_QuickInvoice_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_QuickInvoice_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_QuickInvoice_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_QuickInvoice_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
- /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_QuickInvoice_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_QuickInvoice_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_QuickInvoice_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+
 
 /***/ }),
 
@@ -10412,15 +11616,21 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ServiceFeeLineItem; });
 /* harmony import */ var _LineItem__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./LineItem */ "./resources/assets/js/claims/invoice/LineItem.js");
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
 
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -10428,29 +11638,33 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 
-var ServiceFeeLineItem =
-/*#__PURE__*/
-function (_LineItem) {
+
+var ServiceFeeLineItem = /*#__PURE__*/function (_LineItem) {
   _inherits(ServiceFeeLineItem, _LineItem);
+
+  var _super = _createSuper(ServiceFeeLineItem);
 
   function ServiceFeeLineItem(data) {
     var _this;
 
     _classCallCheck(this, ServiceFeeLineItem);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(ServiceFeeLineItem).call(this, data));
+    _this = _super.call(this, data);
 
     _this.calculate();
 
@@ -10461,7 +11675,8 @@ function (_LineItem) {
     key: "calculate",
     value: function calculate() {
       //reset the total each time so the total isn't ammended each time called..
-      this.total = 0;
+      this.total = 0; // this.description = this.setDescription();
+
       return this.total = this.getFeeScheduleTier(this.amount);
     }
   }, {
@@ -10479,39 +11694,48 @@ function (_LineItem) {
   }, {
     key: "getNumericTier",
     value: function getNumericTier(amount) {
-      //normalize an amount value as parseFloat will interpret
+      //normalize an grossloss value as parseFloat will interpret
       //comas (,) as decimals causing issues during calculation.
       amount = parseFloat(String(amount).replace(/,/g, '')); // loop through tiers to calulate service fee.
 
-      var _iteratorNormalCompletion = true;
-      var _didIteratorError = false;
-      var _iteratorError = undefined;
+      var _iterator = _createForOfIteratorHelper(this.getNumericTiers()),
+          _step;
 
       try {
-        for (var _iterator = this.getNumericTiers()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
           var tier = _step.value;
 
           if (tier >= amount) {
-            return amount > 0 ? parseFloat(+this.feeSchedule[tier]).toFixed(2) : 0 .toFixed(2); // if the amount is greater than the highest tier, 
-            // service fee is 0.00 -- bill @ T&E rate
-          } else if (this.highestTier() < amount) {
-            return 0 .toFixed(2);
-          }
+            return amount > 0 ? parseFloat(+this.feeSchedule[tier]).toFixed(2) : 0 .toFixed(2);
+          } // if the amount is greater than the highest tier, 
+          else if (this.highestTier() < amount) {
+              // here we are determining if the highest tier is a % of gross loss, if so,
+              // we calculate that. Otherwise, it's T&E only so we return 0.
+              return this.isTierPercentageOfGrossLoss(this.highestTier()) ? this.calculatePercentageOfGrossLoss(this.highestTier(), amount) : 0 .toFixed(2);
+            }
         }
       } catch (err) {
-        _didIteratorError = true;
-        _iteratorError = err;
+        _iterator.e(err);
       } finally {
-        try {
-          if (!_iteratorNormalCompletion && _iterator["return"] != null) {
-            _iterator["return"]();
-          }
-        } finally {
-          if (_didIteratorError) {
-            throw _iteratorError;
-          }
-        }
+        _iterator.f();
       }
+    }
+  }, {
+    key: "calculatePercentageOfGrossLoss",
+    value: function calculatePercentageOfGrossLoss(tier, amount) {
+      // this.description += ' (Billed at % of Gross Loss)';
+      return (amount * +this.feeSchedule[tier]).toFixed(2);
+    }
+  }, {
+    key: "isTierPercentageOfGrossLoss",
+    value: function isTierPercentageOfGrossLoss(tier) {
+      return +this.feeSchedule[tier] < 1 && +this.feeSchedule[tier] > 0 ? true : false;
+    }
+  }, {
+    key: "setDescription",
+    value: function setDescription() {// return this.isServiceFeePercentageOfGrossLoss() 
+      // 		? this.description = `Service Fee (Billed @ ${+this.feeSchedule[this.highestTier()] * 100} % of Gross Loss)` 
+      // 		: this.description = 'Service Fee';
     }
   }, {
     key: "getNonNumericTier",
@@ -10537,6 +11761,7 @@ function (_LineItem) {
   }, {
     key: "highestTier",
     value: function highestTier() {
+      //console.log(Math.max(...this.getNumericTiers()))
       return Math.max.apply(Math, _toConsumableArray(this.getNumericTiers()));
     }
   }, {
@@ -10585,7 +11810,7 @@ __webpack_require__.r(__webpack_exports__);
     total: 0
   },
   hours: {
-    type: 'QuantifiableLineItem',
+    type: 'HourlyRateLineItem',
     description: 'Time & Expense Hours',
     quantity: 0,
     rate: 0,
@@ -10601,7 +11826,11 @@ __webpack_require__.r(__webpack_exports__);
     minimum: 0,
     total: 0,
     taxable: false,
-    fullyReimbursable: true
+    fullyReimbursable: true,
+    locations: {
+      start: '',
+      loss: ''
+    }
   },
   reimbursable: {
     type: 'AmountLineItem',
@@ -10652,6 +11881,14 @@ __webpack_require__.r(__webpack_exports__);
   description: 'Difference In Tiers',
   taxable: true,
   fullyReimbursable: false
+}, {
+  name: 'Hourly Rate Line Item',
+  type: 'HourlyRateLineItem',
+  quantitiy: 0,
+  rate: 0,
+  description: 'Hourly Rate Line Item',
+  taxable: true,
+  fullyReimbursable: false
 }, //{name: 'Less Previous Invoice', type: 'AmountLineItem', amount: 0, description: 'Less Previous Invoice Total'},
 {
   name: 'MCM',
@@ -10661,7 +11898,8 @@ __webpack_require__.r(__webpack_exports__);
   total: 0,
   taxable: true,
   fullyReimbursable: false
-}]);
+} // {name: 'Supplement', type: 'supplement', amount: 0, description: 'Supplement'},
+]);
 
 /***/ }),
 
@@ -10681,9 +11919,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var Errors =
-/*#__PURE__*/
-function () {
+var Errors = /*#__PURE__*/function () {
   /**
      * Create a new Errors instance.
      */
@@ -10781,9 +12017,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 
 
-var Form =
-/*#__PURE__*/
-function () {
+var Form = /*#__PURE__*/function () {
   function Form(data) {
     _classCallCheck(this, Form);
 

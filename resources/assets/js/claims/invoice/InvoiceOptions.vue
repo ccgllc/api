@@ -1,21 +1,21 @@
 <template>
-<div class="level" style="padding: 1em; background: #e9e9e9; border-radius: .5em;">
+<div class="level" style="padding: .5em;">
 	<div class="level-left">
 		<div class="level-item">
-			<dropdown :items="lineItemTypes" @new-line-item="addLineItem" :carrier="invoice.carrier" event-name="new-line-item" buttonStyle="is-rounded is-small">Add Line Item</dropdown>
+			<dropdown :items="lineItemTypes" @new-line-item="addLineItem" :carrier="invoice.carrier" event-name="new-line-item" buttonStyle="is-rounded is-small is-secondary">Add Line Item</dropdown>
 		</div>
-		<div class="level-item" v-if="invoice.carrier.label == 'TWIA'">
+		<div class="level-item">
 			<!-- <div class="level-item" > -->
-				<div class="field" style="margin: 0 1em 0 0">
+				<div class="field" style="margin: 0 1em 0 0" v-if="invoice.carrier.label == 'TWIA'">
 				  <input v-model="invoice.options.mcm" @change="toggleMcmLineItem" id="isMcm" type="checkbox" name="isMcm" class="switch is-rounded is-small is-info">
-				  <label for="isMcm">MCM Invoice</label>
+				  <label for="isMcm">MCM</label>
 				</div>
 			<!-- </div> -->
 			<!-- <div class="level-item"> -->
-				<div class="field">
-				  <input v-model="invoice.options.taxable" id="Taxable" type="checkbox" name="Taxable" class="switch is-rounded is-small is-info">
+			<!-- 	<div class="field">
+				  <input v-model="invoice.options.taxable" @change="toggleTaxable" id="Taxable" type="checkbox" name="Taxable" class="switch is-rounded is-small is-info">
 				  <label for="Taxable">Taxable</label>
-				</div>
+				</div> -->
 			<!-- </div> -->
 	    </div>
 	</div>
@@ -105,6 +105,9 @@
 					? this.addLineItem(mcmItem)
 					: this.$emit('remove-line-item', mcmItem)
 			},
+			toggleTaxable() {
+				return this.$emit('toggle-taxable');
+			}
 		}
 	}
 </script>

@@ -19,8 +19,9 @@ class XactClaimImport extends XmlImporter {
     public function __construct($xml)
     {
         $this->xml = $this->loadString($xml);
-        // $this->saveXmlFile();
         $this->parse();
+
+        //needs attention!
         Log::info('New Claim Received');
     }
 
@@ -31,7 +32,7 @@ class XactClaimImport extends XmlImporter {
     public function parse()
     {
         // transform our SimpleXMLObj into JSON Representaion.
-        $json = $this->convertXmlToJson($this->getXmlObj());
+        $json = $this->convertXmlToJson();
         // set up and return claim.
         return $this->setClaimData($json);
     }
@@ -40,6 +41,7 @@ class XactClaimImport extends XmlImporter {
     {
         //grab all contact nodes
         $this->parseContacts($json);
+        // dd($this->client);
 
         // get our cliam specific data ie claim numbers, transaction id's etc.
         $this->claimNumber     = $json->ADM->COVERAGE_LOSS->{'@attributes'}->claimNumber;
@@ -58,7 +60,7 @@ class XactClaimImport extends XmlImporter {
         }
        
         // $this->claimType       = $json->ADM->COVERAGE_LOSS->{'@attributes'}->catastrophe ? 'CAT' : 'Daily';
-        $this->priceListArea = $json->PARAMS->{'@attributes'}->priceList;
+        $this->priceListArea = $json->PARAMS->{'@attributes'}->priceList ?? null;
         // var_dump(gettype($json->PROJECT_INFO->NOTES));    
         if (gettype($json->PROJECT_INFO->NOTES) == 'string')
         {
@@ -73,6 +75,7 @@ class XactClaimImport extends XmlImporter {
         $this->dateReceived    = str_replace('Z', '', $json->ADM->{'@attributes'}->dateReceived);
         $this->dateReceived    = str_replace('T', ' ', $this->dateOfLoss);
         // Drill down policy information
+        // dd($json->ADM);
         $this->policy = new Policy($json->ADM);
         !isset($this->policy->isCommerical) ? $this->isCommercial = 0 : $this->isCommercial = $this->policy->isCommercial;
         //because there is one other place we might be able to dicern 
@@ -88,21 +91,21 @@ class XactClaimImport extends XmlImporter {
     /**
       * Parse all contacts.
       * @param $json
-      * @return mixed
+      * @return void
     */
     public function parseContacts($json)
     {
         // prepare data for assignmnet
         $contacts = $this->filterContacts($json->CONTACTS->CONTACT);
-        $access = $json->CLAIM_INFO->ADMIN_INFO;
-        $contacts['accessContact'] =  $access;
-
+        $contacts['accessContact'] = $json->CLAIM_INFO->ADMIN_INFO;
+        
         //assign each contact.
         $this->setContacts($contacts);
     }
 
     public function setContacts($contacts)
     {
+        // var_dump($contacts);
         foreach ($contacts as $key => $contact ){
             $this->{$key} = new Contact($contact);
         }
@@ -116,7 +119,6 @@ class XactClaimImport extends XmlImporter {
     private function filterContacts($contacts)
     {
         $parsed = [];
-        // dd(gettype($contacts));
         if (gettype($contacts) == 'array' ) {
              foreach ($contacts as $contact) {
                 if (isset($contact->{'@attributes'}->type)) {
@@ -159,21 +161,13 @@ class XactClaimImport extends XmlImporter {
     public function getCarrierName($json)
     {
          // $carrier = $json->XACTNET_INFO->{'@attributes'};
-         // eval(\Psy\sh());
-        if ($json->XACTNET_INFO->{'@attributes'}->carrierId == '3975005')
-        {
-            return $json->XACTNET_INFO->{'@attributes'}->businessUnit ?? 'No Carrier';
-        }
-        return $json->XACTNET_INFO->{'@attributes'}->carrierName;
-    }
+        $data = $json->XACTNET_INFO->{'@attributes'};
 
-    /**
-     * @param $xml
-     * @return mixed
-     */
-    private function convertXmlToJson($xml)
-    {
-        $data = json_encode($xml, JSON_PRETTY_PRINT);
-        return json_decode($data);
+        if ($data->carrierId == '3975005')
+        {
+            return $data->businessUnit ?? 'No Carrier';
+        }
+
+        return isset($data->carrierId) ? $data->carrierId : 'No Carrier';
     }
 }

@@ -2,9 +2,10 @@
 
 namespace CCG\Listeners\Claim;
 
+use CCG\Claims\Assignment;
 use CCG\Events\Claim\ClaimAssigned;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
 
 class AssignClaim
 {
@@ -26,6 +27,11 @@ class AssignClaim
      */
     public function handle(ClaimAssigned $event)
     {
-        //
+        return Assignment::create([
+            'type'    => 'adjuster',
+            'user_id' => $event->user->id,
+            'claim_id' => $event->claim->id,
+            'active' => 1,
+        ]);
     }
 }

@@ -1,19 +1,26 @@
 import ServiceFeeLineItem from './ServiceFeeLineItem';
 import QuantifiableLineItem from './QuantifiableLineItem';
 import AmountLineItem from './AmountLineItem';
+import HourlyRateLineItem from './HourlyRateLineItem';
 // import Form from '../../structur/src/form/Form.js';
 
 export default class Invoice {
 
 	constructor(data) {
+		// console.log(data['taxRate']);
 		this.lineItems   = []
-		this.userId      = window.user.id
+		this.userId      = window.user ? window.user.id : 0
 		this.subTotal    = 0
-		this.tax         = 0
+		this.tax         = 0 // the amount of the tax calculations...
+		this.taxRate     = 0;
 		this.total       = 0
 		this.carrier     = {}
-		this.options     = {mcm: false, cwop: false, show: true}
+		this.options     = {mcm: false, cwop: false, show: true, taxable: false}
 		this.feeSchedule = {}
+		for (let property in data) {
+			this[property] = data[property]
+		}
+		console.log(this.taxRate);
 	}
 
 	/**
@@ -33,11 +40,25 @@ export default class Invoice {
 	 * @return {float}.
 	 */
 	calculate() {
-		this.subTotal = 0; this.total = 0
+		this.subTotal = 0; this.total = 0;
 		this.lineItems.forEach(lineItem => {
 			this.subTotal = (parseFloat(this.subTotal) + parseFloat(lineItem.total))
 		});
+		this.tax = this.calculateTax();
 		return this.total = (this.subTotal + this.tax).toFixed(2);
+	}
+
+	calculateTax() {
+		const taxable = this.getTaxableLineItems();
+		let tax = 0;
+		taxable.forEach(
+			item => tax += +(+item.total * +this.taxRate)
+		);
+		return +tax;
+	}
+
+	getTaxableLineItems() {
+		return this.lineItems.filter(item => item.taxable === true);
 	}
 
 	/**
@@ -60,8 +81,10 @@ export default class Invoice {
 		expenses.forEach(expense => { 
 			return expense.type === "AmountLineItem"
 				? this.addLineItem(new AmountLineItem(expense))
-				: this.addLineItem(new QuantifiableLineItem(expense))
-		})
+				: expense.type === 'HourlyRateLineItem' 
+						? this.addLineItem(new HourlyRateLineItem(expense))
+						: this.addLineItem(new QuantifiableLineItem(expense))
+		});
 	}
 
 	/**
@@ -135,6 +158,14 @@ export default class Invoice {
 		return Array.isArray(this.feeSchedule.hourly) ? true : false
 	}
 
+	// setTaxRate(rate) {
+	// 	return this.taxRate = rate;
+	// }
+
+	// getTaxRate() {
+	// 	return this.taxRate;
+	// }
+
 	/**
 	 * Method for getting mileage rate from current feeSchedule.
 	 * @return String.
@@ -161,7 +192,7 @@ export default class Invoice {
 	// }
 
 	getInvoiceProperties() {
-		return ['total', 'subTotal', 'feeSchedule', 'options', 'tax', 'lineItems', 'userId'];
+		return ['total', 'subTotal', 'feeSchedule', 'options', 'tax', 'taxRate', 'lineItems', 'userId'];
 	}
 
 	// Getters & Setters...//

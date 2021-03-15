@@ -2,6 +2,7 @@
 /storage/ImportedClaimData
 /storage/XMLDATA
 /storage/fnol_xml
+/storage/status_xml
 /public/hot
 /public/storage
 /storage/*.key

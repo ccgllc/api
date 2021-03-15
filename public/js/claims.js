@@ -38,6 +38,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'ClaimList',
   data: function data() {
@@ -53,7 +57,18 @@ __webpack_require__.r(__webpack_exports__);
       return this.claims = response.data;
     }.bind(this));
   },
-  methods: {}
+  methods: {
+    getStatusName: function getStatusName(statuses) {
+      // console.log(status.name);
+      var status = Array.prototype.pop.call(statuses);
+      return status == undefined ? 'n/a' : status.name; // console.log(status);
+      // return status.name ;
+    },
+    getAssigneeName: function getAssigneeName(assignments) {
+      var assignment = Array.prototype.pop.call(assignments);
+      return assignment == undefined ? 'unassignable' : assignment.user.name;
+    }
+  }
 });
 
 /***/ }),
@@ -557,10 +572,18 @@ var render = function() {
               _c("td", [_vm._v(_vm._s(claim.carrier_name))]),
               _vm._v(" "),
               _c("td", [
-                _c("a", { attrs: { href: "/claims/" + claim.id } }, [
+                _c("a", { attrs: { href: "/claims/" + claim.id + "/#" } }, [
                   _vm._v(_vm._s(claim.claim_number))
                 ])
               ]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(_vm.getStatusName(claim.statuses)))]),
+              _vm._v(" "),
+              _c("td", {
+                domProps: {
+                  textContent: _vm._s(_vm.getAssigneeName(claim.assignments))
+                }
+              }),
               _vm._v(" "),
               _c("td", [_vm._v(_vm._s(claim.type_of_loss || "n/a"))]),
               _vm._v(" "),
@@ -594,6 +617,10 @@ var staticRenderFns = [
         _c("th", [_vm._v("Carrier")]),
         _vm._v(" "),
         _c("th", [_vm._v("Claim #")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Status")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Adjuster")]),
         _vm._v(" "),
         _c("th", [_vm._v("Type")]),
         _vm._v(" "),
@@ -684,7 +711,12 @@ function normalizeComponent (
     options._ssrRegister = hook
   } else if (injectStyles) {
     hook = shadowMode
-      ? function () { injectStyles.call(this, this.$root.$options.shadowRoot) }
+      ? function () {
+        injectStyles.call(
+          this,
+          (options.functional ? this.parent : this).$root.$options.shadowRoot
+        )
+      }
       : injectStyles
   }
 
@@ -693,7 +725,7 @@ function normalizeComponent (
       // for template-only hot-reload because in that case the render fn doesn't
       // go through the normalizer
       options._injectStyles = hook
-      // register for functioal component in vue file
+      // register for functional component in vue file
       var originalRender = options.render
       options.render = function renderWithStyleInjection (h, context) {
         hook.call(context)
@@ -776,7 +808,12 @@ var routes = [{
   path: '/',
   name: "claims",
   component: _Claims_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
-}];
+} // { path: '/:claimId', name: "show", component: Claim },
+// { path: '/documents', name: 'documents', component: Documents },
+// { path: '/work-history', name: "workHistory", component: WorkHistory },
+// { path: '/certifications', name: 'certifications', component: Certifications },
+// { path: '/complete', component: Complete }
+];
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   routes: routes,
   linkActiveClass: 'is-active'

@@ -10,6 +10,10 @@ use CCG\Xact\FtpClient;
 class GetClaimsFromXact extends Command
 {
     use FtpClient;
+
+    public $path;
+    public $statuses;
+
      /**
      * sftp instance.
      *
@@ -22,7 +26,7 @@ class GetClaimsFromXact extends Command
      *
      * @var string
      */
-    protected $signature = 'claims:get';
+    protected $signature = 'claims:get {--statuses}';
 
     /**
      * The console command description.
@@ -48,18 +52,61 @@ class GetClaimsFromXact extends Command
      */
     public function handle()
     {
+        $this->statuses = $this->option('statuses');
+        $this->path = $this->getPath();
         $this->sftp = $this->connectToFtp();
         // $this->sftp = $this->connectToTestFtp();
-        $this->sftp->chdir('OUT');
+        $this->sftp->chdir($this->setFtpDirectory());
         $files = collect($this->sftp->rawlist())->sortByDesc('mtime');
-        $transferable = $files->where('mtime', '>', cache('xactTimeMarker')->timestamp);
-        // $transferable->count();
+        $transferable = $files->where('mtime', '>', $this->getMarker());
+        // dd($transferable->count());
         $transferable->each(function ($file) {
-            $extFilename = storage_path('fnol_xml').'/in/'.$file['filename'];
-            if ($this->sftp->pwd() === "/OUT")  $this->sftp->get($file['filename'], $extFilename);
+            $extFilename = $this->getExtFileName($file);
+            $this->sftp->get($file['filename'], $extFilename);
         });
-        Cache::forever('xactTimeMarker', Carbon::createFromTimeStamp($transferable->max('mtime')));
-         $this->info($transferable->count().' files transferred.');
+
+        $this->updateMarker($transferable);
+        
+        $this->info($transferable->count().' files transferred.');
+
+        return $this->statuses
+            ? $this->call('claims:unzip --statuses')
+            : $this->call('claims:unzip');
         // eval(\Psy\sh());
+    }
+
+     protected function getPath()
+    {
+        return $this->statuses
+            ? storage_path('status_xml/in/')
+            : storage_path('fnol_xml/in/');
+    }
+
+    protected function getExtFileName($file)
+    {
+       return $this->statuses
+            ? storage_path('status_xml').'/in/'.$file['filename']
+            : storage_path('fnol_xml').'/in/'.$file['filename'];
+    }
+
+    protected function setFtpDirectory()
+    {
+       return $this->statuses 
+            ? '/OUT/Status/'
+            : '/OUT/FNOL/';
+    }
+
+    protected function updateMarker($transferable)
+    {
+        return $this->statuses
+            ? Cache::forever('xactStatusTimeMarker', Carbon::createFromTimeStamp($transferable->max('mtime')))
+            : Cache::forever('xactTimeMarker', Carbon::createFromTimeStamp($transferable->max('mtime')));
+    }
+
+    protected function getMarker()
+    {
+        return $this->statuses 
+            ? cache('xactStatusTimeMarker')->timestamp
+            : cache('xactTimeMarker')->timestamp;  
     }
 }

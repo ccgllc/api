@@ -23,6 +23,7 @@ class EventServiceProvider extends ServiceProvider
             'CCG\Listeners\AssignAdjuster',
             'CCG\Listeners\CreateDefaultClaimStatus',
             'CCG\Listeners\CreateClaimTags',
+            'CCG\Listeners\CreateTransactionId'
         ],
         'CCG\Events\ClaimReassigned' => [
             'CCG\Listeners\UnassignCurrentAdjuster',

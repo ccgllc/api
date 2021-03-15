@@ -16,8 +16,9 @@ class DashboardController extends Controller
 
     public function show(Request $request)
     {
-       // $user = Auth::onceUsingId(20);
-        $user = User::find(677);
+       // $user = \Auth::onceUsingId(779);
+        // $user = User::find(677);
+        $user = User::find(779);
           // dd($user);
         // $user->load('claims', 'claims.invoices');
         // dd($user);
@@ -28,7 +29,7 @@ class DashboardController extends Controller
             return view($view, compact('data'));
         }
         else {
-            return redirect('/profle');
+            return redirect('/profile');
         }
        	
     }

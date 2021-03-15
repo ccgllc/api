@@ -11,6 +11,12 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _DispatchClaimListItem_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DispatchClaimListItem.vue */ "./resources/assets/js/dispatch/DispatchClaimListItem.vue");
 /* harmony import */ var _DispatchAdjusterListItem_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DispatchAdjusterListItem.vue */ "./resources/assets/js/dispatch/DispatchAdjusterListItem.vue");
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 //
 //
 //
@@ -211,12 +217,12 @@ __webpack_require__.r(__webpack_exports__);
     },
     destinations: function destinations() {
       var destinations = [];
-      var _iteratorNormalCompletion = true;
-      var _didIteratorError = false;
-      var _iteratorError = undefined;
+
+      var _iterator = _createForOfIteratorHelper(this.filteredAdjusters),
+          _step;
 
       try {
-        for (var _iterator = this.filteredAdjusters[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
           var adjuster = _step.value;
 
           if (typeof adjuster.profile.lat == 'number' && typeof adjuster.profile.lng == 'number') {
@@ -225,18 +231,9 @@ __webpack_require__.r(__webpack_exports__);
           }
         }
       } catch (err) {
-        _didIteratorError = true;
-        _iteratorError = err;
+        _iterator.e(err);
       } finally {
-        try {
-          if (!_iteratorNormalCompletion && _iterator["return"] != null) {
-            _iterator["return"]();
-          }
-        } finally {
-          if (_didIteratorError) {
-            throw _iteratorError;
-          }
-        }
+        _iterator.f();
       }
 
       return destinations;
@@ -266,12 +263,11 @@ __webpack_require__.r(__webpack_exports__);
       var results = [];
       self.adjusters.filter(function (adjuster) {
         if (results.length <= 24) {
-          var _iteratorNormalCompletion2 = true;
-          var _didIteratorError2 = false;
-          var _iteratorError2 = undefined;
+          var _iterator2 = _createForOfIteratorHelper(adjuster.adjuster_licenses),
+              _step2;
 
           try {
-            for (var _iterator2 = adjuster.adjuster_licenses[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+            for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
               var license = _step2.value;
 
               if (license.license_state === self.selectedClaims[0].claim_data.client.addresses[1].state) {
@@ -279,18 +275,9 @@ __webpack_require__.r(__webpack_exports__);
               }
             }
           } catch (err) {
-            _didIteratorError2 = true;
-            _iteratorError2 = err;
+            _iterator2.e(err);
           } finally {
-            try {
-              if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
-                _iterator2["return"]();
-              }
-            } finally {
-              if (_didIteratorError2) {
-                throw _iteratorError2;
-              }
-            }
+            _iterator2.f();
           }
         }
       });
@@ -340,83 +327,53 @@ __webpack_require__.r(__webpack_exports__);
     },
     addAdjusters: function addAdjusters() {
       //if (this.markers.length == 0) {
-      var _iteratorNormalCompletion3 = true;
-      var _didIteratorError3 = false;
-      var _iteratorError3 = undefined;
+      var _iterator3 = _createForOfIteratorHelper(this.adjusters),
+          _step3;
 
       try {
-        for (var _iterator3 = this.adjusters[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+        for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
           var a = _step3.value;
           this.addMarker('adjuster', a);
         } //}
 
       } catch (err) {
-        _didIteratorError3 = true;
-        _iteratorError3 = err;
+        _iterator3.e(err);
       } finally {
-        try {
-          if (!_iteratorNormalCompletion3 && _iterator3["return"] != null) {
-            _iterator3["return"]();
-          }
-        } finally {
-          if (_didIteratorError3) {
-            throw _iteratorError3;
-          }
-        }
+        _iterator3.f();
       }
     },
     toggleFilteredAdjusters: function toggleFilteredAdjusters() {
       if (this.addFilteredAdjustersToMap) {
-        var _iteratorNormalCompletion4 = true;
-        var _didIteratorError4 = false;
-        var _iteratorError4 = undefined;
+        var _iterator4 = _createForOfIteratorHelper(this.filteredAdjusters),
+            _step4;
 
         try {
-          for (var _iterator4 = this.filteredAdjusters[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+          for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
             var a = _step4.value;
             this.addMarker('adjuster', a);
           }
         } catch (err) {
-          _didIteratorError4 = true;
-          _iteratorError4 = err;
+          _iterator4.e(err);
         } finally {
-          try {
-            if (!_iteratorNormalCompletion4 && _iterator4["return"] != null) {
-              _iterator4["return"]();
-            }
-          } finally {
-            if (_didIteratorError4) {
-              throw _iteratorError4;
-            }
-          }
+          _iterator4.f();
         }
       } else {
         this.adjusterMarkers = [];
       }
     },
     addClaims: function addClaims() {
-      var _iteratorNormalCompletion5 = true;
-      var _didIteratorError5 = false;
-      var _iteratorError5 = undefined;
+      var _iterator5 = _createForOfIteratorHelper(this.claims),
+          _step5;
 
       try {
-        for (var _iterator5 = this.claims[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+        for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
           var c = _step5.value;
           this.addMarker('claim', c);
         }
       } catch (err) {
-        _didIteratorError5 = true;
-        _iteratorError5 = err;
+        _iterator5.e(err);
       } finally {
-        try {
-          if (!_iteratorNormalCompletion5 && _iterator5["return"] != null) {
-            _iterator5["return"]();
-          }
-        } finally {
-          if (_didIteratorError5) {
-            throw _iteratorError5;
-          }
-        }
+        _iterator5.f();
       }
     },
     addMarker: function addMarker(type, data) {
@@ -476,53 +433,33 @@ __webpack_require__.r(__webpack_exports__);
       return this.claimMarkers.splice(this.claimMarkers.indexOf(marker), 1);
     },
     clearAllMarkers: function clearAllMarkers() {
-      var _iteratorNormalCompletion6 = true;
-      var _didIteratorError6 = false;
-      var _iteratorError6 = undefined;
+      var _iterator6 = _createForOfIteratorHelper(this.claimMarkers),
+          _step6;
 
       try {
-        for (var _iterator6 = this.claimMarkers[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
+        for (_iterator6.s(); !(_step6 = _iterator6.n()).done;) {
           var marker = _step6.value;
           marker.setMap(null);
         }
       } catch (err) {
-        _didIteratorError6 = true;
-        _iteratorError6 = err;
+        _iterator6.e(err);
       } finally {
-        try {
-          if (!_iteratorNormalCompletion6 && _iterator6["return"] != null) {
-            _iterator6["return"]();
-          }
-        } finally {
-          if (_didIteratorError6) {
-            throw _iteratorError6;
-          }
-        }
+        _iterator6.f();
       }
 
-      var _iteratorNormalCompletion7 = true;
-      var _didIteratorError7 = false;
-      var _iteratorError7 = undefined;
+      var _iterator7 = _createForOfIteratorHelper(this.adjusterMarkers),
+          _step7;
 
       try {
-        for (var _iterator7 = this.adjusterMarkers[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
+        for (_iterator7.s(); !(_step7 = _iterator7.n()).done;) {
           var _marker2 = _step7.value;
 
           _marker2.setMap(null);
         }
       } catch (err) {
-        _didIteratorError7 = true;
-        _iteratorError7 = err;
+        _iterator7.e(err);
       } finally {
-        try {
-          if (!_iteratorNormalCompletion7 && _iterator7["return"] != null) {
-            _iterator7["return"]();
-          }
-        } finally {
-          if (_didIteratorError7) {
-            throw _iteratorError7;
-          }
-        }
+        _iterator7.f();
       }
 
       this.claimMarkers, this.adjusterMarkers = [];
@@ -569,7 +506,25 @@ __webpack_require__.r(__webpack_exports__);
       delete window.axios.defaults.headers.common['X-Requested-With'];
       delete window.axios.defaults.headers.common['Authorization'];
       delete window.axios.defaults.headers.common['X-CSRF-TOKEN'];
-    }
+    } // selectAll(evt) {
+    // 	let checkboxes = document.getElementsByClassName('selectable-claim');
+    // 	if (this.allSelected) {
+    // 		for (let checkbox in checkboxes) {
+    // 			if (typeof(checkboxes[checkbox]) !== 'function' && typeof(checkboxes[checkbox]) !== 'number') {
+    // 				checkboxes[checkbox].checked = true;
+    // 				this.selected.push(checkboxes[checkbox].value);
+    // 			}
+    // 		}
+    // 	} else {
+    // 		for (let checkbox in checkboxes) {
+    // 			if (typeof(checkboxes[checkbox]) !== 'function' && typeof(checkboxes[checkbox]) !== 'number') {
+    // 				checkboxes[checkbox].checked = false;
+    // 				this.selected = [];
+    // 			}
+    // 		}
+    // 	}
+    // },
+
   }
 });
 
@@ -1872,7 +1827,12 @@ function normalizeComponent (
     options._ssrRegister = hook
   } else if (injectStyles) {
     hook = shadowMode
-      ? function () { injectStyles.call(this, this.$root.$options.shadowRoot) }
+      ? function () {
+        injectStyles.call(
+          this,
+          (options.functional ? this.parent : this).$root.$options.shadowRoot
+        )
+      }
       : injectStyles
   }
 
@@ -1881,7 +1841,7 @@ function normalizeComponent (
       // for template-only hot-reload because in that case the render fn doesn't
       // go through the normalizer
       options._injectStyles = hook
-      // register for functioal component in vue file
+      // register for functional component in vue file
       var originalRender = options.render
       options.render = function renderWithStyleInjection (h, context) {
         hook.call(context)

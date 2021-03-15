@@ -7,6 +7,8 @@
 					<tr>
 						<th>Carrier</th>
 						<th>Claim #</th>
+						<th>Status</th>
+						<th>Adjuster</th>
 						<th>Type</th>
 						<th>Insured</th>
 						<th>Date of Loss</th>
@@ -15,7 +17,9 @@
 				<tbody>
 					<tr v-for="claim in claims">
 						<td>{{ claim.carrier_name }}</td>
-						<td><a :href="'/claims/' + claim.id">{{ claim.claim_number }}</a></td>
+						<td><a :href="'/claims/' + claim.id + '/#'">{{ claim.claim_number }}</a></td>
+						<td>{{ getStatusName(claim.statuses) }}</td>
+						<td v-text="getAssigneeName(claim.assignments)"></td>
 						<td>{{ claim.type_of_loss || 'n/a' }}</td>
 						<td>{{ claim.insured }}</td>
 						<td>{{claim.date_of_loss}}</td>
@@ -44,7 +48,17 @@
 			}.bind(this));
 		},
 		methods: {
-
+			getStatusName(statuses) {
+				// console.log(status.name);
+				let status = Array.prototype.pop.call(statuses);
+				return status == undefined ? 'n/a' : status.name;
+				// console.log(status);
+				// return status.name ;
+			},
+			getAssigneeName(assignments) {
+				const assignment = Array.prototype.pop.call(assignments);
+				return assignment == undefined ?  'unassignable' : assignment.user.name;
+			}
 		},
 	}
 </script>

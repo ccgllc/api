@@ -35,21 +35,22 @@ class Contact
 
      protected function setAddresses($data)
     {
-        // dd($data);
-         if (isset($data->ADDRESSES->ADDRESS))
-        {
-            foreach($data->ADDRESSES->ADDRESS as $address)
-           {
-                $newAddress =  new Address($address);
-                $addresses[] = $newAddress;
-           }
-           return $addresses;
+        if (!isset($data->ADDRESSES)) return;
+
+        if (is_array($data->ADDRESSES->ADDRESS)) {
+            foreach($data->ADDRESSES->ADDRESS as $address) {
+                $this->addresses[] = new Address($address);
+            }
+        } else {
+            $this->addresses[] = new Address($data->ADDRESSES->ADDRESS);
         }
+
+        return $this->addresses;
     }
 
     protected function setPhoneNumbers($data)
     {
-         if (isset($data->{'@attributes'}->accessPhone))
+        if (isset($data->{'@attributes'}->accessPhone))
         {
             $number = new PhoneNumber($data);
             $numbers[] = $number;

@@ -17,6 +17,9 @@ class PhoneNumber
 
     public function setNumber($data)
     {
+        if(isset($data->number)) {
+            return $data->number;
+        }
         if (isset($data->{'@attributes'}->accessPhone))
         {
             return $data->{'@attributes'}->accessPhone; 
@@ -26,6 +29,9 @@ class PhoneNumber
 
      public function setType($data)
     {
+         if(isset($data->type)) {
+            return $data->type;
+        }
         if (isset($data->{'@attributes'}->accessPhone))
         {
             return 'Access'; 

@@ -70,6 +70,7 @@ Route::namespace('Api\Acl')
 Route::namespace('Api\Claims')
 	// ->middleware('auth:api')
 	->group(function() {
+		Route::put('claims/{claim_id}/geometry', 'ClaimController@geometry');
 		Route::apiResource('claims/{claim_id}/assignments', 'AssignmentController');
 		Route::apiResource('claims/{claim_id}/estimates', 'EstimateController');
 		Route::apiResource('claims/{claim_id}/statuses', 'StatusController');
