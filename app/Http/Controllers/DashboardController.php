@@ -18,7 +18,7 @@ class DashboardController extends Controller
     {
        // $user = \Auth::onceUsingId(779);
         // $user = User::find(677);
-        $user = User::find(779);
+        $user = User::find(683);
           // dd($user);
         // $user->load('claims', 'claims.invoices');
         // dd($user);
