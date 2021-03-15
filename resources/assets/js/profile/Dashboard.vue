@@ -3,6 +3,29 @@
 	<div class="columns">
 		<div class="column"><h1 class="title">Dashboard</h1></div>
 	</div>
+	<div class="columns">
+		<div class="column">
+			<table v-if="user.claims && user.claims.length > 0" class="table is-striped is-fullwidth">
+				<thead>
+					<tr>
+						<th>Carrier</th>
+						<th>Claim #</th>
+						<th>Insured</th>
+						<th>Date of Loss</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr v-for="claim in user.claims">
+						<td>{{ claim.carrier.name }}</td>
+						<td><a :href="'/claims/' + claim.id + '/#/'">{{ claim.claim_number }}</a></td>
+						<td>{{ claim.insured }}</td>
+						<td>{{ claim.date_of_loss }}</td>
+					</tr>
+				</tbody>
+			</table>
+			<p v-else>You do not have any claims assigned to you at this time. </p>
+		</div>
+	</div>
 	</div>
 </template>
 
@@ -10,6 +33,7 @@
 	import appData from '../data/appData.js';
 	export default {
 		name: 'Dashboard',
+		props: ['user'],
 		data () {
 			return {
 				appData,
