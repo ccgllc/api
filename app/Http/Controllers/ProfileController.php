@@ -23,6 +23,7 @@ class ProfileController extends Controller
 		$user->load(['roles', 'profile', 'xactnetAddresses', 'adjusterLicenses', 'documents', 'workHistory', 'certifications', 'softwareExperiences', 'avatar']);
 		// $user->role = $this->prepareRolesForDisplay($user->roles);
 		$roles = Role::all();
+		$user->claims = $user->claims();
 		return response()
 					->view('profile.show', compact('user', 'roles'), 200);
 					//->header('X-TOKEN', 'klajdbflkajhfa');
@@ -34,7 +35,7 @@ class ProfileController extends Controller
 		$request->session()->put('api_key', $request->user()->api_token);
 		\Cache::put('app.stats.test', 32);
 		$request->session()->put('roles', $request->user()->roles->pluck('name')->toArray());
-		$user->load(['roles', 'profile', 'adjusterLicenses', 'xactnetAddresses', 'documents', 'workHistory', 'certifications', 'softwareExperiences', 'avatar']);
+		$user->load(['roles', 'profile', 'adjusterLicenses', 'xactnetAddresses', 'documents', 'workHistory', 'certifications', 'softwareExperiences', 'avatar',]);
 		// $user->role = $this->prepareRolesForDisplay($user->roles);
 		return view('profile.show', compact('user'));
 	}
