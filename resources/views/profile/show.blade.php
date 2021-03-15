@@ -27,7 +27,7 @@
 		<div class="columns" style="margin-top: 1rem;">
 			<div class="column is-12">
 				<profile-navigation></profile-navigation>
-				<router-view></router-view>
+				<router-view :user="user"></router-view>
 			</div><!-- end column -->
 		</div><!-- end columns -->
 	</div><!--end container column --> 
