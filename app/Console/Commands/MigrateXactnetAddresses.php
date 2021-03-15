@@ -44,12 +44,13 @@ class MigrateXactnetAddresses extends Command
             if(\DB::table('xactnet_addresses')->where('address', $profile->xactnet_address)->exists()) {
                 $profile->xactnet_address = $profile->xactnet_address . '-' . random_int(1,10);
                 $primary = 0;
+            } else {
+                \CCG\XactnetAddress::create([
+                    'address' => $profile->xactnet_address,
+                    'primary' => $primary,
+                    'user_id' => $profile->user_id
+                ]);
             }
-            \CCG\XactnetAddress::create([
-                'address' => $profile->xactnet_address,
-                'primary' => $primary,
-                'user_id' => $profile->user_id
-            ]);
         });
     }
 }
