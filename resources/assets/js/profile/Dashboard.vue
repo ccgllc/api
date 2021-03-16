@@ -12,6 +12,7 @@
 						<th>Claim #</th>
 						<th>Insured</th>
 						<th>Date of Loss</th>
+						<th>Actions</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -20,6 +21,14 @@
 						<td><a :href="'/claims/' + claim.id + '/#/'">{{ claim.claim_number }}</a></td>
 						<td>{{ claim.insured }}</td>
 						<td>{{ claim.date_of_loss }}</td>
+						<td>
+							<a :href="'/claims/' + claim.id + '/#/'" class="button is-small">
+							  <i class="fa fa-map-marker"></i>
+						  </a>
+							<a :href="'/claims/' + claim.id + '/#/billing'" class="button is-secondary is-small">
+							  <i class="fa fa-calculator"></i>
+						  </a>
+						</td>
 					</tr>
 				</tbody>
 			</table>
