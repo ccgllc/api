@@ -11,6 +11,7 @@
 						<th>Adjuster</th>
 						<th>Type</th>
 						<th>Insured</th>
+						<th>Location</th>
 						<th>Date of Loss</th>
 					</tr>
 				</thead>
@@ -22,6 +23,7 @@
 						<td v-text="getAssigneeName(claim.assignments)"></td>
 						<td>{{ claim.type_of_loss || 'n/a' }}</td>
 						<td>{{ claim.insured }}</td>
+						<td>{{ getLocation(claim.claim_data) }}</td>
 						<td>{{claim.date_of_loss}}</td>
 					</tr>
 				</tbody>
@@ -41,7 +43,6 @@
 			}
 		},
 		mounted() {
-			// this.claims = claims;
 			window.axios.get('/claims').then(function(response){
 				console.log(this.claims);
 				return this.claims = response.data;
@@ -49,15 +50,16 @@
 		},
 		methods: {
 			getStatusName(statuses) {
-				// console.log(status.name);
 				let status = Array.prototype.pop.call(statuses);
 				return status == undefined ? 'n/a' : status.name;
-				// console.log(status);
-				// return status.name ;
 			},
 			getAssigneeName(assignments) {
 				const assignment = Array.prototype.pop.call(assignments);
 				return assignment == undefined ?  'unassignable' : assignment.user.name;
+			},
+			getLocation(claimData){
+				let data = JSON.parse(claimData);
+				return ` ${data.client.addresses[0].city}, ${data.client.addresses[0].state} `;
 			}
 		},
 	}
