@@ -25,24 +25,21 @@
 			async createInvoice() {
 				let rate;
 				const state = this.getLossAddress().state;
-				
-				if (this.isTaxable(state)) {
-					state === 'TX' 
-						? rate = .0625 
-						: rate = await this.getTaxRate(this.getLossAddress());
-				}	else {
-					rate = 0;
-				}
 
+				state === 'TX' 	? rate = .0625 : rate = 0;
+
+				console.log(state);
+				
+				if (this.isTaxable(state) && state !== 'TX') {
+					rate = await this.getTaxRate(this.getLossAddress());
+				}
+				
 				this.newInvoice = new Invoice({
 					taxRate: rate
 				})
 
 				await this.post();
 
-				// return new Promise(resolve => {
-				// 	resolve('resolved');
-				// })
 			},
 			setInvoiceData(invoice) {
 				this.newInvoice.total = parseFloat(this.newInvoice.total)
@@ -88,7 +85,7 @@
 					.catch(error => console.error(error))
 			},
 			isTaxable(state) {
-				let st = this.taxableStates().find(state => state);
+				let st = this.taxableStates().find(st => st === state );
 				let taxable = this.claim.carrier.fee_schedules[0].data.taxable 
 				return st !== undefined && taxable ? true : false;
 			},
