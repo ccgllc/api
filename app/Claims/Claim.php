@@ -99,7 +99,14 @@ class Claim extends Model
 
     public function scopeUnassignable($query)
     {
-        return $query->where('assignable', 0);
+        // find claims that do not have assignments
+        // or claims may have assignments but its 
+        // most recent assignment status is "unassignable reassignment"
+        return $query->has('assignments', '<', 1)
+                ->orWhereHas('statuses', function($query){
+                    $query->where('name', '=', 'Unassignable Reassignment');
+                });
+       // return $query->where('assignable', 0);
     }
 
     public function scopeAssignable($query)
