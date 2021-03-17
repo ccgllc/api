@@ -24,6 +24,14 @@ class ClaimStatus extends Model
         return $this->belongsTo(\CCG\User::class);
     }
 
+    public function scopeUnassignable($query)
+    {
+        return $query->where([
+            ['name', '=', 'Unassignable'],
+            ['value', '!=', 'XACTNET.QUEUE']
+        ]);
+    }
+
     public function setDateAttribute($query)
     {
         $date = Carbon::parse($query);
