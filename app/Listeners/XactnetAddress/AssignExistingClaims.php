@@ -31,10 +31,31 @@ class AssignExistingClaims
      */
     public function handle(XactnetAddressCreated $event)
     {
-        $claims = Claim::unassignable()->assignee($event->xactnetAddress->address)->get();
+
+        // Track down any unassignable statuses that match the new xactnet address.
+        $unassignableStatuses = 
+            ClaimStatus::with(['claim'])
+                ->unassignable()
+                ->where('value', '=', $event->xactnetAddress->address)
+                ->get();
+
+        //if any statuses they are now assignable, so we need to update each status
+        $unassignableStatuses->each(
+            function($status, $key) use ($event) {
+                $status->update([
+                    'name' => 'Adjuster Assigned',
+                    'type' => 'assignment',
+                    'user_id' => $event->xactnetAddress->user->id,
+                ]);
+            }
+        );
+
+        // and then update each claim
+        $claims = $unassignableStatuses->pluck('claim');        
         $claims->each(function($claim, $key) use ($event) {
             $claim->update(['assignable' => 1]);
 
+            // then create the new assignment.
             $assignment = Assignment::create([
                 'type' => 'adjuster',
                 'user_id' => $event->xactnetAddress->user->id,
@@ -42,17 +63,6 @@ class AssignExistingClaims
                 'active' => 1,
             ]);
 
-            $status = ClaimStatus::create([
-                'name' => 'Adjuster Assigned',
-                'value' => $assignment->user->name,  
-                'type' => 'assignment',
-                'date' => $this->date->toDateString(),
-                'transaction_id' => $claim->transaction_id,
-                'orig_transaction_id' => $claim->transaction_id,
-                'claim_number' => $claim->claim_number,
-                'time' => $this->date->toDateTimeString(),
-                'claim_id' => $claim->id,
-            ]);
         });
     }
 }
