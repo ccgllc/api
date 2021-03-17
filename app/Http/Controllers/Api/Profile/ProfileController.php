@@ -52,8 +52,9 @@ class ProfileController extends Controller {
 		$valid = $request->validate([
         	'xactnet_address' => ['required', 'max:255', 'unique:xactnet_addresses,address'],
         	'current_xactnet_address' => [ 'required',
-	        	function($attribute, $value, $fail) {
-		            if (Claim::assignee($value)->exists()) {
+	        	function($attribute, $value, $fail) use($id) {
+	        		$xactnetAddress = XactnetAddress::find($id);
+		            if (!$xactnetAddress->user->assignments->count()) {
 		                return $fail("This Xactnet address is not editable.");
 		            }
 		        }
@@ -68,12 +69,12 @@ class ProfileController extends Controller {
 	public function deleteXactnetAddress(Request $request, $id)
 	{
 		$xactnetAddress = XactnetAddress::find($id);
-		if (Claim::assignee($xactnetAddress->address)->doesntExist()) {
+		if (!$xactnetAddress->user->assignments->count()) {
 			$xactnetAddress->delete($id);
 			 return response('success', 200);
 		}
 		else {
-			 return response('Couldn\'t delete', 422);
+			 return response('Couldn\'t delete ' . $xactnetAddress->address . ' because it is linked to claim assignments', 422);
 		}
 	}
 
