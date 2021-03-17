@@ -3,8 +3,7 @@
 	<!-- <alert v-if="hasAlert" :message="alert.message" :type="alert.type" @click="confirmingAlert = !confirmingAlert"></alert> -->
 		<div class="" style="width: 100%;">
 			<contacts></contacts>
-			<!-- <claim-map></claim-map> -->
-		<!-- <tags></tags> -->
+			<tags></tags>
 		</div>
 		<!-- <claim-stats :claim-id="claim.id" :user-id="user.id" :estimates="claim.estimates"></claim-stats> -->
 		<description></description>
@@ -14,7 +13,6 @@
 
 <script>
 	import claimData from './claimData.js';
-	// import claimMap from './Map.vue';
 	import claimStats from './ClaimStats.vue';
 	import tags from './Tags.vue';
 	import contacts from './Contacts.vue';
