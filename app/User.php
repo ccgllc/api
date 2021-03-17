@@ -185,7 +185,11 @@ class User extends Authenticatable
     public function scopeClaims()
     {
       // return $this->hasManyThrough(\CCG\Claims\Claim::class, \CCG\Claims\Assignment::class);
-      return $this->assignments->load('claim.carrier')->pluck('claim');
+      $assignments = $this->assignments->load(['claim' => function($query) {
+        $query->orderBy('date_of_loss', 'desc');
+      }, 'claim.carrier']);
+      
+      return $assignments->pluck('claim');
       // $
       // return $assignments-;
     }
