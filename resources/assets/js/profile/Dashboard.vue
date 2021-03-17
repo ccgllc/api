@@ -5,7 +5,7 @@
 	</div>
 	<div class="columns">
 		<div class="column">
-			<table v-if="user.claims && user.claims.length > 0" class="table is-striped is-fullwidth">
+			<table v-if="user.claims && user.claims.length > 0" class="table is-striped is-fullwidth is-narrow">
 				<thead>
 					<tr>
 						<th>Carrier</th>
