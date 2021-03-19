@@ -89,7 +89,11 @@
 					<p><strong>Date of Loss</strong>: {{ $invoice->claim->date_of_loss }}</p>
 					<p><strong>Date Received</strong>: {{ $invoice->claim->date_received }}</p>
 					<p><strong>Date Contacted</strong>: 
-						{{ \Carbon\Carbon::parse($invoice->claim->statuses->where('name', 'Contacted')->first()->date)->format('m/d/Y') ?? 'n/a' }}
+						@if($contacted = $invoice->claim->statuses->where('name', 'Contacted')->first())
+							{{ \Carbon\Carbon::parse($contacted->date)->format('m/d/Y') }}
+						@else
+							n/a
+						@endif
 					</p>
 				</div>
 			</div>
