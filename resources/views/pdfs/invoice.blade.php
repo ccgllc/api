@@ -1,28 +1,46 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
 	<title>CCG Invoice For Claim #{{ $invoice->claim->claim_number }}</title>
-	<link rel="stylesheet" href="{{ base_path('/public/css/app.css') }}">
+	<link rel="stylesheet" href="{{ public_path('/css/bootstrap.css') }}">
+
+	{{-- <link rel="stylesheet" href="{{ base_path('/public/css/app.css') }}"> --}}
 	<style>
 		body {
-			font-family: sans-serif !important; 
-			font-size: 12px;
+			font-size: 1em;
+			color: #353c4e;
 		}
-		tr td strong {
+		thead tr {
+			border-top: none;
+		}
+		tr td  {
 			vertical-align: center;
 		}
-		.container {
-			padding: 0 2em 0 2em;
+		/*.columns: {
+			width: 100%;
 		}
+		.column:{
+			width: 33.33%;
+			padding: 1em;
+		}*/
 		.logo {
-			width: 20%;
+			display:block;
+			width: 80%;
 			height: auto;
 			margin-bottom: 2em;
 		}
+		.heading {
+			font-family: sans-serif;
+			font-weight: 500;
+			font-size: 2em;
+			color: #353c4e;
+		}
 		.subtitle {
-			margin-bottom: 2em;
+			margin-bottom: .5em;
 		}
 		.compact {
 			margin-top: -20px;
@@ -33,60 +51,110 @@
 	</style>
 </head>
 <body>
-	<section class="section">
-		<div class="container">
+		<div class="container-fluid">
+			<img src="{{ public_path('images/icon-on-light.png') }}" width="50px" height="38px" alt="CCG" style="margin-top: .4em; margin-right: .75em;">
+			<span style="font-family:sans-serif; font-size: 2.5em; padding-left: 2rem;">Invoice #<span style="color: #3a81af;">{{ $invoice->claim->claim_number }}</span></span> <br><br><br>
 
-			<div class="logo">
-				<img src="{{ base_path('/public/images/ccg-logo.png') }}" width="100%" height="auto" alt="CCG">
+			<span style="font-family: sans-serif; font-size: 1.75em; margin-top: 1em; margin-bottom: 1em;">
+				{{ $invoice->claim->carrier->name }}
+				</span>
+				<br>
+				<strong style="color:#888;">Claim Number</strong>:
+				<span style="color: #3a81af;">{{ $invoice->claim->claim_number }}</span> 
+				<span style="padding-right: 1em; padding-left: 1em;">|</span>
+				<strong style="color:#888;">Gross Loss Amount</strong>:
+				<span style="color: #3a81af; margin-right: 1em;">{{ $invoice->data->lineItems[0]->amount }}</span> | 
+				<strong style="color:#888;">Policy Number</strong>:
+				<span style="color: #3a81af; margin-right: 1em;">{{ $invoice->claim->claim_data->policy->policyNumber }}</span>
+			<hr>
+
+
+			<div class="row">
+				<div class="col-xs-4">
+					<p>
+		<strong>{{ ucwords(strtolower($invoice->claim->claim_data->client->name)) }}</strong> <br>
+						{{ ucwords(strtolower($invoice->claim->claim_data->client->addresses[0]->street)) }}
+						{{ ucwords(strtolower($invoice->claim->claim_data->client->addresses[0]->city)) }}
+						{{ $invoice->claim->claim_data->client->addresses[0]->state }},
+						{{ $invoice->claim->claim_data->client->addresses[0]->zip }}
+					</p>
+					<p><strong>Adjuster</strong>: {{ $invoice->claim->assignments->last()->user->name ?? 'na' }}</p>
+				</div>
+				<div class="col-xs-3">
+					
+					<p><strong>Claim Type</strong>: {{ $invoice->claim->claim_type }}</p>
+					<p><strong>Type Of Loss</strong>: {{ $invoice->claim->type_of_loss }}</p>
+				</div>
+				<div class="col-xs-3">
+					<p><strong>Date of Loss</strong>: {{ $invoice->claim->date_of_loss }}</p>
+					<p><strong>Date Received</strong>: {{ $invoice->claim->date_received }}</p>
+					<p><strong>Date Contacted</strong>: 
+						{{ \Carbon\Carbon::parse($invoice->claim->statuses->where('name', 'Contacted')->first()->date)->format('m/d/Y') ?? 'n/a' }}
+					</p>
+				</div>
 			</div>
-			
-			<h1 class="title">Invoice</h1>
-			<h3 class="subtitle">Claim #{{ $invoice->claim->claim_number }}</h3>
 
-			<table class="table is-fullwidth">
+
+			<br>
+
+			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th>Description</th>
-						<th class="has-text-right">Total</th>
+						<th style="border: none;">Description</th>
+						<th style="border: none;" class="text-center">Qty</th>
+						<th style="border: none;" class="text-right">Total</th>
 					</tr>
 				</thead>
 				<tbody>
 					@foreach($invoice->data->lineItems as $lineItem)
-					<tr>
-						<td>
-							{{ $lineItem->description }} 
-							@if(isset($lineItem->quantity))
-								<span class="has-text-weight-bold">({{ $lineItem->quantity }})</span>
-							@elseif($lineItem->type == 'ServiceFeeLineItem')
-								<span class="has-text-weight-bold">(GLA: {{$lineItem->amount}})</span>
-							@endif
-						</td>
-						<td class="has-text-right">{{ $lineItem->total }}</td>
-					</tr>
+					@if($lineItem->total > 0)
+						<tr>
+							<td>
+								{{ $lineItem->description }} 
+								@if($lineItem->type == 'ServiceFeeLineItem')
+									<span>(Gross Loss Amount: {{$lineItem->amount}})</span>
+								@endif
+							</td>
+							<td class="text-center">
+								@if(isset($lineItem->quantity))
+									<span><strong>({{ $lineItem->quantity }})</strong></span>
+								@else
+									<span> </span>
+								@endif	
+							</td>
+							<td class="text-right">{{ $lineItem->total }}</td>
+						</tr>
+						@endif
 					@endforeach
-					<tr>
-						<td><span class="has-text-weight-bold">Sub Total</span></td>
-						<td class="has-text-right has-text-weight-bold">${{ $invoice->data->subTotal }}</td>
-					</tr>
-					<tr>
-						<td><span class="has-text-weight-bold">Tax</span></td>
-						<td class="has-text-right has-text-weight-bold">${{ $invoice->data->tax }}</td>
-					</tr>
-					<tr>
-						<td><span class="has-text-weight-bold">Total</span></td>
-						<td class="has-text-right has-text-weight-bold">${{ $invoice->data->total }}</td>
-					</tr>
 				</tbody>
-			</table>
-			<br><br><br><br>
-			<table class="table is-fullwidth">
-				<tbody>
-					
-				</tbody>
+				{{-- <tfoot>
+				<tr>
+						<th> Claim Consultant Group - 308 South Meadowlark Street Lakeway TX, 12345</th>
+						<th></th>
+					</tr>
+					</tfoot> --}}
 			</table>
 
+			<div class="row">
+				<div class="col-xs-3 col-xs-offset-8">
+					<table class="table" style="position: relative; left: 3.25em;">
+					<tr>
+						<td style="border: none;"><strong>Sub Total</strong></td>
+						<td style="border: none;" class="text-right has-text-weight-bold">${{ $invoice->data->subTotal }}</td>
+					</tr>
+					<tr>
+						<td style="border: none;"><strong>Tax</strong></td>
+						<td style="border: none;" class="text-right has-text-weight-bold">${{ $invoice->data->tax }}</td>
+					</tr>
+					<tr>
+						<td><strong>Total</strong></td>
+						<td class="text-right"><strong>${{ $invoice->data->total }}</strong></td>
+					</tr>
+			</table>
+				</div>
+			</div>
+			
 		</div>{{-- end container --}}
-	</section>
 	
 </body>
 </html>
