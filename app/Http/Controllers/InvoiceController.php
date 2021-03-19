@@ -32,10 +32,13 @@ class InvoiceController extends Controller
      */
     public function show($id)
     {
-        $invoice = Invoice::with('claim')->findOrFail($id);
+        $invoice = Invoice::with('claim.carrier', 'claim.statuses', 'claim.assignments')->findOrFail($id);
         $pdf = \App::make('dompdf.wrapper');
+        // $options = \App::make('')
+        $invoice->claim->claim_data = json_decode($invoice->claim->claim_data);
         $pdf->loadView('pdfs.invoice', ['invoice' => $invoice]);
         return $pdf->stream('claim-'.$invoice->claim->claim_number.'-invoice.pdf');
+        // return view('pdfs.invoice', ['invoice' => $invoice]);
     }
 
     /**
