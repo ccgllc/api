@@ -66,7 +66,7 @@
 		  						Create Estimate
 		  					</button>
 						    <div class="control has-icons-left" v-else>
-						    	<input  class="input" @change="updateTotal(lineItem)" v-model="'$' + lineItem.amount" type="text">
+						    	<input  class="input" @change="updateTotal(lineItem)" v-model="lineItem.amount" type="text">
 							    <span class="icon is-small is-left has-text-bold">
 								   <small>amt</small>
 								</span>
