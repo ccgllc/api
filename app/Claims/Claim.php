@@ -114,7 +114,10 @@ class Claim extends Model
         return $query->where('assignable', 1);
     }
 
-
+    public function scopeCurrentAssignment($query)
+    {
+        return $query->assignments()->last();
+    }
 
     // public function adjuster()
     // {
