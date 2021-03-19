@@ -157,6 +157,21 @@
 			</table>
 				</div>
 			</div>
+
+			<div class="footer" style="position: absolute; bottom:115; width: 100%;">
+				<div class="text-center" style="margin: 0 auto; width: 100%;">
+					{{-- <hr> --}}
+					<p>Make all checks payable to:</p>
+					<span style="font-size: 1.25em; font-weight:700; color: #3a81af;">Claim Consultant Group, LLC</span><br>
+					<span style="font-size: 1.25em; font-weight:700;">Please Include invoice number on all checks</span><br>
+					<span style="font-size: 1.25em; font-weight:700;">Thank you for your business!</span>
+					<hr>
+					<div class="text-center">
+						<p>302 S. Meadowlark St. Lakeway TX, 78734 • Toll Free: 888.645.1480 • info@claimconsultantgroup.com</p>
+					</div>
+					
+				</div>
+			</div>
 			
 		</div>{{-- end container --}}
 	
