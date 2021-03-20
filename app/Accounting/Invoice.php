@@ -10,6 +10,8 @@ class Invoice extends Model
 	use SoftDeletes; 
 
     protected $guarded = ['id'];
+
+    protected $dates = ['created_at', 'updated_at'];
 	
     public function claim()
     {

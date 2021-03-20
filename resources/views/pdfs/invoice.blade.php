@@ -52,38 +52,58 @@
 </head>
 <body>
 		<div class="container-fluid">
-			<img src="{{ public_path('images/icon-on-light.png') }}" width="50px" height="38px" alt="CCG" style="margin-top: .4em; margin-right: .75em;">
-			<span style="font-family:sans-serif; font-size: 2.5em; padding-left: 2rem;">Invoice #<span style="color: #3a81af;">{{ $invoice->claim->claim_number }}</span></span> <br><br><br>
+			<div class="row">
+				<div class="col-xs-6">
+					<img src="{{ public_path('images/ccg-logo.png') }}" width="181px" height="65px" alt="CCG"><br><br>
+					{{-- <hr> --}}
+					<p>
+						<strong>Remit Payment To</strong>: <br>
+						Claim Consultant Group, LLC <br>
+						308 S. Meadowlark St. <br>
+						Lakeway TX, 78734
+					</p>
+				</div>
+				<div class="col-xs-5 text-right">
+					<span style="font-family:sans-serif; font-weight: 700; font-size:6em; text-transform: uppercase; line-height: 1.1em;text-shadow: 5px 5px #3882b0;">Invoice</span> <br>
+					<strong>Date:</strong> <span style="color: #3a81af;font-size:1.25em;">{{ $invoice->created_at->format('m/d/Y') }}</span>&nbsp;
+					<span >|</span>&nbsp;
+					<strong>Invoice #:</strong> <span style="color: #3a81af; font-size:1.25em;">{{ $invoice->claim->claim_number }}</span>&nbsp;
+					{{-- <span></span>  --}}
+				</div>
+			</div>	
 
-			<span style="font-family: sans-serif; font-size: 1.75em; margin-top: 1em; margin-bottom: 1em;">
+			<hr>		
+
+			<span style="font-family: sans-serif; font-size: 1.75em; margin-bottom: 1em;">
 				{{ $invoice->claim->carrier->name }}
 				</span>
-				<br>
-				<strong style="color:#888;">Claim Number</strong>:
+				<br><br>
+				<strong style="">Claim Number</strong>:
 				<span style="color: #3a81af;">{{ $invoice->claim->claim_number }}</span> 
-				<span style="padding-right: 1em; padding-left: 1em;">|</span>
-				<strong style="color:#888;">Gross Loss Amount</strong>:
-				<span style="color: #3a81af; margin-right: 1em;">{{ $invoice->data->lineItems[0]->amount }}</span> | 
-				<strong style="color:#888;">Policy Number</strong>:
-				<span style="color: #3a81af; margin-right: 1em;">{{ $invoice->claim->claim_data->policy->policyNumber }}</span>
+				&nbsp;<span >|</span>&nbsp;
+				<strong style="">Gross Loss Amount</strong>:
+				<span style="color: #3a81af; margin-right: 2em;">{{ $invoice->data->lineItems[0]->amount }}</span> &nbsp;| &nbsp;
+				<strong style="">Policy Number</strong>:
+				<span style="color: #3a81af; margin-right: 2em;">{{ $invoice->claim->claim_data->policy->policyNumber }}</span>
 			<hr>
 
 
-			<div class="row">
+			<div class="row" style="margin-top: 2em;">
 				<div class="col-xs-4">
 					<p>
-		<strong>{{ ucwords(strtolower($invoice->claim->claim_data->client->name)) }}</strong> <br>
-						{{ ucwords(strtolower($invoice->claim->claim_data->client->addresses[0]->street)) }}
+							<strong>Insured</strong>:<br>
+						{{ ucwords(strtolower($invoice->claim->claim_data->client->name)) }}<br>
+						{{ ucwords(strtolower($invoice->claim->claim_data->client->addresses[0]->street)) }}<br>
 						{{ ucwords(strtolower($invoice->claim->claim_data->client->addresses[0]->city)) }}
 						{{ $invoice->claim->claim_data->client->addresses[0]->state }},
 						{{ $invoice->claim->claim_data->client->addresses[0]->zip }}
 					</p>
-					<p><strong>Adjuster</strong>: {{ $invoice->claim->assignments->last()->user->name ?? 'na' }}</p>
 				</div>
 				<div class="col-xs-3">
 					
 					<p><strong>Claim Type</strong>: {{ $invoice->claim->claim_type }}</p>
 					<p><strong>Type Of Loss</strong>: {{ $invoice->claim->type_of_loss }}</p>
+					<p><strong>Adjuster</strong>: {{ $invoice->claim->assignments->last()->user->name ?? 'na' }}</p>
 				</div>
 				<div class="col-xs-3">
 					<p><strong>Date of Loss</strong>: {{ $invoice->claim->date_of_loss }}</p>
@@ -95,17 +115,25 @@
 							n/a
 						@endif
 					</p>
+					<p><strong>Date Inspected</strong>: 
+						@if($contacted = $invoice->claim->statuses->where('name', 'Site Inspected')->first())
+							{{ \Carbon\Carbon::parse($contacted->date)->format('m/d/Y') }}
+						@else
+							n/a
+						@endif
+					</p>
 				</div>
 			</div>
 
 
-			<br>
+			{{-- <hr> --}}
 
-			<table class="table table-striped">
+			<table class="table table-striped" style="margin-top: 1em;">
 				<thead>
 					<tr>
+						<th style="border: none;">Qty</th>
 						<th style="border: none;">Description</th>
-						<th style="border: none;" class="text-center">Qty</th>
+						<th style="border: none;">Rate</th>
 						<th style="border: none;" class="text-right">Total</th>
 					</tr>
 				</thead>
@@ -114,19 +142,26 @@
 					@if($lineItem->total > 0)
 						<tr>
 							<td>
+								@if(isset($lineItem->quantity))
+									<span><strong>{{ $lineItem->quantity }}</strong></span>
+								@else
+									<span><strong>1</strong></span>
+								@endif	
+							</td>
+							<td>
 								{{ $lineItem->description }} 
 								@if($lineItem->type == 'ServiceFeeLineItem')
 									<span>(Gross Loss Amount: {{$lineItem->amount}})</span>
 								@endif
 							</td>
-							<td class="text-center">
-								@if(isset($lineItem->quantity))
-									<span><strong>({{ $lineItem->quantity }})</strong></span>
-								@else
-									<span> </span>
-								@endif	
+							<td>
+								@if(isset($lineItem->rate))
+									{{  number_format($lineItem->rate, 2, '.', ',')}}
+								@else	
+									{{ $lineItem->total }}
+								@endif
 							</td>
-							<td class="text-right">{{ $lineItem->total }}</td>
+							<td class="text-right">${{ $lineItem->total }}</td>
 						</tr>
 						@endif
 					@endforeach
@@ -148,7 +183,7 @@
 					</tr>
 					<tr>
 						<td style="border: none;"><strong>Tax</strong></td>
-						<td style="border: none;" class="text-right has-text-weight-bold">${{ $invoice->data->tax }}</td>
+						<td style="border: none;" class="text-right has-text-weight-bold">${{ number_format($invoice->data->tax, 2, '.', ',') }}</td>
 					</tr>
 					<tr>
 						<td><strong>Total</strong></td>
@@ -158,7 +193,7 @@
 				</div>
 			</div>
 
-			<div class="footer" style="position: absolute; bottom:115; width: 100%;">
+			<div class="footer" style="position: absolute; bottom:95; width: 100%;">
 				<div class="text-center" style="margin: 0 auto; width: 100%;">
 					{{-- <hr> --}}
 					<p>Make all checks payable to:</p>
