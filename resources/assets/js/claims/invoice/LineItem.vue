@@ -209,7 +209,7 @@
 			      if (status === "OK") {
 			        //directionsRenderer.setDirections(response);
 			        // console.log(response.routes[0].legs[0].distance.text.replaceAll(/\D/g, ''));
-			        this.lineItem.quantity = +response.routes[0].legs[0].distance.text.replaceAll(/\D/g, '');
+			        this.lineItem.quantity = parseFloat(+response.routes[0].legs[0].distance.text.replaceAll(/\mi/g, ''));
 			        this.updateTotal(this.lineItem);
 			      } else {
 			      	console.error(status);
