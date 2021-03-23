@@ -54,7 +54,7 @@ export default class Invoice {
 		taxable.forEach(
 			item => tax += +(+item.total * +this.taxRate)
 		);
-		return +tax;
+		return +tax.toFixed(2);
 	}
 
 	getTaxableLineItems() {
