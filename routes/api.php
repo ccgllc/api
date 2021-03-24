@@ -87,15 +87,40 @@ Route::post('/admin/client-error', function(Request $request){
 
 Route::post('search', function(Request $request){
 	$query = $request->get('query');
-	$query = str_replace("@", '', $query);
+	// $query = str_replace("#", '', $query);
+	$results = collect([]);
 
-	if ($request->scope == 'users') {
-		return CCG\User::with('roles')->where('name', 'like', "%$query%")->exclude('api_token')->take(10)->get();
-	}
+	// if ($request->scope == 'users') {
+		 $users = CCG\User::with('roles')->where('name', 'like', "%$query%")->exclude('api_token')->take(5)->get();
+	// }
+		 if ($users) {
+
+		 	 $users = $users->each(function($user, $key){
+		 			$user->scope = 'users';
+		 	 });
+
+		 	 $results->push($users);
+		 } 
+
+		 $claims = CCG\Claims\Claim::where('claim_number', 'like', "%$query%")
+							->orWhere('transaction_id', 'like', "%$query%")->take(5)->get();
+
+			if ($claims) {
+
+				$claims->each(function($claim, $key){
+			 		$claim->scope = 'claims';
+			 	});
+
+				$results->push($claims);
+
+			}
+				
 	
-	return CCG\Claims\Claim::where('claim_number', 'like', "%$query%")
-							->orWhere('insured', 'like', "%$query%")->take(10)->get();
-	
+		// return CCG\Claims\Claim::where('claim_number', 'like', "%$query%")
+		// 					->orWhere('transaction_id', 'like', "%$query%")->take(5)->get();
+		// 					// ->orWhere('insured', 'like', "%$query%")
+	//}
+	return $results->flatten();	
 });
 
 Route::post('call-to-action/email', function(Request $request){
