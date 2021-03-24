@@ -33,8 +33,8 @@
                       <strong>One or more of your licenses are out of date!</strong> You must have valid, up-to-date licenses to receive claim assignments, please update your info ASAP!
                 </div>
             </div>
-        </div> --}}
-
+        </div>
+ --}}
         <div class="columns is-gapless app-content">
             <div class="column">
                 <div class="section is-main">

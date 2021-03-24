@@ -116,7 +116,7 @@ class Claim extends Model
 
     public function scopeCurrentAssignment($query)
     {
-        return $query->assignments()->last();
+        return $query->has('assignments')->last();
     }
 
     // public function adjuster()

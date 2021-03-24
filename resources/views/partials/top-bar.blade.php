@@ -15,7 +15,7 @@
   <div id="userMenu" class="navbar-menu">
     <div class="navbar-start">
         @if (Auth::user()->hasRole('administrator'))
-          <search></search>
+          <search claims-count="1,817" users-count="1,239"></search>
           <role-switcher @role-switched="switchRole" :current-role="currentRole"></role-switcher>
         @endif
         {{-- <a href="" class="navbar-item">Link</a> --}}
