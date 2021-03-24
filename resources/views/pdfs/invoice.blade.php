@@ -54,7 +54,7 @@
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-xs-6">
-					<img src="{{ public_path('images/ccg-logo.png') }}" width="181px" height="65px" alt="CCG"><br><br>
+					<img src="{{ public_path('images/ccg-logo-updated.png') }}" width="181px" height="65px" alt="CCG"><br><br>
 					{{-- <hr> --}}
 					<p>
 						<strong>Remit Payment To</strong>: <br>
@@ -143,7 +143,7 @@
 						<tr>
 							<td>
 								@if(isset($lineItem->quantity))
-									<span><strong>{{ $lineItem->quantity }}</strong></span>
+									<span><strong>{{ isset($lineItem->minimum) ? ($lineItem->quantity - $lineItem->minimum) : $lineItem->quantity }}</strong></span>
 								@else
 									<span><strong>1</strong></span>
 								@endif	
@@ -151,7 +151,10 @@
 							<td>
 								{{ $lineItem->description }} 
 								@if($lineItem->type == 'ServiceFeeLineItem')
-									<span>(Gross Loss Amount: {{$lineItem->amount}})</span>
+									<span><em>(Gross Loss Amount: {{$lineItem->amount}})</em></span>
+								@elseif($lineItem->description == 'Mileage')
+									{{-- 28.9 billable miles ( 78.9 total miles less 50 included miles ) --}}
+									<span><em>({{$lineItem->quantity }} total, less {{ ($lineItem->minimum) }} included)</em></span>
 								@endif
 							</td>
 							<td>
