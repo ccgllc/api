@@ -54,7 +54,7 @@
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-xs-6">
-					<img src="{{ public_path('images/ccg-logo-updated.png') }}" width="181px" height="65px" alt="CCG"><br><br>
+					<img src="{{ public_path('images/ccg-logo-new.png') }}" width="181px" height="65px" alt="CCG"><br><br>
 					{{-- <hr> --}}
 					<p>
 						<strong>Remit Payment To</strong>: <br>

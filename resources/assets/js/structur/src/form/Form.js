@@ -72,6 +72,7 @@ export default class Form {
      *
      * @param {string} requestType
      * @param {string} url
+     * @param {boolean} reset 
      */
     submit(requestType, url, reset = true) {
         return new Promise((resolve, reject) => {

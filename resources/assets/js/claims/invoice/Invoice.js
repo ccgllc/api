@@ -1,5 +1,6 @@
 import ServiceFeeLineItem from './ServiceFeeLineItem';
 import QuantifiableLineItem from './QuantifiableLineItem';
+import MileageLineItem from './MileageLineItem';
 import AmountLineItem from './AmountLineItem';
 import HourlyRateLineItem from './HourlyRateLineItem';
 // import Form from '../../structur/src/form/Form.js';
@@ -20,7 +21,7 @@ export default class Invoice {
 		for (let property in data) {
 			this[property] = data[property]
 		}
-		console.log(this.taxRate);
+		// console.log(this.taxRate)
 	}
 
 	/**
@@ -44,8 +45,10 @@ export default class Invoice {
 		this.lineItems.forEach(lineItem => {
 			this.subTotal = (parseFloat(this.subTotal) + parseFloat(lineItem.total))
 		});
+		this.subTotal = +this.subTotal.toFixed(2);
 		this.tax = this.calculateTax();
-		return this.total = (this.subTotal + this.tax).toFixed(2);
+		this.total = (this.subTotal + this.tax).toFixed(2);
+		return isNaN(this.total) ? this.total = 0.00 : this.total;
 	}
 
 	calculateTax() {
@@ -93,7 +96,6 @@ export default class Invoice {
 	 * @return void.
 	 */
 	addLineItem(lineItem) {
-		lineItem.id = this.generateId();
 		this.lineItems.push(lineItem)
 		return this.calculate()
 	}
@@ -110,13 +112,13 @@ export default class Invoice {
 		return this.calculate()
 	}
 
-	generateId() {
-		let ids = []
-		this.lineItems.forEach(item => ids.push(item.id))
-		return ids.length > 0 
-			? Math.max(...ids) + 1
-			: 1
-	}
+	// generateId() {
+	// 	let ids = []
+	// 	this.lineItems.forEach(item => ids.push(item.id))
+	// 	return ids.length > 0 
+	// 		? Math.max(...ids) + 1
+	// 		: 1
+	// }
 
 	/**
 	 * Method for recalculating all line items
@@ -175,11 +177,27 @@ export default class Invoice {
 	}
 
 	/**
+	 * Method for getting mileage rate from current feeSchedule.
+	 * @return String.
+	 */
+	getMileageMinimum() {
+		return this.feeSchedule.mileageMinimum;
+	}
+
+	/**
 	 * Method for getting photo rate from current feeSchedule.
 	 * @return String.
 	 */
 	getPhotoRate() {
 		return this.feeSchedule.photoRate
+	}
+
+	/**
+	 * Method for getting photo rate from current feeSchedule.
+	 * @return String.
+	 */
+	getPhotoMinimum() {
+		return this.feeSchedule.photoMinimum;
 	}
 
 	/**

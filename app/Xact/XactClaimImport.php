@@ -62,7 +62,7 @@ class XactClaimImport extends XmlImporter {
         // $this->claimType       = $json->ADM->COVERAGE_LOSS->{'@attributes'}->catastrophe ? 'CAT' : 'Daily';
         $this->priceListArea = $json->PARAMS->{'@attributes'}->priceList ?? null;
         // var_dump(gettype($json->PROJECT_INFO->NOTES));    
-        if (gettype($json->PROJECT_INFO->NOTES) == 'string')
+        if (isset($json->PROJECT_INFO->NOTES) && gettype($json->PROJECT_INFO->NOTES) == 'string')
         {
            $this->description = $json->PROJECT_INFO->NOTES;
         }

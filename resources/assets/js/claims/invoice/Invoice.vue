@@ -1,37 +1,91 @@
 <template>
-	<div class="card" style="margin-bottom: 1em;" v-if="invoice.options !== undefined">
+	<div class="card" style="margin-bottom: 1em; border-radius: 6px;" v-if="invoice.options !== undefined">
 		<div class="card-content">
 			
 			<div class="level">
 				<!-- Show / Hide Button  -->
 				<div class="level-left">
 					<div class="level-item">
-						<button 
-							class="button is-dark is-rounded is-small" 
-							:class="{'is-dark' : invoice.options.show }" 
+						<!-- :class="{'is-dark': !invoice.options.show, 'is-dark is-outlined': invoice.options.show}" -->
+						<a 
+							class="button is-rounded is-outlined is-dark" 
+							
 							@click="toggle()"
 						>
 							<span class="icon is-small">
 						      <i class="fa" 
-						      	:class="{'fa-caret-down': !invoice.options.show, 'fa-times': invoice.options.show}"
+						      	:class="{'fa-chevron-down': !invoice.options.show, 'fa-minus': invoice.options.show}"
 					      	  >
 					      	</i>
 						    </span>
-						</button>
+						     <!-- <span v-text="invoice.options.show ? 'close' : 'open'"></span> -->
+						</a>
 					</div>
+					<invoice-options
+							:invoice="invoice"
+							:lineItemTypes="lineItemTypes"
+							@new-line-item="addLineItem"
+							@remove-line-item="removeLineItem"
+							@invoice-deleted="remove"
+							@toggle-estimate="createEstimate"
+							@toggle-taxable="update"
+							@fee-schedule-changed="updateFeeSchedule"
+						> 
+						</invoice-options>
 				</div>
 				
 				<!-- Hidden state Total -->
 				<div class="level-right">
-					<div class="level-item">
-						<strong>Total: <span v-text="'$' + invoice.total"></span></strong>
+					<div class="level-item" v-if="hasInteractedWithFeeSchedule">
+						<a :href="'/invoices/' + invoice.id" target="_blank" class="button is-dark is-outlined is-rounded"> <!-- @click="$emit('preview-invoice')" --> 
+							<span class="icon is-small">
+						      <i class="fa fa-download"></i>
+						    </span>
+							<span>Download PDF</span>
+						</a>
 					</div>
-		       	</div>
+	       	<div class="level-item">
+						<button class="button is-danger is-rounded" @click="remove()" v-if="invoice.options.show">
+							<span class="icon">
+						      <i class="fa fa-trash"></i>
+						    </span>
+							<!-- <span>Delete Invoice</span> -->
+						</button>
+					</div>
+					<div class="level-item" v-if="!invoice.options.show">
+						<strong class="is-size-5">Total: <span v-text="'$' + invoice.total"></span></strong>
+					</div>
 			</div>
+		</div>
+			<!-- <div class="> -->
 
+				
 
-			<div id="invoice" v-if="invoice.options.show">
-				<invoice-options
+		<div id="invoice" v-if="invoice.options.show">
+			<div class="level">
+				<div class="level-left">
+				<div class="level-item" v-if="invoice.options.show">
+					<div class="field">
+					  <div class="control">
+					  	 <!-- <label class="label is-small" for="feeSchedule">Fee Schedule</label> -->
+					    <div class="select is-info">
+					      <select v-model="invoice.feeSchedule" @change="updateFeeSchedule" id="feeSchedule">
+					        <option :value="0" disabled>Select a fee schedule to begin</option>
+					        <option 
+					        	v-for="feeSchedule in invoice.carrier.fee_schedules" 
+					        	:value="feeSchedule.data" 
+					        	v-text="feeSchedule.label + ' Fee Schedule'" 
+					        	:key="feeSchedule.id"
+					        	>
+				        	</option>   
+					      </select>
+					    </div>
+					  </div>
+					</div>
+				</div>
+				</div>
+			</div>
+				<!-- <invoice-options
 					:invoice="invoice"
 					:lineItemTypes="lineItemTypes"
 					@new-line-item="addLineItem"
@@ -40,36 +94,46 @@
 					@toggle-estimate="createEstimate"
 					@toggle-taxable="update"
 					@fee-schedule-changed="updateFeeSchedule"
-				> <!-- :carrier="claim.carrier" -->
-				</invoice-options>
-
+				> :carrier="claim.carrier" 
+				</invoice-options> -->
+				
 				<line-item 
-					v-for="lineItem in invoice.lineItems" 
+					v-for="(lineItem, key) in invoice.lineItems" 
+					v-if="hasInteractedWithFeeSchedule"
 					:invoice="invoice"
 					:lineItem="lineItem" 
 					:estimates="claim.estimates"
-					:key="lineItem.id"
+					:id="key"
+					:key="key"
 					@line-item-removed="removeLineItem"
 					@line-item-updated="caclulate"
 					@toggle-estimate="createEstimate"
+					@creating-gross-loss-toggled="toggleCreatingGrossLoss"
 				>
 				</line-item>
+				
+				<new-line-item
+					v-if="hasInteractedWithFeeSchedule"
+					:invoice="invoice"
+					:lineItemTypes="lineItemTypes"
+					:carrier="claim.carrier"
+					@new-line-item="addLineItem"
+				></new-line-item>
 
-				<div class="level" style="padding: 1em; border-radius: .5em;">
+				<div class="level" style="padding: 1em; border-radius: .5em;" v-if="hasInteractedWithFeeSchedule">
 					<div class="level-left">
-						<div class="level-item">
-							<!-- <dropdown :items="lineItemTypes" @new-line-item="addLineItem" event-name="new-line-item" up="true" buttonStyle="is-rounded is-small">Add Line Item</dropdown> -->
-						</div>
+						
 					</div>
 
-					<div class="level-right">
+					<div class="level-right has-text-weight-bold is-size-5">
 						<span style="padding-right: 2em;">Sub Total: <span v-text="invoice.subTotal"></span></span>
 						<span v-if="invoice.feeSchedule.taxable" style="padding-right: 2em;">Tax <small>({{(invoice.taxRate) * 100}}%):</small> <span v-text="invoice.tax"></span></span>
-			      <strong>Total: <span v-text="'$' + invoice.total"></span></strong>
+			      <strong class="has-text-info">Total: <span v-text="'$' + invoice.total"></span></strong>
 	       	</div>
 				</div>
 				
 			</div>
+				<!-- </div> -->
         </div>
    </div>
 </template>
@@ -80,8 +144,10 @@
 	import dropdown from '../../Dropdown.vue';
 	import Invoice from './Invoice.js'
 	import lineItem from './LineItem.vue';
+	import newLineItem from './newLineItem.vue';
 	import QuantifiableLineItem from './QuantifiableLineItem'
 	import HourlyRateLineItem from './HourlyRateLineItem'
+	import MileageLineItem from './MileageLineItem'
 	import ServiceFeeLineItem from './ServiceFeeLineItem'
 	import AmountLineItem from './AmountLineItem'
 	import DifferenceInTiersLineItem from './DifferenceInTiersLineItem'
@@ -90,19 +156,47 @@
 		props: ['invoice', 'carrier'],
 		components: {
 			lineItem,
+			newLineItem,
 			dropdown,
 			invoiceOptions,
 		},
 		created() {
 			if (!(this.invoice instanceof Invoice)) this.buildInvoice()
 		},
+		mounted() {
+			// if(!this.hasDefaultEstimates) {
+			// 	this.claim.estimates.push({
+			// 		gross_loss: 'erroneous',
+			// 		claim_id: this.claim.id,
+			// 		user_id: this.user.id
+			// 	},
+			// 	{
+			// 		gross_loss: 'CWOP',
+			// 		claim_id: this.claim.id,
+			// 		user_id: this.user.id,
+			// 	})
+			// }
+		},
 		data() {
 			return claimData
+		},
+		computed: {
+			hasInteractedWithFeeSchedule() {
+				return _.isEmpty(this.invoice.feeSchedule) ? false : true;
+			},
+			// hasDefaultEstimates() {
+			// 	let estimates = this.claim.estimates.filter(estimate => estimate.gross_loss == 'erroneous' || estimate.gross_loss == 'CWOP');
+			// 	return estimates.length ? true : false;
+			// }
 		},
 		methods: {
 			toggle() {
 				this.invoice.options.show = !this.invoice.options.show 
 				this.update()
+			},
+			toggleCreatingGrossLoss() {
+				// alert('toggled');
+				return this.creatingGrossLoss = !this.creatingGrossLoss;
 			},
 			caclulate() {
 				this.invoice.calculate()
@@ -136,8 +230,18 @@
 				this.creatingEstimate = !this.creatingEstimate
 			},
 			updateFeeSchedule() {
+				this.setRates()
+				this.setMinimums()
 				this.invoice.recalculateLineItems()
 				return this.update()
+			},
+			setRates() {
+				this.invoice.lineItems[2].rate = this.invoice.getHourlyRate();
+				this.invoice.lineItems[4].rate = this.invoice.getMileageRate();
+			},
+			setMinimums() {
+				this.invoice.lineItems[1].minimum = this.invoice.getPhotoMinimum();
+				this.invoice.lineItems[4].minimum = this.invoice.getMileageMinimum();
 			},
 			buildInvoice() {
 				let invoice = new Invoice({
@@ -178,6 +282,9 @@
 					case 'QuantifiableLineItem' : 
 						return new QuantifiableLineItem(lineItem)
 						break
+					case 'MileageLineItem' : 
+						return new MileageLineItem(lineItem)
+						break
 					case 'HourlyRateLineItem' :
 						if (this.invoice instanceof Invoice) {
 							lineItem.rate = this.invoice.getHourlyRate();
@@ -198,3 +305,13 @@
 		}
 	}
 </script>
+
+<style>
+	.menu-list a {
+		/*color: whitesmoke;*/
+	}
+	.menu-list a:hover {
+		background-color: #209cee;
+		color: whitesmoke;
+	}
+</style>

@@ -11,6 +11,8 @@ export default {
 	alert: { type: 'is-link', message: ''},
 	claimId: '',
 	claim: {},
+	creatingGrossLoss: false,
+	newGrossLoss: new Form({gross_loss: '', user_id: 0, claim_id: 0}),
 	user: {},
 	adjuster: {},
 	reviewer: {},

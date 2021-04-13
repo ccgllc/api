@@ -59,7 +59,9 @@
 			},
 			getLocation(claimData){
 				let data = JSON.parse(claimData);
-				return ` ${data.client.addresses[0].city}, ${data.client.addresses[0].state} `;
+				return data.client.addresses 
+					? ` ${data.client.addresses[0].city}, ${data.client.addresses[0].state} `
+					: 'no address found.';
 			}
 		},
 	}

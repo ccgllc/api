@@ -1,15 +1,19 @@
 <template>
-<div class="level" style="padding: .5em;">
+<div class="level" style="">
 	<div class="level-left">
 		<div class="level-item">
-			<dropdown :items="lineItemTypes" @new-line-item="addLineItem" :carrier="invoice.carrier" event-name="new-line-item" buttonStyle="is-rounded is-small is-secondary">Add Line Item</dropdown>
+			<h1 class="title has-text-weight-light"><span class="has-text-weight-bold">Invoice #</span> {{ claim.claim_number }}</h1>
 		</div>
-		<div class="level-item">
+		<!-- <div class="level-item"> -->
+			<!-- <dropdown :items="lineItemTypes" @new-line-item="addLineItem" :carrier="invoice.carrier" event-name="new-line-item" buttonStyle="is-rounded is-small is-info">Add Line Item</dropdown> -->
+		<!-- </div> -->
+		<div class="level-item" v-if="invoice.options.show">
 			<!-- <div class="level-item" > -->
-				<div class="field" style="margin: 0 1em 0 0" v-if="invoice.carrier.label == 'TWIA'">
+				<div class="field" style="margin: 0 0 0 0" v-if="invoice.carrier.label == 'TWIA'">
 				  <input v-model="invoice.options.mcm" @change="toggleMcmLineItem" id="isMcm" type="checkbox" name="isMcm" class="switch is-rounded is-small is-info">
 				  <label for="isMcm">MCM</label>
 				</div>
+				
 			<!-- </div> -->
 			<!-- <div class="level-item"> -->
 			<!-- 	<div class="field">
@@ -17,43 +21,20 @@
 				  <label for="Taxable">Taxable</label>
 				</div> -->
 			<!-- </div> -->
+			
 	    </div>
 	</div>
-	<div class="level-right">
-		<div class="level-item">
-			<div class="field">
-			  <div class="control">
-			  	 <!-- <label class="label is-small" for="feeSchedule">Fee Schedule</label> -->
-			    <div class="select is-small is-rounded">
-			      <select v-model="invoice.feeSchedule" @change="$emit('fee-schedule-changed')" id="feeSchedule" style="font-size: 1em;">
-			        <option value=""  disabled>Select Fee Schedule</option>
-			        <option 
-			        	v-for="feeSchedule in invoice.carrier.fee_schedules" 
-			        	:value="feeSchedule.data" 
-			        	v-text="feeSchedule.label + ' Fee Schedule'" 
-			        	:key="feeSchedule.id"
-			        	>
-		        	</option>   
-			      </select>
-			    </div>
-			  </div>
-			</div>
-		</div>
-		<div class="level-item">
-			<button class="button is-rounded is-small" @click="$emit('toggle-estimate')">
+	<div class="level-right has-text-right">
+		
+		<!-- <div class="level-item">
+			<button class="button is-dark is-rounded" @click="$emit('toggle-estimate')">
 				<span class="icon is-small">
 			      <i class="fa fa-file-text-o"></i>
 			    </span>
 				<span>New Estimate</span>
 			</button>
-		</div>
-		<div class="level-item">
-			<a :href="'/invoices/' + invoice.id" class="button is-rounded is-small"> <!-- @click="$emit('preview-invoice')" --> 
-				<span class="icon is-small">
-			      <i class="fa fa-file-pdf-o"></i>
-			    </span>
-				<span>Preview</span>
-			</a>
+		</div> -->
+		
 		</div>
 		<!-- <div class="level-item">
 			<button class="button is-info is-rounded is-small" @click="$emit('invoice-saved')">
@@ -63,14 +44,7 @@
 				<span>Save Invoice</span>
 			</button>
 		</div> -->
-		<div class="level-item">
-			<button class="button is-danger is-rounded is-small" @click="$emit('invoice-deleted')">
-				<span class="icon is-small">
-			      <i class="fa fa-trash-o"></i>
-			    </span>
-				<!-- <span>Delete Invoice</span> -->
-			</button>
-		</div>
+		
 	</div>
 </div>
 </template>

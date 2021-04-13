@@ -1,10 +1,8 @@
 <template>
-	<div>
 		<a class="button is-info" @click="createInvoice">
 		    <span class="icon"><i class="fa fa-plus"></i></span>
 		    <span>Create Invoice</span>
 		</a>
-	</div>
 </template>
 
 <script>
@@ -18,26 +16,23 @@
 		},
 		mounted() {
 			let address = this.getLossAddress(); 
-			// this.isTaxableState(address.state)
-
 		},
 		methods: {
 			async createInvoice() {
 				let rate;
 				const state = this.getLossAddress().state;
 
-				state === 'TX' 	? rate = .0625 : rate = 0;
+				state === 'TX' 	? rate = .0825 : rate = 0;
 
-				console.log(state);
+				// console.log(state);
 				
 				if (this.isTaxable(state) && state !== 'TX') {
 					rate = await this.getTaxRate(this.getLossAddress());
 				}
 				
-				this.newInvoice = new Invoice({
-					taxRate: rate
-				})
+				this.newInvoice = new Invoice({taxRate: rate})
 
+				// await this.setFeeSchedule();
 				await this.post();
 
 			},
@@ -46,12 +41,10 @@
 				this.newInvoice.subTotal = parseFloat(this.newInvoice.subTotal)
 				this.newInvoice.id = invoice.id
 				this.newInvoice.carrier = this.claim.carrier
-				this.newInvoice.feeSchedule = this.claim.carrier.fee_schedules[0].data
-				// this.newInvoice.getTaxRate();
-				// console.log();
-				
-				// console.log(this.newInvoice.feeSchedule)
-				this.setLineItemMinimums()
+				// this.newInvoice.feeSchedule = this.claim.carrier.fee_schedules[0].data
+				this.newInvoice.feeSchedule = 0;
+
+				// this.setLineItemMinimums()
 				this.setLineItemRates()
 				this.makeDefaultLineItems()
 			},
@@ -70,6 +63,9 @@
 			},
 			toggle() {
 				return this.creatingInvoice = !this.creatingInvoice
+			},
+			setFeeSchedule(feeSchedule) {
+				return this.newInvoice.feeSchedule = feeSchedule;
 			},
 			update() {
 				window.axios.put(this.getRoute() + this.newInvoice.id, this.newInvoice.data())
@@ -125,9 +121,9 @@
 			adjusterExpenses() {
 				return [
 					this.defaultLineItems.photos, 
-					this.defaultLineItems.mileage, 
 					this.defaultLineItems.hours, 
-					this.defaultLineItems.reimbursable
+					this.defaultLineItems.reimbursable,
+					this.defaultLineItems.mileage,
 				]
 			}
 		},

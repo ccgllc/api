@@ -14,7 +14,7 @@
             <div class="columns">
                 <div id="left-side" class="column is-9">
                     <title-header></title-header>
-                    <claim-menu @status-set="setStatus" @new-status-toggle="toggleCreatingNewStatus"></claim-menu>
+                    {{-- <claim-menu @status-set="setStatus" @new-status-toggle="toggleCreatingNewStatus"></claim-menu> --}}
                     <claim-nav></claim-nav>
                     <router-view></router-view>
                 </div>  
