@@ -146,7 +146,7 @@
 				<!-- <form method="post" @submit.prevent="submit" @keydown="appData.personalInfo.errors.clear($event.target.name)"> -->
 					<input v-if="creatingGrossLoss && usesEstimates(lineItem)" v-model="newGrossLoss.gross_loss" type="input" placeholder="Add a gross loss amount" class="input" ref="grossLoss" @keyup.enter="createNewGrossLoss" @keyup.tab="createNewGrossLoss">
 					<span v-if="creatingGrossLoss && usesEstimates(lineItem)" class="icon is-left"><i class="fa fa-usd"></i></span>
-					<span v-if="creatingGrossLoss && usesEstimates(lineItem)" class="icon is-right" style="background:#209cee; color: whitesmoke;border-radius: 0 6px 6px 0; border: 1px solid; border-color: #209cee; border-left:none; cursor: pointer;" data-tooltip="Save gross loss amount"><i class="fa fa-check"></i></span>
+					<span v-if="creatingGrossLoss && usesEstimates(lineItem)" @click="createNewGrossLoss" class="icon is-right" style="background:#209cee; color: whitesmoke;border-radius: 0 6px 6px 0; border: 1px solid; border-color: #209cee; border-left:none; cursor: pointer;" data-tooltip="Save gross loss amount"><i class="fa fa-check"></i></span>
 				<!-- </form> -->
 				<!-- </div> -->
 
