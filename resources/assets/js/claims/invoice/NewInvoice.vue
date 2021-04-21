@@ -17,6 +17,13 @@
 		mounted() {
 			let address = this.getLossAddress(); 
 		},
+		computed: {
+			usesPhotos() {
+				return this.claim.carrier.fee_schedules[0].data.photoRate > 0
+					? true
+					: false;
+			}
+		},
 		methods: {
 			async createInvoice() {
 				let rate;
@@ -119,12 +126,17 @@
 				return property !== undefined ? property : this.claim.claim_data.client.addresses.find(a => a.type === 'Home');
 			},
 			adjusterExpenses() {
-				return [
-					this.defaultLineItems.photos, 
+				let items = [
 					this.defaultLineItems.hours, 
 					this.defaultLineItems.reimbursable,
-					this.defaultLineItems.mileage,
-				]
+					this.defaultLineItems.mileage
+				];
+
+				if (this.usesPhotos) {
+					items.splice(0, 0, this.defaultLineItems.photos);
+				}
+
+				return items;
 			}
 		},
 	}

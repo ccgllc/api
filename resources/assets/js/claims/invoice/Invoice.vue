@@ -69,7 +69,7 @@
 					  <div class="control">
 					  	 <!-- <label class="label is-small" for="feeSchedule">Fee Schedule</label> -->
 					    <div class="select is-info">
-					      <select v-model="invoice.feeSchedule" @change="updateFeeSchedule" id="feeSchedule">
+					      <select v-model="invoice.feeSchedule" @change="updateFeeSchedule()" id="feeSchedule">
 					        <option :value="0" disabled>Select a fee schedule to begin</option>
 					        <option 
 					        	v-for="feeSchedule in invoice.carrier.fee_schedules" 
@@ -230,18 +230,34 @@
 				this.creatingEstimate = !this.creatingEstimate
 			},
 			updateFeeSchedule() {
+				// console.log();
 				this.setRates()
 				this.setMinimums()
 				this.invoice.recalculateLineItems()
+
 				return this.update()
 			},
 			setRates() {
-				this.invoice.lineItems[2].rate = this.invoice.getHourlyRate();
-				this.invoice.lineItems[4].rate = this.invoice.getMileageRate();
+				if (this.invoice.feeSchedule.photoRate > 0) {
+					this.invoice.lineItems[2].rate = this.invoice.getHourlyRate();
+					this.invoice.lineItems[1].rate = this.invoice.getPhotoRate();
+					this.invoice.lineItems[4].rate = this.invoice.getMileageRate();
+				} else {
+					this.invoice.lineItems[1].rate = this.invoice.getHourlyRate();
+					// this.invoice.lineItems[1].rate = this.invoice.getPhotoRate();
+				  this.invoice.lineItems[3].rate = this.invoice.getMileageRate();
+				}
+				// let te = this.invoice.lineItems.find(item => item.)
+				
 			},
 			setMinimums() {
-				this.invoice.lineItems[1].minimum = this.invoice.getPhotoMinimum();
-				this.invoice.lineItems[4].minimum = this.invoice.getMileageMinimum();
+				if (this.invoice.feeSchedule.photoRate > 0) {
+					this.invoice.lineItems[1].minimum = this.invoice.getPhotoMinimum();
+					this.invoice.lineItems[4].minimum = this.invoice.getMileageMinimum();
+				} else {
+					this.invoice.lineItems[3].minimum = this.invoice.getMileageMinimum();
+				}
+				
 			},
 			buildInvoice() {
 				let invoice = new Invoice({
