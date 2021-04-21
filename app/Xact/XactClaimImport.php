@@ -73,7 +73,7 @@ class XactClaimImport extends XmlImporter {
         $this->dateOfLoss     =  str_replace('T', ' ', $this->dateOfLoss);
         // dd($this->dateOfLoss);
         $this->dateReceived    = str_replace('Z', '', $json->ADM->{'@attributes'}->dateReceived);
-        $this->dateReceived    = str_replace('T', ' ', $this->dateOfLoss);
+        $this->dateReceived    = str_replace('T', ' ', $this->dateReceived);
         // Drill down policy information
         // dd($json->ADM);
         $this->policy = new Policy($json->ADM);

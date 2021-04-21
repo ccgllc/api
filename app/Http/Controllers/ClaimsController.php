@@ -37,7 +37,7 @@ class ClaimsController extends Controller {
 			return view('claims.dashboard', compact('superAdmin', 'claims'));
 		}
 
-		return Claim::with('statuses', 'assignments.user')->orderBy('date_received', 'desc')->take(100)->get();
+		return Claim::with('statuses', 'assignments.user')->orderBy('date_of_loss', 'desc')->take(200)->get();
 
 	}
 
