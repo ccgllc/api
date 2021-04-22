@@ -70,7 +70,7 @@
 					  	 <!-- <label class="label is-small" for="feeSchedule">Fee Schedule</label> -->
 					    <div class="select is-info">
 					      <select v-model="invoice.feeSchedule" @change="updateFeeSchedule()" id="feeSchedule">
-					        <option :value="0" disabled>Select a fee schedule to begin</option>
+					        <option :value="'default'" disabled>Select a fee schedule to begin</option>
 					        <option 
 					        	v-for="feeSchedule in invoice.carrier.fee_schedules" 
 					        	:value="feeSchedule.data" 
@@ -164,25 +164,14 @@
 			if (!(this.invoice instanceof Invoice)) this.buildInvoice()
 		},
 		mounted() {
-			// if(!this.hasDefaultEstimates) {
-			// 	this.claim.estimates.push({
-			// 		gross_loss: 'erroneous',
-			// 		claim_id: this.claim.id,
-			// 		user_id: this.user.id
-			// 	},
-			// 	{
-			// 		gross_loss: 'CWOP',
-			// 		claim_id: this.claim.id,
-			// 		user_id: this.user.id,
-			// 	})
-			// }
+			
 		},
 		data() {
 			return claimData
 		},
 		computed: {
 			hasInteractedWithFeeSchedule() {
-				return _.isEmpty(this.invoice.feeSchedule) ? false : true;
+				return this.invoice.feeSchedule === 'default' ? false : true;
 			},
 			// hasDefaultEstimates() {
 			// 	let estimates = this.claim.estimates.filter(estimate => estimate.gross_loss == 'erroneous' || estimate.gross_loss == 'CWOP');

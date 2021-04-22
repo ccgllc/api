@@ -34,9 +34,10 @@ export default class ServiceFeeLineItem extends LineItem {
 		// loop through tiers to calulate service fee.
 		for (let tier of this.getNumericTiers()) {
 			if (tier >= amount) {
-				return amount > 0 
-					? parseFloat(+this.feeSchedule[tier]).toFixed(2)
-					: (0).toFixed(2)
+				return parseFloat(+this.feeSchedule[tier]).toFixed(2)
+				// return amount 
+				// 	? parseFloat(+this.feeSchedule[tier]).toFixed(2)
+				// 	: (0).toFixed(2)
 			} 
 			// if the amount is greater than the highest tier, 
 			 else if (this.highestTier() < amount ) {

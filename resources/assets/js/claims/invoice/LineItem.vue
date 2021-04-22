@@ -365,6 +365,7 @@
 			async createNewGrossLoss() {
 				this.newGrossLoss.user_id = this.user.id;
 				this.newGrossLoss.claim_id = this.claim.id;
+
 				await this.newGrossLoss.post(`/api/claims/${this.claim.id}/estimates`).then(response => {
 					this.claim.estimates.unshift(response);
 					this.creatingGrossLoss = false;

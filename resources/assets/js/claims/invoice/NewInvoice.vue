@@ -8,6 +8,7 @@
 <script>
 	import claimData from '../claimData'
 	import Invoice from './Invoice' 
+	import QuantifiableLineItem from './QuantifiableLineItem'
 	// import Form from '../../structur/src/form/Form'
 	export default {
 		name: 'createInvoice',
@@ -22,7 +23,20 @@
 				return this.claim.carrier.fee_schedules[0].data.photoRate > 0
 					? true
 					: false;
-			}
+			},
+			isSurchargeCity() {
+				let surchargeCities = ['HOUSTON', 'CHICAGO', 'MINEOLA'];
+
+				let address = this.claim.claim_data.client.addresses.find(address => address.type === 'Property')
+				!address 
+					? address = this.claim.claim_data.client.addresses.find(address => address.type === 'Home') 
+					: address = {city: 'not found'};
+
+				let search = surchargeCities.find(
+					city => city === address.city.trim().toUpperCase()
+				);
+				return search ? true : false;
+			},
 		},
 		methods: {
 			async createInvoice() {
@@ -32,7 +46,6 @@
 				state === 'TX' 	? rate = .0825 : rate = 0;
 
 				// console.log(state);
-				
 				if (this.isTaxable(state) && state !== 'TX') {
 					rate = await this.getTaxRate(this.getLossAddress());
 				}
@@ -49,7 +62,7 @@
 				this.newInvoice.id = invoice.id
 				this.newInvoice.carrier = this.claim.carrier
 				// this.newInvoice.feeSchedule = this.claim.carrier.fee_schedules[0].data
-				this.newInvoice.feeSchedule = 0;
+				this.newInvoice.feeSchedule = 'default';
 
 				// this.setLineItemMinimums()
 				this.setLineItemRates()
@@ -134,6 +147,17 @@
 
 				if (this.usesPhotos) {
 					items.splice(0, 0, this.defaultLineItems.photos);
+				}
+
+				if (this.claim.carrier.id === 21) {
+					this.defaultLineItems.adminFee.rate = 25
+					this.defaultLineItems.adminFee.quantity = 1;
+					items.push(this.defaultLineItems.adminFee);
+				}
+
+				if (this.claim.carrier.id === 20 && this.isSurchargeCity) {
+
+					items.push(this.defaultLineItems.surcharge)
 				}
 
 				return items;
