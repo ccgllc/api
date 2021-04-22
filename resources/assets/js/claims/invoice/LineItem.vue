@@ -134,7 +134,7 @@
 					<div class="select is-fullwidth" v-if="usesEstimates(lineItem) && !creatingGrossLoss">
 						<div class="tooltip"  data-tooltip="Gross Loss Amount">
 							<select v-model="lineItem.amount" @change="updateTotal()" ref="grossLossSelect">
-								<option value="0" disabled>Select Gross Loss Amount</option>
+								<option value="default" disabled>Select Gross Loss Amount</option>
 								<option v-for="estimate in estimates" :value="estimate.gross_loss" v-text="estimate.gross_loss"></option>
 								<option v-if="invoice.feeSchedule.erroneous" value="erroneous">erroneous</option>
   							<option v-if="invoice.feeSchedule.cwop"value="cwop">CWOP</option>
