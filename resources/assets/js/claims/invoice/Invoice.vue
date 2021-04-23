@@ -106,7 +106,8 @@
 					:id="key"
 					:key="key"
 					@line-item-removed="removeLineItem"
-					@line-item-updated="caclulate"
+					@line-item-updated="calculate"
+					@service-fee-updated="notifyDependentLineItems"
 					@toggle-estimate="createEstimate"
 					@creating-gross-loss-toggled="toggleCreatingGrossLoss"
 				>
@@ -150,7 +151,10 @@
 	import MileageLineItem from './MileageLineItem'
 	import ServiceFeeLineItem from './ServiceFeeLineItem'
 	import AmountLineItem from './AmountLineItem'
+	import AdminFeeLineItem from './AdminFeeLineItem'
+	import CitySurchargeLineItem from './CitySurchargeLineItem'
 	import DifferenceInTiersLineItem from './DifferenceInTiersLineItem'
+
 	export default {
 		name: 'Invoice',
 		props: ['invoice', 'carrier'],
@@ -187,7 +191,7 @@
 				// alert('toggled');
 				return this.creatingGrossLoss = !this.creatingGrossLoss;
 			},
-			caclulate() {
+			calculate() {
 				this.invoice.calculate()
 				return this.update()
 			},
@@ -226,27 +230,29 @@
 
 				return this.update()
 			},
+			notifyDependentLineItems(serviceFee) {
+				let surcharge = this.invoice.lineItems.find(item => item.type === 'CitySurchargeLineItem')
+				if (surcharge) surcharge.amount = (+serviceFee.total * .10).toFixed(2);
+				return surcharge.calculate()
+			},
 			setRates() {
-				if (this.invoice.feeSchedule.photoRate > 0) {
-					this.invoice.lineItems[2].rate = this.invoice.getHourlyRate();
-					this.invoice.lineItems[1].rate = this.invoice.getPhotoRate();
-					this.invoice.lineItems[4].rate = this.invoice.getMileageRate();
-				} else {
-					this.invoice.lineItems[1].rate = this.invoice.getHourlyRate();
-					// this.invoice.lineItems[1].rate = this.invoice.getPhotoRate();
-				  this.invoice.lineItems[3].rate = this.invoice.getMileageRate();
-				}
-				// let te = this.invoice.lineItems.find(item => item.)
+				const hourly = this.invoice.lineItems.find(item => item.type === 'HourlyRateLineItem');
+				if (hourly) hourly.rate = this.invoice.getHourlyRate();
+
+				const photo = this.invoice.lineItems.find(item => item.type === 'QuantifiableLineItem');
+				if (photo) photo.rate = this.invoice.getPhotoRate();
+
+				const mileage = this.invoice.lineItems.find(item => item.type === 'MileageLineItem');
+				if (mileage) mileage.rate = this.invoice.getMileageRate();
 				
 			},
 			setMinimums() {
-				if (this.invoice.feeSchedule.photoRate > 0) {
-					this.invoice.lineItems[1].minimum = this.invoice.getPhotoMinimum();
-					this.invoice.lineItems[4].minimum = this.invoice.getMileageMinimum();
-				} else {
-					this.invoice.lineItems[3].minimum = this.invoice.getMileageMinimum();
-				}
-				
+				const photo = this.invoice.lineItems.find(item => item.type === 'QuantifiableLineItem');
+				if (photo) photo.minimum = this.invoice.getPhotoMinimum();
+
+			  const mileage = this.invoice.lineItems.find(item => item.type === 'MileageLineItem');
+			  if (mileage) mileage.minimum = this.invoice.getMileageMinimum();
+
 			},
 			buildInvoice() {
 				let invoice = new Invoice({
@@ -280,29 +286,9 @@
 				)
 			},
 			getlineItemType(lineItem) {
-				switch(lineItem.type) {
-					case 'ServiceFeeLineItem' :
-						return new ServiceFeeLineItem(lineItem)
-						break
-					case 'QuantifiableLineItem' : 
-						return new QuantifiableLineItem(lineItem)
-						break
-					case 'MileageLineItem' : 
-						return new MileageLineItem(lineItem)
-						break
-					case 'HourlyRateLineItem' :
-						if (this.invoice instanceof Invoice) {
-							lineItem.rate = this.invoice.getHourlyRate();
-						}
-						return new HourlyRateLineItem(lineItem)
-						break
-					case 'AmountLineItem' :
-						return new AmountLineItem(lineItem)
-						break
-					case 'DifferenceInTiersLineItem' :
-						return new DifferenceInTiersLineItem(lineItem)
-						break
-				}
+				const lineItemTypes = { ServiceFeeLineItem, AmountLineItem, HourlyRateLineItem, QuantifiableLineItem, MileageLineItem,AdminFeeLineItem, CitySurchargeLineItem, DifferenceInTiersLineItem, };
+
+				return new lineItemTypes[lineItem.type](lineItem);
 			},
 			route(){
 				return '/api/claims/' + this.claim.id + '/invoices/' + this.invoice.id

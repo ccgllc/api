@@ -332,6 +332,11 @@
 		  },
 			updateTotal() {
 				this.lineItem.calculate();
+
+				if (this.lineItem.type === 'ServiceFeeLineItem') {
+					this.$emit('service-fee-updated', this.lineItem);
+				}
+
 				return this.$emit('line-item-updated');
 			},
 			toggleRoundTrip(lineItem) {

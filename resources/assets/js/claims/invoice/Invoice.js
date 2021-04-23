@@ -3,6 +3,9 @@ import QuantifiableLineItem from './QuantifiableLineItem';
 import MileageLineItem from './MileageLineItem';
 import AmountLineItem from './AmountLineItem';
 import HourlyRateLineItem from './HourlyRateLineItem';
+import AdminFeeLineItem from './AdminFeeLineItem';
+import CitySurchargeLineItem from './CitySurchargeLineItem';
+import DifferenceInTiersLineItem from './DifferenceInTiersLineItem';
 // import Form from '../../structur/src/form/Form.js';
 
 export default class Invoice {
@@ -82,11 +85,10 @@ export default class Invoice {
 	 */
 	createAdjusterExpenseLineItems(expenses) {
 		expenses.forEach(expense => { 
-			return expense.type === "AmountLineItem"
-				? this.addLineItem(new AmountLineItem(expense))
-				: expense.type === 'HourlyRateLineItem' 
-						? this.addLineItem(new HourlyRateLineItem(expense))
-						: this.addLineItem(new QuantifiableLineItem(expense))
+			// collect lineItemtypes...
+			const lineItemTypes = { AmountLineItem, HourlyRateLineItem, QuantifiableLineItem, MileageLineItem, AdminFeeLineItem, CitySurchargeLineItem, DifferenceInTiersLineItem };
+			// Create a new line ite based on the type provided
+			return this.addLineItem(new lineItemTypes[expense.type](expense));
 		});
 	}
 

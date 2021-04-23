@@ -25,16 +25,16 @@
 					: false;
 			},
 			isSurchargeCity() {
-				let surchargeCities = ['HOUSTON', 'CHICAGO', 'MINEOLA'];
+				let surchargeCities = [{city: 'HOUSTON', state: 'TX'}, {city: 'CHICAGO', state: 'IL'}, {city: 'MINEOLA', state: 'TX'}];
 
 				let address = this.claim.claim_data.client.addresses.find(address => address.type === 'Property')
-				!address 
-					? address = this.claim.claim_data.client.addresses.find(address => address.type === 'Home') 
-					: address = {city: 'not found'};
+				if (!address) address = this.claim.claim_data.client.addresses.find(address => address.type === 'Home')
+					
+				let search = surchargeCities.find(location => {
+					if (!address) address = { city: '', state: '' }
+					return location.city === address.city.trim().toUpperCase() && location.state === address.state
+				});
 
-				let search = surchargeCities.find(
-					city => city === address.city.trim().toUpperCase()
-				);
 				return search ? true : false;
 			},
 		},
@@ -76,6 +76,7 @@
 				this.defaultLineItems.photos.rate = this.newInvoice.getPhotoRate()
 				this.defaultLineItems.mileage.rate = this.newInvoice.getMileageRate()
 				this.defaultLineItems.hours.rate = this.newInvoice.getHourlyRate()
+				// if (this.isSurchargeCity) 
 			},
 			setLineItemMinimums() { 
 				this.defaultLineItems.photos.minimum = this.newInvoice.feeSchedule.photoMinimum
@@ -150,8 +151,7 @@
 				}
 
 				if (this.claim.carrier.id === 21) {
-					this.defaultLineItems.adminFee.rate = 25
-					this.defaultLineItems.adminFee.quantity = 1;
+					this.defaultLineItems.adminFee.amount = 25
 					items.push(this.defaultLineItems.adminFee);
 				}
 
