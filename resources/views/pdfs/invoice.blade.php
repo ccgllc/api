@@ -139,7 +139,7 @@
 				</thead>
 				<tbody>
 					@foreach($invoice->data->lineItems as $lineItem)
-					@if($lineItem->total > 0)
+					@if($lineItem->total != 0)
 						<tr>
 							<td>
 								@if(isset($lineItem->quantity))
@@ -152,14 +152,16 @@
 								{{ $lineItem->description }} 
 								@if($lineItem->type == 'ServiceFeeLineItem')
 									<span><em>(Gross Loss Amount: {{$lineItem->amount}})</em></span>
-								@elseif($lineItem->description == 'Mileage')
+								@elseif($lineItem->type == 'MileageLineItem')
 									{{-- 28.9 billable miles ( 78.9 total miles less 50 included miles ) --}}
 									<span><em>({{$lineItem->quantity }} total, less {{ ($lineItem->minimum) }} included)</em></span>
 								@endif
 							</td>
 							<td>
 								@if(isset($lineItem->rate))
-									{{  number_format($lineItem->rate, 2, '.', ',')}}
+									{{ $lineItem->rate }}
+									{{-- {{ number_format($lineItem->rate, 2, '.', ',') }} --}}
+									
 								@else	
 									{{ $lineItem->total }}
 								@endif
