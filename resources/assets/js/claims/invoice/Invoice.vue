@@ -101,7 +101,7 @@
 					v-for="(lineItem, key) in invoice.lineItems" 
 					v-if="hasInteractedWithFeeSchedule"
 					:invoice="invoice"
-					:lineItem="lineItem" 
+					:lineItem="lineItem"
 					:estimates="claim.estimates"
 					:id="key"
 					:key="key"
@@ -231,9 +231,15 @@
 				return this.update()
 			},
 			notifyDependentLineItems(serviceFee) {
-				let surcharge = this.invoice.lineItems.find(item => item.type === 'CitySurchargeLineItem')
-				if (surcharge) surcharge.amount = (+serviceFee.total * .10).toFixed(2);
-				return surcharge.calculate()
+				const surcharge = this.invoice.lineItems.find(item => item.type === 'CitySurchargeLineItem')
+				const serviceFees = this.invoice.lineItems.filter(item => item.type === 'ServiceFeeLineItem')
+				let total = 0
+				if (surcharge) {
+					if (serviceFees.length) serviceFees.forEach(item => total += (+item.total * .10) )
+					surcharge.amount = (total).toFixed(2);
+					return surcharge.calculate()
+				}
+				// return 0;
 			},
 			setRates() {
 				const hourly = this.invoice.lineItems.find(item => item.type === 'HourlyRateLineItem');
@@ -244,7 +250,6 @@
 
 				const mileage = this.invoice.lineItems.find(item => item.type === 'MileageLineItem');
 				if (mileage) mileage.rate = this.invoice.getMileageRate();
-				
 			},
 			setMinimums() {
 				const photo = this.invoice.lineItems.find(item => item.type === 'QuantifiableLineItem');
@@ -252,10 +257,9 @@
 
 			  const mileage = this.invoice.lineItems.find(item => item.type === 'MileageLineItem');
 			  if (mileage) mileage.minimum = this.invoice.getMileageMinimum();
-
 			},
 			buildInvoice() {
-				let invoice = new Invoice({
+				const invoice = new Invoice({
 					id: this.invoice.id,
 					carrier: this.carrier,
 				})
@@ -287,6 +291,19 @@
 			},
 			getlineItemType(lineItem) {
 				const lineItemTypes = { ServiceFeeLineItem, AmountLineItem, HourlyRateLineItem, QuantifiableLineItem, MileageLineItem,AdminFeeLineItem, CitySurchargeLineItem, DifferenceInTiersLineItem, };
+					// console.log(this.invoice.data.feeSchedule.mileageRate);
+
+				if (this.invoice instanceof Invoice) {
+					if (lineItem.type === 'ServiceFeeLineItem'){
+							lineItem.feeSchedule = this.invoice.feeSchedule;
+							lineItem.amount = 'default'
+						}
+						
+					if (lineItem.type === 'MileageLineItem') {
+							lineItem.rate = this.invoice.getMileageRate()
+						  lineItem.minimum = this.invoice.getMileageMinimum()
+						}
+					}
 
 				return new lineItemTypes[lineItem.type](lineItem);
 			},
