@@ -79,8 +79,8 @@
 				// if (this.isSurchargeCity) 
 			},
 			setLineItemMinimums() { 
-				this.defaultLineItems.photos.minimum = this.newInvoice.feeSchedule.photoMinimum
-				this.defaultLineItems.mileage.minimum = this.newInvoice.feeSchedule.mileageMinimum
+				this.defaultLineItems.photos.minimum = this.newInvoice.getPhotoMinimum()
+				this.defaultLineItems.mileage.minimum = this.newInvoice.getMileageMinimum()
 			},
 			toggle() {
 				return this.creatingInvoice = !this.creatingInvoice
