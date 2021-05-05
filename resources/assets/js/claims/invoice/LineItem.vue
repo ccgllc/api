@@ -119,21 +119,12 @@
 			  </span>
 			</div>
 
-			<!-- <span class="icon" style="width: 10%;" v-if="usesEstimates(lineItem) && creatingGrossLoss">
-				 <i class="fa fa-toggle-off"></i>&nbsp;<span>erroneous</span>
-			</span>
-			&nbsp;
-			<span class="icon" style="width: 10%;" v-if="usesEstimates(lineItem) && creatingGrossLoss">
-				 <i class="fa fa-toggle-off"></i>&nbsp;<span>cwop</span>
-			</span> -->
-
 			<!-- amount -->
 			<div class="control has-icons-left has-icons-right" v-if="lineItem.has('amount')" style="width: 30%;">
 				
-				<!-- <div class="tooltip" data-tooltip="Gross Loss Amount"> -->
-					<div class="select is-fullwidth" v-if="usesEstimates(lineItem) && !creatingGrossLoss">
+					<div class="select is-fullwidth" v-if="lineItem.type === 'ServiceFeeLineItem' && creatingGrossLoss === false">
 						<div class="tooltip"  data-tooltip="Gross Loss Amount">
-							<select v-model="lineItem.amount" @change="updateTotal()" ref="grossLossSelect">
+							<select v-model="lineItem.amount" @change="updateTotal()" :ref="`grossLossSelect-${id}`">
 								<option value="default" disabled>Select Gross Loss Amount</option>
 								<option v-for="estimate in estimates" :value="estimate.gross_loss" v-text="estimate.gross_loss"></option>
 								<option v-if="invoice.feeSchedule.erroneous" value="erroneous">erroneous</option>
@@ -142,30 +133,22 @@
 						</div>
 					</div>
 
+					<input v-if="creatingGrossLoss === id && usesEstimates(lineItem)" v-model="newGrossLoss.gross_loss" type="input" placeholder="Add a gross loss amount" class="input" :ref="`grossLoss-${id}`" @keyup.enter="createNewGrossLoss" @keyup.tab="createNewGrossLoss">
+					<span v-if="creatingGrossLoss === id && usesEstimates(lineItem)" class="icon is-left"><i class="fa fa-usd"></i></span>
+					<span v-if="creatingGrossLoss === id && usesEstimates(lineItem)" @click="createNewGrossLoss" class="icon is-right" style="background:#209cee; color: whitesmoke;border-radius: 0 6px 6px 0; border: 1px solid; border-color: #209cee; border-left:none; cursor: pointer;" data-tooltip="Save gross loss amount"><i class="fa fa-check"></i></span>
 
-				<!-- <form method="post" @submit.prevent="submit" @keydown="appData.personalInfo.errors.clear($event.target.name)"> -->
-					<input v-if="creatingGrossLoss && usesEstimates(lineItem)" v-model="newGrossLoss.gross_loss" type="input" placeholder="Add a gross loss amount" class="input" ref="grossLoss" @keyup.enter="createNewGrossLoss" @keyup.tab="createNewGrossLoss">
-					<span v-if="creatingGrossLoss && usesEstimates(lineItem)" class="icon is-left"><i class="fa fa-usd"></i></span>
-					<span v-if="creatingGrossLoss && usesEstimates(lineItem)" @click="createNewGrossLoss" class="icon is-right" style="background:#209cee; color: whitesmoke;border-radius: 0 6px 6px 0; border: 1px solid; border-color: #209cee; border-left:none; cursor: pointer;" data-tooltip="Save gross loss amount"><i class="fa fa-check"></i></span>
-				<!-- </form> -->
-				<!-- </div> -->
-
-				<span v-if="hasEstimates() && usesEstimates(lineItem) && !creatingGrossLoss" class="icon is-small is-left has-text-bold"><small>gla</small></span>
+				<span v-if="hasEstimates() && usesEstimates(lineItem) && creatingGrossLoss === false" class="icon is-small is-left has-text-bold"><small>gla</small></span>
 				
-				
-		    <div class="control has-icons-left" v-if="!usesEstimates(lineItem)">
+		    <div class="control has-icons-left" v-if="lineItem.type == 'AmountLineItem' || lineItem.type == 'CitySurchargeLineItem'">
 		    	<input  class="input" @change="updateTotal()" v-model="lineItem.amount" type="text">
 			    <span class="icon is-small is-left has-text-bold"><small>amt</small></span>
 				</div>
 			</div>
 
-
-
-			<a class="button is-small is-dark is-outlined is-rounded" v-if="usesEstimates(lineItem)" @click="toggleCreatingGrossLoss">
-					<span class="is-small" style="margin-right: .5em;"><i class="fa" :class="{'fa-plus-circle' : !creatingGrossLoss, 'fa-times-circle': creatingGrossLoss}"></i></span>
-					<span v-text="!creatingGrossLoss ? 'Add Gross Loss Amount' : 'Cancel'"></span>
+			<a class="button is-small is-dark is-outlined is-rounded" v-if="usesEstimates(lineItem)" @click="toggleCreatingGrossLoss(id)">
+					<span class="is-small" style="margin-right: .5em;"><i class="fa" :class="{'fa-plus-circle' : creatingGrossLoss === false, 'fa-times-circle': creatingGrossLoss !== false}"></i></span>
+					<span v-text="creatingGrossLoss === false ? 'Add Gross Loss Amount' : 'Cancel'"></span>
 				</a>
-
 
 			<!-- new amount -->
 			<div class="field" v-if="usesEstimates(lineItem) && lineItem.has('newAmount')">
@@ -287,8 +270,6 @@
 						waypoints.unshift(loss);
 					}
 
-					// waypoints.forEach(address => result += `${address}|` );
-
 					return waypoints;
 			}
 		},
@@ -334,7 +315,7 @@
 				this.lineItem.calculate();
 
 				if (this.lineItem.type === 'ServiceFeeLineItem') {
-					this.$emit('service-fee-updated', this.lineItem);
+					this.$emit('service-fee-updated');
 				}
 
 				return this.$emit('line-item-updated');
@@ -347,24 +328,27 @@
 				this.lineItem.showOptions = !this.lineItem.showOptions
 				return this.updateTotal()
 			},
-			async toggleCreatingGrossLoss() {
+			async toggleCreatingGrossLoss(id) {
 				// this.$emit('creating-gross-loss-toggled');
-				this.creatingGrossLoss = !this.creatingGrossLoss;
+				console.log(id)
+				this.creatingGrossLoss !== false 
+					? this.creatingGrossLoss = false
+					: this.creatingGrossLoss = id;
 
-				if (this.creatingGrossLoss) {
-					await this.getGrossLossInput().then(ele => ele.focus())
+				if (this.creatingGrossLoss !== false) {
+					await this.getGrossLossInput(id).then(ele => ele.focus())
 				}
 			},
-			async getGrossLossInput() {
+			async getGrossLossInput(id = 0) {
 				const self = this;
 				return new Promise((resolve, reject) => {
-					self.$nextTick(() => resolve(self.$refs.grossLoss))
+					self.$nextTick(() => resolve(self.$refs[`grossLoss-${id}`]))
 		 		});
 			},
-			async getGrossLossSelect() {
+			async getGrossLossSelect(id = 0) {
 				const self = this;
 				return new Promise((resolve, reject) => {
-					self.$nextTick(() => resolve(self.$refs.grossLossSelect))
+					self.$nextTick(() => resolve(self.$refs[`grossLossSelect-${id}`]))
 		 		});
 			},
 			async createNewGrossLoss() {
@@ -398,12 +382,30 @@
 				)
 			},
 		  getLossAddressString() {
-				let address = this.claim.claim_data.client.addresses.find(
-					address => address.latitude && address.longitude
-				);
-				let value = `${address.street}, ${address.city} ${address.state}, ${address.zip}`;
-				this.lineItem.locations.loss.address = value;
-				return value;
+		  	//only build address if it hasnt already been set or edited by user...
+		  	if (!this.lineItem.locations.loss.address) {
+		  			//find address by geocoded location coords...
+		  			// note if the following fails, google had trouble geolocating the address
+		  	  	// perhaps we should do soemthing with that...
+			  		let address = this.claim.claim_data.client.addresses.find(
+						address => address.latitude && address.longitude
+					);
+		  		// if no address from above, hunt one down another way
+		  		// should *never* fail, LOL!
+					if (!address) address = this.claim.claim_data.client.addresses.find(a => a.type === 'Property' || a.type==="Home")
+					// build up address string...
+					let value = `${address.street}, ${address.city} ${address.state}, ${address.zip}`;
+					// set the loss address
+					this.lineItem.locations.loss.address = value;
+					return value;
+				// otherwise, just returned the one we already built and saved.
+		  	} else {
+		  		// let address = this.claim.claim_data.client.addresses.find(a => a.type === "Property" || a.type==="Home")
+		  		return this.lineItem.locations.loss.address 
+		  			? this.lineItem.locations.loss.address
+		  			: 'Loss Location';
+		  	}
+				
 			},
 			getFinalDestination() {
 				let dest = this.lineItem.locations.loss.destinations.slice(-1);
