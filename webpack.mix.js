@@ -26,7 +26,7 @@ mix.js([
    .js('resources/assets/js/managePermissions.js', 'js')
    .js('resources/assets/js/profile/profile.js', 'js')
    .js('resources/assets/js/dispatch/dispatch.js', 'js/dispatch.js')
-   .js('resources/assets/js/dashboards/Dashboard.js', 'js/Dashboard.js')
+   .js('resources/assets/js/dashboards/Dashboard.js', 'js/dashboard.js')
    .js('resources/assets/js/dashboards/UserDashboard/UserDashboard.js', 'js/UserDashboard.js')
    .js('resources/assets/js/dashboards/AdjusterDashboard/AdjusterDashboard.js', 'js/AdjusterDashboard.js')
    .js('resources/assets/js/claims/Claims.js', 'js/claims.js')

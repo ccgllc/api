@@ -17,5 +17,5 @@
 
 @section('scripts')
 	<script> window.user = {!! $user->toJson() !!} </script>
-	<script src="{{ mix('js/Dashboard.js') }}"></script>
+	<script src="{{ mix('js/dashboard.js') }}"></script>
 @endsection
