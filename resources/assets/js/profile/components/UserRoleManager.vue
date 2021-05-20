@@ -9,7 +9,7 @@
 				>
 					<i class="fa" v-bind:class="{'fa-plus-circle': !showAll, 'fa-times-circle': showAll}"></i>
 			</span>
-		<div id="roles" class="tags" v-bind:class="{ 'showAll': showAll }" style="margin-top: .5rem;">
+		<div id="roles" class="tags are-medium" v-bind:class="{ 'showAll': showAll }" style="margin-top: .5rem;">
 			<span 
 				v-for="role in roles" 
 				v-bind:class="{ 'is-secondary' : hasRole(role.id) }" 
@@ -67,7 +67,7 @@
 
 <style>
 	#roles.tags{
-		height: 1.75rem;
+		height: 2rem;
 		overflow: hidden;
 	}
 	#roles.tags.showAll{

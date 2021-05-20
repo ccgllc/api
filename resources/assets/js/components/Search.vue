@@ -1,8 +1,33 @@
 <template>
-	 <div class="navbar-item">
+	<div class="sticky-search">
+		<div class="navbar-item" style="background: #f0f0f0; width: 100%; border-bottom: 1px solid #ccc; box-shadow: 0 2px 3px #d6d6d6;">
+      <div class="control has-icons-left" style="width: 100%;">
+          <input type="text" class="input is-medium"
+          	v-model="search.query" 
+          	@input="dynamicSearch($event)" 
+          	@keydown="detectKeyboardAction($event)"  
+          	:placeholder="placeholder()" 
+          	style="background: transparent; border:none; width: 100%;">
+          <span class="icon is-left"><i class="fa fa-search has-text-grey"></i></span>
+      </div>
+    </div>
+    <div class="menu" v-if="results.length > 0" style="width: 100%;">
+			<ul class="menu-list"">
+				<li v-for="result in results" style="list-style: none; border-radius: 7px;" v-bind:class="{selected: isSelected == result.id }">
+					<a :href="'/' + result.scope + '/' + result.id">
+						<strong>{{ result.claim_number || result.name  }}</strong> 
+						<span v-if="result.scope == 'claims'">•</span> 
+						<span style="overflow: hidden;">{{ result.insured }}</span>
+					</a> 
+				</li>
+			</ul>
+		</div>
+	</div>
+        <!-- @keydown="search.errors.clear($event.target.name) -->
+	 <!-- <div class="navbar-item">
         <div class="field">
 			<div id="search">
-				<form @submit.prevent> <!-- @keydown="search.errors.clear($event.target.name) -->
+				<form @submit.prevent> 
 					<div class="field">
 					    <input v-model="search.query" class="input is-search" type="text" @input="dynamicSearch($event)" @keydown="detectKeyboardAction($event)" :placeholder="placeholder()" style="position: relative;">
 					</div>
@@ -20,7 +45,7 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> -->
 </template>
 
 <script>
@@ -29,7 +54,7 @@
 	import _ from '../../../../node_modules/lodash/lodash.min.js';
 	export default {
 		name: 'search',
-		props: ['usersCount', 'claimsCount'],
+		// props: ['usersCount', 'claimsCount'],
 		data() {
 			return {
 				userData,
@@ -98,9 +123,27 @@
 				});
 			},
 			placeholder() {
-				return `search ${this.claimsCount} claims & ${this.usersCount} users...`
+				return `search claims, users...`
 			}
 		}
 	}
 </script>
-
+<style>
+.sticky-search {
+		position: sticky; top: 64px; z-index: 1000;
+	}
+@media screen and (min-width: 800px) {
+	.sticky-search {
+		position: sticky; top: 0; z-index: 1000;
+	}
+}
+	.menu li {
+		/*background: #292f3d; */
+		/*padding: .25em;*/
+	}
+	.menu li.selected{
+		background: #f2f2f2;
+		color: whitesmoke;
+		border: none;
+	}
+</style>

@@ -14,46 +14,37 @@
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="icon" href="/favicon.ico"> 
+    {{-- <meta user="{{ Auth::user() }}"/> --}}
 
 </head>
 <body>
     <!--[if lte IE 11]>
     <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
   <![endif]-->
-  
-    <div id="app">
-        @include('partials.support')
-        
-        @include('partials.top-bar')
+    <div class="columns is-gapless" style="">
+        <div id="app" class="column is-2" style="padding: 0; position: sticky; top: 0; z-index: 100000000; max-height: 100vh" >
+            <navigation 
+                version="{{ env('APP_VERSION') }}" 
+                application-date="{{ $user->profile->created_at->diffForHumans() }}" 
+                year="{{\Carbon\Carbon::now()->format('Y')}}"
+                logout-route="{{ route('logout') }}"
+            >
+            </navigation>
+        </div>
 
-        {{-- <div class="columns" style="margin: .25rem .25rem 0 .25rem;">
-            <div class="column is-10 is-offset-1">
-                <div class="notification is-info">
-                    <button class="delete"></button>
-                      <strong>One or more of your licenses are out of date!</strong> You must have valid, up-to-date licenses to receive claim assignments, please update your info ASAP!
-                </div>
+      <div class="column" style="background: #e0e0e0;">
+       {{--  <div class="navbar-item" style="background: #f0f0f0; width: 100%; border-bottom: 1px solid #ccc; box-shadow: 0 2px 3px #d6d6d6; position: sticky; top: 0; z-index: 100000">
+            <div class="control has-icons-left ml-4">
+                <input type="text" class="input is-medium" placeholder="search..." style="background: transparent; border:none; position: sticky; top:0;">
+                <span class="icon is-left"><i class="fa fa-search has-text-grey"></i></span>
             </div>
-        </div>
- --}}
-        <div class="columns is-gapless app-content">
-            <div class="column">
-                <div class="section is-main">
-                 @yield('content')
-                </div>
-            </div> 
+        </div> --}}
+
+            @yield('content')
+
         </div>
 
-        <div class="columns is-app-footer">
-            <div class="column has-text-centered">
-                <span class="has-text-centered"><small><strong>CCG CMS Version {{ env('APP_VERSION') }}</strong></small></span><br>
-                <small>© Claim Consultant Group {{ \Carbon\Carbon::now()->format('Y') }}. All rights reserved.</small>
-            </div>
-        </div>
-
-        
-       
     </div>
-
 
     <!-- Scripts -->
     <script>window.user = {!! json_encode(Auth::user()) !!}</script>

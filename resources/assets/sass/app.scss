@@ -42,10 +42,10 @@ hr {
 .section.is-main {
 	// padding: 1.5rem;
 	@media screen and (max-width: 700px) {
-	 	padding-top: 1rem;
+	 	// padding-top: 1rem;
 	}
 	@media screen and (min-width: 1280px) {
-	 	padding-top: 2rem;
+	 	// padding-top: 2rem;
 	}
 }
 
@@ -67,6 +67,15 @@ input[type=number]::-webkit-inner-spin-button {
     color: #333;
     text-align:center;
     position:relative;
+}
+
+@media screen and (min-width: 1024) {
+	#app {
+		position: --webkit-sticky; 
+		position: sticky; 
+		top: 0; 
+		align-self: flex-start;
+	}
 }
 
 .app-switcher{
@@ -140,9 +149,8 @@ input[type=number]::-webkit-inner-spin-button {
 		& a:hover {
 			background: $darker;
 		}
-		color: #efefef;
 		.navbar-burger {
-			color: $light-gray;
+			color: #7683a2;
 		}
 	}
 	.navbar-item {
@@ -282,7 +290,7 @@ h1.hr-title {
 		height: 200px;
 	}
 	border-radius: 256px; 
-	border: 10px solid #ccc; 
+	border:10px solid $darker; 
 	cursor: pointer;
 }
 
@@ -506,7 +514,7 @@ a.card-header-icon.is-danger {
 	&.is-warning {
 		background: $warning;
 	}
-	background: #D9D9D9;
+	// background: #D9D9D9;
 }
 // card content tag
 .tag:not(body) {
@@ -758,9 +766,9 @@ a.is-menu-button:hover{
 	margin-left: 0;
 	margin-right: 0;
 	margin-bottom: 0;
-	margin-top: 5rem;
+	// margin-top: .75em;
 	background: $gray;
-	padding: 1.5rem;
+	padding: 1rem;
 	strong {
 		color: #7683a2;
 	}

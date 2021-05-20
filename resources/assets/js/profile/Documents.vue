@@ -1,17 +1,21 @@
 <template>
-	<div id="documents">
-		<h1 class="profile-title">My Documents</h1><br>
+	<page title="Your Documents" description="Documents uploaded by you, keep an updated resume here.">
+		<div class="columns" style="padding: 2em 0 2em 2em; background: #f2f2f2; margin-left: .025em; margin-right: .025em;">
+			<div class="column">
+				<file 
+					v-for="doc in documents" 
+					:key="doc.id"
+					:user-id="userId"
+					:file="doc"
+					v-on:file-deleted="remove"
+				>	
+				</file>
+			</div>
+	</div>
 
-		<file 
-			v-for="doc in documents" 
-			:key="doc.id"
-			:user-id="userId"
-			:file="doc"
-			v-on:file-deleted="remove"
-		>	
-		</file>
-		
-		<br><button class="button is-info" @click="creatingNewFile = !creatingNewFile">Upload File</button>
+	<div class="columns" style="padding: 2em 0 2em 2em; margin-left: .025em; margin-right: .025em;">
+		<button class="button is-info" @click="creatingNewFile = !creatingNewFile">Upload File</button>
+	</div>
 
 		<div class="modal" v-bind:class="{ 'is-active': creatingNewFile }">
 			<div class="modal-background"></div>
@@ -76,17 +80,19 @@
 			  <!-- <button class="modal-close is-large" aria-label="close"></button> -->
 			</div>
 
-	</div>
+	</page>
 
 </template>
 
 <script>
+	import page from '../components/Page.vue';
 	import FormWithFiles from '../structur/src/form/FormWithFiles';
 	import file from './components/File.vue';
 	export default {
 		name: 'Documents',
 		components: {
-			file
+			file,
+			page
 		},
 		mounted() {
 			this.userId = window.userData.id;

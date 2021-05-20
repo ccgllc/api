@@ -1,5 +1,5 @@
 <template>
-	<div class="columns" style="margin-top: 1rem;">
+	<div class="columns" style="padding: 2em; margin: 0.05em 0.025em 0 0; background: #f2f2f2; overflow: hidden;">
 		<div class="column is-2">
 			<p><strong>Email</strong>:</p>
 		</div>

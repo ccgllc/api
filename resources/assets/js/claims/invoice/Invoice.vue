@@ -230,7 +230,7 @@
 
 				return this.update()
 			},
-			notifyDependentLineItems(serviceFee) {
+			notifyDependentLineItems() {
 				const surcharge = this.invoice.lineItems.find(item => item.type === 'CitySurchargeLineItem')
 				const serviceFees = this.invoice.lineItems.filter(item => item.type === 'ServiceFeeLineItem')
 				let total = 0

@@ -1,23 +1,23 @@
 <template>
-	<div id="Licenses">
-		<button @click="creatingNewLicense = !creatingNewLicense;" class="button is-info">{{ buttonText}}</button><br><br>
-		<div class="columns is-multiline">
+	<page title="Adjuster Licenses" description="Always keep your license data up-to-date">
+		<!-- <div class="columns"> -->
 			<License 
-				v-for="license in adjusterLicenses" 
+				v-for="(license, idx) in adjusterLicenses" 
 				:key="license.id" 
 				:license="license" 
 				:states="states" 
 				:months="months" 
 				:currentYear="currentYear"
+				:background="(idx % 2 ) === 0 ? 'background: #f2f2f2;' : 'background: transparent;'"
 				@update='update'
 				@remove="remove"
 			>
 			</License>
-	 	</div>
-		<br>
-
-		<div class="modal" v-bind:class="{ 'is-active': creatingNewLicense }">
-			<div class="modal-background"></div>
+	 	<!-- </div> -->
+		<button @click="creatingNewLicense = !creatingNewLicense;" class="button is-info" style="margin-left: 2em;">{{ buttonText}}</button><br><br>
+		<!-- </div> -->
+	<div class="modal" v-bind:class="{ 'is-active': creatingNewLicense }">
+			<div class="modal-background" style="background: #eee"></div>
 			<div class="modal-card">
 			    <header class="modal-card-head">
 			      <p class="modal-card-title">Add a new Adjuster License</p>
@@ -89,12 +89,11 @@
 			  </div>
 			  <!-- <button class="modal-close is-large" aria-label="close"></button> -->
 			</div>
-
-
-	</div>
+	</page>
 </template>
 
 <script>
+	import page from '../components/Page.vue';
 	import License from './components/License.vue';
 	import Form from '../structur/src/form/Form.js';
 	import states from '../data/states.js';
@@ -103,6 +102,7 @@
 		name: 'Licenses',
 		components: {
 			License,
+			page,
 		},
 		mounted() {
 			this.adjusterLicenses = window.userData.adjuster_licenses;
@@ -112,7 +112,7 @@
 		},
 		computed: {
 			buttonText() {
-				return this.creatingNewLicense ? 'cancel' : 'Add License';
+				return this.creatingNewLicense ? 'cancel' : 'Add A License';
 			}
 		},
 		data() {

@@ -1,5 +1,5 @@
 <template>
-	<div class="columns">
+	<div class="columns" style="padding: 1em;">
 		<div class="column">
 			<invoices></invoices>
 			<new-invoice></new-invoice>

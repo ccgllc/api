@@ -146,6 +146,16 @@ class ProfileController extends Controller {
    		
 	}
 
+	public function givePermission($userId, $permissionId)
+	{
+		return $this->getUser($userId)->permissions()->attach($permissionId);
+	}
+
+	public function revokePermission($userId, $permissionId)
+	{
+		return $this->getUser($userId)->permissions()->detach($permissionId);
+	}
+
 	public function license(Request $request, $id)
 	{
 		$valid = $request->validate([
@@ -165,6 +175,7 @@ class ProfileController extends Controller {
 	{
 		// return $request->all();
 		$valid = $request->validate([
+			'license_state' => 'required|max:2',
 			'license_number' => 'required',
 			'expiration_month' => 'required|numeric',
 			'expiration_year' => 'required|numeric'

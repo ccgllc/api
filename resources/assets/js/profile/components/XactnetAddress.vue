@@ -1,6 +1,6 @@
 <template>
-	<div class="columns">
-	<div class="column is-4">
+	<div class="columns" style="overflow: hidden;">
+	<div class="column">
 		<form @submit.prevent="submit" @keydown="errors.clear($event.target.name)">
 			<div class="field" v-show="editing" style="margin-top: -5px;">
 				<div class="control has-icons-left">

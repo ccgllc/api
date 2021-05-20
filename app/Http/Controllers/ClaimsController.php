@@ -19,6 +19,7 @@ class ClaimsController extends Controller {
     public function __construct()
     {
         $this->middleware('auth', ['except' => ['store', 'getClaimStatuses']]);
+        $this->middleware('dashboard', ['only' => ['index']]);
     }
 
 	/**
@@ -30,11 +31,11 @@ class ClaimsController extends Controller {
 	{
 		if (!$request->ajax()){
 			// auth()->loginUsingId(5);
-			$superAdmin = auth()->user();
+			$user = auth()->user();
 		   $claims = Claim::with('statuses', 'assignments.user')->take(100)->get();
 		   // dd(json_decode($claim->claim_data));
 			// dd($superAdmin);
-			return view('claims.dashboard', compact('superAdmin', 'claims'));
+			return view('claims.dashboard', compact('user', 'claims'));
 		}
 
 		return Claim::with('statuses', 'assignments.user')->orderBy('date_of_loss', 'desc')->take(200)->get();

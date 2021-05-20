@@ -1,4 +1,6 @@
 <?php
+
+use CCG\Http\Controllers\PermissionsController;
 // use Laravel\Socialite\Facades\Socialite;
 
 // Route::get('/mailable', function () {
@@ -75,6 +77,7 @@ Route::resource('users/{id}/roles', 'UserRolesController');
 Route::get('users/verify/{token}', 'UsersController@verifyAccount');
 
 Route::resource('roles', 'RolesController');
+Route::resource('permissions', 'PermissionsController');
 
 Route::resource('invoices', 'InvoiceController');
 

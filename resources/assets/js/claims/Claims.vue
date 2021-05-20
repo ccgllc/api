@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div>
-			<h1 class="title">Claims ({{claims.length}})</h1>
+			<!-- <h1 class="title">Claims ({{claims.length}})</h1> -->
 			<table class="table is-striped is-full-width">
 				<thead>
 					<tr>

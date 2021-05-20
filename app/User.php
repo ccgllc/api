@@ -2,6 +2,8 @@
 
 namespace CCG;
 
+use CCG\Carrier\Carrier;
+use CCG\Claims\Claim;
 use CCG\ModelFilters\QueryFilter;
 use CCG\Notifications\ResetPassword;
 use CCG\Role;
@@ -50,6 +52,11 @@ class User extends Authenticatable
         return $this->belongsToMany(\CCG\Role::class);
     }
 
+    public function permissions()
+    {
+      return $this->morphToMany('CCG\Permission', 'permissionable');
+    }
+
     public function assignRole($role)
     {
         return $this->roles()->save(
@@ -60,7 +67,7 @@ class User extends Authenticatable
     public function revokeRole($role)
     {
         return $this->roles()->detach(
-                Role::whereName($role)->firstOrFail()
+              Role::whereName($role)->firstOrFail()
             );
     }
 
@@ -75,9 +82,14 @@ class User extends Authenticatable
 
     public function hasPermissionTo($permission)
     {
+        // \DB::enableQueryLog();
         foreach($this->roles as $role) {
-            if ($role->hasPermissionTo($permission)) return true;
+          if ($role->hasPermissionTo($permission)) return true;
         }
+        foreach ($this->permissions as $perm) {
+          if ($permission === $perm->name) return true;
+        }
+        // dd(\DB::getQueryLog());
         return false;
     }
 
@@ -184,14 +196,31 @@ class User extends Authenticatable
 
     public function scopeClaims()
     {
-      // return $this->hasManyThrough(\CCG\Claims\Claim::class, \CCG\Claims\Assignment::class);
-      $assignments = $this->assignments->load(['claim' => function($query) {
-        $query->orderBy('date_of_loss', 'desc');
-      }, 'claim.carrier']);
+
+      $assignments = $this->assignments->load([
+        'claim' => function($query) {
+          $query->orderBy('date_of_loss', 'desc');
+        }, 
+        'claim.carrier'
+      ]);
+
+     if ($assignments->isNotEmpty()) 
+        return $assignments->pluck('claim');
+
+      else if ($assignments->isEmpty() && $this->hasRole('reviewer')) {
+        $filtered = $this->permissions->filter(function($permission) {
+          return str_contains($permission->name, 'claims');
+        });
+        $carrierIds = $filtered->map(function($permission){
+          return $permission->embedded_id;
+        });
+        $claims = Claim::with('carrier')->whereIn('carrier_id', $carrierIds)->get();
+        // $claims = $carriers->map(function($carrier) {
+        //   return $carrier->claims;
+        // });
+        return $claims->all();
+      } 
       
-      return $assignments->pluck('claim');
-      // $
-      // return $assignments-;
     }
 
       /**

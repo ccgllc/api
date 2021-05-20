@@ -1,7 +1,7 @@
 <template>
 	<!-- <div class="card">
 		<div class="card-content"> -->
-			<div class="content" style="margin: 3rem;">
+			<div class="content" style="">
 				<!-- <h3 class="is-size-3" style="font-weight: 700; color: #343b4d;">
 					Timeline
 				</h3> -->

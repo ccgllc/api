@@ -1,5 +1,5 @@
 <template>
-	<div class="column is-half">
+	<div class="column" style="padding: 2em;">
 		<div class="card">
 			<header class="card-header">
 			    <p class="card-header-title">

@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 // import Croppa from 'vue-croppa';
 
 import Claims from './Claims.vue';
+import page from '../components/Page'
 // import Claim from './Claim.vue';
 // import Documents from './Documents';
 // import Certifications from './Certifications';
@@ -36,6 +37,7 @@ const ClaimsVue = new Vue({
 	router,
 	components: {
 		// profileNavigation,
+		page
 	},
 	mounted() {
 		// this.user = window.userData;

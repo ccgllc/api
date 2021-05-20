@@ -28,6 +28,8 @@ Route::namespace('Api\Profile')
 	->middleware('auth:api')
 	->group(function () {
 		Route::put('users/{id}/role', 'ProfileController@role');
+		Route::post('users/{userId}/permissions/{permissionId}', 'ProfileController@givePermission');
+		Route::delete('users/{userId}/permissions/{permissionId}', 'ProfileController@revokePermission');
 		Route::patch('user/{id}/status', 'ProfileController@status');
 		Route::patch('user/{id}/referral', 'ProfileController@referral');
 		Route::put('user/{id}/xactnet_address', 'ProfileController@xactnetAddress');

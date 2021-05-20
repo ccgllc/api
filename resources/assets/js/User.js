@@ -8,6 +8,7 @@ import workHistory from './data/workHistory.js';
 import userStatuses from './data/userStatuses.js';
 import filterableDropdown from './structur/src/components/SearchableDropdown.vue';
 import availableColumns from './data/availableColumns.js';
+import page from './components/Page';
 import { DateTime } from "luxon";
 // Vue.component('search', search);
 
@@ -16,6 +17,7 @@ let app = new Vue({
 	el: '#user',
 	components: {
 		filterableDropdown,
+		page
 	},
 	data: {
 		date: {},
@@ -137,6 +139,7 @@ let app = new Vue({
   //       // fields in the form.
   //   	this.autocomplete.addListener('place_changed', () => { this.setHome() });
   		// this.filters.endDate = 
+  		// this.user = window.user;
   		this.date = DateTime.local();
   		this.setupDates();
         this.current_page = window.users.current_page;

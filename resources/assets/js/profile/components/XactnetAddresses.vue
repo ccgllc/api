@@ -1,5 +1,5 @@
 <template>
-	<div class="columns" style="margin-top: 1rem;">
+	<div class="columns" style="padding: 2em; margin-right: .025em; margin-left: .05em; margin-bottom: .05em; overflow: hidden;">
 		<div class="column is-2">
 			<p><strong>Xactnet Addresses</strong>: </p> 
 		</div>

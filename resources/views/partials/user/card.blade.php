@@ -26,7 +26,7 @@
 		    		
 		    		{{-- <br> --}}
 		    		<div class="current-status">
-		    			<h4>My Status</h4>
+		    			{{-- <h4>Availability</h4> --}}
 		    			<availability :is-available="user.available" :user-id="user.id" v-on:availability-changed="updateAvailability"></availability>
 		    		</div>
 		    	</div>

@@ -6,7 +6,7 @@
 
 @section('content')
 	<div id="dashboard">
-		<router-view></router-view>
+		{{-- <router-view></router-view> --}}
 	</div>
 @endsection
 

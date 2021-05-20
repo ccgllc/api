@@ -2,6 +2,7 @@
 
 namespace CCG\Providers;
 
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -14,7 +15,15 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         // $user = \Auth::loginUsingId(1);
-        // \View::share('user', $user);
+       View::composer('*', function($view){
+             $user = \Auth::user();
+            // dd($user);
+            if ($user) {
+                $user->load('avatar', 'permissions', 'roles.permissions', 'assignments.claim');
+                $user->claims = $user->claims();
+            }
+            View::share('user', $user);
+       });
     }
 
     /**

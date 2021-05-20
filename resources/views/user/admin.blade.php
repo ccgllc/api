@@ -3,14 +3,15 @@
 @section('title') Manage Users @endsection
 
 @section('content')
-		<div class="columns is-gapless">
-			<div class="column" id="user">
-				<h1 class="title hr-title">
+	<page title="Manage Users" description="Filter, sort, and find sytem users." id="user" style="margin: 1em;">
+		<div class="columns is-gapless" style='margin: 0; padding:2em; overflow: hidden;'>
+			<div class="column">
+				{{-- <h1 class="title hr-title">
 					@if (isset($status)) {{ $status}} : @endif
 					Users  
 					@if(isset($state)) From {{ $state }} @endif 
 					<span v-text="userCount" style="font-weight:700"></span></h1>
-				<h2 class="subtitle">Update and filter system users</h2>
+				<h2 class="subtitle">Update and filter system users</h2> --}}
 
 				<button class="button" :class="{ 'is-light': showFilters, 'is-dark': !showFilters }" @click='showFilters = !showFilters'>
 					<i v-if="showFilters != true" class="fa fa-filter" aria-hidden="true"></i>
@@ -255,6 +256,7 @@
 			</div>
 		</div>
 		<br><br>
+	</page>
 @endsection
 
 @section('scripts')

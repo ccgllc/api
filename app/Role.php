@@ -45,7 +45,7 @@ class Role extends Model
      */ 
     public function permissions()
     {
-    	return $this->belongsToMany(Permission::class);
+    	return $this->morphToMany('CCG\Permission', 'permissionable');
     }
 
     public function scopeOfType($query, $type)

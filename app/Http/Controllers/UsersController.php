@@ -4,6 +4,7 @@ namespace CCG\Http\Controllers;
 
 use CCG\Auth\ConfirmsEmails;
 use CCG\Certification;
+use CCG\Permission;
 use CCG\Role;
 use CCG\User;
 use Illuminate\Http\Request;
@@ -14,7 +15,8 @@ class UsersController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['verifyAccount']], 'dashboard');
+        $this->middleware('auth', ['except' => ['verifyAccount']]);
+        $this->middleware('dashboard', ['only' => ['index', 'show']]);
     }
     /**
      * Display a listing of the resource.
@@ -23,6 +25,8 @@ class UsersController extends Controller
      */
     public function index(Request $request)
     {
+        $user = \Auth::user();
+        $user->load('avatar');
         if ($request->has('status')) {
             $users =  User::status($request->status)->recent()->paginate(36);
             $status = ucwords($request->status).'s';
@@ -34,7 +38,7 @@ class UsersController extends Controller
             //     dd($user->workHistory);
             //     // $user->xp = $user->workHistory->sum();
             // });
-            return view('user.admin', compact('users'));
+            return view('user.admin', compact('users', 'user'));
          }
     }
 
@@ -109,13 +113,15 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        $user = User::findOrFail($id)->load([
-            'roles', 'profile', 'xactnetAddresses', 'adjusterLicenses', 'documents', 'workHistory', 'certifications', 'softwareExperiences', 'avatar',
+        // $user = \Auth::user()->load('avatar');
+        $profile = User::findOrFail($id)->load([
+            'roles.permissions', 'profile', 'xactnetAddresses', 'adjusterLicenses', 'documents', 'workHistory', 'certifications', 'softwareExperiences', 'avatar', 'permissions',
         ]);
         $roles = Role::all();
-        $user->role = $this->prepareRolesForDisplay($user->roles);
-        $user->claims = $user->claims();
-        return view('profile.show', compact('user', 'roles'));
+        $permissions = Permission::all();
+        $profile->role = $this->prepareRolesForDisplay($profile->roles);
+        $profile->claims = $profile->claims();
+        return view('profile.show', compact('profile', 'roles', 'permissions'));
     }
 
      /**

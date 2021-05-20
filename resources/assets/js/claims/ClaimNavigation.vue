@@ -1,8 +1,8 @@
 <template>
-	<div class="columns">
+	<div class="columns" style="padding: 0;">
 		<div class="column">
 			<div class="tabs is-left">
-			  <ul>
+			  <ul style="margin-left: 0;">
 			  <!--   <li class=""> -->
 			      <router-link to="/" tag="li" exact>
 			      	<a>

@@ -1,16 +1,16 @@
 <template>
-	<div class="columns">
+	<div class="columns is-gapless">
 		<div class="column">
-			<div class="card">
-				<div class="card-content">
-					<div class="content">
-						<div class="columns">
+			<!-- <div class="card"> -->
+				<!-- <div class="card-content"> -->
+					<div class="content" style="background: #f8f7f7">
+						<div class="columns is-gapless">
 
 							<div class="column is-4">
 								<claim-map></claim-map>
 							</div>
 
-	    				<div class="column">
+	    				<div class="column" style="margin: 1em;">
 		    				<h3 class="subtitle" style="color: #bbb; font-size: .8em;">Insured</h3>
 								<h2 class="title" style="font-size: 2em; font-weight: 700; color:#499BE8">{{ ucwords(claim.claim_data.client['name']) }}</h2>
 								<p><strong>Claim# </strong> {{ claim.claim_number }}</p>
@@ -21,7 +21,7 @@
 	    				</div><!-- end column -->
 
 							
-							<div class="column">
+							<div class="column" style="margin: 1em;">
 		    					<!-- <div class="card"> -->
 		    						<!-- <div class="card-content"> -->
 		    							<dl class="dl-horizontal">
@@ -34,7 +34,7 @@
 		    					<!-- </div> -->
 		    				</div><!-- end column -->
 
-		    				<div class="column">
+		    				<div class="column" style="margin: 1em;">
 		    					<div v-if="claim.claim_data.accessContact">
 			    					<h3 class="subtitle" style="color: #aaa; font-size: .8em;" v-if="accessContact">Access Contact</h3>
 									<h2 class="title" style="font-size: 1.25em;" v-if="claim.claim_data.accessContact.name">{{ claim.claim_data.accessContact.name }}</h2>
@@ -62,8 +62,8 @@
 							
 						</div><!-- end columns -->
 					</div>
-				</div>
-			</div>
+				<!-- </div> -->
+			<!-- </div> -->
 		</div><!-- end column -->
 	</div><!-- end columns -->
 </template>

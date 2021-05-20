@@ -141,7 +141,8 @@ trait ManagesImportedClaims {
         // $label === 'TFPA - Claim Consultant Group' ? $label = 'TFPA' : $label;
         // var_dump($label);
         is_numeric($data) ? $column = 'xact_carrier_id': $column = 'label';
-    	$this->carrier = Carrier::where($column, $data)->firstOrFail();
+    	$this->carrier = Carrier::where($column, $data)->first();
+        if (!$this->carrier) $this->carrier = Carrier::find(16);
     	return $this->carrier->id;
     }
 

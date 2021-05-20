@@ -6,10 +6,10 @@
 
 @section('content')
         
-    
-<div class="columns">
-    <div class="column is-12">
-        <div id="claims">
+    <div id="claims" style="margin: 1em;">
+        <page title="Claims" description="A simple list of claims, much more to come...">
+        <div class="columns">
+            <div class="column is-12">
             {{-- <title :text="titleText" :other="otherText"></title> --}}
             <!-- <navigation></navigation> -->
             <router-view btn-text='Create Claim'></router-view>
@@ -24,7 +24,7 @@
 
     <script type="text/javascript">
         // $('#claims').addClass('active');
-		var superAdmin = {!! json_encode($superAdmin) !!};
+		//var superAdmin = {! json_encode($superAdmin) !!};
         // var claims = { $claims !!};
 		// console.log(superAdmin);
     </script>

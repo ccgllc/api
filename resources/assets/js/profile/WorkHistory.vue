@@ -1,8 +1,8 @@
 <template>
-	<div id="workHistory">
-		<h1 class="profile-title">My Work History</h1> 
-		<br>
-		<div class="columns is-multiline">
+	<page title="My Work History" description="Keep your work history up-to-date">
+		<!-- <h1 class="profile-title">My Work History</h1> 
+		<br> -->
+		<div class="columns is-multiline" style="padding: 2em; margin-left: .025em; margin-right: .025em; background: #f2f2f2">
 			<div class="column is-3" v-for="(value, key) in workHistory" v-if="value != 0">
 				<div class="card">
 					<header class="card-header" :class="{'is-dark': key.includes('claims'), 'is-info': key.includes('experience')}"> 
@@ -23,7 +23,13 @@
 				</div>
 			</div>
 		</div>
-			<a class="button is-info" @click="showForm = !showForm">Add Work History</a>
+
+		<div class="columns" style="padding: 2em; margin-left: .025em; margin-right: .025em;">
+			<div class="column">
+				<a class="button is-info" @click="showForm = !showForm">Add Work History</a>
+			</div>
+		</div>
+			
 			<!-- <form @submit.prevent="save" > -->
 			<div class="modal" :class="{ 'is-active': showForm }">
 			  <div class="modal-background"></div>
@@ -101,16 +107,20 @@
 			  </div>
 			</div> <!-- end modal -->
 		<!-- </form> -->
-	</div>
+	</page>
 </template>
 
 <script> 
 	import Form from '../structur/src/form/Form';
+	import page from '../components/Page.vue';
 	export default {
 		name: 'WorkHistory',
 		mounted() {
 			// console.log(window.userData.work_history);
 			this.workHistory = this.setup(window.userData.work_history);
+		},
+		components: {
+			page
 		},
 		data() {
 			return {

@@ -52,7 +52,7 @@
 		},
 		methods: {
 			submit() {
-				this.role.post('api/role').then( response => {
+				this.role.post('/api/role').then( response => {
 					console.log(response);
 					// TODO: Update Roles list in parent component.
 					this.$emit('addRole', response);

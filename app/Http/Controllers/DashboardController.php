@@ -16,21 +16,24 @@ class DashboardController extends Controller
 
     public function show(Request $request)
     {
+        return view('dashboard.show');
+        // $user = \Auth::user();
        // $user = \Auth::onceUsingId(779);
         // $user = User::find(677);
-        $user = User::find(683);
+        // $user = User::find(683);
           // dd($user);
         // $user->load('claims', 'claims.invoices');
         // dd($user);
         // $user = $request->user();
-        if ($user->role) {
-            $data = $this->getDashboardData($user);
-            $view = 'dashboard.'.$user->role;
-            return view($view, compact('data'));
-        }
-        else {
-            return redirect('/profile');
-        }
+        // $user->role = 'dispatch';
+        // if ($user->role) {
+        //     $data = $this->getDashboardData($user);
+        //     $view = 'dashboard.'.$user->role;
+        //     return view($view, compact('data'));
+        // }
+        // else {
+        //     return redirect('/profile');
+        // }
        	
     }
 

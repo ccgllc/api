@@ -1,7 +1,6 @@
 <template>
-	<div id="certifications">
-		<h1 class="profile-title">My Certifications</h1><br>
-		<div class="columns is-multiline" id="certifications">
+	<page title="My Certifications" description="Your industry certifications">
+		<div class="columns is-multiline" style="padding: 2em; background: #f2f2f2; margin-left: .025em; margin-right: .025em;">
 			<div class="certification column is-3"  v-for="cert in certifications">
 				<div class="card">
 					<div class="card-content">
@@ -23,8 +22,8 @@
 				</div>
 			</div>
 		</div>
-		<h1 class="profile-title">Software Experience</h1><br>
-		<div class="columns is-multiline" id="certifications">
+		
+		<div class="columns is-multiline"  style="padding: 2em; margin-left: .025em; margin-right: .025em;">
 			<div class="certification column is-3"  v-for="exp in softwareExperiences">
 				<div class="card">
 					<div class="card-content">
@@ -44,15 +43,17 @@
 					</div>
 				</div>
 			</div>
-		</div>
+			</div>
 
+			<div class="columns" style="padding: 2em; margin-left: .025em; margin-right: .025em;">
+				<div class="column">
+						<!-- =====================BUTTON===================== -->
+						<button class="button is-info" @click="creatingNew = !creatingNew">Add new</button>
+						<!-- =====================BUTTON===================== -->
+				</div>
+			</div>
 
-		<!-- =====================BUTTON===================== -->
-		<br><button class="button is-info" @click="creatingNew = !creatingNew">Add new</button>
-		<!-- =====================BUTTON===================== -->
-
-
-		<div class="modal" v-bind:class="{ 'is-active': creatingNew }">
+			<div class="modal" v-bind:class="{ 'is-active': creatingNew }">
 			<div class="modal-background"></div>
 			<div class="modal-card">
 			    <header class="modal-card-head">
@@ -114,18 +115,21 @@
 			    </footer>
 			  </div>
 			  <!-- <button class="modal-close is-large" aria-label="close"></button> -->
-			</div>		
+		</div>	
 
-	</div>
+	</page>
+
 </template>
 
 <script>
 	import Form from '../structur/src/form/Form';
+	import page from '../components/Page';
 	import expiration from '../components/Expiration.vue';
 	export default {
 		name: 'Certifications',
 		components: {
 			expiration,
+			page
 		},
 		mounted(){
 			this.certifications = window.userData.certifications;
