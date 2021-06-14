@@ -64,10 +64,15 @@
 					</p>
 				</div>
 				<div class="col-xs-5 text-right">
-					<span style="font-family:sans-serif; font-weight: 700; font-size:6em; text-transform: uppercase; line-height: 1.1em;text-shadow: 5px 5px #3882b0;">Invoice</span> <br>
+					@if($invoice->is_supplement) 
+						<span style=" font-size: 1.25em; font-weight: 700; text-transform: uppercase; padding-right: 2em;">Supplement &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><br>
+					@endif
+					<span style="font-family:sans-serif; font-weight: 700; font-size:6em; text-transform: uppercase; line-height: 1.1em;">	
+						<span>Invoice</span>
+					</span><br>
 					<strong>Date:</strong> <span style="color: #3a81af;font-size:1.25em;">{{ $invoice->created_at->format('m/d/Y') }}</span>&nbsp;
 					<span >|</span>&nbsp;
-					<strong>Invoice #:</strong> <span style="color: #3a81af; font-size:1.25em;">{{ $invoice->claim->claim_number }}</span>&nbsp;
+					<strong>Invoice #:</strong> <span style="color: #3a81af; font-size:1.25em;">{{ $invoice->claim->claim_number }}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					{{-- <span></span>  --}}
 				</div>
 			</div>	
@@ -82,7 +87,7 @@
 				<span style="color: #3a81af;">{{ $invoice->claim->claim_number }}</span> 
 				&nbsp;<span >|</span>&nbsp;
 				<strong style="">Gross Loss Amount</strong>:
-				<span style="color: #3a81af; margin-right: 2em;">{{ $invoice->data->lineItems[0]->amount }}</span> &nbsp;| &nbsp;
+				<span style="color: #3a81af; margin-right: 2em;">{{ $invoice->is_supplement ? $invoice->data->lineItems[0]->newAmount : $invoice->data->lineItems[0]->amount }}</span> &nbsp;| &nbsp;
 				<strong style="">Policy Number</strong>:
 				<span style="color: #3a81af; margin-right: 2em;">{{ $invoice->claim->claim_data->policy->policyNumber }}</span>
 			<hr>

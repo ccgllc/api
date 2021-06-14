@@ -9,31 +9,22 @@
 
     <search></search> 
 
-    <page :title="`Claim # ${claim.claim_number} • ${claim.statuses[0].name}`" :description="claim.carrier.name"  style="margin: 1em;">
-     {{--  <div class="columns" style="padding:; 2em;">
-        <div class="column"> --}}
-          <div class="columns" style=" background: #f2f2f2; margin-left: .025em; margin-right: .025em;">
-            <div id="left-side" class="column">
-              {{-- <title-header></title-header> --}}
-              {{-- <claim-menu @status-set="setStatus" @new-status-toggle="toggleCreatingNewStatus"></claim-menu> --}}
-              <claim-nav></claim-nav>
-              <router-view></router-view>
-            </div>  
+    <page :title="claimTitle()" :description="claim.carrier.name"  style="margin: 1em;">
+      <div class="columns" style=" background: #f2f2f2; margin-left: .025em; margin-right: .025em;">
+        <div id="left-side" class="column">
+          <claim-nav></claim-nav>
+          <router-view></router-view>
+        </div>  
+      </div>
 
-            {{-- <div id="right-side" class="column is-2">
-                <assignees @status-set="setStatus" @new-status-toggle="toggleCreatingNewStatus"></assignees>
-                <timeline></timeline>
-            </div> --}}
-        </div>
+      <new-status 
+        @new-status-toggle="toggleCreatingNewStatus()"
+      >   
+      </new-status>
 
-          <new-status 
-              @new-status-toggle="toggleCreatingNewStatus()"
-          >   
-          </new-status>
-
-        </div>
+        {{-- </div> --}}
       {{-- </div> --}}
-    {{-- </page> --}}
+    </page>
   </div>
 @endsection
 

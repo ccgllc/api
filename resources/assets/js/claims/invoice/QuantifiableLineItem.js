@@ -4,13 +4,13 @@ export default class QuantifiableLineItem extends LineItem {
 	constructor(data) {
 		super(data)
 		this.type = 'QuantifiableLineItem'
-		this.description = '' 
-		this.quantity = 0
-		this.rate =  0 
-		this.minimum = 0 
-		this.total = 0 
-		this.taxable = false
-		this.fullyReimbursable = false
+		// this.description = '' 
+		// this.quantity = 0
+		// this.rate =  0 
+		// this.minimum = 0 
+		// this.total = 0 
+		// this.taxable = false
+		// this.fullyReimbursable = false
 
 		for (let property in data) {
 			this[property] = data[property];

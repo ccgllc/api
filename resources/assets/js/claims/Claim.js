@@ -64,6 +64,9 @@ const ClaimView = new Vue({
 		toggleCreatingNewStatus() {
 			console.log('toggled');
 			return this.creatingNewStatus = !this.creatingNewStatus;
+		},
+		claimTitle() {
+			return `Claim # ${claim.claim_number} • ${claim.statuses.length ? claim.statuses[0].name : `no status found.`}`;
 		}
 	}
 

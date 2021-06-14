@@ -17,20 +17,20 @@
 			<div id="" class="" style="background: #343b4c;">
 				<aside class="menu mt-4 mb-4" style="background: transparent; border:none; position: relative;">
 				  <ul class="menu-list">
-			  		<li>
+			  		<li v-if="hasRoles">
 			  			<a href="/dashboard/#/">
 			        	<span class="icon is-small"><i class="fa fa-dashboard"></i></span>
 			        	<span class="has-text-weight-medium">Dashboard</span>
 			      	</a>
 			  		</li>
 			      <li>
-				      <a href="/claims/#/">
+				      <a v-if="hasRoles" href="/claims/#/">
 				        <span class="icon is-small "><i class="fa fa-file-text-o"></i></span>
 				        <span class="has-text-weight-medium">Claims</span>
 				    	</a>
 				  	</li>
 			      <li>
-				      <a href="/users/#/">
+				      <a v-if="hasRoles" href="/users/#/">
 			        	<span class="icon is-small "><i class="fa fa-users"></i></span>
 			        	<span class="has-text-weight-medium">Users</span>
 				      </a>
@@ -38,7 +38,7 @@
 			      <li>
 			       <a href="/profile/#/">
 			        	<span class="icon is-small "><i class="fa fa-user-circle-o"></i></span>
-			        	<span class="has-text-weight-medium">Profile</span>
+			        	<span class="has-text-weight-medium">My Profile</span>
 			      	</a>
 			      </li>
 				  </ul>
@@ -102,10 +102,7 @@
 			availability,
 		},
 		mounted() {
-			console.log(this.logoutRoute)
-			// console.log(this.user);
 			this.innerWidth = window.innerWidth;
-			// var vm = this;
 			window.addEventListener('resize', this.resized);
 			this.user = window.user;
 			this.mobile ? this.show = false : this.show = true;
@@ -113,6 +110,9 @@
 		computed: {
 			userHasAvatar() {
 				return  this.user !== undefined && this.user.avatar !== '#' && this.user.avatar !== null ? true : false;
+			},
+			hasRoles() {
+				return this.user.roles.length ? true : false;
 			},
 			mobile() {
 				return this.innerWidth > 800 ? false : true;

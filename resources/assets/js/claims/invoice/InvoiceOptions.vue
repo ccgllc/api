@@ -2,7 +2,8 @@
 <div class="level" style="">
 	<div class="level-left">
 		<div class="level-item">
-			<h1 class="title has-text-weight-light"><span class="has-text-weight-bold">Invoice #</span> {{ claim.claim_number }}</h1>
+			<span class="has-text-weight-light" style="font-size: 2em;"><span class="has-text-weight-bold">Invoice #</span> {{ claim.claim_number }}</span>
+			<div v-if="invoice.is_supplement" class="tag is-rounded is-secondary" style="margin-left: 1em;">Supplement</div>
 		</div>
 		<!-- <div class="level-item"> -->
 			<!-- <dropdown :items="lineItemTypes" @new-line-item="addLineItem" :carrier="invoice.carrier" event-name="new-line-item" buttonStyle="is-rounded is-small is-info">Add Line Item</dropdown> -->
@@ -62,7 +63,7 @@
 			dropdown
 		},
 		mounted() {
-			//
+			// console.log(`${this.invoice.is_supplement}`);
 		},
 		data() {
 			return claimData

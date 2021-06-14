@@ -48,6 +48,7 @@ class UnzipClaims extends Command
 
         foreach($files as $file) {
             $this->zip->open($file);
+            var_dump($file);
             $this->zip->extractTo($this->path, 'XACTDOC.XML');
             $this->zip->close();
             // rename xml to trnasaction id from orginal filename.

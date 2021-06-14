@@ -7,7 +7,7 @@
 
 <script>
 	import claimData from '../claimData'
-	import Invoice from './Invoice' 
+	import SupplementInvoice from './SupplementInvoice'
 	// import Form from '../../structur/src/form/Form'
 	export default {
 		name: 'createInvoice',
@@ -20,7 +20,7 @@
 		},
 		methods: {
 			createSupplement() {
-					alert('creating...');
+				
 			}
 		}
 	}

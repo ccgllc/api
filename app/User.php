@@ -73,7 +73,13 @@ class User extends Authenticatable
 
     public function hasRole($role)
     {
-         if (is_string($role))
+      if (is_array($role))
+        {
+          foreach($role as $r) {
+            return $this->roles->contains('name', $r);
+          }
+        }
+       if (is_string($role))
         {
             return $this->roles->contains('name', $role);
         }

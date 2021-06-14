@@ -3,7 +3,7 @@
 		<div class="column">
 			<invoices></invoices>
 			<new-invoice></new-invoice>
-			<new-supplement></new-supplement>
+			<!-- <new-supplement></new-supplement> -->
 			<!-- <quick-invoice></quick-invoice> -->
 			<new-estimate 
 				:claim="claim" 
@@ -19,7 +19,7 @@
 <script>
 	import claimData from './claimData.js'
 	import invoices from './invoice/Invoices.vue'
-	import newSupplement from './invoice/NewSupplement'
+	// import newSupplement from './invoice/NewSupplement'
 	import newEstimate from './NewEstimate.vue'
 	import newInvoice from './invoice/NewInvoice.vue'
 	import quickInvoice from './invoice/QuickInvoice.vue'
@@ -28,7 +28,7 @@
 		components: {
 			newEstimate,
 			newInvoice,
-			newSupplement,
+			// newSupplement,
 			quickInvoice,
 			invoices
 		},

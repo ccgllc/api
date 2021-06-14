@@ -17,6 +17,7 @@ export default class ServiceFeeLineItem extends LineItem {
 	getFeeScheduleTier(amount) {
 		// Numeric or Non Numeric (1,234.34 or "erroneous" respectively)
 		// console.log(`${amount} has numeric amount ${this.isNumeric(amount)}`)
+		// console.log(this.getNumericTier(amount))
 		return this.isNumeric(amount)
 			? this.getNumericTier(amount)
 			: this.getNonNumericTier(amount)
@@ -29,8 +30,8 @@ export default class ServiceFeeLineItem extends LineItem {
 	getNumericTier(amount){
 		//normalize an grossloss value as parseFloat will interpret
 		//comas (,) as decimals causing issues during calculation.
+		// console.log(parseFloat(String(amount).replace(/,/g, '')))
 		amount = parseFloat(String(amount).replace(/,/g, ''))
-
 		// loop through tiers to calulate service fee.
 		for (let tier of this.getNumericTiers()) {
 			if (tier >= amount) {
@@ -61,6 +62,7 @@ export default class ServiceFeeLineItem extends LineItem {
 		// return values for non numeric tiers 
 		// if feeSchedule has key [amount] return its value
 		// otherwise just return 0
+		if (this.feeSchedule === undefined) return (0).toFixed(2);
 		return this.feeSchedule[amount]
 			? parseFloat(+this.feeSchedule[amount]).toFixed(2)
 			: (0).toFixed(2);
@@ -68,6 +70,7 @@ export default class ServiceFeeLineItem extends LineItem {
 
 	getNumericTiers() {
 		let tiers = Object.keys(this.feeSchedule)
+		if (tiers === undefined) throw new Error('This lineitem requires a feeschedule.')
 		tiers = tiers.filter(tier => this.isNumeric(tier))
 		return tiers.map(tier => parseFloat(tier))		
 	}

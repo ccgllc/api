@@ -1,19 +1,27 @@
 <template>
+	<div>
 		<a class="button is-info" @click="createInvoice">
-		    <span class="icon"><i class="fa fa-plus"></i></span>
-		    <span>Create Invoice</span>
+	    <span class="icon"><i class="fa fa-plus"></i></span>
+	    <span>Create Invoice</span>
 		</a>
+		<a class="button is-secondary" @click="createSupplementInvoice" v-if="claim.invoices.length > 0">
+	    <span class="icon"><i class="fa fa-plus"></i></span>
+	    <span>Supplement Invoice</span>
+		</a>
+	</div>
 </template>
 
 <script>
 	import claimData from '../claimData'
 	import Invoice from './Invoice' 
-	import QuantifiableLineItem from './QuantifiableLineItem'
+	import SupplementInvoice from './SupplementInvoice.js' 
+	import DifferenceInTiersLineItem from './DifferenceInTiersLineItem.js'
+	import lineItemTypes from './lineItemTypes.js'
 	// import Form from '../../structur/src/form/Form'
 	export default {
 		name: 'createInvoice',
 		data() {
-			return claimData
+			return { ...claimData, }
 		},
 		mounted() {
 			let address = this.getLossAddress(); 
@@ -50,11 +58,16 @@
 					rate = await this.getTaxRate(this.getLossAddress());
 				}
 				
-				this.newInvoice = new Invoice({taxRate: rate})
+				this.supplement 
+					? this.newInvoice = new SupplementInvoice({taxRate: rate, is_supplement: 1})
+				  : this.newInvoice = new Invoice({taxRate: rate})
 
-				// await this.setFeeSchedule();
 				await this.post();
 
+			},
+			createSupplementInvoice() {
+				this.supplement = true;
+				return this.createInvoice();
 			},
 			setInvoiceData(invoice) {
 				this.newInvoice.total = parseFloat(this.newInvoice.total)
@@ -64,13 +77,44 @@
 				// this.newInvoice.feeSchedule = this.claim.carrier.fee_schedules[0].data
 				this.newInvoice.feeSchedule = 'default';
 
-				// this.setLineItemMinimums()
+				this.setLineItemMinimums()
 				this.setLineItemRates()
 				this.makeDefaultLineItems()
 			},
 			makeDefaultLineItems() {
-				this.newInvoice.createServiceFeeLineItem(this.defaultLineItems.grossLoss)
-				this.newInvoice.createAdjusterExpenseLineItems(this.adjusterExpenses())
+				if (this.supplement) {
+					this.makeSupplementLineItems();
+				} else {
+					this.newInvoice.createServiceFeeLineItem(this.defaultLineItems.grossLoss)
+					this.newInvoice.createAdjusterExpenseLineItems(this.adjusterExpenses())
+				}
+				
+			},
+			makeSupplementLineItems() {
+
+				let lineItems = [];
+
+				const hasSupplementFee = this.claim.carrier.fee_schedules.find(
+					schedule => schedule.data.hasOwnProperty('supplementFee')
+				)
+
+				lineItems.push(lineItemTypes.find(item => item.type === 'DifferenceInTiersLineItem'));
+
+				if (hasSupplementFee) {
+						let item = lineItemTypes.find(item => item.type === 'QuantifiableLineItem')
+						// unsing destructuring to deep copy...
+						let supplementFee = { ...item };
+						supplementFee.rate = hasSupplementFee.data.supplementFee;
+						supplementFee.quantity = 1; 
+						supplementFee.description = 'Supplement Fee'; 
+
+						console.log(supplementFee.rate);
+
+						lineItems.push(supplementFee);
+					}
+
+				this.newInvoice.createSupplementLineItems(lineItems);
+					
 			},
 			setLineItemRates() {
 				this.defaultLineItems.photos.rate = this.newInvoice.getPhotoRate()

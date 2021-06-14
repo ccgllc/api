@@ -67,10 +67,9 @@
 				<div class="level-item" v-if="invoice.options.show">
 					<div class="field">
 					  <div class="control">
-					  	 <!-- <label class="label is-small" for="feeSchedule">Fee Schedule</label> -->
 					    <div class="select is-info">
 					      <select v-model="invoice.feeSchedule" @change="updateFeeSchedule()" id="feeSchedule">
-					        <option :value="'default'" disabled>Select a fee schedule to begin</option>
+					        <option value="default" disabled>Select a fee schedule to begin</option>
 					        <option 
 					        	v-for="feeSchedule in invoice.carrier.fee_schedules" 
 					        	:value="feeSchedule.data" 
@@ -97,8 +96,9 @@
 				> :carrier="claim.carrier" 
 				</invoice-options> -->
 				
-				<line-item 
-					v-for="(lineItem, key) in invoice.lineItems" 
+				<component 
+					v-for="(lineItem, key) in invoice.lineItems"
+					:is="lineItem.type"
 					v-if="hasInteractedWithFeeSchedule"
 					:invoice="invoice"
 					:lineItem="lineItem"
@@ -111,7 +111,7 @@
 					@toggle-estimate="createEstimate"
 					@creating-gross-loss-toggled="toggleCreatingGrossLoss"
 				>
-				</line-item>
+				</component>
 				
 				<new-line-item
 					v-if="hasInteractedWithFeeSchedule"
@@ -146,14 +146,14 @@
 	import Invoice from './Invoice.js'
 	import lineItem from './LineItem.vue';
 	import newLineItem from './newLineItem.vue';
-	import QuantifiableLineItem from './QuantifiableLineItem'
-	import HourlyRateLineItem from './HourlyRateLineItem'
-	import MileageLineItem from './MileageLineItem'
-	import ServiceFeeLineItem from './ServiceFeeLineItem'
-	import AmountLineItem from './AmountLineItem'
-	import AdminFeeLineItem from './AdminFeeLineItem'
-	import CitySurchargeLineItem from './CitySurchargeLineItem'
-	import DifferenceInTiersLineItem from './DifferenceInTiersLineItem'
+	import lineItemModels from './lineItemModels';
+	import ServiceFeeLineItem from './ServiceFeeLineItem.vue';
+	import MileageLineItem from './MileageLineItem.vue';
+	import QuantifiableLineItem from './QuantifiableLineItem.vue';
+	import HourlyRateLineItem from './HourlyRateLineItem.vue';
+	import CitySurchargeLineItem from './CitySurchargeLineItem.vue';
+	import AmountLineItem from './AmountLineItem.vue';
+	import DifferenceInTiersLineItem from './DifferenceInTiersLineItem.vue';
 
 	export default {
 		name: 'Invoice',
@@ -163,9 +163,20 @@
 			newLineItem,
 			dropdown,
 			invoiceOptions,
+			ServiceFeeLineItem,
+			MileageLineItem,
+			QuantifiableLineItem,
+			HourlyRateLineItem,
+			CitySurchargeLineItem,
+			AmountLineItem,
+			DifferenceInTiersLineItem
 		},
 		created() {
-			if (!(this.invoice instanceof Invoice)) this.buildInvoice()
+			let supplementInvoice = false;
+			if (!(this.invoice instanceof Invoice)) {
+				if (this.invoice.is_supplement) supplementInvoice = true;
+				this.buildInvoice(supplementInvoice)
+			}
 		},
 		mounted() {
 			
@@ -177,6 +188,9 @@
 			hasInteractedWithFeeSchedule() {
 				return this.invoice.feeSchedule === 'default' ? false : true;
 			},
+			isSupplement() {
+
+			}
 			// hasDefaultEstimates() {
 			// 	let estimates = this.claim.estimates.filter(estimate => estimate.gross_loss == 'erroneous' || estimate.gross_loss == 'CWOP');
 			// 	return estimates.length ? true : false;
@@ -223,7 +237,6 @@
 				this.creatingEstimate = !this.creatingEstimate
 			},
 			updateFeeSchedule() {
-				// console.log();
 				this.setRates()
 				this.setMinimums()
 				this.invoice.recalculateLineItems()
@@ -235,6 +248,7 @@
 				const serviceFees = this.invoice.lineItems.filter(item => item.type === 'ServiceFeeLineItem')
 				let total = 0
 				if (surcharge) {
+					// we need to eventually pull the multiplier (.10) from the foreach callback from the feeschedule..
 					if (serviceFees.length) serviceFees.forEach(item => total += (+item.total * .10) )
 					surcharge.amount = (total).toFixed(2);
 					return surcharge.calculate()
@@ -245,8 +259,8 @@
 				const hourly = this.invoice.lineItems.find(item => item.type === 'HourlyRateLineItem');
 				if (hourly) hourly.rate = this.invoice.getHourlyRate();
 
-				const photo = this.invoice.lineItems.find(item => item.type === 'QuantifiableLineItem');
-				if (photo) photo.rate = this.invoice.getPhotoRate();
+				// const photo = this.invoice.lineItems.find(item => item.type === 'QuantifiableLineItem');
+				// if (photo) photo.rate = this.invoice.getPhotoRate();
 
 				const mileage = this.invoice.lineItems.find(item => item.type === 'MileageLineItem');
 				if (mileage) mileage.rate = this.invoice.getMileageRate();
@@ -258,10 +272,11 @@
 			  const mileage = this.invoice.lineItems.find(item => item.type === 'MileageLineItem');
 			  if (mileage) mileage.minimum = this.invoice.getMileageMinimum();
 			},
-			buildInvoice() {
+			buildInvoice(supplement) {
 				const invoice = new Invoice({
 					id: this.invoice.id,
 					carrier: this.carrier,
+					is_supplement: supplement,
 				})
 				
 			    this.sync(this.assignInvoiceProperties(invoice))
@@ -290,14 +305,13 @@
 				)
 			},
 			getlineItemType(lineItem) {
-				const lineItemTypes = { ServiceFeeLineItem, AmountLineItem, HourlyRateLineItem, QuantifiableLineItem, MileageLineItem,AdminFeeLineItem, CitySurchargeLineItem, DifferenceInTiersLineItem, };
-					// console.log(this.invoice.data.feeSchedule.mileageRate);
-
 				if (this.invoice instanceof Invoice) {
 					if (lineItem.type === 'ServiceFeeLineItem'){
 							lineItem.feeSchedule = this.invoice.feeSchedule;
 							lineItem.amount = 'default'
 						}
+
+					if (lineItem.type === 'DifferenceInTiersLineItem') lineItem.feeSchedule = this.invoice.feeSchedule;
 						
 					if (lineItem.type === 'MileageLineItem') {
 							lineItem.rate = this.invoice.getMileageRate()
@@ -305,7 +319,7 @@
 						}
 					}
 
-				return new lineItemTypes[lineItem.type](lineItem);
+				return new lineItemModels[lineItem.type](lineItem);
 			},
 			route(){
 				return '/api/claims/' + this.claim.id + '/invoices/' + this.invoice.id
@@ -321,5 +335,8 @@
 	.menu-list a:hover {
 		background-color: #209cee;
 		color: whitesmoke;
+	}
+	.control.has-icons-left .icon, .control.has-icons-right .icon{
+		height:  2.25em;
 	}
 </style>

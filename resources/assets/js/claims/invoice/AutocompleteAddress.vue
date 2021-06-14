@@ -10,6 +10,7 @@
   	@keyup.up="selectedAutocompleteResult > 0 ? selectedAutocompleteResult -- : selectedAutocompleteResult = 0" 
   	@keyup.enter="selectAddress()"
   	@keyup.tab="selectAddress()"
+  	@keyup.esc="autocompleteResults = []"
   	v-model="search" 
 	>
   <span class="icon is-small is-right has-text-bold" style="">
@@ -23,8 +24,8 @@
 	  	<i class="fa" :class="[rightIcon]" style="font-size: 16px; color: #343b4c;"></i>
   </span>
   <aside class="menu" style="font-size: .75em"  v-if="autocompleteResults.length">
-  	<ul class="menu-list">
-  		<li v-for="(result, idx) in autocompleteResults">
+  	<ul class="menu-list" style="margin: 0">
+  		<li v-for="(result, idx) in autocompleteResults" style="list-style: none;">
   			<a 
   				:class="{'is-active': idx == selectedAutocompleteResult}" 
   				v-text="result.description"

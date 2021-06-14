@@ -11,7 +11,7 @@ import page from '../components/Page'
 // import profileNavigation from './ProfileNavigation'
 
 Vue.use(VueRouter);
-// Vue.use(Croppa, { componentName: 'avatar-cropper' });
+
 
 const routes = [
 	{ path: '/', name: "claims", component: Claims },
@@ -52,5 +52,6 @@ const ClaimsVue = new Vue({
 		
 	},
 	methods: {
+		
 	}
 }).$mount('#claims');

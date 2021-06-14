@@ -20,6 +20,7 @@ class ClaimsController extends Controller {
     {
         $this->middleware('auth', ['except' => ['store', 'getClaimStatuses']]);
         $this->middleware('dashboard', ['only' => ['index']]);
+        $this->middleware('claim', ['only' => ['show']]);
     }
 
 	/**

@@ -28,6 +28,7 @@ class InvoiceController extends Controller
     {
         return Invoice::create([
             'data' => json_encode($request->all()),
+            'is_supplement' => $request->is_supplement,
             'claim_id' => $id,
             'user_id'  => $request->userId,
         ]);

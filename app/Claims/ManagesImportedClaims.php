@@ -142,7 +142,7 @@ trait ManagesImportedClaims {
         // var_dump($label);
         is_numeric($data) ? $column = 'xact_carrier_id': $column = 'label';
     	$this->carrier = Carrier::where($column, $data)->first();
-        if (!$this->carrier) $this->carrier = Carrier::find(16);
+        if (!$this->carrier) var_dump($data); //$this->carrier = Carrier::find(16);
     	return $this->carrier->id;
     }
 

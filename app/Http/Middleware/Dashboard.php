@@ -15,8 +15,9 @@ class Dashboard
      */
     public function handle($request, Closure $next)
     {
+        // dd($request->url);
         if(!$request->user()->hasRole('administrator')) {
-             return redirect()->back();
+            return redirect()->back();
         }
        return $next($request);
     }

@@ -7,10 +7,9 @@
 
 				<input class="input" v-model="lineItem.description" @change="updateTotal()" type="input" >
 
-				<span 
-					@click="toggleOptions(lineItem)" 
-					v-if="lineItem.has('locations')" 
-					class="icon tooltip is-right has-tooltip-info is-small is-rounded" data-tooltip="Toggle mileage options"
+				<span
+				  @click="toggleOptions(lineItem)" 
+					class="icon is-right has-tooltip-info is-small is-rounded" data-tooltip="Toggle mileage options"
 					style="cursor: pointer;"
 				>
 				<span class="is-small has-text-bold " :class="{'has-text-info': lineItem.showOptions, 'has-text-grey': !lineItem.showOptions}">
@@ -121,17 +120,17 @@
 
 			<!-- amount -->
 			<div class="control has-icons-left has-icons-right" v-if="lineItem.has('amount')" style="width: 30%;">
-				
-					<div class="select is-fullwidth" v-if="lineItem.type === 'ServiceFeeLineItem' && creatingGrossLoss === false">
-						<div class="tooltip"  data-tooltip="Gross Loss Amount">
-							<select v-model="lineItem.amount" @change="updateTotal()" :ref="`grossLossSelect-${id}`">
+				<div class="select is-fullwidth" v-if="lineItem.type === 'ServiceFeeLineItem' && creatingGrossLoss === false">
+					<!-- <div class="tooltip"  data-tooltip="Gross Loss Amount"> -->
+						<select v-model="lineItem.amount" @change="updateTotal()" :ref="`grossLossSelect-${id}`">
 								<option value="default" disabled>Select Gross Loss Amount</option>
 								<option v-for="estimate in estimates" :value="estimate.gross_loss" v-text="estimate.gross_loss"></option>
 								<option v-if="invoice.feeSchedule.erroneous" value="erroneous">erroneous</option>
-  							<option v-if="invoice.feeSchedule.cwop"value="cwop">CWOP</option>
+								<option v-if="invoice.feeSchedule.cwop"value="cwop">CWOP</option>
 							</select>
-						</div>
 					</div>
+				<!-- </div> -->
+				<!-- </div> -->
 
 					<input v-if="creatingGrossLoss === id && usesEstimates(lineItem)" v-model="newGrossLoss.gross_loss" type="input" placeholder="Add a gross loss amount" class="input" :ref="`grossLoss-${id}`" @keyup.enter="createNewGrossLoss" @keyup.tab="createNewGrossLoss">
 					<span v-if="creatingGrossLoss === id && usesEstimates(lineItem)" class="icon is-left"><i class="fa fa-usd"></i></span>
@@ -325,6 +324,7 @@
 				return this.updateTotal()
 			},
 			toggleOptions(lineItem) {
+				alert('cliccked');
 				this.lineItem.showOptions = !this.lineItem.showOptions
 				return this.updateTotal()
 			},

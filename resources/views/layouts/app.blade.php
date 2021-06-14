@@ -33,12 +33,6 @@
         </div>
 
       <div class="column" style="background: #e0e0e0;">
-       {{--  <div class="navbar-item" style="background: #f0f0f0; width: 100%; border-bottom: 1px solid #ccc; box-shadow: 0 2px 3px #d6d6d6; position: sticky; top: 0; z-index: 100000">
-            <div class="control has-icons-left ml-4">
-                <input type="text" class="input is-medium" placeholder="search..." style="background: transparent; border:none; position: sticky; top:0;">
-                <span class="icon is-left"><i class="fa fa-search has-text-grey"></i></span>
-            </div>
-        </div> --}}
 
             @yield('content')
 
@@ -47,7 +41,7 @@
     </div>
 
     <!-- Scripts -->
-    <script>window.user = {!! json_encode(Auth::user()) !!}</script>
+    <script>window.user = {!! $user->toJson() !!}</script>
     <script src="{{ mix('/js/manifest.js') }}"></script>
     <script src="{{ mix('/js/vendor.js') }}"></script>
     <script src="{{ mix('/js/app.js') }}"></script>

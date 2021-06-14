@@ -21,6 +21,9 @@ export default class Invoice {
 		this.carrier     = {}
 		this.options     = {mcm: false, cwop: false, show: true, taxable: false}
 		this.feeSchedule = {}
+		this.is_supplement = 0 // stored outside of invoice data column in table for fast queries (idx) on supplements...
+
+		// overwrites any default property values if passed into constructor..
 		for (let property in data) {
 			this[property] = data[property]
 		}
@@ -98,6 +101,7 @@ export default class Invoice {
 	 * @return void.
 	 */
 	addLineItem(lineItem) {
+		console.log(lineItem);
 		this.lineItems.push(lineItem)
 		return this.calculate()
 	}
@@ -212,7 +216,7 @@ export default class Invoice {
 	// }
 
 	getInvoiceProperties() {
-		return ['total', 'subTotal', 'feeSchedule', 'options', 'tax', 'taxRate', 'lineItems', 'userId'];
+		return ['total', 'subTotal', 'feeSchedule', 'options', 'tax', 'taxRate', 'lineItems', 'userId', 'is_supplement'];
 	}
 
 	// Getters & Setters...//

@@ -11,7 +11,7 @@ export default {
 	alert: { type: 'is-link', message: ''},
 	claimId: '',
 	claim: {},
-	creatingGrossLoss: false,
+	// creatingGrossLoss: false,
 	newGrossLoss: new Form({gross_loss: '', user_id: 0, claim_id: 0}),
 	user: {},
 	adjuster: {},
@@ -39,7 +39,7 @@ export default {
 	estimate: {},
 	defaultLineItems,
 	creatingInvoice: false,
+	supplement: false,
 	newInvoice: {},
-	// invoiceForm: new Form(),
 	lineItemTypes
 }

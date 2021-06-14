@@ -10,7 +10,7 @@
 				<li v-for="result in filteredResults"><a v-text="result.claim_number + ' ' + result.insured"></a></li>
 			</ul>
 		</aside> -->
-		<table v-if="filteredResults.length" class="table is-striped is-fullwidth">
+		<table v-if="user.claims.length" class="table is-striped is-fullwidth">
 				<thead>
 					<tr>
 						<th>Actions</th>
@@ -44,7 +44,7 @@
 </template>
 
 <script>
-	import _ from '../../../../node_modules/lodash/lodash.min.js';
+	// import _ from '../../../../node_modules/lodash/lodash.min.js';
 	import page from '../components/Page';
 	export default {
 		name: 'ReviewerDashboard',
@@ -55,7 +55,7 @@
 		computed: {
 			filteredResults() {
 				var vm = this;
-				if (!vm.search) return [];
+				if (!vm.search && vm.user.claims.length) return vm.user.claims.slice(0,25);
 				return vm.user.claims.filter(claim => {
 					var searchRegex = new RegExp(vm.search, 'i')
 					return searchRegex.test(claim.claim_number) 
