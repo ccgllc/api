@@ -123,7 +123,8 @@
 					}
 
 				this.newInvoice.createSupplementLineItems(lineItems);
-					
+				
+				this.supplement = false;
 			},
 			copyFeeScheduleFromPriviousInvoice() {
 				const invoice = this.invoices.find(invoice => !invoice.is_supplement)
