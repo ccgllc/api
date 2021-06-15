@@ -30,7 +30,7 @@
 						
 						<button 
 							@click="getDirections()"
-							data-tooltip="get directions"
+							data-tooltip="Get Mileage Quantity"
 							class="button is-rounded is-small is-dark tooltip"
 						>
 							<span class="icon is-small" style="justify-content: center">
