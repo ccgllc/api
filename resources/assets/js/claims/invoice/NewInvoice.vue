@@ -20,6 +20,7 @@
 	// import Form from '../../structur/src/form/Form'
 	export default {
 		name: 'createInvoice',
+		props: ['invoices'],
 		data() {
 			return { ...claimData, }
 		},
@@ -75,10 +76,15 @@
 				this.newInvoice.id = invoice.id
 				this.newInvoice.carrier = this.claim.carrier
 				// this.newInvoice.feeSchedule = this.claim.carrier.fee_schedules[0].data
-				this.newInvoice.feeSchedule = 'default';
+				this.supplement 
+					? this.newInvoice.feeSchedule = this.copyFeeScheduleFromPriviousInvoice() 
+					: this.newInvoice.feeSchedule = 'default';
 
-				this.setLineItemMinimums()
-				this.setLineItemRates()
+				if (!this.supplement){
+					this.setLineItemMinimums()
+					this.setLineItemRates()
+				} 
+
 				this.makeDefaultLineItems()
 			},
 			makeDefaultLineItems() {
@@ -98,11 +104,14 @@
 					schedule => schedule.data.hasOwnProperty('supplementFee')
 				)
 
-				lineItems.push(lineItemTypes.find(item => item.type === 'DifferenceInTiersLineItem'));
+				let lineItem = lineItemTypes.find(item => item.type === 'DifferenceInTiersLineItem');
+				let diffInTiers = {...lineItem }
+				diffInTiers.amount = this.copyPreviousGrossLossAmount()
+				lineItems.push(diffInTiers);
 
 				if (hasSupplementFee) {
 						let item = lineItemTypes.find(item => item.type === 'QuantifiableLineItem')
-						// unsing destructuring to deep copy...
+						// unsing destructuring to deep copy to avoid overwriting props in our item's data...
 						let supplementFee = { ...item };
 						supplementFee.rate = hasSupplementFee.data.supplementFee;
 						supplementFee.quantity = 1; 
@@ -115,6 +124,16 @@
 
 				this.newInvoice.createSupplementLineItems(lineItems);
 					
+			},
+			copyFeeScheduleFromPriviousInvoice() {
+				const invoice = this.invoices.find(invoice => !invoice.is_supplement)
+				console.log(invoice);
+				return invoice.feeSchedule;
+			},
+			copyPreviousGrossLossAmount() {
+				const invoice = this.invoices.find(invoice => !invoice.supplement)
+				console.log(invoice);
+				return invoice.lineItems[0].amount;
 			},
 			setLineItemRates() {
 				this.defaultLineItems.photos.rate = this.newInvoice.getPhotoRate()
