@@ -41,7 +41,7 @@
 		props: ['user', 'availablePermissions'],
 		data() {
 			return {
-				showAll: false,
+				showAll: true,
 				query: '',
 				selectedResult: 0,
 				results: [],
