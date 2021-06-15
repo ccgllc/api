@@ -2,13 +2,13 @@
 	<div class="columns" style="padding: 1em;">
 		<div class="column">
 			<invoices></invoices>
-			<new-invoice></new-invoice>
+			<new-invoice :invoices="claim.invoices"></new-invoice>
 			<!-- <new-supplement></new-supplement> -->
 			<!-- <quick-invoice></quick-invoice> -->
 			<new-estimate 
-				:claim="claim" 
-				:creating-estimate="creatingEstimate" 
-				@toggle-estimate="creatingEstimate = !creatingEstimate" 
+				:claim="claim"
+				:creating-estimate="creatingEstimate"
+				@toggle-estimate="creatingEstimate = !creatingEstimate"
 				@estimate-created="addEstimate"
 			>
 			</new-estimate>
