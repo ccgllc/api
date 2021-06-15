@@ -42,8 +42,9 @@ class MigrateXactnetAddresses extends Command
             $primary = 1;
             // $xactnetAddresses = \CCG\XactnetAddress::where('address', $profile->xactnet_address)->get();
             if(\DB::table('xactnet_addresses')->where('address', $profile->xactnet_address)->exists()) {
-                $profile->xactnet_address = $profile->xactnet_address . '-' . random_int(1,10);
-                $primary = 0;
+                // $profile->xactnet_address = $profile->xactnet_address . '-' . random_int(1,10);
+                // $primary = 0;
+                return;
             } else {
                 \CCG\XactnetAddress::create([
                     'address' => $profile->xactnet_address,
