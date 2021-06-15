@@ -259,8 +259,8 @@
 				const hourly = this.invoice.lineItems.find(item => item.type === 'HourlyRateLineItem');
 				if (hourly) hourly.rate = this.invoice.getHourlyRate();
 
-				// const photo = this.invoice.lineItems.find(item => item.type === 'QuantifiableLineItem');
-				// if (photo) photo.rate = this.invoice.getPhotoRate();
+				const photo = this.invoice.lineItems.find(item => item.type === 'QuantifiableLineItem' && item.description.includes('Photos'));
+				if (photo) photo.rate = this.invoice.getPhotoRate();
 
 				const mileage = this.invoice.lineItems.find(item => item.type === 'MileageLineItem');
 				if (mileage) mileage.rate = this.invoice.getMileageRate();
@@ -310,6 +310,8 @@
 							lineItem.feeSchedule = this.invoice.feeSchedule;
 							lineItem.amount = 'default'
 						}
+
+					if (lineItem.type === 'HourlyRateLineItem') lineItem.rate = this.invoice.getHourlyRate();
 
 					if (lineItem.type === 'DifferenceInTiersLineItem') lineItem.feeSchedule = this.invoice.feeSchedule;
 						
