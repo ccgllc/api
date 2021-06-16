@@ -24,7 +24,7 @@ trait ManagesImportedClaims {
     private function createClaim()
     {
         $newClaim = Claim::create($this->generateClaimData($this->claim));
-        Event::fire(new ClaimImported($newClaim, $this->adjuster));
+        Event::dispatch(new ClaimImported($newClaim, $this->adjuster));
     }
 
      private function updateClaim()
@@ -39,7 +39,7 @@ trait ManagesImportedClaims {
             ]);
         }
         
-        // Event::fire(new ClaimImportUpdated($existingClaim));
+        // Event::dispatch(new ClaimImportUpdated($existingClaim));
         // var_dump('updating...');
         return $existingClaim;
     }
@@ -47,7 +47,7 @@ trait ManagesImportedClaims {
     private function reassignClaim()
     {
         $existingClaim = $this->updateClaim();
-        Event::fire(new ClaimReassigned($existingClaim, $this->adjuster));
+        Event::dispatch(new ClaimReassigned($existingClaim, $this->adjuster));
     }
 
     /**

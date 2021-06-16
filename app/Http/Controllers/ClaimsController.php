@@ -67,7 +67,7 @@ class ClaimsController extends Controller {
         $claim = $claimData->persist();
         //finally we throw an event and create the invoice 
         //for the created claim inside the event handler. 
-       Event::fire(new ClaimWasReceived($claim));
+       Event::dispatch(new ClaimWasReceived($claim));
 
        return $claim;
        
