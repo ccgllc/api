@@ -106,6 +106,7 @@
 
 				let lineItem = lineItemTypes.find(item => item.type === 'DifferenceInTiersLineItem');
 				let diffInTiers = {...lineItem }
+				diffInTiers.feeSchedule = this.newInvoice.feeSchedule;
 				diffInTiers.amount = this.copyPreviousGrossLossAmount()
 				lineItems.push(diffInTiers);
 
@@ -116,9 +117,7 @@
 						supplementFee.rate = hasSupplementFee.data.supplementFee;
 						supplementFee.quantity = 1; 
 						supplementFee.description = 'Supplement Fee'; 
-
-						console.log(supplementFee.rate);
-
+						
 						lineItems.push(supplementFee);
 					}
 

@@ -18,6 +18,7 @@ export default class ServiceFeeLineItem extends LineItem {
 		// Numeric or Non Numeric (1,234.34 or "erroneous" respectively)
 		// console.log(`${amount} has numeric amount ${this.isNumeric(amount)}`)
 		// console.log(this.getNumericTier(amount))
+		// console.log(amount);
 		return this.isNumeric(amount)
 			? this.getNumericTier(amount)
 			: this.getNonNumericTier(amount)

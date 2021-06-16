@@ -70,7 +70,8 @@
 		methods: {
 			update() {
 				this.lineItem.calculate();
-				this.$emit('line-item-updated')
+				console.log(this.lineItem.calculate());
+				this.$emit('line-item-updated', this.lineItem)
 			},
 			async toggleCreatingGrossLoss() {
 

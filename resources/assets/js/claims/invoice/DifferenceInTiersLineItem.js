@@ -17,7 +17,7 @@ export default class DifferenceInTiersLineItem extends ServiceFeeLineItem {
 		// console.log(minuend + '-' + subtrahend);
 		// console.log(`${this.getFeeScheduleTier(this.amounts().amount)} - ${this.getFeeScheduleTier(this.amounts().newAmount)}`);
 		// console.log(this.getFeeScheduleTier(this.amounts().amount) + ' - ' +  this.getFeeScheduleTier(this.amounts().newAmount))
-
+		// console.log(minuend + ' - ' + subtrahend);
 		minuend !== undefined && subtrahend !== undefined
 			?  diff = (minuend - subtrahend)
 			:  diff = (0)
