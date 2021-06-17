@@ -251,7 +251,8 @@
 					// we need to eventually pull the multiplier (.10) from the foreach callback from the feeschedule..
 					if (serviceFees.length) serviceFees.forEach(item => total += (+item.total * .10) )
 					surcharge.amount = (total).toFixed(2);
-					return surcharge.calculate()
+					surcharge.calculate()
+					return this.calculate();
 				}
 				// return 0;
 			},
