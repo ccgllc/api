@@ -219,7 +219,6 @@
 				}
 
 				if (this.claim.carrier.id === 20 && this.isSurchargeCity) {
-
 					items.push(this.defaultLineItems.surcharge)
 				}
 
