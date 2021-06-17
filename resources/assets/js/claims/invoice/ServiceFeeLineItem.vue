@@ -60,6 +60,7 @@
 			update() {
 				this.lineItem.calculate();
 				this.$emit('line-item-updated', this.lineItem)
+				this.$emit('service-fee-updated');
 			},
 			async toggleCreatingGrossLoss() {
 
