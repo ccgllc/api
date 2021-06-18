@@ -4,7 +4,7 @@
 	    <span class="icon"><i class="fa fa-plus"></i></span>
 	    <span>Create Invoice</span>
 		</a>
-		<a class="button is-secondary" @click="createSupplementInvoice" v-if="claim.invoices.length > 0">
+		<a class="button is-secondary" @click="createSupplementInvoice">
 	    <span class="icon"><i class="fa fa-plus"></i></span>
 	    <span>Supplement Invoice</span>
 		</a>
@@ -131,7 +131,7 @@
 			},
 			copyPreviousGrossLossAmount() {
 				const invoice = this.invoices.find(invoice => !invoice.supplement)
-				return invoice.lineItems[0].amount;
+				return invoice ? invoice.lineItems[0].amount : 'default';
 			},
 			setLineItemRates() {
 				this.defaultLineItems.photos.rate = this.newInvoice.getPhotoRate()
