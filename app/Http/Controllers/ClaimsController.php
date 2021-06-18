@@ -33,7 +33,7 @@ class ClaimsController extends Controller {
 		if (!$request->ajax()){
 			// auth()->loginUsingId(5);
 			$user = auth()->user();
-		   $claims = Claim::with('statuses', 'assignments.user')->take(100)->get();
+		    $claims = Claim::with('statuses', 'assignments.user')->take(100)->get();
 		   // dd(json_decode($claim->claim_data));
 			// dd($superAdmin);
 			return view('claims.dashboard', compact('user', 'claims'));
@@ -93,6 +93,8 @@ class ClaimsController extends Controller {
 		 	},
       'statuses.user.avatar', 'statuses.user.roles', 'carrier.feeSchedules', 'assignments.user.avatar', 'estimates', 'invoices',  //'invoices.payments.check.deposit','invoices.supplements', 'reviewer', 'adjuster', 'carrier'
 		])->firstOrFail();
+		// ray()->showQueries();
+		// ray($claim)->blue();
 		// $claim->statuses->load('user.avatar');
 		// dd($claim);
 		$user = $request->user();
