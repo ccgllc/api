@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+const { RayPlugin } = require('vue-ray/vue2');
 Vue.use(VueRouter);
+Vue.use(RayPlugin, { interceptErrors: true, host: '127.0.0.1', port: 23517 })
 
 import claimData from './claimData.js';
 import Claim from './Claim.vue';
@@ -48,6 +50,7 @@ const ClaimView = new Vue({
 		this.alert.message = 'You have been assigned to this claim please confirm or reject this assignment';
 	},
 	mounted() {
+		// this.$ray(claim.invoices)
 		if (this.claim.assignments.length > 0) {
 			this.adjuster = this.claim.assignments.find(assignment => assignment.type = 'adjuster');
 		}
