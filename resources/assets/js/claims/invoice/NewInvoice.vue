@@ -127,12 +127,10 @@
 			},
 			copyFeeScheduleFromPriviousInvoice() {
 				const invoice = this.invoices.find(invoice => !invoice.is_supplement)
-				console.log(invoice);
-				return invoice.feeSchedule;
+				return invoice ? invoice.feeSchedule : 'default';
 			},
 			copyPreviousGrossLossAmount() {
 				const invoice = this.invoices.find(invoice => !invoice.supplement)
-				console.log(invoice);
 				return invoice.lineItems[0].amount;
 			},
 			setLineItemRates() {
