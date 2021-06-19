@@ -95,9 +95,6 @@ const Profile = new Vue({
 		},
 	},
 	methods: {
-		updateAvatar(updatedPath){
-			return this.user.avatar = {	path: updatedPath};
-		},
 		updateAvailability(availability){
 			return this.user.available = availability;
 		},
