@@ -55,7 +55,7 @@
 		computed: {
 			titleString() {
 				if(this.user.profile) {
-					return `Joined ${this.user.created_at}, lives in ${this.user.profile.city}, ${this.user.profile.state}, and has ${this.user.adjuster_licenses.length} adjuster lisenses...`
+					return `Joined ${this.user.created_at}, lives in ${this.user.profile.city}, ${this.user.profile.state}, and has ${this.user.adjuster_licenses.length} adjuster licenses...`
 				}
 			},
 			hasPermission() {
