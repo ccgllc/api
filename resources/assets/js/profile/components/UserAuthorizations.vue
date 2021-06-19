@@ -1,5 +1,5 @@
 <template>
-	<div class="columns" style="padding: 2em; background: #f2f2f2;">
+	<div class="columns" style="padding: 2em; background: #f2f2f2; margin-bottom: 0;">
 
 		<div class="column">
 			<user-permissions-manager 
