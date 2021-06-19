@@ -1,14 +1,14 @@
 import Vue from 'vue';
 // import VueRouter from 'vue-router';
-import Croppa from 'vue-croppa';
-
+// import Croppa from 'vue-croppa';
 // import Dashboard from './Dashboard';
 import PersonalInformation from './PersonalInformation';
 import Licenses from './Licenses';
 import Documents from './Documents';
 import Certifications from './Certifications';
 import WorkHistory from './WorkHistory';
-import search from '../components/Search';
+import Search from '../components/Search';
+import Avatar from './Avatar';
 // import profileNavigation from './ProfileNavigation';
 // import availability from './Availability';
 import Form from '../structur/src/form/Form';
@@ -18,7 +18,7 @@ import editableTextCard from './components/EditableTextCard';
 // import statusManager from './components/StatusManager';
 
 // Vue.use(VueRouter);
-Vue.use(Croppa, { componentName: 'avatar-cropper' });
+// Vue.use(Croppa, { componentName: 'avatarCropper' });
 
 // function getUser (route) {
 // 	return {
@@ -62,7 +62,8 @@ const Profile = new Vue({
 		Documents,
 		Certifications,
 		WorkHistory,
-		search,
+		Search,
+		Avatar,
 		priority: editableTextCard,
 		notes: editableTextCard,
 	},
@@ -94,26 +95,8 @@ const Profile = new Vue({
 		},
 	},
 	methods: {
-		uploadImage() {
-			console.log('uploading...');
-			this.avatarCropper.generateBlob((blob) => {
-				let file = new File([blob], "avatar.png", {type: 'image/png'});
-				let data = new FormData();
-				data.append('avatar', file);
-	        	window.axios.post('/api/user/' + window.userData.id + '/avatar/', data).then(response => {
-	        		console.log(response);
-	        		this.addingAvatar =  false;
-	        		this.user.avatar = {
-	        			path: response.data
-	        		};
-	        	})
-			});
-		},
-		hasImage() {
-			return this.imgLoaded = !this.imgLoaded;
-		},
-		toggleAvatarButton() {
-			return this.showAvatarButton = !this.showAvatarButton;
+		updateAvatar(updatedPath){
+			return this.user.avatar = {	path: updatedPath};
 		},
 		updateAvailability(availability){
 			return this.user.available = availability;
@@ -133,12 +116,12 @@ const Profile = new Vue({
 		revokePermission(permission) {
 			const idx = this.user.permissions.indexOf(permission)
 			return this.user.permissions.splice(idx, 1);
+		},
+		getAvatarPath() {
+			if (this.userHasAvatar) {
+				return this.user.avatar.path;
+			}
+			return "#";
 		}
-		// avatarPath() {
-		// 	if (this.userHasAvatar) {
-		// 		return this.user.avatar.path;
-		// 	}
-		// 	return "#";
-		// }
 	}
 }).$mount('#profile');
