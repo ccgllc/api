@@ -17,6 +17,7 @@
 				<documents></documents>
 				<certifications></certifications>
 				<work-history></work-history>
+				<avatar :img-path="getAvatarPath()"></avatar>
 			</div>
 		</div>
 	</div>
