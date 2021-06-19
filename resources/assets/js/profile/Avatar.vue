@@ -1,6 +1,16 @@
 <template>
-	<page title="Your Avatar" description="Click your current image or the box below to choose a new avatar.">
+	<page title="Your Avatar" description="Click your current image or the box below to choose and edit a new avatar.">
 		<div style="margin: 2em;">
+			<div v-if="imgLoaded">
+				<p style="margin-bottom: 0;">Use your mouse wheel (pinch on mobile) to zoom in and out</p>
+				<div class="buttons has-addons" style="padding: 1em;">
+			 		<button class="button" @click="avatarCropper.rotate()">Rotate</button>
+			 		<button class="button" @click="avatarCropper.flipX()">Flip X</button>
+			 		<button class="button" @click="avatarCropper.flipY()">Flip Y</button>
+			 		<button class="button is-secondary" @click="uploadImage">Save Profile Image</button>
+		 		</div>
+	 		</div>
+
 			<avatar-manager 
 		   	v-model="avatarCropper" 
 		   	canvas-color="transparent"
@@ -19,13 +29,6 @@
 		  	<img slot="placeholder" :src="imgPath" alt="choose an image.." /> 
 		 	 	<div class="spinner" v-if="avatarCropper && avatarCropper.loading"></div>
 			</avatar-manager>
-
-			<div class="buttons has-addons" v-if="imgLoaded" style="padding: 1em;">
-		 		<button class="button" @click="avatarCropper.rotate()">Rotate</button>
-		 		<button class="button" @click="avatarCropper.flipX()">Flip X</button>
-		 		<button class="button" @click="avatarCropper.flipY()">Flip Y</button>
-		 		<button class="button is-secondary" @click="uploadImage">Save Profile Image</button>
-	 		</div>
  		</div>
 	</page>
 </template>
