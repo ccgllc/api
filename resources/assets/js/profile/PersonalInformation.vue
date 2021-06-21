@@ -38,12 +38,8 @@
 			authorizations
 		},
 		mounted() {
-			// console.log(this.components);
-			// this.$nextTick(() => {
-				this.authUser = window.user;
-				this.user = window.userData;
-				// console.log(this.user);
-			// });
+			this.authUser = window.user;
+			this.user = window.userData;
 		},
 		data() {
 			return {
@@ -59,42 +55,19 @@
 				}
 			},
 			hasPermission() {
-				// this.$nextTick(()=>{
-					// console.log(this.user.roles);
 				var vm = this;
 
 				// if (this.authUser.roles.find(role => role.name === 'administrator')) 
 				// 	return true;
 
 				function authUserHasPermissionTo(permission) {
-					// console.log(vm.authUser.hasOwnProperty('permissions'));
 					let hasPermission = vm.authUser.permissions.find(perm => perm.name === permission)
 					return hasPermission ? true : false;
 				}
 
 				if (vm.authUser.permissions !== undefined)
 					return this.requiredPermissions.every(authUserHasPermissionTo);
-						
-					// })
-					// const roleAccess = this.authUser.roles.permissions.find(perm => {
-					// 	vm.
-					// });
-					// return this.availablePermissions.filter(permission => {
-					// 	// const label = permission.label.toLowerCase();
-					// 	return vm.requiredPermissions.
-					// 	// return permission.name.indexOf(vm.query.toLowerCase()) !== -1;
-					// });
-					// console.log(roleAccess);
-					// if (roleAccess) return true;
-				// }
-
-				
 			},
-
-				// return false;
-				// });
-				
-			// }
 		},
 		methods: {
 			updateStatus(status){

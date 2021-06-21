@@ -1,111 +1,55 @@
 <template>
-	<div class="columns" style="padding: 2em; background: #f2f2f2; margin-left: .025em;  overflow: hidden;">
+	<div class="columns" style="padding: 2em; background: #f2f2f2; margin-left: .025em; margin-right: .025em; overflow: hidden;">
 		<div class="column is-2">
 			<p><strong>Address</strong>:</p>
 		</div>
 
-		<div class="column is-10">
+		<!-- not editing -->
+		<div v-show="!editing" class="column is-8">
+			<div class="columns is-gapless">
+				<div class="column">
+					{{ location.street }} <br>
+					{{ location.city }} {{ location.state }}, {{ location.zip }}
+				</div>
+				<div class="column">
+					<div class="buttons has-addons">
+						<button class="button is-dark" @click.prevent="copyToClipboard">
+							&nbsp;<span class="icon"><i class="fa fa-files-o"></i></span>&nbsp;
+						</button>
+						<button class="button is-info" @click.prevent="toggleEditing">
+							&nbsp;<span class="icon"><i class="fa fa-edit"></i></span>&nbsp;
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- editing -->
+		<div v-show="editing" class="column is-8">
 			<form @submit.prevent="submit" @keydown="location.errors.clear($event.target.name)">
-				<div class="field" v-show="editing" style="margin-top: -5px;">
-					<div class="control has-icons-left">
-						<span class="icon is-small is-left">
-							<i @click="close" class="fa fa-times" style="cursor:pointer;"></i>
-						</span>
-						<input 
-							type="text" 
-							class="input" 
-							 id="location"
-							style="border: none; border-bottom: 1px solid #ccc; background: transparent; box-shadow: none;" 
-							@keyup.enter="toggleEditing"
-							autocomplete="off" 
-						>
+				<div class="columns is-gapless">
+					<div class="column">
+						<div class="field">
+							<div class="control has-icons-left">
+								<span class="icon is-small is-left" style="pointer-events: auto;">
+									<i @click="editing = false" class="fa fa-times" style="cursor:pointer;"></i>
+								</span>
+								<input type="text" class="input" id="location" style="padding-right: 0;"
+									@keyup.enter="toggleEditing"
+									@keyp.esc="editing = false;"
+									autocomplete="off" 
+								>
+							</div>
+						</div>
+					</div>
+					<div class="column">
+						<div class="field has-addons">
+						<span class="control" style="margin-bottom: 0"><button type='submit' class="button is-info">&nbsp;<span class="icon is-small"><i class="fa fa-check"></i></span>&nbsp;</button></span>
+						<span class="control" style="margin-bottom: 0"><button @click="editing = false" class="button is-dark">&nbsp;<span class="icon is-small"><i class="fa fa-times"></i></span>&nbsp;</button></span>
+					</div>
 					</div>
 				</div>
-				<!-- <div class="field" v-show="editing" style="margin-top: -5px;">
-					<div class="control has-icons-left">
-						<span class="icon is-small is-left" >
-					      <i @click="close" class="fa fa-times" style="cursor:pointer;"></i>
-					    </span>
-						<input 
-							id="sreet-input"
-							type="text"
-							class="input"
-							style="border: none; border-bottom: 1px solid #ccc; background: transparent; box-shadow: none;" 
-							v-model="address.street" 
-							@keyup.enter="toggleEditing"
-						>
-					</div>
-					<span class="help is-danger" v-if="address.errors.has('street')" v-text="address.errors.get('street')"></span>
-				</div>
-				<div class="field" v-show="editing" style="margin-top: -5px;">
-					<div class="control has-icons-left">
-						<span class="icon is-small is-left" >
-					      <i @click="close" class="fa fa-times" style="cursor:pointer;"></i>
-					    </span>
-						<input 
-							id="city-input"
-							type="text"
-							class="input"
-							style="border: none; border-bottom: 1px solid #ccc; background: transparent; box-shadow: none;" 
-							v-model="address.city" 
-							@keyup.enter="toggleEditing"
-						>
-					</div>
-					<span class="help is-danger" v-if="address.errors.has('city')" v-text="address.errors.get('city')"></span>
-				</div>
-				<div class="field" v-show="editing" style="margin-top: -5px;">
-					<div class="control has-icons-left">
-						<span class="icon is-small is-left" >
-					      <i @click="close" class="fa fa-times" style="cursor:pointer;"></i>
-					    </span>
-						<input 
-							id="city-input"
-							type="text"
-							class="input"
-							style="border: none; border-bottom: 1px solid #ccc; background: transparent; box-shadow: none;" 
-							v-model="address.state" 
-							@keyup.enter="toggleEditing"
-						>
-					</div>
-					<span class="help is-danger" v-if="address.errors.has('state')" v-text="address.errors.get('state')"></span>
-				</div>
-				<div class="field" v-show="editing" style="margin-top: -5px;">
-					<div class="control has-icons-left">
-						<span class="icon is-small is-left" >
-					      <i @click="close" class="fa fa-times" style="cursor:pointer;"></i>
-					    </span>
-						<input 
-							id="city-input"
-							type="text"
-							class="input"
-							style="border: none; border-bottom: 1px solid #ccc; background: transparent; box-shadow: none;" 
-							v-model="address.zip" 
-							@keyup.enter="toggleEditing"
-						>
-					</div>
-					<span class="help is-danger" v-if="address.errors.has('zip')" v-text="address.errors.get('zip')"></span>
-				</div> -->
 			</form>
-			<span v-if="!editing" @dblclick.prevent="toggleEditing" @mouseover="showEdit = true" @mouseleave="showEdit = false; copyText='copy'" style="cursor:pointer">
-				{{ location.street }} <br>
-				{{ location.city }} {{ location.state }}, {{ location.zip }}
-				&nbsp;
-				<span v-show="showEdit">
-				<a 
-					@click.prevent="copyToClipboard"
-					v-if="!editing"
-					v-text="copyText"
-				>
-				</a>
-				&nbsp;|&nbsp; 
-				<a 
-					@click.prevent="toggleEditing"
-					v-if="!editing"
-				>
-					edit
-				</a>
-				</span>
-			</span>
 		</div>
 	</div>
 </template>
@@ -155,13 +99,13 @@
 				}),
 				autocomplete: {},
 				componentForm: {
-			        street_number: 'short_name',
-			        route: 'long_name',
-			        locality: 'long_name',
-			        administrative_area_level_1: 'short_name',
-			        country: 'long_name',
-			        postal_code: 'short_name'
-		      	}
+	        street_number: 'short_name',
+	        route: 'long_name',
+	        locality: 'long_name',
+	        administrative_area_level_1: 'short_name',
+	        country: 'long_name',
+	        postal_code: 'short_name'
+      	}
 			}
 		},
 		computed: {
@@ -189,7 +133,6 @@
 							this.location.lat = response['lat'];
 							this.location.lng = response['lng'];
 							this.location.formatted_address = response['formatted_address'];
-							// this.location.api_token = window.userData.api_token;
 						}).catch(error => {
 							console.log(error);
 							return window.axios.post('/api/admin/client-error', error);

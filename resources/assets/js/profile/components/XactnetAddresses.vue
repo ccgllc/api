@@ -3,7 +3,7 @@
 		<div class="column is-2">
 			<p><strong>Xactnet Addresses</strong>: </p> 
 		</div>
-		<div class="column is-10">
+		<div class="column is-8">
 			<xactnet-address 
 				v-for="address in xactnetAddresses" :key="address.id" 
 				:xactnetAddress="address" :errors="form.errors" :updateError="updateError"

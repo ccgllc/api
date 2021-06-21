@@ -1,48 +1,68 @@
 <template>
-	<div class="columns" style="padding: 2em; margin: 0.05em 0.025em 0 0; background: #f2f2f2; overflow: hidden;">
+	<div class="columns" style="padding: 2em; background: #f2f2f2; overflow: hidden; margin-left: 0.025em; margin-right: 0.025em;">
+		<!-- static -->
 		<div class="column is-2">
 			<p><strong>Email</strong>:</p>
 		</div>
 
-		<div class="column is-10">
-			<form @submit.prevent="submit" @keydown="form.errors.clear($event.target.name)">
-				<div class="field" v-show="editing" style="margin-top: -5px;">
-					<div class="control has-icons-left">
-						<span class="icon is-small is-left" >
-					      <i @click="close" class="fa fa-times" style="cursor:pointer;"></i>
-					    </span>
-						<input 
-							id="email-input"
-							type="text"
-							class="input"
-							style="border: none; border-bottom: 1px solid #ccc; background: transparent; box-shadow: none;" 
-							v-model="form.email" 
-							@keyup.enter="toggleEditing"
-						>
+		<!-- not editing  -->
+		<div class="column is-8" v-if="!editing" @dblclick.prevent="toggleEditing"  style="cursor:pointer">
+			<div class="columns is-gapless">
+				<div class="column">{{ form.email }}</div>
+				<div class="column">
+					<div class="field has-addons">
+						<p class="control" style="margin-bottom: 0;">
+							<button class="button is-dark"
+								@click.prevent="copyToClipboard"
+							>
+								&nbsp;<span class="icon"><i class="fa fa-files-o"></i></span>&nbsp;
+							</button>
+						</p>
+						<p class="control" style="margin-bottom: 0;">
+							<button class="button is-info"
+								@click.prevent="toggleEditing"
+							>
+								&nbsp;<span class="icon"><i class="fa fa-edit"></i></span>&nbsp;
+							</button>
+						</p>
 					</div>
-					<span class="help is-danger" v-if="form.errors.has('email')" v-text="form.errors.get('email')"></span>
+				</div>
+			</div>
+		</div>
+
+		<!-- editing -->
+		<div class="column is-8" v-show="editing">
+			<form @submit.prevent="submit" @keydown="form.errors.clear($event.target.name)">
+				<div class="columns is-gapless">
+					<div class="column">
+						<div class="field">
+							<div class="control has-icons-left">
+								<span class="icon is-small is-left" style="pointer-events: auto;">
+						      <i @click="close" class="fa fa-times" style="cursor:pointer;"></i>
+						    </span>
+								<input 
+									id="email-input"
+									type="text"
+									class="input"
+									style="" 
+									v-model="form.email" 
+									@keyup.enter="submit()"
+									@keyup.esc="close()"
+								>
+							</div>
+							<span class="help is-danger" v-if="form.errors.has('email')" v-text="form.errors.get('email')"></span>
+						</div>
+					</div>
+					<div class="column">
+						<div class="field has-addons" v-if="editing">
+							<span class="control" style="margin-bottom: 0"><button type='submit' class="button is-info">&nbsp;<span class="icon is-small"><i class="fa fa-check"></i></span>&nbsp;</button></span>
+							<span class="control" style="margin-bottom: 0"><button @click="close()" class="button is-dark">&nbsp;<span class="icon is-small"><i class="fa fa-times"></i></span>&nbsp;</button></span>
+						</div>
+					</div>
 				</div>
 			</form>
-			<span v-if="!editing" @dblclick.prevent="toggleEditing" @mouseover="showEdit = true" @mouseleave="showEdit = false; copyText='copy'" style="cursor:pointer">
-				{{ form.email }}
-				&nbsp;
-				<span v-show="showEdit">
-				<a 
-					@click.prevent="copyToClipboard"
-					v-if="!editing"
-					v-text="copyText"
-				>
-				</a>
-				&nbsp;|&nbsp; 
-				<a 
-					@click.prevent="toggleEditing"
-					v-if="!editing"
-				>
-					edit
-				</a>
-				</span>
-			</span>
 		</div>
+
 	</div>
 </template>
 
@@ -51,7 +71,7 @@
 	export default {
 		name: 'EmailAddress',
 		mounted() {
-			this.input = document.getElementById('phone-input')
+			this.input = document.getElementById('email-input')
 			this.form.email = window.userData.email;
 			this.userId = window.userData.id;
 		},
@@ -83,18 +103,19 @@
 						.then(response => {
 							console.log(response);
 							this.form.email = response;
+							this.close();
 							// this.emailAddress.api_token = window.userData.api_token;
 						}).catch(error => {
 							console.error(error);
 							return window.axios.post('/api/admin/client-error', error);
 						});
 				}else{
-					this.edit = false;
+					this.editing = false;
 					return this.form.email = window.userData.profile.email;
 				}
 			},
 			close() {
-				console.log('close');
+				return this.editing = false;
 			},
 			toggleEditing() {
 				this.editing = !this.editing;
