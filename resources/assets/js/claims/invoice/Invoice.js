@@ -58,10 +58,9 @@ export default class Invoice {
 	}
 
 	calculateTax() {
-		const taxable = this.getTaxableLineItems();
 		let tax = 0;
-		if (this.feeSchedule.taxable !== undefined && this.feeSchedule.taxble) {
-			taxable.forEach(
+		if (this.feeSchedule.taxable === true) {
+			this.getTaxableLineItems().forEach(
 				item => tax += +(+item.total * +this.taxRate)
 			);
 		}
