@@ -3,12 +3,12 @@
 namespace CCG\Http\Requests;
 
 use CCG\Claims\ClaimStatus;
-use CCG\Events\ClaimStatusUpdated;
-use Event;
-use CCG\Http\Requests\Request;
-use CCG\User; 
+// use CCG\Events\ClaimStatusUpdated;
+// use Event;
+use Illuminate\Foundation\Http\FormRequest;
+// use CCG\User; 
 
-class ClaimStatusRequest extends Request
+class ClaimStatusRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
