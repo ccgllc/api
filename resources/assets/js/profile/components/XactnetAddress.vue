@@ -6,34 +6,34 @@
 				<div class="column">{{ xactnetAddress.address }}</div>
 				<div class="column">
 					<div class="field has-addons">
-							<p class="control" style="margin-bottom: 0;">
-								<button class="button is-dark"
-									@click.prevent="copyToClipboard"
-								>
-									&nbsp;<span class="icon"><i class="fa fa-files-o"></i></span>&nbsp;
-								</button>
-							</p>
-							<p class="control" style="margin-bottom: 0;">
-								<button class="button is-info"
-									@click.prevent="toggleEditing"
-								>
-									&nbsp;<span class="icon"><i class="fa fa-edit"></i></span>&nbsp;
-								</button>
-							</p>
-							<p class="control" style="margin-bottom: 0;">
-								<button class="button is-danger"
-									@click.confirm="deleteAddress(xactnetAddress.id)"
-								>
-									&nbsp;<span class="icon"><i class="fa fa-trash-o"></i></span>&nbsp;
-								</button>
-							</p>
-						</div>
+						<p class="control" style="margin-bottom: 0;">
+							<button class="button is-dark"
+								@click.prevent="copyToClipboard"
+							>
+								&nbsp;<span class="icon"><i class="fa fa-files-o"></i></span>&nbsp;
+							</button>
+						</p>
+						<p class="control" style="margin-bottom: 0;">
+							<button class="button is-info"
+								@click.prevent="editing = true"
+							>
+								&nbsp;<span class="icon"><i class="fa fa-edit"></i></span>&nbsp;
+							</button>
+						</p>
+						<p class="control" style="margin-bottom: 0;">
+							<button class="button is-danger"
+								@click.confirm="deleteAddress(xactnetAddress.id)"
+							>
+								&nbsp;<span class="icon"><i class="fa fa-trash-o"></i></span>&nbsp;
+							</button>
+						</p>
+					</div>
 				</div>
 			</div>
 		</div>
 
 		<!-- editing -->
-		<div class="column" v-show="editing">
+		<div class="column" v-if="editing">
 			<form @submit.prevent="submit" @keydown="errors.clear($event.target.name)">
 				<div class="columns is-gapless">
 					<div class="column">
@@ -56,38 +56,19 @@
 					</div>
 					<div class="column">
 						<div class="field has-addons">
-						<span class="control" style="margin-bottom: 0"><button type='submit' class="button is-info">&nbsp;<span class="icon is-small"><i class="fa fa-check"></i></span>&nbsp;</button></span>
+						<span class="control" style="margin-bottom: 0">
+							<button type='submit' class="button is-info">
+								&nbsp;
+								<span class="icon is-small">
+								<i class="fa fa-check"></i></span>
+								&nbsp;
+							</button>
+						</span>
 						<span class="control" style="margin-bottom: 0"><button @click="editing = false" class="button is-dark">&nbsp;<span class="icon is-small"><i class="fa fa-times"></i></span>&nbsp;</button></span>
 					</div>
 					</div>
 				</div>
 			</form>
-			<span v-model="xactnetAddress" v-if="!editing" @dblclick.prevent="toggleEditing" @mouseover="toggleOptions(true)" @mouseleave="toggleOptions(false)" style="cursor:pointer">
-				{{ xactnetAddress.address }} 
-				&nbsp;
-				<span v-show="showOptions">
-				<a 
-					@click.prevent="toggleEditing"
-					v-if="!editing"
-				>
-					<span class="icon is-small has-text-dark"><span class="fa fa-pencil"></span></span>
-				</a>
-				&nbsp;|&nbsp; 
-				<a 
-					@click.prevent="deleteAddress(xactnetAddress.id)"
-					v-if="!editing"
-				>
-					<span class="icon is-small has-text-danger"><span class="fa fa-trash-o"></span></span>
-				</a>
-				&nbsp;|&nbsp;
-				<a 
-					@click.prevent="copyToClipboard"
-					v-if="!editing"
-				>
-					<span class="icon is-small has-text-secondary"><span class="fa fa-copy"></span></span>
-				</a>
-				</span>
-			</span>
 		</div>	
 </div>
 </template>
@@ -115,7 +96,7 @@
 		},
 		computed: {
 			submitable() {
-				return this.form.xactnet_address === '' ? false : true;
+				return this.form.xactnet_address === '' && !this.editing ? false : true;
 			}
 		},
 		methods: {
