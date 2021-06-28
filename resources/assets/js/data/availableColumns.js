@@ -7,6 +7,7 @@ export default [
 	{ label: 'City', property: 'city', model: 'profile', removable: true},
 	{ label: 'State', property: 'state', model: 'profile', removable: true},
 	{ label: 'zip', property: 'zip', model: 'profile', removable: true},
+	{ label: 'email', property: 'email', model: 'user', removable: true},
 	{ label: 'Phone', property: 'phone', model: 'profile', removable: true},
 	{ label: 'Software', property:'type', model:'software_experiences', removable: true },
 	{ label: 'Res. Exp (mo)', property: 'residential_experience', model: 'work_history',  removable: true},
