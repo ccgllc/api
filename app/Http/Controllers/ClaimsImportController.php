@@ -2,8 +2,9 @@
 
 namespace CCG\Http\Controllers;
 
-use CCG\Xact\XactClaimImport;
 use CCG\Claims\ManagesImportedClaims;
+use CCG\Jobs\ImportXactClaim;
+use CCG\Xact\XactClaimImport;
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\response;
 use Illuminate\Http\Request;
@@ -19,10 +20,11 @@ class ClaimsImportController extends Controller
 	*/
 	public function import(Request $request)
 	{
-		// if ($request->header('xact-key') === env('XACT_KEY')){
+		$auth = $request->header('Authorization');
+		if ($auth && $auth === env('XACT_KEY')){
     		return $this->importClaim();
-    	// };
-		// return response('Unauthorized, No auth key provided, or your key is invalid.', '401')->header('Content-Type', '');
+    	};
+		return response('Unauthorized, No authorization provided, or your credentials are invalid.', '401')->header('Content-Type', '');
 	}
 
 	/**
@@ -32,11 +34,15 @@ class ClaimsImportController extends Controller
     public function importClaim()
     {
     	// create an instance of our claim importer with xml file recieved.
-    	$claim = new XactClaimImport($this->receivedClaimData());
+    	// $claim = new XactClaimImport($this->receivedClaimData());
+    	// ray($claim);
+
+    	ImportXactClaim::dispatch($this->receivedClaimData());
+
     	// dd($claim);
         // 2. Create New Claim From Parsed XML.
-        $newClaim = $this->saveClaim($claim);
-        dd($newClaim); /// REMOVE FOR PRODUCTION.
+        // $newClaim = $this->saveClaim($claim);
+        // dd($newClaim); /// REMOVE FOR PRODUCTION.
         // 3. Return the success XML Response to Xactanalysis.
         $success = file_get_contents(storage_path('XmlResponses/XactSuccess.xml'));
         return response($success, 200, ['Content-Type', 'xml']);
