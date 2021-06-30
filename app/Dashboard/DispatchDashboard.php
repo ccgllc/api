@@ -24,52 +24,42 @@ class DispatchDashboard
      */
 	public $adjusters;
 
+	 /**
+     * Relationships to load.
+     *
+     * @var array
+     */
+	public $relationships;
+
+
 	public function __construct()
 	{
 		$this->claims = $this->getClaims();
 		$this->adjusters = $this->getAdjusters();
+		// $this->relationships = $this->getRelationships();
 	}
 
 	public function getAdjusters()
 	{
-		//$role = Role::with(['users', 'users.profile'])->whereName('adjuster')->first();
-		//whereHas('adjusterLicenses')->
 		$adjusters = User::whereHas('profile', function($query) {
 			$query->whereNotNull('city');
 			$query->whereNotNull('street');
 			$query->whereNotNull('state');
 		})->get();
 
-		$adjusters->load('profile', 'workHistory', 'adjusterLicenses', 'certifications', 'avatar');
+		$adjusters->load($this->getRelationships());
 		
 		return array_values($adjusters->toArray());
-		// $profiles = Profile::with('user','user.profile', 'user.workHistory', 'user.adjusterLicenses', 'user.certifications', 'user.avatar')
-		// 					->whereNotNull('city')
-		// 					->whereNotNull('state')
-		// 					->whereNotNull('street')
-		// 					->get();
-
-		// $adjusters = $profiles->map(function($profile) {
-		// 	return $profile->user;
-		// });
-
-		// $list = $adjusters->filter(function($user, $key) {
-		// 	return $user->adjusterLicenses->count();
-		// });
 	}
 
 	public function getClaims()
 	{
-		$date = \Carbon\Carbon::create(2018, 1, 1, 0, 0, 0);
+		$claims = Claim::with('statuses', 'carrier')->doesntHave('assignments')->take(50)->get();
+		return $claims->toArray();
+	}
 
-		$claims = Claim::with('carrier')
-						->where('date_of_loss', '>', $date)
-						->orderBy('date_received', 'desc')->paginate(15);
-
-		$unAssignedClaims = $claims->filter(function($claim, $key) { 
-			return $claim->statuses->count() <  2; 
-		});
-
-		return array_values($unAssignedClaims->toArray());
+	protected function getRelationships()
+	{
+		return ['profile', 'workHistory', 'adjusterLicenses', 'certifications', 'avatar', 'roles'];
 	}
 }
