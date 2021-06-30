@@ -20,6 +20,7 @@ class UserDashboard {
 	public $candidateCount;
 	public $newHireCount;
 	public $sates;
+	public $users;
 
 	public function __construct()
 	{
@@ -29,6 +30,7 @@ class UserDashboard {
 		$this->applicants = $this->getUsers('applicant', 4);
 		$this->roles = $this->getRoles();
 		$this->states = $this->getUserStateCounts();
+		$this->users = $this->getDefaultUsers();
 		$this->setCounts();
 		// dd($this);
 	}
@@ -36,6 +38,12 @@ class UserDashboard {
 	protected function getUsers($status, $quanity)
 	{
 		return User::recent()->status($status)->get()->take($quanity)->all();
+	}
+
+	protected function getDefaultUsers()
+	{
+		 $users = User::recent()->paginate(36);
+      return $users->load($this->getRelationships());
 	}
 
 	protected function getRoles()
@@ -61,8 +69,7 @@ class UserDashboard {
 
 	protected function getUserStateCounts()
 	{
-		$states = [ 'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'DC', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 
-	    	'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'
+		$states = [ 'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'DC', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'
 		];
 
 		$stateCounts = [];
@@ -78,6 +85,13 @@ class UserDashboard {
 			}
 		}
 		return $stateCounts;
+	}
+
+	protected function getRelationships()
+	{
+		return [
+			'roles', 'profile', 'certifications', 'workHistory', 'adjusterLicenses', 'softwareExperiences', 'avatar'
+		];
 	}
 
 	protected function getUserTypeCounts($status)
