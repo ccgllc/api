@@ -4,7 +4,7 @@ namespace CCG\Http\Controllers;
 
 use CCG\Claims\ClaimStatus;
 use CCG\Http\Controllers\Controller;
-use CCG\Http\Requests;
+// use CCG\Http\Requests;
 use CCG\Http\Requests\ClaimStatusRequest;
 use CCG\Xact\XactClaimStatusImport;
 use Illuminate\Http\Request;
@@ -26,8 +26,8 @@ class ClaimStatusController extends Controller
 	*/
     public function store(ClaimStatusRequest $request)
     {
-        if ($request->hasHeader('xact-key') && $request->header('xact-key') === env('XACT_KEY'))
-        {
+        $auth = $request->header('Authorization');
+        if ($auth && $auth === env('XACT_KEY')){
             return $this->importStatus();
         }
         else {
@@ -53,7 +53,7 @@ class ClaimStatusController extends Controller
         $this->status = new XactClaimStatusImport($this->receivedClaimData());
         $parsedStatus = $this->status->parse();
         // persist status.
-        dd($parsedStatus->all()); 
+        ray($parsedStatus)->blue(); 
         // ClaimStatus::create($status->all());
         //notify Xact of success.
         return $this->returnSuccessToXact();
