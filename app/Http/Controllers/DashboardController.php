@@ -11,7 +11,7 @@ class DashboardController extends Controller
 {
 	public function __construct()
 	{
-		// $this->middleware(['auth', 'dashboard']);
+		$this->middleware(['auth', 'dashboard']);
 	}
 
     public function show(Request $request)
@@ -35,6 +35,14 @@ class DashboardController extends Controller
         //     return redirect('/profile');
         // }
        	
+    }
+
+    public function showDispatch(Request $request)
+    {
+        $user = \Auth::user();
+        $data = new DispatchDashboard($user);
+
+        return view('dashboard.dispatch', compact('data'));
     }
 
     protected function getDashboardData($user)
