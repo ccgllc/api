@@ -17,12 +17,12 @@
     {{-- <meta user="{{ Auth::user() }}"/> --}}
 
 </head>
-<body>
+<body style="">
     <!--[if lte IE 11]>
     <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
   <![endif]-->
     <div class="columns is-gapless" style="">
-        <div id="app" class="column is-2" style="padding: 0; position: sticky; top: 0; z-index: 100000000; max-height: 100vh" >
+        <div id="app" class="column is-2" style="padding: 0; position: sticky; top: 0; z-index: 100000000; max-height: 100vh; overflow-y: hidden;" >
             <navigation 
                 version="{{ env('APP_VERSION') }}" 
                 application-date="{{ $user->profile->created_at->diffForHumans() }}" 
@@ -32,7 +32,7 @@
             </navigation>
         </div>
 
-      <div class="column" style="background: #e0e0e0;">
+      <div class="column" style="background: #e0e0e0; overflow-x: scroll;">
 
             @yield('content')
 
