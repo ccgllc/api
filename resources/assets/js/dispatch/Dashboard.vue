@@ -1,5 +1,5 @@
 <template>
-	<div class="">
+	<page title="Dispatch Dashboard" description="Filter and assign claims and adjusters">
 		<div id="map" style="width: 100%; height: 600px; position: fixed;"></div>
 		<div class="columns section is-main">
 			<div class="column is-2">
@@ -115,16 +115,17 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</page>
 </template>
 
 <script>
 	import claimListItem from './DispatchClaimListItem.vue';
 	import adjusterListItem from './DispatchAdjusterListItem.vue';
+	import page from '../components/Page.vue'
 	export default {
 		name: 'DispatchDashboard',
 		components: {
-			claimListItem, adjusterListItem
+			claimListItem, adjusterListItem, page
 		},
 		created() {
 			// parse claim_data json column for each claim.
