@@ -4,6 +4,7 @@ namespace CCG\Events\Claim;
 
 use CCG\Claims\Claim;
 use CCG\User;
+use CCG\XactnetAddress;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -17,17 +18,19 @@ class ClaimAssigned
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $claim;
-    public $user; 
+    public $xactnetAddress; 
+    public $user;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Claim $claim, User $user)
+    public function __construct(Claim $claim, User $user, XactnetAddress $xactnetAddress)
     {
         $this->claim = $claim;
         $this->user = $user;
+        $this->xactnetAddress = $xactnetAddress;
     }
 
     /**
