@@ -7,20 +7,34 @@ use CCG\Claims\TransactionId;
 use CCG\Events\Claim\ClaimAssigned;
 use CCG\User;
 use CCG\Xact\XactClaimStatusImport;
+use CCG\XactnetAddress;
 
 trait ManagesImportedClaimStatuses {
 
 	protected $status;
+	public $xactnetAddress;
 	// protected $claim;
 
 	public function createStatus()
 	{
 		// dd($this->generateStatusData()->all());
 		$status =  ClaimStatus::create($this->generateStatusData()->except('xact_net_address')->all());
-		if ($this->assignable() && $this->status->getProperty('status_type') === 'Notification Pending')
+		ray($this->assignable());
+		if ($this->assignable()) {
+			info('trying to reassign');
 			event(new ClaimAssigned(
-				$this->status->getProperty('claim'), $this->status->getProperty('user')
+				$this->status->getProperty('claim'), 
+				$this->status->getProperty('user'),
+				$this->xactnetAddress
 			));
+		}
+	}
+
+	protected function findXactnetAddress()
+	{
+		return $this->xactnetAddress = XactnetAddress::with('user')
+			->whereAddress($this->status->getProperty('xact_net_address'))
+			->first();
 	}
 
 	public function createable()
@@ -33,9 +47,11 @@ trait ManagesImportedClaimStatuses {
 
 	public function assignable() 
 	{
-		return $this->status->getProperty('user')->id === 0
-    		? false
-    		: true;
+		// info($this->findXactnetAddress());
+		// ray($this->status->getProperty('status_type') === 'Notification Pending');
+		return $this->status->getProperty('status_type') === 'Notification Pending' && $this->xactnetAddress !== null
+    		? true
+    		: false;
 	}
 
 	public function setStatus(XactClaimStatusImport $data)
