@@ -4,6 +4,7 @@ namespace CCG\Claims;
 
 use CCG\Claims\Claim;
 use CCG\User;
+use CCG\XactnetAddress;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -21,6 +22,11 @@ class Assignment extends Model
  	public function user()
  	{
  		return $this->belongsTo(User::class);
+ 	}
+
+ 	public function xactnetAddress()
+ 	{
+ 		return $this->belongsTo(XactnetAddress::class);
  	}
 
  	public function scopeCurrentAdjuster($query)

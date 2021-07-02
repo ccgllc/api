@@ -69,7 +69,7 @@ class ProfileController extends Controller {
 	public function deleteXactnetAddress(Request $request, $id)
 	{
 		$xactnetAddress = XactnetAddress::find($id);
-		if (!$xactnetAddress->user->assignments->count()) {
+		if (!$xactnetAddress->assignments->count()) {
 			$xactnetAddress->delete($id);
 			 return response('success', 200);
 		}
