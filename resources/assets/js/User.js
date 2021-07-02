@@ -118,34 +118,12 @@ let app = new Vue({
 		}
 	},
 	mounted() {
-		// const _home = this.home;
-		// console.log(this.home);
-		// this.bounds = new google.maps.LatLngBounds();
-		// this.map = new google.maps.Map(document.getElementById('map'), {
-  //         zoom: 12,
-  //         center: this.home,
-  //       });
-  //       this.marker = new google.maps.Marker({
-  //         position: this.home,
-  //         map: this.map
-  //       });
-  //       this.autocomplete = new google.maps.places.Autocomplete(
-  //            /* @type {!HTMLInputElement} */
-  //           (document.getElementById('claim-location')),
-  //           {types: ['geocode']}
-  //       );
-
-  //       // When the user selects an address from the dropdown, populate the address
-  //       // fields in the form.
-  //   	this.autocomplete.addListener('place_changed', () => { this.setHome() });
-  		// this.filters.endDate = 
-  		// this.user = window.user;
-  		this.date = DateTime.local();
-  		this.setupDates();
-        this.current_page = window.users.current_page;
-        return window.users.data 
-        	? this.userData.users = window.users.data 
-        	: this.userData.users = window.users;
+		this.date = DateTime.local();
+		this.setupDates();
+      this.current_page = window.users.current_page;
+      return window.users.data 
+      	? this.userData.users = window.users.data 
+      	: this.userData.users = window.users;
 	},
 	methods: {
 		geolocate() {
