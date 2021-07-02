@@ -19,7 +19,7 @@ export default {
                 var label = chartData.labels[idx];
                 var value = chartData.datasets[0].data[idx];
 
-                var url = "/users/" + label;
+                var url = "/users/status/" + label;
                 // console.log(url);
                 // alert(url);
                 window.location = url
@@ -38,7 +38,7 @@ export default {
                 ]
             },
             options: {
-                title: { display: true, text: 'Total Users'},
+                title: { display: true, text: 'System Users By Status'},
                 legend: {
                     display: true,
                     position: 'bottom',
