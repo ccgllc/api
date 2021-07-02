@@ -32,7 +32,7 @@ class CreateCarrierPermissions extends Command
     public function __construct()
     {
         parent::__construct();
-        $this->carriers = Carrier::all();
+        // $this->carriers = Carrier::all();
     }
 
     /**
