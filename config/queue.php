@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('QUEUE_DRIVER', 'sync'),
+    'default' => env('QUEUE_DRIVER', 'redis'),
 
     /*
     |--------------------------------------------------------------------------
@@ -79,8 +79,10 @@ return [
     */
 
     'failed' => [
-        'database' => env('DB_CONNECTION', 'mysql'),
-        'table' => 'failed_jobs',
+        'database' => env('REDIS_HOST', 'redis'),
+        'password' => env('REDIS_PASSWORD', null),
+        'port' => env('REDIS_PORT', 6379),
+        'database' => 0,
     ],
 
 ];
