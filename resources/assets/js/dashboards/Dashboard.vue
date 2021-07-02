@@ -4,8 +4,8 @@
 
 <script>
 	// import appData from '../data/appData.js';
-	import reviewerDashboard from './reviewerDashboard';
-	import adjusterDashboard from './adjusterDashboard';
+	import reviewerDashboard from './reviewerDashboard.vue';
+	import adjusterDashboard from './adjusterDashboard.vue';
 
 	export default {
 		name: 'DashboardRoot',
