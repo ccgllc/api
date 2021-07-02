@@ -8,7 +8,7 @@
 			</span>
 		</div>
 
-		<div class="content" style="overflow: hidden;">
+		<div class="content" style="">
 			<slot></slot>
 		</div>
 	</div>
