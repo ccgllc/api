@@ -1,5 +1,5 @@
 <template>
-	<div class="columns" style="margin: 3rem 0 3rem 0;">
+	<div class="columns" style="margin: 1rem 0 1rem 0;">
 		<div class="column">
 			<div class="card" style="cursor: pointer">
 				<div class="card-content has-text-centered">
