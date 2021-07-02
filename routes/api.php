@@ -105,7 +105,7 @@ Route::post('search', function(Request $request){
 		 } 
 
 		 $claims = CCG\Claims\Claim::where('claim_number', 'like', "%$query%")
-							->orWhere('transaction_id', 'like', "%$query%")->take(5)->get();
+						->orWhere('transaction_id', 'like', "$query%")->take(10)->get();
 
 			if ($claims) {
 
