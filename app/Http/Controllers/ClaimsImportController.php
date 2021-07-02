@@ -33,16 +33,13 @@ class ClaimsImportController extends Controller
 	*/
     public function importClaim()
     {
-    	// create an instance of our claim importer with xml file recieved.
-    	// $claim = new XactClaimImport($this->receivedClaimData());
-    	// ray($claim);
+    	// create an instance of our claim importer Job with xml file data recieved.
+    	ImportXactClaim::dispatch($this->receivedClaimData())
+    		->onQueue('claims');
 
-    	ImportXactClaim::dispatch($this->receivedClaimData());
+		// dispatch Job to handle saving xmlfile. doesnt exist yet!
+		// SaveXactClaimDocument::dispatch($this->receivedClaimData());
 
-    	// dd($claim);
-        // 2. Create New Claim From Parsed XML.
-        // $newClaim = $this->saveClaim($claim);
-        // dd($newClaim); /// REMOVE FOR PRODUCTION.
         // 3. Return the success XML Response to Xactanalysis.
         $success = file_get_contents(storage_path('XmlResponses/XactSuccess.xml'));
         return response($success, 200, ['Content-Type', 'xml']);
