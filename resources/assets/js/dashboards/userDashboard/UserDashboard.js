@@ -2,7 +2,8 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 
 import dashboardHome from './components/Home.vue';
-
+import search from '../../components/Search.vue';
+import UserList from './components/UserList.vue';
 
 Vue.use(VueRouter);
 
@@ -23,6 +24,8 @@ const Dashboard = new Vue({
 	router,
 	components: {
 		//root vue components here.
+		search,
+		UserList
 	},
 	data() {
 		return {
