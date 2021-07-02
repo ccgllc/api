@@ -3,16 +3,19 @@
 namespace CCG\Http\Controllers;
 
 use CCG\Claims\ClaimStatus;
-use CCG\Http\Controllers\Controller;
-// use CCG\Http\Requests;
-use CCG\Http\Requests\ClaimStatusRequest;
-use CCG\Xact\XactClaimStatusImport;
-use Illuminate\Http\Request;
-use Event;
+use CCG\Claims\ManagesImportedClaimStatuses;
 use CCG\Events\ClaimStatusUpdated;
+use CCG\Http\Controllers\Controller;
+use CCG\Http\Requests\ClaimStatusRequest;
+use CCG\Jobs\ImportXactClaimStatus;
+use CCG\Xact\XactClaimStatusImport;
+use Event;
+use Illuminate\Http\Request;
 
 class ClaimStatusController extends Controller
 {
+    use ManagesImportedClaimStatuses;
+
     protected $status;
 
 	public function __construct() 
@@ -29,6 +32,7 @@ class ClaimStatusController extends Controller
         $auth = $request->header('Authorization');
         if ($auth && $auth === env('XACT_KEY')){
             return $this->importStatus();
+            // return $this->returnSuccessToXact();
         }
         else {
             $status = $this->createStatus($request);
@@ -47,15 +51,13 @@ class ClaimStatusController extends Controller
         
     }
 
-    protected function importStatus()
+    public function importStatus()
     {
-        //create a new instance of status import.
-        $this->status = new XactClaimStatusImport($this->receivedClaimData());
-        $parsedStatus = $this->status->parse();
-        // persist status.
-        ray($parsedStatus)->blue(); 
-        // ClaimStatus::create($status->all());
-        //notify Xact of success.
+        ImportXactClaimStatus::dispatch($this->receivedClaimData())
+            ->onQueue('statuses');
+       
+       // TODO: dispatch job to handle saving of claimStatus;
+       
         return $this->returnSuccessToXact();
     }
 
