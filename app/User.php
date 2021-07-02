@@ -203,12 +203,10 @@ class User extends Authenticatable
     public function scopeClaims()
     {
 
-      $assignments = $this->assignments->load([
-        'claim' => function($query) {
-          $query->orderBy('date_of_loss', 'desc');
-        }, 
-        'claim.carrier'
-      ]);
+      $assignments = $this->assignments->load(
+        ['claim', 'claim.carrier']
+      )->sortDesc();
+
 
      if ($assignments->isNotEmpty()) 
         return $assignments->pluck('claim');
