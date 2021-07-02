@@ -19,9 +19,13 @@
 				  <ul class="menu-list">
 			  		<li v-if="hasRoles">
 			  			<a href="/dashboard/#/">
-			        	<span class="icon is-small"><i class="fa fa-dashboard"></i></span>
-			        	<span class="has-text-weight-medium">Dashboard</span>
-			      	</a>
+				        	<span class="icon is-small"><i class="fa fa-dashboard"></i></span>
+				        	<span class="has-text-weight-medium">My Dashboard</span>
+			      		</a>
+			      		<ul style="font-size: .75em; border-color: #439bd1">
+			        		<li v-if="user.permissions.find(perm => perm.name === 'manage-users')"><a href="/dashboard/users/#/">Users Dashboard</a></li>
+			        		<li v-if="user.roles.find(role => role.name === 'dispatch')""><a href="/dashboard/dispatch/#/">Dispatch Dashboard</a></li>
+			        	</ul>
 			  		</li>
 			      <li>
 				      <a v-if="hasRoles" href="/claims/#/">
@@ -50,9 +54,7 @@
 	    			v-if="userHasAvatar"
 	    			:src="user ? user.avatar.path : '#'"
 	    			:alt="user.name"
-	    			@click="addingAvatar = true"
 	    			style="width: 4em; height: 4em; border-radius: 512px;"
-	    			@mouseover="toggleAvatarButton" @mouseout="toggleAvatarButton"
 	  			>
 
 	    		<span class="icon" @click="addingAvatar = true" v-else style="width: 7em; height: 7em;">
@@ -62,10 +64,7 @@
 		    		<div class="ml-2">
 		    			<p class="is-size-6"><strong style="color: #7683a2;" v-text="user.name"></strong></p>
 							<p class="has-text-left" style="color: #209cee;">
-								<a 
-	                class="" 
-	                @click.prevent="signout()"
-	              >
+								<a @click.prevent="signout()">
                   Signout
 	              </a>
 							</p>
@@ -91,14 +90,12 @@
 </template>
 
 <script>
-	import croppa from 'vue-croppa';
 	import availability from '../profile/Availability';
 
 	export default {
 		name: 'Navigation',
 		props: ['applicationDate', 'year', 'version', 'logoutRoute'],
 		components: {
-			croppa,
 			availability,
 		},
 		mounted() {
@@ -123,10 +120,6 @@
 				user: {avatar:{path: '#'}},
 				innerWidth: 0,
 				show: false,
-				avatarCropper: null,
-				showAvatarButton: false,
-				addingAvatar: false,
-				imgLoaded: false,
 			}
 		},
 		methods: {
@@ -146,26 +139,8 @@
 				this.innerWidth = window.innerWidth;
 				return this.mobile ? this.show = false : this.show = true;
 			},
-			uploadImage() {
-				console.log('uploading...');
-				this.avatarCropper.generateBlob((blob) => {
-					let file = new File([blob], "avatar.png", {type: 'image/png'});
-					let data = new FormData();
-					data.append('avatar', file);
-		        	window.axios.post('/api/user/' + window.userData.id + '/avatar/', data).then(response => {
-		        		console.log(response);
-		        		this.addingAvatar =  false;
-		        		this.user.avatar = {
-		        			path: response.data
-		        		};
-		        	})
-				});
-			},
 			hasImage() {
 				return this.imgLoaded = !this.imgLoaded;
-			},
-			toggleAvatarButton() {
-				return this.showAvatarButton = !this.showAvatarButton;
 			},
 			updateAvailability(availability){
 				return this.user.available = availability;
