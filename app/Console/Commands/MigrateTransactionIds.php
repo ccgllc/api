@@ -29,7 +29,7 @@ class MigrateTransactionIds extends Command
     public function __construct()
     {
         parent::__construct();
-        $this->claims = \CCG\Claims\Claim::all();
+        // $this->claims = \CCG\Claims\Claim::all();
     }
 
     /**
