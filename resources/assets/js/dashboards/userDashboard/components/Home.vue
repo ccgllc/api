@@ -1,38 +1,35 @@
 <template>
-	<div class="columns is-gapless">
-		<div class="column is-1">
-			
-		</div>
-		<div class="column is-10">
-			<h1 class="title hr-title">Users Dashboard</h1>
+	<page title="Users Dashboard" description="Get user information at a glance" style="margin-bottom: 0 !important;">
 
-			<dashboard-navigation></dashboard-navigation>
-			
-			<div class="columns">
-				<div class="column is-4">
-					<user-statuses-chart></user-statuses-chart>
-				</div>
-				<div class="column is-8">
-					<user-roles-chart></user-roles-chart>
-				</div>
+		<!-- <dashboard-navigation></dashboard-navigation> -->
+
+		<user-counts></user-counts>
+
+		<div class="columns">
+			<div class="column is-4">
+				<user-statuses-chart></user-statuses-chart>
 			</div>
-			
-			<user-counts></user-counts>
+			<div class="column is-8">
+				<user-roles-chart></user-roles-chart>
+			</div>
+		</div>
+		
 
-			<div class="columns">	
-				<!-- <new-hires></new-hires> -->
-				<state-overview></state-overview>
+			<!-- <div class="columns">	 -->
+				<!-- <user-list></user-list> -->
+			  <!-- <new-hires></new-hires> -->
+				<!-- <state-overview></state-overview>
 				<candidates></candidates>
-				<applicants></applicants>
+				<applicants></applicants> -->
+			<!-- </div>end bottom columns -->
 
-			</div><!-- end bottom columns -->
-		</div><!-- end main column is-10 -->
-	</div><!--end columns -->
+	</page>
 </template>
 
 <script>
 	import dashboardData from '../data/dashboardData.js';
 	import dashboardNavigation from './DashboardNavigation.vue';
+	import UserList from './UserList.vue';
 	import userRolesChart from '../UserRolesChart.js';
 	import userStatusesChart from '../UserStatusesChart.js';
 	import userCounts from './UserCounts.vue';
@@ -40,6 +37,8 @@
 	import candidates from './Candidates.vue';
 	import applicants from './Applicants.vue';
 	import stateOverview from './StateOverview.vue';
+	import Page from '../../../components/Page.vue';
+
 	export default {
 		name: 'Home',
 		components: {
@@ -50,7 +49,9 @@
 			newHires,
 			candidates,
 			applicants,
-			stateOverview
+			stateOverview,
+			Page,
+			UserList,
 		},
 		mounted() {
 			this.newHires = window.dashboardData.newHires;
