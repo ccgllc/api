@@ -66,7 +66,8 @@ Route::resource('claims', 'ClaimsController');
 Route::resource('claims/status', 'ClaimStatusController');
 
 Route::get('dashboard', 'DashboardController@show');
-Route::get('users/dashboard', 'UserDashboardController@show');
+Route::get('dashboard/users', 'UserDashboardController@show');
+Route::get('dashboard/dispatch', 'DashboardController@showDispatch');
 
 Route::resource('users', 'UsersController');
 Route::get('users/status/{status}', 'UsersController@status');
