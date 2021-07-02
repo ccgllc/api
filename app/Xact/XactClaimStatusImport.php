@@ -50,6 +50,8 @@ class XactClaimStatusImport extends XmlImporter{
         $this->claim               = $this->findClaim();
         $this->user                = $this->findUser();
 
+         unset($this->xmlObj, $this->rawXml);
+
         return $this;
     }
 
@@ -138,7 +140,7 @@ class XactClaimStatusImport extends XmlImporter{
         {
             $carbon = \Carbon\Carbon::parse($status->XACTNET_INFO->CONTROL_POINTS->CONTROL_POINT->{'@attributes'}->stamp);
             $carbon->timezone = '+1';
-            return $this->status_time = $carbon->format('F jS\\, Y h:i A');
+            return $this->status_time = $carbon->format('F jS\\, Y h:i:s A');
         }
     }
     protected function getClaimNumber($status)
