@@ -27,10 +27,11 @@ class AssignClaim
      */
     public function handle(ClaimAssigned $event)
     {
-        return Assignment::create([
+        return Assignment::updateOrCreate([
             'type'    => 'adjuster',
             'user_id' => $event->user->id,
             'claim_id' => $event->claim->id,
+            'xactnet_address_id' => $event->xactnetAddress->id,
             'active' => 1,
         ]);
     }
