@@ -47,6 +47,7 @@ trait ManagesImportedClaims {
     private function reassignClaim()
     {
         $existingClaim = $this->updateClaim();
+        $transId = $this->claim->transactionId;
         Event::dispatch(new ClaimReassigned($existingClaim, $this->adjuster));
     }
 
@@ -88,8 +89,16 @@ trait ManagesImportedClaims {
      */
     protected function getUser()
     {
-        $address = XactnetAddress::address($this->claim->assignee)->first();
+        $address = $this->findXactnetAddress();
         return $address ? $this->adjuster = $address->user : $this->adjuster = null;
+    }
+
+    protected function findXactNetAddress()
+    {
+        $xa = XactnetAddress::address(
+            $this->status->getProperty('xact_net_address')
+        )->first();
+        return $xa ? $xa : null;
     }
 
     /**
@@ -172,5 +181,10 @@ trait ManagesImportedClaims {
         $claim['claim_data']      = json_encode($this->claim);
         $claim['assignable']      = $this->isClaimAssignable();
         return $claim;
+    }
+
+    public function getClaimNumber()
+    {
+        return $this->claim->claimNumber;
     }
 }
