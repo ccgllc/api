@@ -5,8 +5,12 @@
 @endsection
 
 @section('content')
-	<div id="dashboard">
-		<dashboard></dashboard>
+	<div id="dashboard" style="">
+		<search></search>
+		<div style="margin: 1em;">
+			<dashboard></dashboard>
+		</div>
+		
 	</div>
 @endsection
 
