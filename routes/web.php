@@ -72,6 +72,7 @@ Route::get('dashboard/dispatch', 'DashboardController@showDispatch');
 Route::resource('users', 'UsersController');
 Route::get('users/status/{status}', 'UsersController@status');
 Route::get('users/location/{state}', 'UsersController@location');
+Route::get('users/roles/{role}', 'UsersController@role');
 Route::get('users/certifications/{certification}', 'UsersController@certifications');
 Route::resource('users/{id}/documents', 'UserDocumentsController');
 Route::resource('users/{id}/roles', 'UserRolesController');
