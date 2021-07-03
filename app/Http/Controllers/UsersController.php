@@ -138,6 +138,16 @@ class UsersController extends Controller
         return view('user.admin', compact('users', 'status'));
     }
 
+    public function role($role)
+    {
+        $role =  Role::with('users')->whereName($role)->first();
+        $users = $role->users;
+        // dd($role);
+        $users->load('roles', 'profile', 'adjusterLicenses', 'workHistory', 'certifications', 'softwareExperiences');
+        // $status = ucwords($status);
+        return view('user.admin', compact('users'));
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
