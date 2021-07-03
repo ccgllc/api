@@ -28,6 +28,9 @@
 					<span class="help is-danger" v-if="form.errors.has('xactnet_address')" v-text="form.errors.get('xactnet_address')"></span>
 				</div>
 			</form>
+
+			<span v-if="deleteErrorMessage !== ''" class="help is-danger"> {{ deleteErrorMessage }} <button class="delete is-small" @click="deleteErrorMessage = ''"></button></span>
+
 			<span v-if="!editing" @click="create" style="cursor:pointer;" class="icon has-text-primary"><span class="fa fa-plus-circle" style="margin-left: 1rem;"></span> &nbsp;new</span>
 		</div>
 	</div>
@@ -52,6 +55,7 @@
 				xactnetAddresses: [],
 				isUpdate: false,
 				updateError: false,
+				deleteErrorMessage: '',
 				requestMethod: 'put',
 				form: new Form ({
 					xactnet_address: '',
@@ -84,7 +88,8 @@
 					let idx = this.xactnetAddresses.indexOf(address);
 					this.xactnetAddresses.splice(idx, 1);
 				}).catch(error => {
-					alert(error.message);
+					// alert(error.message);
+					this.deleteErrorMessage = error.response.data;
 					console.error(error)
 				});
 			},
