@@ -32,7 +32,7 @@
             </navigation>
         </div>
 
-      <div class="column" style="background: #e0e0e0; overflow-x: scroll;">
+      <div class="column" style="background: #e0e0e0;">
 
             @yield('content')
 
