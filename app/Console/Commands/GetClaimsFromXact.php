@@ -56,8 +56,10 @@ class GetClaimsFromXact extends Command
         $this->path = $this->getPath();
         $this->sftp = $this->connectToFtp();
         // $this->sftp = $this->connectToTestFtp();
+        $this->sftp->enableDatePreservation();
         $this->sftp->chdir($this->setFtpDirectory());
         $files = collect($this->sftp->rawlist())->sortByDesc('mtime');
+        dd($files);
         $transferable = $files;//->where('mtime', '>', $this->getMarker());
         // dd($transferable->count());
         $transferable->each(function ($file) {
