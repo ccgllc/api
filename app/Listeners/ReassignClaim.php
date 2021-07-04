@@ -33,6 +33,7 @@ class ReassignClaim
             Assignment::create([
                 'type' => 'adjuster',
                 'user_id' => $event->user->id,
+                'xactnet_address_id' => $event->xactnetAddress->id,
                 'claim_id' => $event->claim->id,
                 'active' => 1,
             ]);
