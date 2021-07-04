@@ -38,10 +38,10 @@ class ImportXactClaimStatus implements ShouldQueue
      */
     public function handle()
     {
-        if ($this->createable()) {
+        if ($this->createable() && $this->statusDoesntExist()) {
             $this->createStatus();
         }
-        else {
+        if (!$this->createable()) {
             throw new \Exception('Couldn\'t locate claim to link to');
         }
     }
