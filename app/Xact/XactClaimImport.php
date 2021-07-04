@@ -20,9 +20,6 @@ class XactClaimImport extends XmlImporter {
     {
         $this->xml = $this->loadString($xml);
         $this->parse();
-
-        //needs attention!
-        // Log::info('New Claim Received');
     }
 
     /**
