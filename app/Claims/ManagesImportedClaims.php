@@ -17,6 +17,7 @@ trait ManagesImportedClaims {
 	protected $carrier;
     protected $claim;
     protected $adjuster;
+    protected $xactnetAddress;
 
 	 /**
 	 * @return array
@@ -46,9 +47,17 @@ trait ManagesImportedClaims {
 
     private function reassignClaim()
     {
+        // $this->getUser();
         $existingClaim = $this->updateClaim();
         $transId = $this->claim->transactionId;
-        Event::dispatch(new ClaimReassigned($existingClaim, $this->adjuster));
+        // dd($this->xactnetAddress);
+        Event::dispatch(
+            new ClaimReassigned(
+                $existingClaim, 
+                $this->xactnetAddress,
+                $this->adjuster
+            )
+        );
     }
 
     /**
@@ -89,16 +98,18 @@ trait ManagesImportedClaims {
      */
     protected function getUser()
     {
-        $address = $this->findXactnetAddress();
-        return $address ? $this->adjuster = $address->user : $this->adjuster = null;
+        $this->findXactnetAddress();
+
+        return $this->xactnetAddress
+            ? $this->adjuster = $this->xactnetAddress->user 
+            : $this->adjuster = null;
     }
 
-    protected function findXactNetAddress()
+    protected function findXactnetAddress()
     {
-        $xa = XactnetAddress::address(
-            $this->status->getProperty('xact_net_address')
+        return $this->xactnetAddress = XactnetAddress::whereAddress(
+            $this->claim->assignee
         )->first();
-        return $xa ? $xa : null;
     }
 
     /**
