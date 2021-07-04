@@ -39,9 +39,30 @@ trait ManagesImportedClaimStatuses {
 
 	public function createable()
     {
-    	return $this->status->getProperty('claim')->id === 0
+    	return $this->status->getProperty('claim')->id === 0 
     		? false
     		: true;
+    }
+
+    public function statusDoesntExist()
+    {
+    	return ClaimStatus::where([
+    		'name'           => $this->status->getProperty('status_type'),
+    		'transaction_id' => $this->status->getProperty('transaction_id'),
+            'time'           => $this->getFormattedTime(), 
+    	])->doesntExist();
+    }
+
+    public function getFormattedDate()
+    {
+        $date = \Carbon\Carbon::parse($this->status->getProperty('status_time'));
+    	return $date->toDateString();
+    }
+
+    public function getFormattedTime()
+    {
+        $time = \Carbon\Carbon::parse($this->status->getProperty('status_time'));
+        return $time->format("Y-m-d H:i:s");
     }
 
 
