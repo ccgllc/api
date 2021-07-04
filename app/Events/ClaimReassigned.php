@@ -21,9 +21,10 @@ class ClaimReassigned
      *
      * @return void
      */
-    public function __construct(Claim $claim, $user)
+    public function __construct(Claim $claim, $xactnetAddress, $user)
     {
         $this->claim = $claim;
+        $this->xactnetAddress = $xactnetAddress;
         $this->user = $user;
     }
 
@@ -34,6 +35,6 @@ class ClaimReassigned
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('channel-name');
+        // return new PrivateChannel('channel-name');
     }
 }
