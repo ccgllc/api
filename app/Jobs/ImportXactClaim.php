@@ -22,6 +22,8 @@ class ImportXactClaim implements ShouldQueue
     public function __construct($claimData)
     {
         $this->setClaim(new XactClaimImport($claimData));
+        $this->findXactnetAddress();
+        $this->getUser();
     }
 
     /**
