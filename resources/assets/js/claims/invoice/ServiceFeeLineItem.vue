@@ -13,6 +13,7 @@
 						<option v-for="estimate in estimates" :value="estimate.gross_loss" v-text="estimate.gross_loss"></option>
 						<option v-if="invoice.feeSchedule.erroneous" value="erroneous">erroneous</option>
 						<option v-if="invoice.feeSchedule.cwop"value="cwop">CWOP</option>
+						<option v-if="invoice.feeSchedule.reinspection"value="reinspection">Reinspection</option>
 					</select>
 				</div>
 			</div>
