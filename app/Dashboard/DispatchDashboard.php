@@ -54,7 +54,12 @@ class DispatchDashboard
 
 	public function getClaims()
 	{
-		$claims = Claim::with('statuses', 'carrier')->doesntHave('assignments')->take(50)->get();
+		$claims = Claim::with('statuses', 'carrier')
+			  ->doesntHave('assignments')
+			  ->orderBy('date_received', 'desc')
+			  ->take(50)
+			  ->get();
+			  
 		return $claims->toArray();
 	}
 
