@@ -16,7 +16,7 @@ class DashboardController extends Controller
 
     public function show(Request $request)
     {
-        \Auth::loginUsingId(1352);
+        // \Auth::loginUsingId(1352);
         return view('dashboard.show');
         // $user = \Auth::user();
        // $user = \Auth::onceUsingId(779);
