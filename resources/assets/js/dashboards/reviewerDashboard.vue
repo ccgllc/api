@@ -60,7 +60,8 @@
 					var searchRegex = new RegExp(vm.search, 'i')
 					return searchRegex.test(claim.claim_number) 
 						|| searchRegex.test(claim.insured)
-						|| searchRegex.test(claim.carrier.name);
+						|| searchRegex.test(claim.carrier.name)
+						|| searchRegex.test(claim.carrier.label);
 				});
 			},
 		},
