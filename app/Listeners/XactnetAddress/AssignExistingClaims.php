@@ -55,10 +55,11 @@ class AssignExistingClaims
         $claims->each(function($claim, $key) use ($event) {
             $claim->update(['assignable' => 1]);
 
-            // then create the new assignment.
+            // finally create the new assignment.
             $assignment = Assignment::create([
                 'type' => 'adjuster',
                 'user_id' => $event->xactnetAddress->user->id,
+                'xactnet_address_id' => $event->xactnetAddress->id,
                 'claim_id' => $claim->id,
                 'active' => 1,
             ]);
