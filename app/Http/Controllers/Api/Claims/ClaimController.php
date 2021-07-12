@@ -10,8 +10,10 @@ class ClaimController extends Controller
 {
     public function geometry(Request $request, $claimId)
     {
-    	// dd($request->all());
-    	$claim = Claim::find($claimId);
-    	$claim->update(['claim_data->client->addresses' => $request->all()]);
+        $claim = \DB::table('claims')
+            ->where('id', $claimId)
+            ->update([
+                'claim_data->client->addresses' => $request->all()
+            ]);
     }
 }
