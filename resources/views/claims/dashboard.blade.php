@@ -6,16 +6,21 @@
 
 @section('content')
         
-    <div id="claims" style="margin: 1em;">
-        <page title="Claims" description="A simple list of claims, much more to come...">
-        <div class="columns">
-            <div class="column is-12">
-            {{-- <title :text="titleText" :other="otherText"></title> --}}
-            <!-- <navigation></navigation> -->
-            <router-view btn-text='Create Claim'></router-view>
+    <div id="claims">
+        
+        <search></search>
+
+        <div style="margin: 1em;">
+            <page title="Claims" description="A simple list of claims, much more to come...">
+                <div class="columns">
+                    <div class="column is-12">
+                         <router-view btn-text='Create Claim'></router-view>
+                    </div>
+                </div>
+            </page>
         </div>
+
     </div>
-</div>
     
 
 @endsection
