@@ -2,7 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 const { RayPlugin } = require('vue-ray/vue2');
 Vue.use(VueRouter);
-Vue.use(RayPlugin, { interceptErrors: true, host: '127.0.0.1', port: 23517 })
+// Vue.use(RayPlugin, { interceptErrors: true, host: '127.0.0.1', port: 23517 })
 
 import claimData from './claimData.js';
 import Claim from './Claim.vue';
@@ -31,14 +31,15 @@ let router = new VueRouter({
 
 const ClaimView = new Vue({
 	name: 'Claim',
+	el: '#claim',
 	router,
 	components: {
-		titleHeader,
-		claimMenu,
+		// titleHeader,
+		// claimMenu,
 		claimNav,
-		assignees,
-		timeline,
-		newStatus,
+		// assignees,
+		// timeline,
+		// newStatus,
 		page,
 		search
 	},
@@ -54,9 +55,19 @@ const ClaimView = new Vue({
 		if (this.claim.assignments.length > 0) {
 			this.adjuster = this.claim.assignments.find(assignment => assignment.type = 'adjuster');
 		}
+		// this.adjusterName = this.getAdjuster();
 	},
 	data() {
-		return claimData;
+		return claimData
+	},
+	computed: {
+		getAdjuster(){
+			return this.adjuster.user ? this.adjuster.user.name : 'unassignable';
+			// return 'Test';
+		},
+		claimTitle() {
+			return `Claim # ${claim.claim_number} • ${claim.statuses.length ? claim.statuses[0].name : `no status found.`}`;
+		}
 	},
 	methods: {
 		setStatus(data) {
@@ -68,9 +79,6 @@ const ClaimView = new Vue({
 			console.log('toggled');
 			return this.creatingNewStatus = !this.creatingNewStatus;
 		},
-		claimTitle() {
-			return `Claim # ${claim.claim_number} • ${claim.statuses.length ? claim.statuses[0].name : `no status found.`}`;
-		}
 	}
 
 }).$mount('#claim');

@@ -9,21 +9,34 @@
 
     <search></search> 
 
-    <page :title="claimTitle()" :description="claim.carrier.name"  style="margin: 1em;">
-      <div class="columns" style=" background: #f2f2f2; margin-left: .025em; margin-right: .025em;">
-        <div id="left-side" class="column">
-          <claim-nav></claim-nav>
-          <router-view></router-view>
-        </div>  
-      </div>
+    <page :title="claimTitle" :description="claim.carrier.name"  style="margin: 1em;">
 
+      <template v-slot:top-right>
+        <div class="is-flex is-justify-content-flex-end  is-align-items-center">
+        <div class="is-flex is-flex-direction-column has-text-right" style="margin-right: .5em;">
+          <span class="is-size-5 has-text-weight-bold" v-text="getAdjuster"></span>
+          <div class="is-size-6">Assigned Adjuster</div>
+        </div>
+          <img v-if="adjuster.user !== undefined && adjuster.user.avatar != undefined" width="50px" height="auto" style="border-radius:1000px; border: 5px solid #3e8ed0;" :src="adjuster.user.avatar.path" alt="getAdjuster">
+        </div>
+      </template>
+
+      <template v-slot:default>
+        <div class="columns" style=" background: #f2f2f2; margin-left: .025em; margin-right: .025em;">
+          <div id="left-side" class="column">
+            <claim-nav></claim-nav>
+            <router-view></router-view>
+          </div>  
+        </div>
+      </template>
+
+      {{-- 
       <new-status 
         @new-status-toggle="toggleCreatingNewStatus()"
       >   
-      </new-status>
+      </new-status> 
+      --}}
 
-        {{-- </div> --}}
-      {{-- </div> --}}
     </page>
   </div>
 @endsection
