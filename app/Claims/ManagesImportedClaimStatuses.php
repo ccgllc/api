@@ -19,7 +19,7 @@ trait ManagesImportedClaimStatuses {
 	{
 		// dd($this->generateStatusData()->all());
 		$status =  ClaimStatus::create($this->generateStatusData()->except('xact_net_address')->all());
-		ray($this->assignable());
+		
 		if ($this->assignable()) {
 			info('trying to reassign');
 			event(new ClaimAssigned(

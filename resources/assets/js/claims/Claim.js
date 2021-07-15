@@ -53,7 +53,8 @@ const ClaimView = new Vue({
 	mounted() {
 		// this.$ray(claim.invoices)
 		if (this.claim.assignments.length > 0) {
-			this.adjuster = this.claim.assignments.find(assignment => assignment.type = 'adjuster');
+			this.adjuster = this.claim.assignments.pop();
+			// this.adjuster = this.claim.assignments.find(assignment => assignment.type = 'adjuster');
 		}
 		// this.adjusterName = this.getAdjuster();
 	},
