@@ -38,9 +38,13 @@ class ClaimsController extends Controller {
 			// dd($superAdmin);
 			return view('claims.dashboard', compact('user', 'claims'));
 		}
-
-		return Claim::with('statuses', 'assignments.user')->orderBy('date_of_loss', 'desc')->take(200)->get();
-
+		return Claim::with([
+			'statuses', 
+			'assignments.user'
+			])->orderBy('date_received', 'desc')
+			  ->take(200)
+			  ->get();
+		// $claims->statuses->max('time')
 	}
 
 
