@@ -13,11 +13,14 @@
 
       <template v-slot:top-right>
         <div class="is-flex is-justify-content-flex-end  is-align-items-center">
-        <div class="is-flex is-flex-direction-column has-text-right" style="margin-right: .5em;">
-          <span class="is-size-5 has-text-weight-bold" v-text="getAdjuster"></span>
-          <div class="is-size-6">Assigned Adjuster</div>
-        </div>
-          <img v-if="adjuster.user !== undefined && adjuster.user.avatar != undefined" width="50px" height="auto" style="border-radius:1000px; border: 5px solid #3e8ed0;" :src="adjuster.user.avatar.path" alt="getAdjuster">
+          <div class="is-flex is-flex-direction-column has-text-right" style="margin-right: .5em;">
+             <span class="is-size-5 has-text-weight-bold" v-text="getAdjuster"></span>
+            <div class="is-size-6">Assigned Adjuster</div>
+          </div>
+          <div class="is-flex is-align-items-center">
+           <img v-if="adjuster.user !== undefined && adjuster.user.avatar != undefined" width="50px" height="auto" style="border-radius:1000px; border: 5px solid #3e8ed0;" :src="adjuster.user.avatar.path" alt="getAdjuster">&nbsp;&nbsp;
+            <button class="button tooltip" v-on:click="showTimeline = true" data-tooltip="Show History">&nbsp;<span class="icon"> <i class="fa fa-list-ul"> </i>&nbsp; </span> </button>
+          </div>
         </div>
       </template>
 
@@ -28,6 +31,23 @@
             <router-view></router-view>
           </div>  
         </div>
+
+        <div id="quickviewDefault" class="quickview" :class="{'is-active': showTimeline}">
+        <header class="quickview-header">
+          <span class="has-text-weight-bold is-size-5 has-text-white">Claim History</span>
+          <span class="delete" v-on:click="showTimeline = false"></span>
+        </header>
+
+        <div class="quickview-body">
+          <div class="quickview-block">
+            <timeline></timeline>
+          </div>
+        </div>
+
+        {{-- <footer class="quickview-footer">
+
+        </footer> --}}
+      </div>
       </template>
 
       {{-- 

@@ -1,7 +1,7 @@
 <template>
 	<!-- <div class="card">
 		<div class="card-content"> -->
-			<div class="content" style="">
+			<div class="content" style="margin:3em;">
 				<!-- <h3 class="is-size-3" style="font-weight: 700; color: #343b4d;">
 					Timeline
 				</h3> -->
@@ -24,7 +24,7 @@
 				  </div>
 				</div> -->
 
-				<div class="timeline">
+				<div class="timeline is-rtl">
 
 			  	<div class="timeline-item" v-for="status in claim.statuses">
 				  	<div class="timeline-marker is-image is-32x32" v-if="status.hasOwnProperty(user)">

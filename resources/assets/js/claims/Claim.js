@@ -38,7 +38,7 @@ const ClaimView = new Vue({
 		// claimMenu,
 		claimNav,
 		// assignees,
-		// timeline,
+		timeline,
 		// newStatus,
 		page,
 		search
