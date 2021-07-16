@@ -4,6 +4,14 @@
     Claim {{ $claim->claim_number }}
 @endsection
 
+@section('styles')
+<style>
+  .rotate {
+    transform: rotate(180deg);
+  }
+</style>
+@endsection
+
 @section('content')
   <div id="claim">
 
@@ -19,7 +27,7 @@
           </div>
           <div class="is-flex is-align-items-center">
            <img v-if="adjuster.user !== undefined && adjuster.user.avatar != undefined" width="50px" height="auto" style="border-radius:1000px; border: 5px solid #3e8ed0;" :src="adjuster.user.avatar.path" alt="getAdjuster">&nbsp;&nbsp;
-            <button class="button tooltip" v-on:click="showTimeline = true" data-tooltip="Show History">&nbsp;<span class="icon"> <i class="fa fa-list-ul"> </i>&nbsp; </span> </button>
+            <button class="button tooltip" v-on:click="showTimeline = true" data-tooltip="Show History">&nbsp;<span class="icon"> <i class="fa fa-list-ul rotate"> </i>&nbsp; </span> </button>
           </div>
         </div>
       </template>

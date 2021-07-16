@@ -7,8 +7,8 @@
 		</div>
 		<!-- <claim-stats :claim-id="claim.id" :user-id="user.id" :estimates="claim.estimates"></claim-stats> -->
 		<description></description>
-	    <claim-info></claim-info>
-    </div>
+	  <claim-info></claim-info>
+  </div>
 </template>
 
 <script>

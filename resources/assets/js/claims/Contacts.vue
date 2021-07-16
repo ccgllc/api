@@ -20,10 +20,10 @@
 								</div>
 	    				</div><!-- end column -->
 
-							
 							<div class="column" style="margin: 1em;">
 		    					<!-- <div class="card"> -->
 		    						<!-- <div class="card-content"> -->
+		    							<h3 class="subtitle" style="color: #bbb; font-size: .8em;">Addresses</h3>
 		    							<dl class="dl-horizontal">
 		    							<div v-for="address in claim.claim_data.client.addresses">
 											<dt>{{ address.type }} Address:</dt>
@@ -59,7 +59,6 @@
 			    				</div>
 							</div>
 
-							
 						</div><!-- end columns -->
 					</div>
 				<!-- </div> -->
