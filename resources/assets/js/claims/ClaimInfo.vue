@@ -57,7 +57,7 @@
 
   	<div class="column" v-if="claim.claim_data.policy.coverages.length">
   		<div class="card">
-  		 	<header class="card-header is-info">
+  		 	<header class="card-header is-info" style="box-shadow: none;">
 			    <p class="card-header-title">
 			      Coverages
 			    </p>
@@ -70,7 +70,7 @@
 						<dd>{{ coverage.deductible || 'Not Provided'}}</dd>
 						<dt>Policy Limit:</dt>
 						<dd>{{ coverage.policyLimit || 'Not Provided'}}</dd>
-						<dt>Reserve Ammount:</dt>
+						<dt>Reserve Amount:</dt>
 						<dd>{{ coverage.reserveAmt || 'Not Provided'}}</dd><hr>
 					</dl>
 				</div>
