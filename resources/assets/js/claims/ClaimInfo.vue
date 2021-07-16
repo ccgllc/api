@@ -65,7 +65,7 @@
     		<div class="card-content">
 					<dl v-for="coverage in claim.claim_data.policy.coverages">
 						<dt>Coverage Name:</dt>
-						<dd>{{ coverage.covName }}</dd>
+						<dd>{{ coverage.covName || 'Not Provided' }}</dd>
 						<dt>Deductible:</dt>
 						<dd>{{ coverage.deductible || 'Not Provided'}}</dd>
 						<dt>Policy Limit:</dt>
