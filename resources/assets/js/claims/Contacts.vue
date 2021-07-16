@@ -21,17 +21,20 @@
 	    				</div><!-- end column -->
 
 							<div class="column" style="margin: 1em;">
-		    					<!-- <div class="card"> -->
-		    						<!-- <div class="card-content"> -->
-		    							<h3 class="subtitle" style="color: #bbb; font-size: .8em;">Addresses</h3>
-		    							<dl class="dl-horizontal">
-		    							<div v-for="address in claim.claim_data.client.addresses">
-											<dt>{{ address.type }} Address:</dt>
-											<dd>{{ address.street }} <br> {{ address.city }} {{ address.state }}, {{ address.zip }} <br> {{ address.latitude }} <br> {{ address.longitude }}</dd>
-										</div>
-										</dl>
-		    						<!-- </div> -->
-		    					<!-- </div> -->
+								<!-- <h3 class="" style="color: #bbb; font-size: .8em;">Addresses</h3> -->
+								<div v-for="address in claim.claim_data.client.addresses" style="margin-bottom: 1em;">
+									<p style="color: #bbb; font-size: .8em; font-weight: 700">{{ address.type }} Address</p>
+		    					<!-- <div class="card" style="margin-bottom: 1em; background: #f6f6f6;">
+		    						<div class="card-content"> -->
+		    							
+											<p>{{ address.street }} <br> 
+												 {{ address.city }} {{ address.state }}, {{ address.zip }} 
+												 <span v-if="address.latitude && address.longitude"><br> 
+												 	{{ address.latitude }} <span> | </span> {{ address.longitude }}</span>
+											 </p>
+		    					<!-- 	</div>
+		    						</div> -->
+		    					</div>
 		    				</div><!-- end column -->
 
 		    				<div class="column" style="margin: 1em;">
@@ -97,3 +100,14 @@
 		}
 	}
 </script>
+
+<style>
+	dl > dt {
+		font-weight: 700;
+		/*padding:  1em;*/
+	}
+	dl > dd {
+		padding:  1em;
+		background: #f0f0f0;
+	}
+</style>
