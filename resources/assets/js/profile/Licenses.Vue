@@ -14,7 +14,7 @@
 			>
 			</License>
 	 	<!-- </div> -->
-		<button @click="creatingNewLicense = !creatingNewLicense;" class="button is-info" style="margin-left: 2em;">{{ buttonText}}</button><br><br>
+		<button @click="creatingNewLicense = !creatingNewLicense;" class="button is-info" style="margin: 2em 0 0 2em;">{{ buttonText}}</button><br><br>
 		<!-- </div> -->
 
 		<div id="createLicense" class="quickview" :class="{'is-active': creatingNewLicense}">
