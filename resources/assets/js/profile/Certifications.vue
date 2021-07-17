@@ -53,72 +53,64 @@
 				</div>
 			</div>
 
-			<div class="modal" v-bind:class="{ 'is-active': creatingNew }">
-			<div class="modal-background"></div>
-			<div class="modal-card">
-			    <header class="modal-card-head">
-			      <p class="modal-card-title">New certification or software experience</p>
-			      <button class="delete" aria-label="close" @click="creatingNew = false"></button>
-			    </header>
-			    <section class="modal-card-body" style="background: #fff;">
-			      <form @submit.prevent="submit" @keydown="form.errors.clear($event.target.name)">
-					<div class="columns is-multiline">
+		<div id="createLicense" class="quickview" :class="{'is-active': creatingNew}">
+
+	    <header class="quickview-header">
+	      <span class="has-text-weight-bold is-size-5 has-text-white">New certification</span>
+	      <span class="delete" @click="creatingNew = false"></span>
+	    </header>
+
+	    <div class="quickview-body">
+	      <div class="quickview-block" style="margin: 1em;">
+	      	 <form @submit.prevent="submit" @keydown="form.errors.clear($event.target.name)">
 					
-						<div class="column is-12">
-							<div class="field">
-								<label class="label">Type:</label>
-								<div class="select is-fullwidth">
-								  <select v-model="type" @change="clearForm">
-								    <option value="">Select</option>
-								   	<option value="software-experiences">Software Experience</option>
-								   	<option value="certifications">Certification</option>
-								  </select>
-								</div>
+						<div class="field">
+							<label class="label">Type:</label>
+							<div class="select is-fullwidth">
+							  <select v-model="type" @change="clearForm">
+							    <option value="">Select</option>
+							   	<option value="software-experiences">Software Experience</option>
+							   	<option value="certifications">Certification</option>
+							  </select>
 							</div>
 						</div>
 
-						<div class="column is-12" v-if="type == 'software-experiences'">
-							<div class="field">
-								<label class="label">Software Experience:</label>
-								<div class="select is-fullwidth">
-								  <select v-model="form.type">
-								    <option value="">Select</option>
-								   <option v-for="exp in experienceTypes" :value="exp.name">{{ exp.label }}</option>
-								  </select>
-								</div>
-								  <span class="help is-danger" v-if="form.errors.has('type')" v-text="form.errors.get('type')"></span>
+						<div class="field"  v-if="type == 'software-experiences'">
+							<label class="label">Software Experience:</label>
+							<div class="select is-fullwidth">
+							  <select v-model="form.type">
+							    <option value="">Select</option>
+							   <option v-for="exp in experienceTypes" :value="exp.name">{{ exp.label }}</option>
+							  </select>
 							</div>
+							  <span class="help is-danger" v-if="form.errors.has('type')" v-text="form.errors.get('type')"></span>
 						</div>
 
-						<div class="column is-12" v-if="type == 'certifications'">
-							<div class="field">
-								<label class="label">Certification:</label>
-								<div class="select is-fullwidth">
-								  <select v-model="form.type">
-								    <option value="">Select</option>
-								   <option v-for="cert in certificationTypes" :value="cert">{{ cert.label }}</option>
-								  </select>
-								</div>
-									<expiration v-show="form.type && form.type.expiration !== false" :certification="form.type" @date-changed="updateExpiration">
-								  		<small>Provide date of {{ form.type.name }} expiration </small>
-								  	</expiration>
-								    <span class="help is-danger" v-if="form.errors.has('type.name')" v-text="form.errors.get('type.name')"></span>
+						<div class="field" v-if="type == 'certifications'">
+							<label class="label">Certification:</label>
+							<div class="select is-fullwidth">
+							  <select v-model="form.type">
+							    <option value="">Select</option>
+							   <option v-for="cert in certificationTypes" :value="cert">{{ cert.label }}</option>
+							  </select>
 							</div>
+							<expiration v-show="form.type && form.type.expiration !== false" :certification="form.type" @date-changed="updateExpiration">
+						  		<small>Provide date of {{ form.type.name }} expiration </small>
+					  	</expiration>
+					    <span class="help is-danger" v-if="form.errors.has('type.name')" v-text="form.errors.get('type.name')"></span>
 						</div>
 
-						</div><!-- end columns -->
+						<hr>
+						<div class="field is-flex is-justify-content-flex-end">
+				      <button class="button" @click.prevent="creatingNew = false">Cancel</button>&nbsp;&nbsp;
+				      <input type="submit" class="button is-primary" value="Save">
+						</div>
+
 					</form>
-			    </section>
-			    <footer class="modal-card-foot">
-			      <button class="button is-primary" @click="submit" :disabled="!form.type">Save</button>
-			      <button class="button" @click="creatingNew = false">Cancel</button>
-			    </footer>
-			  </div>
-			  <!-- <button class="modal-close is-large" aria-label="close"></button> -->
-		</div>	
-
+				</div>
+  		</div>
+  	</div>
 	</page>
-
 </template>
 
 <script>

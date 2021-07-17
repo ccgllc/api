@@ -17,68 +17,63 @@
 		<button class="button is-info" @click="creatingNewFile = !creatingNewFile">Upload File</button>
 	</div>
 
-		<div class="modal" v-bind:class="{ 'is-active': creatingNewFile }">
-			<div class="modal-background"></div>
-			<div class="modal-card">
-			    <header class="modal-card-head">
-			      <p class="modal-card-title">Add a new file</p>
-			      <button class="delete" aria-label="close" @click="creatingNewFile = false"></button>
-			    </header>
-			    <section class="modal-card-body" style="background: #fff;">
-			      <form @submit.prevent="submit" @keydown="newFile.errors.clear($event.target.name)">
-					<div class="columns is-multiline">
-					
-						<div class="column is-3">
-							<div class="field">
-								<label class="label">Type:</label>
-								<div class="select is-fullwidth">
-								  <select v-model="newFile.type">
-								    <option value="">select</option>
-								    <option v-for="type in types" :value="type">{{ type }}</option>
-								  </select>
-								</div>
-								  <span class="help is-danger" v-if="newFile.errors.has('type')" v-text="newFile.errors.get('type')"></span>
-							</div>
-						</div>
+	<div id="createDocument" class="quickview" :class="{'is-active': creatingNewFile}">
+    <header class="quickview-header">
+      <span class="has-text-weight-bold is-size-5 has-text-white">Upload a new file</span>
+      <span class="delete" @click="creatingNewFile = false"></span>
+    </header>
 
-						<div class="column is-9">
-							<div class="field">
-								<label class="label">Filename:</label>
-								<input type="text" v-model="newFile.filename" class="input" placeholder="My File">
-								<span class="help is-danger" v-if="newFile.errors.has('filename')" v-text="newFile.errors.get('filename')"></span>
-							</div>
+    <div class="quickview-body">
+      <div class="quickview-block" style="margin: 1em;">
+        <form @submit.prevent="submit" @keydown="newFile.errors.clear($event.target.name)">
+	
+					<div class="field">
+						<label class="label">Type:</label>
+						<div class="select is-fullwidth">
+						  <select v-model="newFile.type">
+						    <option value="">select</option>
+						    <option v-for="type in types" :value="type">{{ type }}</option>
+						  </select>
 						</div>
+						  <span class="help is-danger" v-if="newFile.errors.has('type')" v-text="newFile.errors.get('type')"></span>
+					</div>
 
-						<div class="column">
-							<div class="field">
-								<!-- <label class="label">&nbsp;</label> -->
-								<div class="file has-name is-primary">
-								  <label class="file-label">
-								    <input class="file-input" type="file" name="resume" @change="processFile($event.target.files)">
-								    <span class="file-cta">
-								      <span class="file-icon">
-								        <i class="fa fa-cloud-upload"></i>
-								      </span>
-								      <span class="file-label">
-								        Upload a file…
-								      </span>
-								    </span>
-								    <span class="file-name" v-text="filename" v-if="filename != ''"></span>
-								  </label>
-								</div>
-							</div>
+					<div class="field">
+						<label class="label">Filename:</label>
+						<input type="text" v-model="newFile.filename" class="input" placeholder="My File">
+						<span class="help is-danger" v-if="newFile.errors.has('filename')" v-text="newFile.errors.get('filename')"></span>
+					</div>
+
+					<div class="field">
+						<div class="file has-name is-dark">
+						  <label class="file-label">
+						    <input class="file-input" type="file" name="resume" @change="processFile($event.target.files)">
+						    <span class="file-cta">
+						      <span class="file-icon">
+						        <i class="fa fa-cloud-upload"></i>
+						      </span>
+						      <span class="file-label">
+						        Select a file to upload…
+						      </span>
+						    </span>
+						    <span class="file-name" v-text="filename" v-if="filename != ''"></span>
+						  </label>
 						</div>
+					</div>
+					<hr>
+					<div class="field is-flex is-justify-content-flex-end">
+						<button class="button" @click.prevent="creatingNewFile = false">Cancel</button>&nbsp;&nbsp;
+	      		<input class="button is-info" type="submit" value="Save Document">
+					</div>
+				</form>
+      </div>
+    </div>
+     <!--  <footer class="quickview-footer">
 
-						</div><!-- end columns -->
-					</form>
-			    </section>
-			    <footer class="modal-card-foot">
-			      <button class="button is-primary" @click="submit">Save</button>
-			      <button class="button" @click="creatingNewFile = false">Cancel</button>
-			    </footer>
-			  </div>
-			  <!-- <button class="modal-close is-large" aria-label="close"></button> -->
-			</div>
+      </footer>  -->
+  </div>
+
+		
 
 	</page>
 

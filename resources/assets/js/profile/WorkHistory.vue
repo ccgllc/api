@@ -26,87 +26,80 @@
 
 		<div class="columns" style="padding: 2em; margin-left: .025em; margin-right: .025em;">
 			<div class="column">
-				<a class="button is-info" @click="showForm = !showForm">Add Work History</a>
+				<a class="button is-info" @click="createNew">Add Work History</a>
 			</div>
 		</div>
-			
-			<!-- <form @submit.prevent="save" > -->
-			<div class="modal" :class="{ 'is-active': showForm }">
-			  <div class="modal-background"></div>
-			  <div class="modal-card">
-			    <header class="modal-card-head">
-			      <p class="modal-card-title">Add Work History</p>
-			      <button class="delete" aria-label="close" @mouseup="cancel"></button>
-			    </header>
-			    <section class="modal-card-body" style="background: #fff;">
-			    	<div class="columns" @keydown="newWorkHistory.errors.clear($event.target.name)">
-			    		<div class="column is-6">
-			    			<label for="types" class="label">Type:</label>
-			    			<div class="select">
-				    			<select name="types" id="types" v-model="newWorkHistory.type" :disabled="this.editing">
-					      			<option value="">Select</option>
-					      			<option v-for="type in types" :value="type">{{ type | format | capitalize}}</option>
-				      			</select>
-				      			<span class="help is-danger" v-if="newWorkHistory.errors.has('type')" v-text="newWorkHistory.errors.get('type')"></span>
-			    			</div>
+
+		<div id="createLicense" class="quickview" :class="{'is-active': showForm}">
+
+	    <header class="quickview-header">
+	      <span class="has-text-weight-bold is-size-5 has-text-white">Add Work History</span>
+	      <span class="delete" @click="showForm = false"></span>
+	    </header>
+
+	    <div class="quickview-body">
+	      <div class="quickview-block" style="margin: 1em;">
+	      	<form @submit.prevent="save" @keydown="newWorkHistory.errors.clear($event.target.name)">
+	      		<div class="field">
+		    			<label for="types" class="label">Type:</label>
+		    			<div class="select is-fullwidth">
+			    			<select name="types" id="types" v-model="newWorkHistory.type" :disabled="this.editing">
+				      			<option value="">Select</option>
+				      			<option v-for="type in types" :value="type">{{ type | format | capitalize}}</option>
+			      			</select>
+			      			<span class="help is-danger" v-if="newWorkHistory.errors.has('type')" v-text="newWorkHistory.errors.get('type')"></span>
+		    			</div>
+	    			</div>
+
+	    			<div class="field" v-if="newWorkHistory.type.includes('claims')">
+	    				<label for="value" class="label">{{ newWorkHistory.type | format | capitalize }}</label>
+	    				<input 
+	    					class="input"
+	    					type="number" 		
+				          	maxlength="6" 
+				          	min="0" 
+				          	max="65535"
+				          	placeholder="0" 
+				          	v-model="newWorkHistory.value"
+				          	number
+	    				>
+	    				<span class="help is-danger" v-if="newWorkHistory.errors.has('value')" v-text="newWorkHistory.errors.get('value')"></span>
+	    			</div>
+
+	    			<div class="field" v-if="newWorkHistory.type.includes('experience')">
+	    				<label for="value" class="label">Years</label>
+	    				<input 
+		          	class="input" 
+		          	type="number" 
+		          	maxlength="2" min="0" max="99" 
+		          	placeholder="0"
+		          	v-model="years"
+		          	@input="calculateMonths"
+		          	number
+	          	>
+	          </div>
+
+          	<div class="field" v-if="newWorkHistory.type.includes('experience')">
+          		<label for="value" class="label">Months</label>
+	          	<input 
+		          	class="input" 
+		          	type="number" 
+		          	maxlength="2" min="0" max="11" 
+		          	placeholder="0"
+		          	v-model="months"
+		          	@input="calculateMonths"
+		          	number
+	          	>
+	    			</div>
+	    			<hr>
+						<div class="field is-flex is-justify-content-flex-end">
+				      <button class="button" @click.prevent="showForm = false">Cancel</button>&nbsp;&nbsp;
+				      <input type="submit" class="button is-primary" value="Save">
 						</div>
-
-			    		<div class="column is-6">
-			    			<div class="field" v-if="newWorkHistory.type.includes('claims')">
-			    				<label for="value" class="label">{{ newWorkHistory.type | format | capitalize }}</label>
-			    				<input 
-			    					class="input"
-			    					type="number" 		
-						          	maxlength="6" 
-						          	min="0" 
-						          	max="65535"
-						          	placeholder="0" 
-						          	v-model="newWorkHistory.value"
-						          	number
-			    				>
-			    				<span class="help is-danger" v-if="newWorkHistory.errors.has('value')" v-text="newWorkHistory.errors.get('value')"></span>
-			    			</div>
-
-			    			<div class="field" v-if="newWorkHistory.type.includes('experience')">
-			    				<label for="value" class="label">Years</label>
-			    				<input 
-						          	class="input" 
-						          	type="number" 
-						          	maxlength="2" min="0" max="99" 
-						          	placeholder="0"
-						          	v-model="years"
-						          	@input="calculateMonths"
-						          	number
-					          	>
-					          </div>
-				          	<div class="field" v-if="newWorkHistory.type.includes('experience')">
-				          		<label for="value" class="label">Months</label>
-					          	<input 
-						          	class="input" 
-						          	type="number" 
-						          	maxlength="2" min="0" max="11" 
-						          	placeholder="0"
-						          	v-model="months"
-						          	@input="calculateMonths"
-						          	number
-					          	>
-			    			</div>
-			    		</div>
-			    	</div>
-			    </section>
-			    <footer class="modal-card-foot">
-			      <div class="field is-grouped">
-					  <div class="control">
-					    <button class="button is-success" @mouseup="save" :disabled="!newWorkHistory.type">Submit</button>
-					  </div>
-					  <div class="control">
-					    <button class="button is-text" @mouseup="cancel">Cancel</button>
-					  </div>
-					</div>
-			    </footer>
-			  </div>
-			</div> <!-- end modal -->
-		<!-- </form> -->
+		    	</form>
+	      </div>
+	    </div>
+    </div>
 	</page>
 </template>
 
@@ -182,6 +175,10 @@
 						console.error(error);
 						return window.axios.post('/api/admin/client-error', error);
 					});
+			},
+			createNew() {
+				this.editing = false
+				this.showForm = !this.showForm 
 			},
 			setup(data) {
 				let workHistory = {};
