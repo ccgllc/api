@@ -35,4 +35,9 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
+    'teams' => [
+        'dev_url' => env('TEAMS_DEV_WEBHOOK_URL'),
+        'users' => env('TEAMS_USER_REGISTRATION_WEBHOOK_URL')
+    ],
+
 ];
