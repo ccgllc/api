@@ -26,9 +26,9 @@
     <div class="quickview-body">
       <div class="quickview-block" style="margin: 1em;">
       	 <form @submit.prevent="submit" @keydown="newLicense.errors.clear($event.target.name)">
-      	 		<div class="columns">
+      	 		<div class="columns is-gapless">
 
-      	 			<div class="column is-3">
+      	 			<div class="column">
       	 				<div class="field">
 									<label class="label">State:</label>
 									<div class="select">
@@ -41,7 +41,7 @@
 								</div>
       	 			</div>
 
-							<div class="column is-3">
+							<div class="column">
 								<div class="field">
 									<label class="label">Exp. Mo:</label>
 									<div class="select">
@@ -54,7 +54,7 @@
 								</div>
 							</div>
 
-							<div class="column is-3">
+							<div class="column">
 								<div class="field">
 									<label class="label">Exp. Year:</label>
 									<div class="select">
