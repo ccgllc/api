@@ -260,4 +260,9 @@ class User extends Authenticatable
   {
     return url("users/verify/$this->verification_token");
   }
+
+  public function url()
+  {
+    return url('users/'.$this->id);
+  }
 }
